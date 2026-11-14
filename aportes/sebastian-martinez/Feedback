@@ -1,0 +1,32 @@
+1. Imágenes y Videos Reales de Fuego en el Espacio (Dominio Público)
+NASA Image and Video Library (images.nasa.gov): Es la fuente más rica para mostrar cómo se comporta una flama esférica vs. una flama terrestre.
+
+Términos de búsqueda clave: "FLEX flame", "SAFFIRE experiment", "BASS microgravity flame", "ACME combustion", "cool flame droplet".
+
+Qué encontrarás: Fotografías de alta resolución de gotas ardiendo en el Combustion Integrated Rack (CIR), fotos del interior de la cápsula Cygnus quemada en SAFFIRE, y diagramas de hardware.
+
+NASA Glenn Research Center — Microgravity Combustion Gallery (grc.nasa.gov): El centro Glenn lidera casi toda la investigación de combustión de NASA. Sus páginas de divulgación de experimentos (BASS, FLEX, ACME, SoFIE) tienen fotos comparativas lado a lado (1g vs 0g) ideales para explicar visualmente la ausencia de convección por flotación.
+
+JAXA Digital Archives (jda.jaxa.jp): Para complementar el vacío de gravedad parcial y experimentos recientes fuera de PSI, busca el experimento FLARE (Flammability Limits at Reduced-Gravity), realizado en el módulo Kibo de la ISS, que tiene excelentes esquemas visuales sobre propagación de flama en materiales sólidos.
+
+2. Reportes Técnicos, Estándares y Futuro (Contexto y Gravedad Parcial)
+NASA Technical Reports Server — NTRS (ntrs.nasa.gov): Si en PSI faltan gráficos limpios o contexto de experimentos futuros, aquí están los Technical Memorandums (TM) completos y presentaciones en PDF con figuras vectoriales:
+
+Búsquedas recomendadas: "NASA-STD-6001" (el estándar de inflamabilidad de materiales), "SoFIE" (Solid Fuel Ignition and Extinction, para explicar qué experimentos vienen a llenar el hueco de sólidos), y "lunar habitat fire safety" o "partial gravity combustion".
+
+ESA / DLR Drop Tower & Parabolic Flight Archives: El ZARM Drop Tower (Bremen, Alemania) y los vuelos parabólicos de la ESA tienen material gráfico y explicativo muy bueno sobre cómo se simulan 1/6g (Luna) y 3/8g (Marte) durante segundos en Tierra, perfecto para ilustrar tu sección sobre el hueco de gravedad parcial.
+
+3. Modelos 3D y Activos para la Web (Three.js / React)
+Como tu aplicación navega por distintos entornos (#/world/moon, estaciones, rovers), puedes integrar visores interactivos o renders con activos oficiales:
+
+NASA 3D Resources (nasa3d.arc.nasa.gov / GitHub nasa/NASA-3D-Resources): Modelos gratuitos en .glb / .obj de la Estación Espacial Internacional (ISS), módulos lunares, trajes espaciales (xEMU) y rovers presurizados para renderizar cada "mundo" de tu aplicación.
+Para usar NASA 3D resources puedes acceder al siguiente git: https://github.com/nasa/NASA-3D-Resources.git
+
+NASA Eyes / Solar System Textures (solarsystem.nasa.gov): Texturas equirectangulares de alta resolución de la Luna y Marte para fondos o globos 3D.
+
+4. Recursos Recomendados por Sección de tu App
+Para explicar la física (1g vs 0g vs 1/6g): Usa fotos comparativas de flamas de vela en Tierra (en forma de lágrima) vs. flamas esféricas azules de FLEX o Flame Design tomadas de images.nasa.gov.
+
+Para la sección de Detección (SAME / SAME-R): Busca diagramas de microfotografía electrónica (SEM) de partículas de hollín y humo de pirólisis de Kapton/Teflón en NTRS para contrastar su tamaño nanométrico (<200 nm) contra granos de regolito lunar.
+
+Para la sección "El Futuro / Qué falta probar": Usa los esquemas de hardware de SoFIE (NASA Glenn) y FLARE (JAXA), ya que son las plataformas diseñadas precisamente para probar materiales sólidos en atmósferas de exploración.
