@@ -49,3 +49,31 @@ details p{padding:0 .9rem 1rem; max-width:78ch; font-size:.97rem; line-height:1.
 .bar.solid{background:var(--solid)} .bar.gas{background:var(--gas)}
 .known .meter{display:inline-grid; vertical-align:middle; width:min(100%,16rem)}
 .known + .known{margin-top:.5rem}
+svg .probe{fill:var(--ink); fill-opacity:.07; stroke:var(--ink); stroke-width:1.5; stroke-dasharray:4 3}
+svg .probe-x{stroke:var(--ink); stroke-width:2.2}
+.timeline{list-style:none; margin:2rem 0 0; padding:0; border-top:1.5px solid var(--ink)}
+.timeline li{display:grid; grid-template-columns:9rem minmax(0,1fr); gap:.5rem 2rem; padding:1.25rem 0; border-bottom:1px solid var(--rule)}
+.timeline .when{display:grid; gap:.3rem; align-content:start}
+.timeline .year{font:700 1.9rem/1 var(--display)}
+.timeline .kind{font:600 .72rem/1.3 var(--data); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2)}
+.timeline li.accident .kind, .timeline li.accident h2{color:var(--pencil)}
+.timeline li.planned .year, .timeline li.planned h2{color:var(--ink-2)}
+.timeline h2{margin:0; padding:0; border:0; font-size:1.55rem; font-weight:600}
+.timeline h2 + p{margin-top:.4rem; color:var(--ink); max-width:70ch}
+.timeline .lesson{margin-top:.35rem; color:var(--ink-2); max-width:70ch}
+.timeline .answers{margin-top:.6rem; font-size:.95rem}
+.presets{display:flex; flex-wrap:wrap; gap:.4rem .5rem; align-items:center; margin-top:1.5rem}
+.presets > span{font:600 .72rem/1.3 var(--data); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2); margin-right:.3rem}
+.action.small{font-size:.92rem; padding:.5rem .7rem}
+.controls{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem 1.5rem; margin-top:1.1rem; padding:1rem 1.1rem; border:1.5px solid var(--ink)}
+.controls label{display:grid; gap:.3rem; min-width:0}
+.controls label span{font:600 .72rem/1.3 var(--data); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2)}
+.controls output{font:600 1.05rem/1.2 var(--data)}
+.burnlead{margin-top:1.75rem; grid-template-columns:minmax(0,6fr) minmax(0,6fr)}
+.verdict{font:600 clamp(1.3rem,2.2vw,1.7rem)/1.2 var(--display); max-width:34ch}
+.verdict.none, .verdict.none strong{color:var(--pencil)}
+.verdict + p{margin-top:.6rem; max-width:60ch}
+.burnlead h2{margin-top:1.5rem}
+tr.far td, tr.far th, tr.far a{color:var(--ink-2)}
+@media (max-width:62rem){ .burnlead{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:40rem){ .controls{grid-template-columns:minmax(0,1fr)} .timeline li{grid-template-columns:minmax(0,1fr)} .timeline .when{grid-auto-flow:column; justify-content:start; gap:.8rem; align-items:baseline} }

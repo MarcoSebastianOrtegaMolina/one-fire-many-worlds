@@ -93,11 +93,12 @@
     pts.sort(function (a, b) { return b.n - a.n; });
     return { pts: pts, drawn: pts.reduce(function (a, q) { return a + q.n; }, 0), out: out, burner: burner };
   }
-  function plane(w, focusInv) {
+  function plane(w, focusInv, mark) {
     var data = planePoints(), focus = null;
-    if (!w) { w = { id: "", name: focusInv }; focus = planePoints(function (t) { return t.inv === focusInv; }); }
+    if (!w) { w = { id: "", name: focusInv || "" }; if (focusInv) focus = planePoints(function (t) { return t.inv === focusInv; }); }
     var svg = s("svg", { viewBox: "0 0 760 440", role: "img",
       "aria-label": focus ? "Oxygen against pressure. " + fmt(focus.drawn) + " tests of this investigation are highlighted over all " + fmt(data.drawn) + "."
+        : mark ? "Oxygen against pressure for " + fmt(data.drawn) + " tests, with a cross at " + mark.o2 + " percent oxygen and " + mark.p + " psi."
         : "Oxygen against pressure for " + fmt(data.drawn) + " tests. " + w.name + ": " + worldCount(w).text + "." }, null);
     var p, o;
     for (p = 4; p <= 24; p += 2) { s("line", { x1: px(p), y1: PX.y0, x2: px(p), y2: PX.y1, "class": "gl" }, svg); s("text", { x: px(p), y: PX.y0 + 16, "text-anchor": "middle" }, svg, String(p)); }
@@ -111,7 +112,7 @@
     s("rect", { x: px(4), y: PX.y1 - 14, width: px(5.4) - px(4), height: 14, "class": "zone" + (w.id === "suit" ? " on empty" : "") }, svg);
 
     data.pts.forEach(function (q) {
-      var c = s("circle", { cx: px(q.p), cy: py(q.o2), r: Math.min(15, 2.2 + Math.sqrt(q.n) * 1.15), "class": "pt " + q.type + (focus ? " dim" : "") }, svg);
+      var c = s("circle", { cx: px(q.p), cy: py(q.o2), r: Math.min(15, 2.2 + Math.sqrt(q.n) * 1.15), "class": "pt " + q.type + (focus || (mark && mark.type && mark.type !== q.type) ? " dim" : "") }, svg);
       s("title", {}, c, plural(q.n, q.type + " test") + " at " + q.o2 + " % oxygen and " + q.p + " psi");
     });
     if (focus) focus.pts.forEach(function (q) {
@@ -131,6 +132,14 @@
     s("path", { d: "M1 1 L11 11 M11 1 L1 11" }, key);
     var legend = h("div", { "class": "legend" }, TYPES.map(function (t) { return h("span", { style: "--c:var(--" + t[0] + ")", text: t[1] }); }),
       h("span", { "class": "cross-key" }, key, "Atmospheres NASA considers for crews"));
+    if (mark) {
+      var mx = px(Math.min(PX.pmax, Math.max(PX.pmin, mark.p))), my = py(Math.min(PX.omax, Math.max(PX.omin, mark.o2)));
+      s("ellipse", { cx: mx, cy: my, rx: px(PX.pmin + mark.rp) - px(PX.pmin), ry: py(PX.omin) - py(PX.omin + mark.ro), "class": "probe" }, svg);
+      s("path", { d: "M" + (mx - 10) + " " + my + " h20 M" + mx + " " + (my - 10) + " v20", "class": "probe-x" }, svg);
+      return h("figure", null, h("div", { "class": "canvas" }, svg), legend,
+        h("figcaption", null, "The cross is the atmosphere you set and the oval is the window counted as near it. " +
+          (mark.o2 > PX.omax ? "This oxygen level is above the chart, so the cross sits at its top edge. " : "") + "Each circle groups tests at one oxygen level and pressure."));
+    }
     if (focus) return h("figure", null, h("div", { "class": "canvas" }, svg), legend,
       h("figcaption", null, focus.drawn ? "The tests of this investigation that record both oxygen and pressure are drawn in full colour over every other test in the repository."
         : "This investigation has no test with both oxygen and pressure recorded, so nothing is highlighted."));
