@@ -10,6 +10,7 @@ tabla del día y toca «Commit changes». No hace falta instalar nada.
 
 | Qué se hizo | Quién | Dónde quedó |
 |---|---|---|
+| Botón «Crear informe»: la IA escribe un informe de investigación sobre el tema que le pidas (resumen, qué dicen los datos, prevención, detección y supresión, qué falta probar, límites), con figuras, tabla de las pruebas citadas y fuentes; se imprime o se guarda como PDF | Marco Sebastián, con Claude | `app/js/ask.js`, `api/ask.js`, `app/views.css` |
 | Imágenes en la respuesta: la IA pone figuras de los reportes de NASA dentro de lo que contesta, cada una con su pie, su página y su fuente; también salen en la ficha de cada investigación (71 figuras de 8 documentos) | Marco Sebastián, con Claude | `app/js/sources.js`, `app/js/ask.js`, `api/ask.js`, `scripts/construir_figuras.py`, `app/figures/` |
 | Fuentes exactas: cada cita de la IA abre la página del reporte de NASA con el pasaje marcado | Marco Sebastián, con Claude | `app/js/sources.js`, `scripts/construir_evidencia.py` |
 | Pregunta en vivo encendida y probada | Marco Sebastián, con Claude | https://one-fire-many-worlds.vercel.app/?lang=es#/ask |
@@ -72,7 +73,11 @@ con telas o plásticos, y que del traje y de Marte no hay nada.
 
 ## Pendientes
 
-- Encender la pregunta en vivo (falta la clave en Vercel).
+- Revisar todo lo que subió el equipo a `aportes/` (repositorios, PDF, enlaces y listas de fuentes): qué sirve,
+  qué está verificado y qué mejora lo que ya tenemos. Va en una sesión aparte y deja su resultado en
+  `aportes/REVISION.md`. Pedido por Marco Sebastián el 14-nov para que no se pase mientras se trabaja la IA.
+- Logo de One Fire, Many Worlds: en una sesión aparte, en la carpeta `logo/`. Falta ponerlo en la plataforma.
+- Rehacer la interfaz de investigaciones, después de la IA.
 - Que alguien lea las ocho pantallas en español y marque lo que suene raro.
 - Cotejar a mano las cifras de la portada antes de presentar.
 - Confirmar con la sede: criterios de los jueces, cómo se declara el uso de IA y si el repositorio tiene que

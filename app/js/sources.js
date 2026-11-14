@@ -105,6 +105,7 @@
   }
 
   A.figure = fig;
+  A.figureLabel = function (f) { return figName(f) + ", " + figWhere(f); };
   /* A figure shown in place, inside an answer: the image, its caption as written, and where it comes from. */
   A.figureBlock = function (f) {
     return h("figure", { "class": "fig" },

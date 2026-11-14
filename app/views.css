@@ -130,3 +130,41 @@ blockquote{margin:.7rem 0 0; padding:.7rem .9rem; border:1.5px solid var(--ink);
 .figgrid .t{font:600 .95rem/1.25 var(--display); color:var(--gas); text-decoration:underline; text-underline-offset:.2em}
 .figgrid .c{font-size:.84rem; line-height:1.4; color:var(--ink-2); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
 .figbig img{max-height:80vh; object-fit:contain}
+
+/* research report: on screen and on paper */
+.askbtns{display:flex; flex-wrap:wrap; gap:.5rem}
+.answer .more{margin-top:1rem}
+.page .intro + .intro{margin-top:.4rem}
+.report{margin-top:1.75rem; border:1.5px solid var(--ink); padding:clamp(1rem,3vw,2.25rem); max-width:56rem; background:var(--paper)}
+.rephead{padding-bottom:1rem; border-bottom:1.5px solid var(--ink)}
+.report .kicker{font:600 .72rem/1.3 var(--data); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2)}
+.report .reptitle{border:0; padding:0; margin-top:.5rem; font-weight:700; font-size:clamp(1.8rem,3.6vw,2.6rem); line-height:1.05}
+.report .repmeta{margin-top:.5rem; font-size:.9rem; line-height:1.5; color:var(--ink-2); max-width:72ch}
+.report h3{font:600 1.5rem/1.15 var(--display); margin-top:1.7rem}
+.report p{margin-top:.7rem; max-width:68ch; line-height:1.6}
+.report .replist{margin:.7rem 0 0; padding-left:1.2rem; max-width:68ch; display:grid; gap:.45rem; line-height:1.55}
+.report .repsrc{margin:.7rem 0 0; padding-left:1.5rem; font-size:.88rem; line-height:1.5; display:grid; gap:.5rem}
+.report .repsrc .url{overflow-wrap:anywhere; color:var(--ink-2)}
+.report .table{margin-top:.8rem}
+.report table{font-size:.84rem}
+.report .note{margin-top:1.6rem; padding-top:.8rem; border-top:1px solid var(--rule)}
+.repactions{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem}
+@media print{
+  :root, :root[data-theme="dark"], :root:not([data-theme="light"]){
+    --paper:#fff; --paper-2:#f2f2f2; --grid:transparent; --rule:#888; --ink:#111; --ink-2:#444;
+    --gas:#111; --solid:#111; --liquid:#111; --pencil:#111; color-scheme:light;
+  }
+  body{background:#fff; background-image:none}
+  .top, .foot, .skip{display:none}
+  .sheet{border:0; padding:0}
+  .wrap{max-width:none; padding:0}
+  body:has(.report) .page > :not(.report){display:none}
+  .report{border:0; padding:0; margin:0; max-width:none}
+  .report h3{break-after:avoid}
+  .report .fig, .report tr, .report .repsrc li{break-inside:avoid}
+  .report a{color:#111; text-decoration:none}
+  .report .table{overflow:visible}
+  .report .fig{max-width:13cm}
+  .report .fig img{max-height:10cm}
+  @page{margin:18mm 16mm}
+}
