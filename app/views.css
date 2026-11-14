@@ -42,3 +42,10 @@ details p{padding:0 .9rem 1rem; max-width:78ch; font-size:.97rem; line-height:1.
 .cite{margin-top:.8rem; font-family:var(--data); font-size:.86rem; line-height:1.5; max-width:86ch; overflow-wrap:anywhere}
 .links{margin-top:.8rem; font-size:.93rem; color:var(--ink-2); max-width:none}
 .page .lead .takeaway{max-width:52ch}
+.missing{color:var(--pencil); font-weight:600; font-size:.92rem}
+.meter{display:grid; grid-template-columns:5.5rem minmax(3rem,1fr); gap:.6rem; align-items:center; min-width:9rem}
+.rail{display:block; height:.7rem; border-bottom:1px solid var(--rule)}
+.bar{display:block; height:.7rem}
+.bar.solid{background:var(--solid)} .bar.gas{background:var(--gas)}
+.known .meter{display:inline-grid; vertical-align:middle; width:min(100%,16rem)}
+.known + .known{margin-top:.5rem}
