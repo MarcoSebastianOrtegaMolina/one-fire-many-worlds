@@ -271,6 +271,7 @@ def main():
             "o2": rango([t["o2min"] for t in ts if t["ref"] == "atmosphere"] + [t["o2max"] for t in ts if t["ref"] == "atmosphere"]),
             "p": rango([t["pmin"] for t in ts]), "flow": rango([t["flow"] for t in ts]),
             "fuels": [k for k, _ in Counter(t["family"] or t["fuel"] for t in ts).most_common(8)],
+            "measures": [k for k, _ in Counter(k.strip() for t in ts for k in re.findall(r"(?:^|; )([^:;]{3,48}): ", t["res"])).most_common(7)],
             "varied": varia, "outcomes": dict(Counter(t["out"] for t in ts if t["out"])),
             "nearMoon": sum(1 for t in luna if t["inv"] == pid), "nearStation": sum(1 for t in estacion if t["inv"] == pid),
         })
