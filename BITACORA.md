@@ -10,6 +10,8 @@ tabla del día y toca «Commit changes». No hace falta instalar nada.
 
 | Qué se hizo | Quién | Dónde quedó |
 |---|---|---|
+| Fuentes exactas: cada cita de la IA abre la página del reporte de NASA con el pasaje marcado | Marco Sebastián, con Claude | `app/js/sources.js`, `scripts/construir_evidencia.py` |
+| Pregunta en vivo encendida y probada | Marco Sebastián, con Claude | https://one-fire-many-worlds.vercel.app/?lang=es#/ask |
 | Lista de fuentes, bitácora y carpetas de aportes por persona | Marco Sebastián, con Claude | `FUENTES.md`, `BITACORA.md`, `aportes/` |
 | Repositorio privado en GitHub con el equipo invitado | Marco Sebastián, con Claude | Este repositorio |
 | La plataforma en español e inglés, con botón de idioma | Marco Sebastián, con Claude | `app/js/i18n.js`, `app/data/content.es.js` |

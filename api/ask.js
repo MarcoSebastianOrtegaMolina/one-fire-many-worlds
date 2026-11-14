@@ -20,6 +20,7 @@ const RULES = [
   "",
   "Answer only from the knowledge base below and from the test rows that come with the question.",
   "Cite every investigation you rely on by its PSI id in square brackets, like [PSI-20]. Cite a test row as [PSI-20 row 123].",
+  "When a statement rests on a page listed in reportPages, also cite that page by its id in square brackets, like [bre-final-18], so the reader can open the exact page.",
   "The test rows are picked by keyword and may not be relevant: use them only when they help, and never comment on rows you do not use.",
   "When the knowledge base does not hold the answer, say that it is not in the data and name the closest thing that is.",
   "Keep data apart from interpretation: relevance grades, rankings and the list of experiments still to be done are the team's reading, and you say so when you use them.",
@@ -31,11 +32,11 @@ let kb = null;
 function load() {
   if (kb) return kb;
   const win = {};
-  for (const file of ["data.js", "content.js"]) {
+  for (const file of ["data.js", "content.js", "evidence.js"]) {
     const text = fs.readFileSync(path.join(process.cwd(), "app", "data", file), "utf8");
     new Function("window", text)(win);                     // our own generated files, not user input
   }
-  const D = win.OFMW, C = win.OFMW_CONTENT;
+  const D = win.OFMW, C = win.OFMW_CONTENT, E = win.OFMW_EVIDENCE || [];
   const invs = D.investigations.map((i) => ({
     id: i.id, name: i.acr, title: i.title, front: i.front, relevance: i.relevance, fuelType: i.fuelType, fuels: i.fuels,
     tests: i.tests, oxygenPct: i.o2, pressurePsi: i.p, flowCmS: i.flow, hardware: i.hw, years: [i.start, i.end],
@@ -45,7 +46,8 @@ function load() {
   }));
   const worlds = D.worlds.map((w) => ({ id: w.id, name: w.name, gravity: w.gravity, air: w.air, testsInAirLikeThis: w.near, note: w.nearNote, also: w.extra, ...C.worlds[w.id] }));
   const base = { summary: D.summary, worlds, investigations: invs, materials: D.materials.map((m) => ({ ...m, note: C.materials[m.name] })),
-    sameSampleInOrbitAndOnTheGround: D.gravityPairs, experimentsStillToBeDone: C.agenda, timeline: C.timeline };
+    sameSampleInOrbitAndOnTheGround: D.gravityPairs, experimentsStillToBeDone: C.agenda, timeline: C.timeline,
+    reportPages: E.map((e) => ({ id: e.id, investigations: e.invs, document: e.doc.en, page: e.page || e.pageLabel, supports: e.claim.en, passage: e.quote })) };
   kb = { system: RULES + "\n\nKNOWLEDGE BASE (JSON)\n" + JSON.stringify(base), tests: D.tests };
   return kb;
 }

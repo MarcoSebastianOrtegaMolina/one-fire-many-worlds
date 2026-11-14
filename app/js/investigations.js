@@ -112,6 +112,7 @@
             fact(T("Years"), years(i)), fact(T("Tests"), i.tests ? fmt(i.tests) + T(" individual tests in the data") : T("No individual tests in the data")))),
         h("div", null, A.plane(null, i.id),
           h("h2", { "class": "tight", text: T("What it found") }), h("p", { "class": "finding", text: c.finding }),
+          A.sourceList ? A.sourceList(i.id) : null,
           c.caveat ? h("p", { "class": "caveat" }, h("strong", { text: T("Caveat. ") }), c.caveat) : null,
           h("p", { "class": "note", text: T("Summary, finding and caveat were written with AI from the PSI record and its reports, then checked against the data.") }))),
       h("h2", { text: T("In NASA's words") }),

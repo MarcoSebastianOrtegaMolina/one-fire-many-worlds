@@ -97,17 +97,19 @@
   }
 
   /* ---------- data ---------- */
-  var filt = { inv: "", type: "", q: "", shown: 50 };
-  function dataView() {
+  var filt = { inv: "", type: "", q: "", shown: 50, row: "", linked: "" };
+  function dataView(parts) {
+    var asked = parts && parts.length && parts[0] ? parts.map(decodeURIComponent).join("/") : "";
+    if (asked && asked !== filt.linked) { filt.linked = asked; filt.inv = decodeURIComponent(parts[0]); filt.row = parts[1] ? decodeURIComponent(parts[1]) : ""; filt.type = ""; filt.q = ""; filt.shown = 50; }
     document.title = T("Data · One Fire, Many Worlds");
     var focused = document.activeElement && document.activeElement.id, caret = focused === "d-q" ? document.activeElement.selectionStart : null;
     var q = filt.q.trim().toLowerCase();
     var rows = D.tests.filter(function (t) {
-      return (!filt.inv || t.inv === filt.inv) && (!filt.type || t.type === filt.type) &&
+      return (!filt.inv || t.inv === filt.inv) && (!filt.row || t.row === filt.row) && (!filt.type || t.type === filt.type) &&
         (!q || (t.fuel + " " + t.acr + " " + t.id + " " + t.res + " " + t.family).toLowerCase().indexOf(q) >= 0);
     });
     var page = rows.slice(0, filt.shown);
-    var invSel = h("select", { id: "d-inv", onchange: function () { filt.inv = invSel.value; filt.shown = 50; dataView(); } },
+    var invSel = h("select", { id: "d-inv", onchange: function () { filt.inv = invSel.value; filt.row = ""; filt.shown = 50; dataView(); } },
       h("option", { value: "", text: T("All") }), D.investigations.filter(function (i) { return i.tests; }).map(function (i) { return h("option", { value: i.id, text: i.acr, selected: filt.inv === i.id ? "" : null }); }));
     var typeSel = h("select", { id: "d-type", onchange: function () { filt.type = typeSel.value; filt.shown = 50; dataView(); } },
       h("option", { value: "", text: T("All") }), A.TYPES.map(function (t) { return h("option", { value: t[0], text: T(cap(t[0])), selected: filt.type === t[0] ? "" : null }); }));
@@ -115,6 +117,8 @@
     A.main.replaceChildren(h("div", { "class": "wrap" }, h("div", { "class": "sheet page" },
       h("h1", { text: T("Data") }),
       h("p", { "class": "intro", text: T("Every individual test behind this site, in one table with one format: ") + fmt(D.summary.tests) + T(" tests from the repository, ") + fmt(D.summary.withO2AndPressure) + T(" of them with oxygen and pressure together. Each row names the table and row it came from.") }),
+      filt.row ? h("p", { "class": "aviso" }, T("Showing row ") + filt.row + T(" of ") + filt.inv + ". ",
+        h("button", { type: "button", id: "d-all", "class": "action quiet small", onclick: function () { filt.row = ""; dataView(); } }, T("Show every test of this investigation"))) : null,
       h("div", { "class": "filters" },
         h("label", { "for": "d-inv" }, h("span", { text: T("Investigation") }), invSel), h("label", { "for": "d-type" }, h("span", { text: T("Fuel") }), typeSel),
         h("label", { "for": "d-q" }, h("span", { text: T("Search") }), search),

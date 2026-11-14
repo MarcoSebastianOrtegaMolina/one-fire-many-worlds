@@ -95,3 +95,23 @@ tr.far td, tr.far th, tr.far a{color:var(--ink-2)}
 .saved button{display:block; width:100%; text-align:left; background:transparent; border:0; padding:.7rem .9rem; font:600 1.1rem/1.25 var(--display); cursor:pointer}
 .saved button:hover{background:var(--paper-2)}
 @media (max-width:62rem){ .asklead{grid-template-columns:minmax(0,1fr)} }
+.srcline{margin-top:.7rem; font-size:.93rem; color:var(--ink-2); max-width:62ch}
+.srctitle{font-size:clamp(1.8rem,3.6vw,2.8rem) !important; max-width:26ch}
+.srclead{margin-top:1.5rem; grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.pagefig{margin:0}
+.pagebox{position:relative; border:1.5px solid var(--ink); background:#fff; line-height:0}
+.pagebox img{display:block; width:100%; height:auto}
+.pagebox .mark{position:absolute; background:#B3231A; opacity:.22; outline:2px solid #B3231A; outline-offset:1px; mix-blend-mode:multiply}
+.srcside h2.tight:first-child{margin-top:0; border-top:0; padding-top:0}
+blockquote{margin:.7rem 0 0; padding:.7rem .9rem; border:1.5px solid var(--ink); font-size:1rem; line-height:1.55; max-width:62ch}
+.srcactions{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.5rem}
+.askcol{margin-top:1.75rem; max-width:60rem}
+.cited{margin-top:1.1rem; padding-top:.9rem; border-top:1px solid var(--rule)}
+.cited h3{font-size:1.15rem; font-weight:600}
+.cited ul{list-style:none; margin:.7rem 0 0; padding:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(11rem,1fr)); gap:.9rem}
+.cited a{display:grid; gap:.35rem; text-decoration:none; color:var(--ink)}
+.cited img{width:100%; height:9.5rem; object-fit:cover; object-position:top; border:1.5px solid var(--ink); background:#fff}
+.cited a:hover img{border-color:var(--gas)}
+.cited .t{font:600 .95rem/1.25 var(--display); color:var(--gas); text-decoration:underline; text-underline-offset:.2em}
+.cited .c{font-size:.84rem; line-height:1.4; color:var(--ink-2)}
+@media (max-width:62rem){ .srclead{grid-template-columns:minmax(0,1fr)} }
