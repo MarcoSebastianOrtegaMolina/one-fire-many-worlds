@@ -212,7 +212,7 @@ window.OFMW_CONTENT = {
       closest: "ACME CFI-G reaches 85 % oxygen, but only in the gas leaving the burner.", planned: "" },
     { id: "materials", title: "Test the materials flown today", worlds: ["station", "moon", "mars"], front: "prevention",
       why: "PSI covers acrylic, cotton-fiberglass, Nomex, wax and a few more. There are no wires, foams, batteries or suit fabrics.",
-      closest: "BASS and BASS-II test ten named solid materials.", planned: "" }
+      closest: "BASS, BASS-II and Saffire test the solid materials PSI holds.", planned: "" }
   ],
 
   /* From accident to experiment. Which investigation answers which event is the team's reading. */
