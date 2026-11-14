@@ -8,6 +8,7 @@
   var TYPES = [["solid", "Solids: fabrics, acrylic, wax"], ["liquid", "Liquids: fuel droplets"], ["gas", "Gases"]];
   var FRONTS = [["prevention", "Prevent"], ["detection", "Detect"], ["suppression", "Suppress"]];
   var SECTIONS = [{ id: "world", label: "Worlds", href: "#/world/moon" }];
+  var VIEWS = {}, lastSection = "";
 
   /* ---------- helpers ---------- */
   function h(tag, props) {
@@ -78,10 +79,11 @@
   var PX = { x0: 56, x1: 744, y0: 392, y1: 22, pmin: 4, pmax: 24, omin: 10, omax: 45 };
   function px(p) { return PX.x0 + (p - PX.pmin) / (PX.pmax - PX.pmin) * (PX.x1 - PX.x0); }
   function py(o) { return PX.y0 - (o - PX.omin) / (PX.omax - PX.omin) * (PX.y0 - PX.y1); }
-  function planePoints() {
+  function planePoints(only) {
     var groups = {}, out = 0, burner = 0;
     D.tests.forEach(function (t) {
       if (t.o2 === null || t.p === null || !t.type) return;
+      if (only && !only(t)) return;
       if (t.ref !== "atmosphere") { burner++; return; }
       if (t.p > PX.pmax) { out++; return; }
       var key = t.type + "|" + Math.round(t.o2 * 2) / 2 + "|" + Math.round(t.p * 4) / 4;
@@ -91,10 +93,12 @@
     pts.sort(function (a, b) { return b.n - a.n; });
     return { pts: pts, drawn: pts.reduce(function (a, q) { return a + q.n; }, 0), out: out, burner: burner };
   }
-  function plane(w) {
-    var data = planePoints();
+  function plane(w, focusInv) {
+    var data = planePoints(), focus = null;
+    if (!w) { w = { id: "", name: focusInv }; focus = planePoints(function (t) { return t.inv === focusInv; }); }
     var svg = s("svg", { viewBox: "0 0 760 440", role: "img",
-      "aria-label": "Oxygen against pressure for " + fmt(data.drawn) + " tests. " + w.name + ": " + worldCount(w).text + "." }, null);
+      "aria-label": focus ? "Oxygen against pressure. " + fmt(focus.drawn) + " tests of this investigation are highlighted over all " + fmt(data.drawn) + "."
+        : "Oxygen against pressure for " + fmt(data.drawn) + " tests. " + w.name + ": " + worldCount(w).text + "." }, null);
     var p, o;
     for (p = 4; p <= 24; p += 2) { s("line", { x1: px(p), y1: PX.y0, x2: px(p), y2: PX.y1, "class": "gl" }, svg); s("text", { x: px(p), y: PX.y0 + 16, "text-anchor": "middle" }, svg, String(p)); }
     for (o = 10; o <= 45; o += 5) { s("line", { x1: PX.x0, y1: py(o), x2: PX.x1, y2: py(o), "class": "gl" }, svg); s("text", { x: PX.x0 - 8, y: py(o) + 4, "text-anchor": "end" }, svg, o + " %"); }
@@ -107,8 +111,12 @@
     s("rect", { x: px(4), y: PX.y1 - 14, width: px(5.4) - px(4), height: 14, "class": "zone" + (w.id === "suit" ? " on empty" : "") }, svg);
 
     data.pts.forEach(function (q) {
-      var c = s("circle", { cx: px(q.p), cy: py(q.o2), r: Math.min(15, 2.2 + Math.sqrt(q.n) * 1.15), "class": "pt " + q.type }, svg);
+      var c = s("circle", { cx: px(q.p), cy: py(q.o2), r: Math.min(15, 2.2 + Math.sqrt(q.n) * 1.15), "class": "pt " + q.type + (focus ? " dim" : "") }, svg);
       s("title", {}, c, plural(q.n, q.type + " test") + " at " + q.o2 + " % oxygen and " + q.p + " psi");
+    });
+    if (focus) focus.pts.forEach(function (q) {
+      var c = s("circle", { cx: px(q.p), cy: py(q.o2), r: Math.min(15, 2.6 + Math.sqrt(q.n) * 1.15), "class": "pt hot " + q.type }, svg);
+      s("title", {}, c, plural(q.n, "test") + " of this investigation at " + q.o2 + " % oxygen and " + q.p + " psi");
     });
     [[14.7, 21], [10.2, 26.5], [8.2, 34]].forEach(function (a) {
       s("path", { d: "M" + (px(a[0]) - 6) + " " + (py(a[1]) - 6) + " l12 12 m0 -12 l-12 12", "class": "cross" }, svg);
@@ -123,6 +131,9 @@
     s("path", { d: "M1 1 L11 11 M11 1 L1 11" }, key);
     var legend = h("div", { "class": "legend" }, TYPES.map(function (t) { return h("span", { style: "--c:var(--" + t[0] + ")", text: t[1] }); }),
       h("span", { "class": "cross-key" }, key, "Atmospheres NASA considers for crews"));
+    if (focus) return h("figure", null, h("div", { "class": "canvas" }, svg), legend,
+      h("figcaption", null, focus.drawn ? "The tests of this investigation that record both oxygen and pressure are drawn in full colour over every other test in the repository."
+        : "This investigation has no test with both oxygen and pressure recorded, so nothing is highlighted."));
     return h("figure", null, h("div", { "class": "canvas" }, svg), legend,
       h("figcaption", null, "Each circle groups the tests run at one oxygen level and pressure; larger means more tests. ",
         num(fmt(data.drawn)), " of ", num(fmt(D.summary.withO2AndPressure)), " tests with both values are drawn: ", num(fmt(data.out)),
@@ -221,9 +232,12 @@
         h("p", { text: "This page needs data/data.js and data/content.js next to it. Rebuild them with: python scripts/construir_datos_app.py" }))));
       return;
     }
-    if (section !== "world") section = "world";
-    setNav(section);
-    worldView(parts[1] || "moon");
+    var v = VIEWS[section];
+    if (!v) { section = "world"; }
+    setNav(v ? v.nav : "world");
+    if (section !== "world" || lastSection !== "world") window.scrollTo(0, 0);
+    lastSection = section;
+    if (v) v.fn(parts.slice(1)); else worldView(parts[1] || "moon");
   }
   var themeBtn = document.getElementById("theme");
   function currentTheme() {
@@ -238,6 +252,9 @@
   });
   try { var saved = localStorage.getItem("ofmw-theme"); if (saved) document.documentElement.setAttribute("data-theme", saved); } catch (e) { /* ignore */ }
   paintTheme();
-  window.addEventListener("hashchange", route);
-  route();
+  window.OFMW_APP = { h: h, s: s, add: add, fmt: fmt, plural: plural, num: num, inv: inv, world: world, plane: plane, invLink: invLink,
+    D: D, C: C, main: main, TYPES: TYPES, FRONTS: FRONTS, REL: REL,
+    section: function (def, fn) { SECTIONS.push(def); VIEWS[def.id] = { fn: fn, nav: def.id }; },
+    route: function (id, nav, fn) { VIEWS[id] = { fn: fn, nav: nav }; },
+    start: function () { window.addEventListener("hashchange", route); route(); } };
 })();
