@@ -20,6 +20,7 @@ const RULES = [
   "",
   "Answer only from the knowledge base below and from the test rows that come with the question.",
   "Cite every investigation you rely on by its PSI id in square brackets, like [PSI-20]. Cite a test row as [PSI-20 row 123].",
+  "The test rows are picked by keyword and may not be relevant: use them only when they help, and never comment on rows you do not use.",
   "When the knowledge base does not hold the answer, say that it is not in the data and name the closest thing that is.",
   "Keep data apart from interpretation: relevance grades, rankings and the list of experiments still to be done are the team's reading, and you say so when you use them.",
   "If the question is not about this data or about fire safety in space, say that you can only answer about this data.",
@@ -49,14 +50,20 @@ function load() {
   return kb;
 }
 
-/* Up to 30 test rows that share a word with the question, so answers can cite individual tests. */
+/* Up to 30 test rows that share a whole word with the question, so answers can cite individual tests.
+   Whole words only: "fire" must not match "Saffire". Spanish names of materials and fuels map to the data. */
+const ALIAS = { silicon: "silicone", acrilico: "pmma", acrylic: "pmma", cera: "wax", mecha: "lampwick", metanol: "methanol",
+  heptano: "heptane", propano: "propane", etileno: "ethylene", etano: "ethane", butano: "butane", metano: "methane",
+  solido: "solid", solidos: "solid", liquido: "liquid", liquidos: "liquid", gases: "gas", solids: "solid", liquids: "liquid" };
+const plain = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const words = (text) => (plain(text).match(/[a-z0-9]{3,}/g) || []).map((w) => ALIAS[w] || w);
 function rowsFor(question, tests) {
-  const words = [...new Set(question.toLowerCase().match(/[a-z0-9-]{4,}/g) || [])];
-  if (!words.length) return [];
+  const asked = [...new Set(words(question.replace(/psi[- ]?(\d+)/gi, "psi$1")))];   // "PSI-20" as one word
+  if (!asked.length) return [];
   const scored = [];
   for (const t of tests) {
-    const hay = (t.inv + " " + t.acr + " " + t.fuel + " " + t.family + " " + t.type).toLowerCase();
-    const score = words.reduce((n, w) => n + (hay.includes(w) ? 1 : 0), 0);
+    const hay = new Set(words(t.inv.replace("-", "") + " " + t.acr + " " + t.acr.replace(/-/g, "") + " " + t.fuel + " " + t.family + " " + t.type));
+    const score = asked.reduce((n, w) => n + (hay.has(w) ? 1 : 0), 0);
     if (score) scored.push([score, t]);
   }
   scored.sort((a, b) => b[0] - a[0] || a[1].n - b[1].n);
