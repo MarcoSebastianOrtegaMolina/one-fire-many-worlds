@@ -1,0 +1,9 @@
+{
+  "outputDirectory": "app",
+  "functions": {
+    "api/ask.js": {
+      "includeFiles": "app/data/*.js",
+      "maxDuration": 60
+    }
+  }
+}

@@ -271,6 +271,20 @@ window.OFMW_CONTENT = {
     "Ultem": "Two tests in BASS."
   },
 
+  /* Saved answers for the question box. They work with no network and were checked against the data. */
+  examples: [
+    { q: "What is known about fire in a Moon base atmosphere?",
+      a: "71 tests ran in air like a Moon base, with 30 % oxygen or more at 11 psi or less, and none of them with solids: 34 gas flames from ACME BRE [PSI-20], 20 from ACME CFI-G [PSI-159] and 17 droplets from FLEX [PSI-69]. In BRE, near 8.2 psia with 30 to 39 % oxygen, 25 of 36 flames kept burning until the fuel was cut off, while near 14.7 psia with less than 23 % oxygen all 10 went out by themselves.\n\nNo fabric or plastic has been burned in that air in the data, and nothing has been tested in lunar gravity." },
+    { q: "Which smoke is hardest for the Station detector to see?",
+      a: "Kapton and Teflon. In SAME-R the Station detector's obscuration signal changed by a median of 0.006 V with Kapton smoke and 0.019 V with Teflon, against 1.08 V with silicone. Their particles are the smallest: a median count mean diameter of 110 and 167 nm [PSI-101]. The SAME-R final report concludes that Kapton and Teflon smoke will be hard to detect with light-scattering devices, and in SAME the Station detector was erratic with Teflon smoke [PSI-102].\n\nThe detector figures are a coarse summary that ranks materials. They are not an alarm threshold." },
+    { q: "Which suppressants were tested, and on what?",
+      a: "Carbon dioxide and helium, on droplets of methanol and heptane. FLEX ran 274 tests and recorded extinction in 186, droplet disruption in 61 and complete burning in 27 [PSI-69]. On solids, BASS applied nitrogen in 7 tests, but the effect is described in text, not measured [PSI-26].\n\nWater mist, which the challenge mentions, is not in the data: PSI holds no water-mist test." },
+    { q: "Is there data for a Mars habitat?",
+      a: "That is not in the data. PSI holds no combustion test at partial gravity, and the challenge gives no atmosphere for a Mars habitat. The closest evidence sits at the two ends of the gravity scale: the microgravity flight tests, and Saffire-II, which repeated 9 samples in normal gravity [PSI-99].\n\nACME E-FIELD Flames suggests that electric fields could approximate partial-gravity buoyancy; that is a suggestion in its report, not a measurement [PSI-22]. The challenge names two future experiments, LUCI and FM2." },
+    { q: "Does silicone burn?",
+      a: "In microgravity, barely: the four silicone samples of Saffire-II did not spread flame, with a burn length of about 0 [PSI-99]. In normal gravity the same samples behaved differently: two burned completely, one burned 7.6 cm and one did not burn.\n\nSilicone does make smoke when overheated. In SAME and SAME-R it produced the largest particles and the strongest response of the Station detector [PSI-101] [PSI-102]. It was tested only at 21.5 to 22.1 % oxygen, so nothing is known about it in Moon-base air." }
+  ],
+
   sources: {
     psi: "NASA Physical Sciences Informatics (PSI) Data Repository, downloaded November 13, 2026",
     guide: "A Researcher's Guide to International Space Station Combustion Science, NASA, 2015",

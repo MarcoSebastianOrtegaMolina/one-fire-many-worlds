@@ -77,3 +77,21 @@ svg .probe-x{stroke:var(--ink); stroke-width:2.2}
 tr.far td, tr.far th, tr.far a{color:var(--ink-2)}
 @media (max-width:62rem){ .burnlead{grid-template-columns:minmax(0,1fr)} }
 @media (max-width:40rem){ .controls{grid-template-columns:minmax(0,1fr)} .timeline li{grid-template-columns:minmax(0,1fr)} .timeline .when{grid-auto-flow:column; justify-content:start; gap:.8rem; align-items:baseline} }
+.asklead{margin-top:1.75rem; grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.askform{display:grid; gap:.8rem; justify-items:start}
+.askform label{display:grid; gap:.3rem; width:100%}
+.askform label span{font:600 .72rem/1.3 var(--data); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2)}
+.askform textarea{width:100%; resize:vertical; min-height:5.5rem; line-height:1.5}
+.askform textarea::placeholder{color:var(--ink-2); opacity:1}
+.action[disabled]{background:transparent; color:var(--ink-2); border-style:dashed; border-color:var(--rule); cursor:progress}
+.answer{margin-top:1.5rem; border:1.5px solid var(--ink); padding:1rem 1.1rem 1.1rem}
+.answer h2{border:0; padding:0; font-size:1.4rem; font-weight:600}
+.answer p{margin-top:.7rem; max-width:66ch; line-height:1.6}
+.answer.problem{border-color:var(--pencil); border-style:dashed}
+.answer.problem h2{color:var(--pencil)}
+.answer .wait{color:var(--ink-2)}
+.saved{list-style:none; margin:.8rem 0 0; padding:0; border:1.5px solid var(--ink)}
+.saved li{border-bottom:1px solid var(--rule)} .saved li:last-child{border-bottom:0}
+.saved button{display:block; width:100%; text-align:left; background:transparent; border:0; padding:.7rem .9rem; font:600 1.1rem/1.25 var(--display); cursor:pointer}
+.saved button:hover{background:var(--paper-2)}
+@media (max-width:62rem){ .asklead{grid-template-columns:minmax(0,1fr)} }

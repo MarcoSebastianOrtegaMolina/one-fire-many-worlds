@@ -1,0 +1,10 @@
+{
+  "name": "one-fire-many-worlds",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Fire safety insights from NASA's microgravity combustion data. Team Hamac, NASA Space Apps 2026.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "1.8.0"
+  }
+}
