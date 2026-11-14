@@ -115,6 +115,7 @@
           A.sourceList ? A.sourceList(i.id) : null,
           c.caveat ? h("p", { "class": "caveat" }, h("strong", { text: T("Caveat. ") }), c.caveat) : null,
           h("p", { "class": "note", text: T("Summary, finding and caveat were written with AI from the PSI record and its reports, then checked against the data.") }))),
+      A.figureGallery ? A.figureGallery(i.id) : null,
       h("h2", { text: T("In NASA's words") }),
       h("p", { text: T("Text from the PSI record, unchanged.") }),
       h("div", { "class": "words" }, text(T("Objectives"), i.objectives), text(T("Approach"), i.approach), text(T("Hypothesis"), i.hypothesis), text(T("Benefits on Earth"), i.earth)),

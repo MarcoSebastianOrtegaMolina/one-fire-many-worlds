@@ -50,11 +50,21 @@
     var result = null, found = [];
     if (state.status === "loading") result = h("div", { "class": "answer", role: "status" }, h("p", { "class": "wait", text: T("Reading the investigations and writing an answer. This can take a few seconds.") }));
     if (state.status === "done") {
-      var paragraphs = state.answer.split(/\n{2,}/).map(function (p) { return h("p", null, cited(p, found)); });
+      /* A line that is only [[figure:ID]] becomes that figure, in place; at most three, and only ids in the catalog. */
+      var shown = [];
+      var paragraphs = state.answer.replace(/\*\*([^*\n]+)\*\*/g, "$1").replace(/\s*\[\[figure:([\w-]+)\]\]\s*/g, "\n\n[[figure:$1]]\n\n").split(/\n{2,}/).map(function (p) {
+        var m = /^\[\[figure:([\w-]+)\]\]$/.exec(p.trim()), f;
+        if (!m) return p.trim() ? h("p", null, cited(p, found)) : null;
+        f = A.figure ? A.figure(m[1]) : null;
+        if (!f || shown.indexOf(f.id) >= 0 || shown.length >= 3) return null;
+        shown.push(f.id);
+        return A.figureBlock(f);
+      });
       result = h("div", { "class": "answer", role: "status" },
         h("h2", { "class": "tight", text: state.q }), paragraphs,
         A.sourceStrip ? A.sourceStrip(found) : null,
-        h("p", { "class": "note", text: (state.saved ? T("Saved answer, written with AI and checked against the data. ") : T("Answer written live by AI from this site's data. Check the cited records before relying on it. ")) + state.note }));
+        h("p", { "class": "note", text: (state.saved ? T("Saved answer, written with AI and checked against the data. ") : T("Answer written live by AI from this site's data. Check the cited records before relying on it. ")) +
+          (shown.length && !state.saved ? T("The AI picked the figures by their captions; it has not seen the images. ") : "") + state.note }));
     }
     if (state.status === "error") result = h("div", { "class": "answer problem", role: "alert" },
       h("h2", { "class": "tight", text: T("No live answer") }), h("p", { text: state.note }), h("p", { text: T("Pick one of the saved questions below, or try again.") }));

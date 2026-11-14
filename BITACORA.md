@@ -10,6 +10,7 @@ tabla del día y toca «Commit changes». No hace falta instalar nada.
 
 | Qué se hizo | Quién | Dónde quedó |
 |---|---|---|
+| Imágenes en la respuesta: la IA pone figuras de los reportes de NASA dentro de lo que contesta, cada una con su pie, su página y su fuente; también salen en la ficha de cada investigación (71 figuras de 8 documentos) | Marco Sebastián, con Claude | `app/js/sources.js`, `app/js/ask.js`, `api/ask.js`, `scripts/construir_figuras.py`, `app/figures/` |
 | Fuentes exactas: cada cita de la IA abre la página del reporte de NASA con el pasaje marcado | Marco Sebastián, con Claude | `app/js/sources.js`, `scripts/construir_evidencia.py` |
 | Pregunta en vivo encendida y probada | Marco Sebastián, con Claude | https://one-fire-many-worlds.vercel.app/?lang=es#/ask |
 | Lista de fuentes, bitácora y carpetas de aportes por persona | Marco Sebastián, con Claude | `FUENTES.md`, `BITACORA.md`, `aportes/` |

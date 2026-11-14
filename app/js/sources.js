@@ -81,6 +81,7 @@
     A.main.replaceChildren(h("div", { "class": "wrap" }, h("div", { "class": "sheet page" },
       h("h1", { text: T("The exact page behind each finding") }),
       h("p", { "class": "intro", text: T("Every finding quoted from a NASA report points to the page it came from. Open a page to read the passage in its place.") }),
+      (window.OFMW_FIGURES || []).length ? h("p", { "class": "links" }, h("a", { href: "#/figures", text: T("See the figures cut from these reports") }), " (" + window.OFMW_FIGURES.length + ")") : null,
       h("div", { "class": "table" }, h("table", { "class": "list" },
         h("thead", null, h("tr", null, [T("Document"), T("Page"), T("What it supports"), T("Investigations")].map(function (t) { return h("th", { scope: "col", text: t }); }))),
         h("tbody", null, E.map(function (e) {
@@ -89,6 +90,83 @@
         })))))));
   }
 
+  /* ---------- figures: cut from the reports, each with its caption as written and the page it comes from ---------- */
+  var F = window.OFMW_FIGURES || [];
+  function fig(id) { return F.filter(function (f) { return f.id === id; })[0]; }
+  function figName(f) { return T("Figure ") + f.number; }
+  function figWhere(f) { return f.doc[L] + ", " + T("p. ") + f.page; }
+  function figAlt(f) { return figName(f) + T(" of the report"); }
+  function thumbs(list) {
+    return h("ul", { "class": "figgrid" }, list.map(function (f) {
+      return h("li", null, h("a", { href: "#/figure/" + f.id },
+        h("img", { src: f.img, alt: "", loading: "lazy", width: f.w, height: f.h }),
+        h("span", { "class": "t", text: figName(f) + ", " + T("p. ") + f.page }), h("span", { "class": "c", lang: "en", text: f.caption })));
+    }));
+  }
+
+  A.figure = fig;
+  /* A figure shown in place, inside an answer: the image, its caption as written, and where it comes from. */
+  A.figureBlock = function (f) {
+    return h("figure", { "class": "fig" },
+      h("a", { "class": "figimg", href: "#/figure/" + f.id }, h("img", { src: f.img, width: f.w, height: f.h, loading: "lazy", alt: figAlt(f) })),
+      h("figcaption", null, h("span", { "class": "cap", lang: "en", text: f.caption }),
+        h("span", { "class": "from" }, figWhere(f) + ". ", h("a", { href: "#/figure/" + f.id, text: T("Open the figure and its source") }))));
+  };
+  /* The figures of one investigation's reports, for its record. */
+  A.figureGallery = function (invId) {
+    var list = F.filter(function (f) { return f.invs.indexOf(invId) >= 0; });
+    if (!list.length) return null;
+    return [h("h2", { text: T("Figures from its reports") }), thumbs(list.slice(0, 6)),
+      h("p", { "class": "note" }, T("Captions are quoted in English, as in the reports."), list.length > 6 ? [" ", h("a", { href: "#/figures/" + invId, text: T("See all ") + list.length + T(" figures") })] : null)];
+  };
+
+  function figureView(parts) {
+    var f = fig(parts[0]);
+    if (!f) { A.main.replaceChildren(h("div", { "class": "wrap" }, h("div", { "class": "error" }, h("h1", { text: T("No such figure") }),
+      h("p", null, h("a", { href: "#/figures", text: T("See all figures") }), ".")))); return; }
+    document.title = figName(f) + ", " + figWhere(f) + " · One Fire, Many Worlds";
+    var k = F.indexOf(f), prev = F[k - 1], next = F[k + 1], nasa = f.download === f.record;
+    var side = h("div", { "class": "srcside" },
+      h("h2", { "class": "tight", text: T("The caption, as written") }), h("blockquote", { lang: "en", text: f.caption }),
+      L === "es" ? h("p", { "class": "note", text: T("The caption is quoted in English, as in the report.") }) : null,
+      f.invs.length ? [h("h2", { "class": "tight", text: T("Used by") }),
+        h("p", { "class": "links" }, f.invs.map(function (id, n) { var i = A.inv(id); return [n ? " · " : "", i ? A.invLink(i) : id]; }))] : null,
+      h("p", { "class": "srcactions" }, nasa
+        ? h("a", { "class": "action", href: f.download, target: "_blank", rel: "noopener", text: T("Open the document at NASA") })
+        : [h("a", { "class": "action", href: f.download, target: "_blank", rel: "noopener", text: T("Download the original document") }),
+          h("a", { "class": "action quiet", href: f.record, target: "_blank", rel: "noopener", text: T("Open the record in PSI") })]),
+      h("p", { "class": "note", text: (nasa ? "" : T("PSI delivers the whole PDF. Once it opens, go to page ") + f.page + ". ") + T("Cut from the page of the report. Nothing else was changed.") }),
+      h("p", { "class": "links" }, prev ? h("a", { href: "#/figure/" + prev.id, text: T("Previous figure") }) : null, prev && next ? " · " : "",
+        next ? h("a", { href: "#/figure/" + next.id, text: T("Next figure") }) : null));
+    A.main.replaceChildren(h("div", { "class": "wrap" }, h("div", { "class": "sheet page" },
+      h("p", { "class": "crumb" }, h("a", { href: "#/sources", text: T("Sources") }), " / ", h("a", { href: "#/figures", text: T("Figures") }), " / " + f.id),
+      h("h1", { "class": "srctitle", text: figName(f) }),
+      h("p", { "class": "headline", text: figWhere(f) }),
+      h("div", { "class": "lead srclead" },
+        h("figure", { "class": "pagefig" }, h("div", { "class": "pagebox figbig" }, h("img", { src: f.img, width: f.w, height: f.h, alt: figAlt(f) + ": " + f.caption }))), side))));
+  }
+
+  function figuresView(parts) {
+    var only = parts[0] && A.inv(parts[0]), docs = [];
+    document.title = T("Figures · One Fire, Many Worlds");
+    F.forEach(function (f) {
+      if (only && f.invs.indexOf(only.id) < 0) return;
+      var d = docs.filter(function (x) { return x.title === f.doc[L]; })[0];
+      if (!d) { d = { title: f.doc[L], items: [] }; docs.push(d); }
+      d.items.push(f);
+    });
+    A.main.replaceChildren(h("div", { "class": "wrap" }, h("div", { "class": "sheet page" },
+      h("p", { "class": "crumb" }, h("a", { href: "#/sources", text: T("Sources") }), " / " + T("Figures")),
+      h("h1", { text: T("Figures from the reports") }),
+      h("p", { "class": "intro", text: T("Figures cut from the NASA reports behind the investigations, each with its caption as written and the page it comes from.") }),
+      only ? h("p", { "class": "links" }, T("Showing the figures of ") + only.acr + ". ", h("a", { href: "#/figures", text: T("Show the figures of every report") })) : null,
+      docs.length ? docs.map(function (d) { return [h("h2", { text: d.title }), thumbs(d.items)]; })
+        : h("p", { "class": "empty" }, T("No figure was cut from the reports of this investigation. "), h("a", { href: "#/figures", text: T("See all figures") })),
+      h("p", { "class": "note", text: T("Captions are quoted in English, as in the reports.") }))));
+  }
+
   A.section({ id: "sources", label: T("Sources"), href: "#/sources" }, listView);
   A.route("source", "sources", view);
+  A.route("figure", "sources", figureView);
+  A.route("figures", "sources", figuresView);
 })();

@@ -21,22 +21,25 @@ const RULES = [
   "Answer only from the knowledge base below and from the test rows that come with the question.",
   "Cite every investigation you rely on by its PSI id in square brackets, like [PSI-20]. Cite a test row as [PSI-20 row 123].",
   "When a statement rests on a page listed in reportPages, also cite that page by its id in square brackets, like [bre-final-18], so the reader can open the exact page.",
+  "The knowledge base lists figures cut from the reports, each with its caption. You have not seen the images, only the captions.",
+  "When a figure would let the reader see what a paragraph says, put it right after that paragraph, on a line of its own, as [[figure:ID]] with an id copied exactly from the list.",
+  "Use at most three figures, only where the caption clearly matches what you wrote, and say nothing about a figure beyond what its caption says. When the reader asks for images, give the ones that fit. When no figure fits, use none.",
   "The test rows are picked by keyword and may not be relevant: use them only when they help, and never comment on rows you do not use.",
   "When the knowledge base does not hold the answer, say that it is not in the data and name the closest thing that is.",
   "Keep data apart from interpretation: relevance grades, rankings and the list of experiments still to be done are the team's reading, and you say so when you use them.",
   "If the question is not about this data or about fire safety in space, say that you can only answer about this data.",
-  "Write plain text without headings or bullet symbols, in 180 words or fewer, in the language of the question.",
+  "Write plain text in 180 words or fewer, in the language of the question. No Markdown: no headings, no bullet symbols, no asterisks for bold.",
 ].join("\n");
 
 let kb = null;
 function load() {
   if (kb) return kb;
   const win = {};
-  for (const file of ["data.js", "content.js", "evidence.js"]) {
+  for (const file of ["data.js", "content.js", "evidence.js", "figures.js"]) {
     const text = fs.readFileSync(path.join(process.cwd(), "app", "data", file), "utf8");
     new Function("window", text)(win);                     // our own generated files, not user input
   }
-  const D = win.OFMW, C = win.OFMW_CONTENT, E = win.OFMW_EVIDENCE || [];
+  const D = win.OFMW, C = win.OFMW_CONTENT, E = win.OFMW_EVIDENCE || [], G = win.OFMW_FIGURES || [];
   const invs = D.investigations.map((i) => ({
     id: i.id, name: i.acr, title: i.title, front: i.front, relevance: i.relevance, fuelType: i.fuelType, fuels: i.fuels,
     tests: i.tests, oxygenPct: i.o2, pressurePsi: i.p, flowCmS: i.flow, hardware: i.hw, years: [i.start, i.end],
@@ -47,8 +50,9 @@ function load() {
   const worlds = D.worlds.map((w) => ({ id: w.id, name: w.name, gravity: w.gravity, air: w.air, testsInAirLikeThis: w.near, note: w.nearNote, also: w.extra, ...C.worlds[w.id] }));
   const base = { summary: D.summary, worlds, investigations: invs, materials: D.materials.map((m) => ({ ...m, note: C.materials[m.name] })),
     sameSampleInOrbitAndOnTheGround: D.gravityPairs, experimentsStillToBeDone: C.agenda, timeline: C.timeline,
-    reportPages: E.map((e) => ({ id: e.id, investigations: e.invs, document: e.doc.en, page: e.page || e.pageLabel, supports: e.claim.en, passage: e.quote })) };
-  kb = { system: RULES + "\n\nKNOWLEDGE BASE (JSON)\n" + JSON.stringify(base), tests: D.tests };
+    reportPages: E.map((e) => ({ id: e.id, investigations: e.invs, document: e.doc.en, page: e.page || e.pageLabel, supports: e.claim.en, passage: e.quote })),
+    figures: G.map((f) => ({ id: f.id, investigations: f.invs, document: f.doc.en, page: f.page, caption: f.caption })) };
+  kb = { system: RULES + "\n\nKNOWLEDGE BASE (JSON)\n" + JSON.stringify(base), tests: D.tests, figures: G.length };
   return kb;
 }
 
@@ -86,7 +90,7 @@ function allowed(ip) {
 
 export default async function handler(req, res) {
   if (req.method === "GET") {                              // status check: shows that the data loads, never the key
-    try { const k = load(); return res.status(200).json({ ok: true, liveAnswers: Boolean(process.env.ANTHROPIC_API_KEY), knowledgeBaseChars: k.system.length, tests: k.tests.length, model: MODEL }); }
+    try { const k = load(); return res.status(200).json({ ok: true, liveAnswers: Boolean(process.env.ANTHROPIC_API_KEY), knowledgeBaseChars: k.system.length, tests: k.tests.length, figures: k.figures, model: MODEL }); }
     catch (error) { console.error(error); return res.status(500).json({ ok: false, error: "data", message: "The data files did not load on the server." }); }
   }
   if (req.method !== "POST") { res.setHeader("Allow", "GET, POST"); return res.status(405).json({ error: "method", message: "Send the question with POST." }); }
