@@ -76,7 +76,11 @@ function allowed(ip) {
 }
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") { res.setHeader("Allow", "POST"); return res.status(405).json({ error: "method", message: "Send the question with POST." }); }
+  if (req.method === "GET") {                              // status check: shows that the data loads, never the key
+    try { const k = load(); return res.status(200).json({ ok: true, liveAnswers: Boolean(process.env.ANTHROPIC_API_KEY), knowledgeBaseChars: k.system.length, tests: k.tests.length, model: MODEL }); }
+    catch (error) { console.error(error); return res.status(500).json({ ok: false, error: "data", message: "The data files did not load on the server." }); }
+  }
+  if (req.method !== "POST") { res.setHeader("Allow", "GET, POST"); return res.status(405).json({ error: "method", message: "Send the question with POST." }); }
   const question = typeof req.body?.question === "string" ? req.body.question.trim() : "";
   if (!question) return res.status(400).json({ error: "empty", message: "Write a question first." });
   if (question.length > MAX_QUESTION) return res.status(400).json({ error: "long", message: "Keep the question under " + MAX_QUESTION + " characters." });

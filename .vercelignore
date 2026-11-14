@@ -1,0 +1,9 @@
+# Solo se sube lo que el sitio necesita: app/, api/, package.json y vercel.json
+/data/
+/scripts/
+/equipo/
+/.claude/
+/.impeccable/
+/*.md
+.env
+.env.*

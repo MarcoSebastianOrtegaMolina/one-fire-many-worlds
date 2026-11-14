@@ -40,3 +40,6 @@ RESUMEN_HACKATHON.md
 .claude/skills/impeccable/
 .impeccable/
 .claude/launch.json
+
+.vercel
+.env*
