@@ -1,0 +1,42 @@
+# Claves y secretos: nunca al repositorio
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Librerias instaladas dentro del proyecto (xlrd): pip install --target scripts/_vendor xlrd==2.0.2
+scripts/_vendor/
+
+# Node (para cuando exista el dashboard)
+node_modules/
+dist/
+.next/
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Datos crudos de PSI: cerca de 1.5 GB. No van al repositorio; se regeneran con
+# scripts/descargar_psi.py y scripts/descargar_documentos.py. Se conservan el manifest
+# (lo usa scripts/verificar_cifras.py) y las tablas experimentales, que son chicas.
+data/raw/*
+!data/raw/manifest.json
+!data/raw/tablas/
+
+# Notas privadas de la cuenta (saldos y estrategia de uso): no van al repositorio
+RESUMEN_HACKATHON.md
+
+# Carpeta local de Vercel
+.vercel/
+
+# Herramienta de diseno (22 MB, con binario): se copia de nuevo si hace falta, no se sube
+.claude/skills/impeccable/
+.impeccable/
+.claude/launch.json

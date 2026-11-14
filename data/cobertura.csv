@@ -1,0 +1,23 @@
+﻿id_investigacion,acronimo,tipo_combustible,oxigeno_referencia,nivel_filas,n_filas,n_con_oxigeno,o2_min_pct,o2_max_pct,n_con_presion,presion_min_psia,presion_max_psia,n_con_flujo,flujo_min_cm_s,flujo_max_cm_s,direcciones_de_flujo,n_o2_tipo_tierra,n_o2_entre_23_5_y_30,n_o2_30_o_mas,n_presion_11_o_menos,n_presion_10_2_exacto_o_menos,n_tipo_base_lunar,n_tipo_base_lunar_corte_exacto,n_tipo_base_lunar_posible_matriz,n_o2_30_o_mas_sin_dato_de_presion
+PSI-10,ACME/Flame Design,gas,atmosfera,prueba,207,207,19.8,40.0,207,13.7,19.1,0,,,,71,5,131,0,0,0,0,0,0
+PSI-10,ACME/Flame Design,gas,quemador,prueba,120,109,21.2,85.0,120,6.2,44.2,0,,,,5,13,91,27,27,18,18,0,0
+PSI-20,ACME BRE,gas,atmosfera,prueba,177,177,18.4,40.0,177,8.2,15.7,0,,,,8,55,112,63,36,34,34,0,0
+PSI-21,ACME CLD Flame,gas,atmosfera,dia_de_prueba,32,0,,,0,,,0,,,coflujo,0,0,0,0,0,0,0,0,0
+PSI-22,ACME E-FIELD Flames,gas,atmosfera,dia_de_prueba,20,0,,,0,,,0,,,,0,0,0,0,0,0,0,0,0
+PSI-23,ACME s-Flame,gas,atmosfera,dia_de_prueba,18,18,21.0,30.0,18,14.7,14.7,0,,,,10,0,8,0,0,0,0,0,0
+PSI-25,BASS-II,solido,atmosfera,prueba,129,129,13.6,22.2,0,,,123,0.0,53.0,concurrente; estancamiento; opuesto,45,0,0,0,0,0,0,0,0
+PSI-26,BASS,solido,atmosfera,prueba,122,121,16.1,22.7,121,14.3,14.8,102,0.0,44.0,opuesto,95,0,0,0,0,0,0,0,0
+PSI-39,CFI,liquido,atmosfera,prueba,227,227,17.0,21.0,227,7.3,73.5,0,,,,188,0,0,19,19,0,0,0,0
+PSI-47,DAFT / DAFT-2,"no aplica (polvo de prueba, sin combustion)",atmosfera,sesion,2,0,,,0,,,0,,,,0,0,0,0,0,0,0,0,0
+PSI-68,FLEX-2,liquido,atmosfera,matriz_por_combustible,8,8,17.0,30.0,8,7.3,44.1,8,0.1,5.0,,0,0,8,8,8,0,0,8,0
+PSI-69,FLEX,liquido,atmosfera,prueba,274,274,12.0,34.0,273,10.2,44.9,0,,,,103,25,24,103,1,17,0,0,0
+PSI-98,SAFFIRE-I,solido,atmosfera,muestra,2,2,21.5,21.7,2,14.5,14.5,2,20.0,20.0,concurrente; opuesto,2,0,0,0,0,0,0,0,0
+PSI-99,SAFFIRE-II,solido,atmosfera,muestra,9,9,21.5,22.1,9,14.5,14.9,9,20.0,20.0,concurrente; opuesto,9,0,0,0,0,0,0,0,0
+PSI-100,SAFFIRE-III,solido,atmosfera,muestra,2,2,19.4,20.1,2,14.4,14.5,2,30.0,30.0,concurrente; opuesto,1,0,0,0,0,0,0,0,0
+PSI-101,SAME-R,solido,atmosfera,prueba,109,0,,,0,,,109,0.0,8.1,,0,0,0,0,0,0,0,0,0
+PSI-102,SAME,solido,atmosfera,muestra; prueba,32,0,,,0,,,29,2.0,10.0,,0,0,0,0,0,0,0,0,0
+PSI-102,SAME,liquido,atmosfera,muestra; prueba,21,0,,,0,,,20,2.0,8.0,,0,0,0,0,0,0,0,0,0
+PSI-106,SLICE,gas,atmosfera,dia_de_prueba,12,0,,,0,,,0,,,,0,0,0,0,0,0,0,0,0
+PSI-107,SPICE,gas,atmosfera,prueba,435,0,,,0,,,415,0.3,85.3,coflujo,0,0,0,0,0,0,0,0,0
+PSI-159,ACME CFI-G,gas,atmosfera,prueba,179,179,18.0,40.0,179,7.3,44.1,0,,,,62,0,115,25,25,20,20,0,0
+PSI-159,ACME CFI-G,gas,quemador,prueba,154,154,12.0,85.0,154,7.2,48.0,0,,,,27,0,115,40,40,28,28,0,0

@@ -1,0 +1,89 @@
+Materials,Test Session Number,Sample Number,Configuration,Solder Disposition (wrapped/fed),Solder Sample Length
+Base Material:silver-coated copper wire.                                       Solder: Kester “44”® 60-40 rosin core solder,1,1,Straight Wire Center,Wrapped,5cm
+,,2,Straight Wire Center,Wrapped,5cm
+,,3,Straight Wire Center,Wrapped,5cm
+,,4,Straight Wire Center,Wrapped,10cm
+,,5,Straight Wire Center,Wrapped,10cm
+,,6,Straight Wire Center,Wrapped,10cm
+,,7,Straight Wire Top,Wrapped,5cm
+,,8,Straight Wire Top,Wrapped,5cm
+,,9,Straight Wire Top,Wrapped,5cm
+,,10,Straight Wire Top,Wrapped,10cm
+,,11,Straight Wire Top,Wrapped,10cm
+,,12,Straight Wire Top,Wrapped,10cm
+,,13,Straight Wire Top,"Fed, Tail",5cm
+,,14,Straight Wire Top,"Fed, Tail",5cm
+,,15,Straight Wire Top,"Fed, Tail",5cm
+,,16,Straight Wire Top,"Fed, Tail",10cm
+,,17,Straight Wire Top,"Fed, Tail",10cm
+,,18,Straight Wire Top,"Fed, Tail",10cm
+,,,,,
+,2,19,Parallel,Wrapped,5cm
+,,20,Parallel,Wrapped,5cm
+,,21,Parallel,Wrapped,5cm
+,,22,Parallel,Wrapped,10cm
+,,23,Parallel,Wrapped,10cm
+,,24,Parallel,Wrapped,10cm
+,,25,Small Loop,Wrapped,5cm
+,,26,Small Loop,Wrapped,5cm
+,,27,Small Loop,Wrapped,5cm
+,,28,Small Loop,Wrapped,10cm
+,,29,Small Loop,Wrapped,10cm
+,,30,Small Loop,Wrapped,10cm
+,,31,Contact,Wrapped,5cm
+,,32,Contact,Wrapped,5cm
+,,33,Contact,Wrapped,5cm
+,,34,Contact,Wrapped,10cm
+,,35,Contact,Wrapped,10cm
+,,36,Contact,Wrapped,10cm
+,,,,,
+,3,37,L-Shape,Wrapped,5cm
+,,38,L-Shape,Wrapped,5cm
+,,39,L-Shape,Wrapped,5cm
+,,40,L-Shape,Wrapped,10cm
+,,41,L-Shape,Wrapped,10cm
+,,42,L-Shape,Wrapped,10cm
+,,43,Large Loop,Wrapped,5cm
+,,44,Large Loop,Wrapped,5cm
+,,45,Large Loop,Wrapped,5cm
+,,46,Large Loop,Wrapped,10cm
+,,47,Large Loop,Wrapped,10cm
+,,48,Large Loop,Wrapped,10cm
+,,49,Straight Wire,Fed,5cm
+,,50,Straight Wire,Fed,5cm
+,,51,Straight Wire,Fed,5cm
+,,52,Straight Wire,Fed,10cm
+,,53,Straight Wire,Fed,10cm
+,,54,Straight Wire,Fed,10cm
+,,,,,
+,4,55,Parallel,Fed,5cm
+,,56,Parallel,Fed,5cm
+,,57,Parallel,Fed,5cm
+,,58,Parallel,Fed,10cm
+,,59,Parallel,Fed,10cm
+,,60,Parallel,Fed,10cm
+,,61,Straight Wire,"Fed, Tail",5cm
+,,62,Straight Wire,Fed,5cm
+,,63,Straight Wire,Fed,5cm
+,,64,Straight Wire,Fed,10cm
+,,65,Straight Wire,"Fed, Tail",10cm
+,,66,Straight Wire,Fed,10cm
+,,67,Small Loop,Fed,5cm
+,,68,Small Loop,Fed,5cm
+,,69,Small Loop,Fed,5cm
+,,70,Small Loop,Fed,10cm
+,,71,Small Loop,Fed,10cm
+,,72,Small Loop,Fed,10cm
+,,,,,
+,5,73,L-Shape,Fed,5cm
+,,74,L-Shape,Fed,5cm
+,,75,L-Shape,Fed,5cm
+,,76,L-Shape,Fed,10cm
+,,77,L-Shape,Fed,10cm
+,,78,L-Shape,Fed,10cm
+,,79,Large Loop,Fed,5cm
+,,80,Large Loop,Fed,5cm
+,,81,Large Loop,Fed,5cm
+,,82,Large Loop,Fed,10cm
+,,83,Large Loop,Fed,10cm
+,,84,Large Loop,Fed,10cm

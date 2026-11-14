@@ -1,0 +1,774 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><style>body{margin:0}img{max-width:100%}</style></head><body><title>Hamác: avance del viernes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Hoja de calculo de ingenieria: una columna sobre papel cuadriculado, rotulo arriba, graficas a regla. */
+:root{
+  --paper:#EDF2E1; --paper-2:#E1E9D2; --grid:#CEDABC; --rule:#8EA37A;
+  --ink:#1B2620; --ink-2:#45564A;
+  --flame:#1A52BE; --solid:#A0420B; --liquid:#0A6E60; --pencil:#B3231A;
+  --display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --data:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#14201A; --paper-2:#1B2A23; --grid:#22322A; --rule:#4A6354;
+    --ink:#E8EFE4; --ink-2:#A9BAAD;
+    --flame:#8FB8FF; --solid:#F3A868; --liquid:#62D2BF; --pencil:#FF9285; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14201A; --paper-2:#1B2A23; --grid:#22322A; --rule:#4A6354;
+  --ink:#E8EFE4; --ink-2:#A9BAAD;
+  --flame:#8FB8FF; --solid:#F3A868; --liquid:#62D2BF; --pencil:#FF9285; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--paper); color:var(--ink); font:400 1.0625rem/1.62 var(--body);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:1.5rem 1.5rem; background-position:-1px -1px;
+}
+::selection{background:var(--flame); color:var(--paper)}
+:focus-visible{outline:2px solid var(--flame); outline-offset:3px}
+a{color:var(--flame); text-underline-offset:.2em}
+.hoja{
+  max-width:66rem; margin:0 auto; padding-block:1.5rem 4rem;
+  padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.pliego{background:var(--paper); border:1.5px solid var(--rule); padding:clamp(1rem,3.5vw,2.75rem)}
+.rotulo{display:grid; grid-template-columns:repeat(auto-fit,minmax(11rem,1fr)); border:1.5px solid var(--ink); margin-bottom:2.25rem}
+.rotulo div{padding:.55rem .8rem; border-right:1px solid var(--ink); border-bottom:1px solid var(--ink); margin:0 -1px -1px 0; min-width:0}
+.rotulo dt{font:600 .72rem/1.2 var(--data); letter-spacing:.09em; text-transform:uppercase; color:var(--ink-2)}
+.rotulo dd{margin:.2rem 0 0; font:600 1.05rem/1.25 var(--display); letter-spacing:.01em}
+h1,h2,h3{font-family:var(--display); text-wrap:balance; margin:0; letter-spacing:-.005em}
+h1{font-weight:700; font-size:clamp(2.3rem,6.4vw,4.4rem); line-height:.98; max-width:17ch}
+h2{font-weight:700; font-size:clamp(1.8rem,4vw,2.6rem); line-height:1.05; margin-top:4rem; padding-top:1.25rem; border-top:3px double var(--rule); max-width:24ch}
+h3{font-weight:600; font-size:1.4rem; line-height:1.15; margin-top:2.25rem}
+p,ul,ol{max-width:68ch; margin:1rem 0 0}
+ul,ol{padding-left:1.2rem}
+li{margin-top:.4rem}
+.entrada{font-size:1.2rem; line-height:1.5; max-width:60ch; margin-top:1.25rem}
+strong{font-weight:700}
+.num{font-family:var(--data); font-variant-numeric:tabular-nums; font-size:.94em; white-space:nowrap}
+.dato,.interp,.falta{font:600 .7rem/1 var(--data); letter-spacing:.07em; text-transform:uppercase; padding:.2rem .4rem; border:1px solid currentColor; white-space:nowrap; vertical-align:.12em}
+.dato{color:var(--liquid)} .interp{color:var(--solid)} .falta{color:var(--pencil)}
+.tachado{color:var(--pencil); text-decoration:line-through; text-decoration-thickness:2px}
+.corr{color:var(--pencil); font-weight:700}
+
+figure{margin:1.75rem 0 0}
+figcaption{font-size:.9rem; color:var(--ink-2); max-width:72ch; margin-top:.6rem}
+.lienzo{border:1.5px solid var(--ink); background:var(--paper); overflow-x:auto}
+.lienzo svg{display:block; width:100%; height:auto; min-width:40rem}
+.lectura{position:sticky; left:0}
+svg text{font-family:var(--data); fill:var(--ink-2); font-size:11px}
+svg .eje{stroke:var(--ink); stroke-width:1.2; fill:none}
+svg .malla{stroke:var(--grid); stroke-width:1}
+svg .s{fill:var(--solid)} svg .l{fill:var(--liquid)} svg .g{fill:var(--flame)}
+svg .pt{fill-opacity:.62; stroke:var(--paper); stroke-width:.6}
+svg .zona{fill:var(--ink); fill-opacity:0; stroke:var(--ink-2); stroke-width:1.2; stroke-dasharray:5 4; transition:fill-opacity .35s cubic-bezier(.16,1,.3,1)}
+svg .zona.activa{fill-opacity:.11; stroke:var(--ink); stroke-dasharray:none; stroke-width:1.8}
+svg .rot{fill:var(--ink); font-weight:600; font-size:12px}
+svg .cruz{stroke:var(--pencil); stroke-width:2; fill:none}
+svg .barra{fill:var(--solid)} svg .vacio{fill:var(--pencil); fill-opacity:.1; stroke:var(--pencil); stroke-dasharray:4 4}
+svg .marca{stroke:var(--ink); stroke-width:1.4; stroke-dasharray:3 3}
+
+.selector{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.5rem}
+.selector button{font:600 1rem/1 var(--display); letter-spacing:.03em; text-transform:uppercase; color:var(--ink); background:var(--paper); border:1.5px solid var(--ink); padding:.7rem 1rem; cursor:pointer}
+.selector button:hover{background:var(--paper-2)}
+.selector button[aria-pressed="true"]{background:var(--ink); color:var(--paper)}
+.lectura{border-top:1.5px solid var(--ink); padding:.9rem 1rem; margin:0; max-width:none; min-height:5.2rem; background:var(--paper-2)}
+.leyenda{display:flex; flex-wrap:wrap; gap:.35rem 1.25rem; margin-top:.7rem; font-size:.9rem; color:var(--ink-2)}
+.leyenda span::before{content:""; display:inline-block; width:.7rem; height:.7rem; border-radius:50%; margin-right:.4rem; vertical-align:-.05em; background:currentColor}
+.leyenda .s{color:var(--solid)} .leyenda .l{color:var(--liquid)} .leyenda .g{color:var(--flame)}
+.leyenda b{color:var(--ink-2); font-weight:400}
+
+.tabla{overflow-x:auto; margin-top:1.5rem; border:1.5px solid var(--ink)}
+table{border-collapse:collapse; width:100%; font-size:.95rem; line-height:1.45}
+th,td{text-align:left; vertical-align:top; padding:.6rem .75rem; border-bottom:1px solid var(--rule); border-right:1px solid var(--rule)}
+tr:last-child td{border-bottom:0} th:last-child,td:last-child{border-right:0}
+thead th{font:600 .72rem/1.3 var(--data); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2); background:var(--paper-2); border-bottom:1.5px solid var(--ink)}
+tbody th{font:600 1.05rem/1.25 var(--display); min-width:8.5rem}
+td.num,th.num{text-align:right}
+.ancha{min-width:44rem}
+
+.barras{margin-top:1.5rem; display:grid; gap:1.1rem}
+.fila-barra p{margin:0 0 .35rem; max-width:none; font-size:.95rem}
+.pista{display:flex; height:2.1rem; border:1.5px solid var(--ink)}
+.pista span{display:flex; align-items:center; justify-content:center; font:600 .85rem/1 var(--data); min-width:0; overflow:hidden}
+.pista .apaga{background:var(--paper-2); color:var(--ink)}
+.pista .arde{background:var(--solid); color:var(--paper)}
+.pista .sd{background:repeating-linear-gradient(135deg,var(--paper) 0 5px,var(--grid) 5px 10px); color:var(--ink)}
+.clave{display:flex; flex-wrap:wrap; gap:.4rem 1.4rem; font-size:.9rem; color:var(--ink-2); margin-top:.7rem}
+.clave i{display:inline-block; width:1rem; height:.8rem; border:1.5px solid var(--ink); margin-right:.4rem; vertical-align:-.08em}
+.clave .apaga{background:var(--paper-2)} .clave .arde{background:var(--solid)} .clave .sd{background:repeating-linear-gradient(135deg,var(--paper) 0 3px,var(--grid) 3px 6px)}
+
+.dos{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr)); gap:0 3rem}
+.dos>div{min-width:0}
+.flujo{display:grid; gap:.5rem; margin-top:1.5rem; max-width:44rem}
+.flujo div{border:1.5px solid var(--ink); padding:.6rem .85rem; background:var(--paper)}
+.flujo div b{font:600 1.1rem/1.2 var(--display); display:block}
+.flujo div span{font-size:.93rem; color:var(--ink-2)}
+.flujo p{margin:0; font:600 .72rem/1 var(--data); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2); padding-left:.9rem}
+.flujo .vivo{border-color:var(--flame); border-width:2px}
+.medidor{display:inline-block; height:.7rem; background:var(--flame); vertical-align:.02em; margin-right:.5rem; min-width:2px}
+.medidor.t{background:var(--solid)}
+.cierre{margin-top:4rem; padding-top:1.25rem; border-top:3px double var(--rule); color:var(--ink-2); font-size:.93rem}
+@media (prefers-reduced-motion: reduce){svg .zona{transition:none}}
+
+.indice{display:flex; flex-wrap:wrap; gap:.45rem 1.25rem; margin:1.75rem 0 0; padding:.8rem 0; list-style:none; max-width:none; border-top:1.5px solid var(--ink); border-bottom:1.5px solid var(--ink); font:600 1rem/1.3 var(--display); letter-spacing:.03em; text-transform:uppercase}
+.indice li{margin:0}
+.indice a{color:var(--ink); text-decoration:none; border-bottom:2px solid var(--rule)}
+.indice a:hover{border-bottom-color:var(--flame); color:var(--flame)}
+h2[id]{scroll-margin-top:1rem}
+.nota{font-size:.93rem; color:var(--ink-2)}
+.camino{border:1.5px solid var(--ink); margin-top:1.75rem; background:var(--paper)}
+.camino h3{margin:0; padding:.75rem .9rem; border-bottom:1.5px solid var(--ink); background:var(--paper-2); display:flex; flex-wrap:wrap; gap:.2rem .8rem; align-items:baseline; font-size:1.55rem}
+.camino h3 .n{font:600 .78rem/1 var(--data); letter-spacing:.09em; text-transform:uppercase; color:var(--ink-2); white-space:nowrap}
+.camino .pregunta{margin:0; padding:1rem .9rem .1rem; font-size:1.18rem; line-height:1.4; max-width:70ch; text-wrap:balance}
+.camino dl{margin:.9rem 0 0; display:grid; grid-template-columns:minmax(8.5rem,11.5rem) 1fr; border-top:1px solid var(--rule)}
+.camino dt{font:600 .72rem/1.4 var(--data); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2); padding:.7rem .9rem; border-bottom:1px solid var(--rule); border-right:1px solid var(--rule)}
+.camino dd{margin:0; padding:.6rem .9rem; border-bottom:1px solid var(--rule); font-size:.98rem; line-height:1.5; min-width:0}
+.camino dt:last-of-type,.camino dd:last-of-type{border-bottom:0}
+@media (max-width:34rem){
+  .camino dl{grid-template-columns:1fr}
+  .camino dt{border-right:0; border-bottom:0; padding-bottom:0}
+  .camino dd{padding-top:.25rem}
+  .camino dt:last-of-type{border-bottom:0}
+}
+
+.pestanas{display:flex; flex-wrap:wrap; gap:0 .25rem; margin:0 0 2.5rem; border-bottom:1.5px solid var(--ink)}
+.pestanas button{font:600 1.15rem/1 var(--display); letter-spacing:.03em; text-transform:uppercase; color:var(--ink-2); background:transparent; border:1.5px solid transparent; border-bottom:0; padding:.85rem 1.1rem; cursor:pointer; margin-bottom:-1.5px}
+.pestanas button:hover{color:var(--ink); background:var(--paper-2)}
+.pestanas button[aria-selected="true"]{color:var(--ink); background:var(--paper); border-color:var(--ink); border-bottom:1.5px solid var(--paper)}
+@media (max-width:30rem){.pestanas{flex-wrap:nowrap; gap:0} .pestanas button{font-size:1rem; padding:.8rem .65rem; white-space:nowrap}}
+.panel[hidden]{display:none}
+.aviso{border:1.5px solid var(--flame); padding:.7rem .9rem; margin-top:1.25rem; max-width:68ch}
+</style>
+
+<div class="hoja"><main class="pliego">
+
+<dl class="rotulo">
+  <div><dt>Equipo</dt><dd>Hamác</dd></div>
+  <div><dt>Reto</dt><dd>Flame in Freefall, NASA Space Apps 2026</dd></div>
+  <div><dt>Actualizado</dt><dd>Sábado 14 de noviembre de 2026</dd></div>
+  <div><dt>Estado</dt><dd>Propuesta por aprobar en equipo</dd></div>
+</dl>
+
+<div class="pestanas" role="tablist" aria-label="Secciones de la página">
+  <button type="button" role="tab" id="tab-propuesta" data-tab="propuesta" aria-controls="panel-propuesta" aria-selected="true">La propuesta</button>
+  <button type="button" role="tab" id="tab-avance" data-tab="avance" aria-controls="panel-avance" aria-selected="false" tabindex="-1">Avance del viernes</button>
+</div>
+
+<section class="panel" id="panel-propuesta" role="tabpanel" aria-labelledby="tab-propuesta">
+<h1>Un fuego, muchos mundos</h1>
+<p class="entrada">Un mismo fuego se comporta distinto según dónde viva la gente. La propuesta es una sola plataforma: eliges un mundo y te entrega, para ese lugar, lo que NASA ya sabe para prevenir, detectar y apagar un incendio, qué investigaciones importan más, qué significa y qué falta por probar.</p>
+<p class="entrada">No es un camino nuevo. Son los cinco que vimos ayer, fusionados, más cuatro piezas que encontramos hoy. Todo sale de los datos que ya tenemos limpios.</p>
+
+<h2>Los cinco mundos</h2>
+<div class="tabla"><table class="ancha">
+  <thead><tr><th>Mundo</th><th>Gravedad</th><th>Aire</th><th>Lo que hay en los datos de NASA</th></tr></thead>
+  <tbody>
+    <tr><th>Estación y naves</th><td>Casi cero</td><td>Como el de la Tierra: 21 % de oxígeno a 14.7 psi</td><td>Casi todo lo que existe: telas y plásticos, humo y gotas de combustible</td></tr>
+    <tr><th>Base lunar y rover</th><td>Un sexto de la terrestre</td><td>30 % o más de oxígeno, a 10.2 psi o menos</td><td>71 pruebas con un aire parecido, ninguna con sólidos. Nada con la gravedad de la Luna</td></tr>
+    <tr><th>Traje espacial</th><td>La del lugar</td><td>100 % de oxígeno a 4.3 psi</td><td>Nada</td></tr>
+    <tr><th>Marte</th><td>Poco más de un tercio</td><td>El reto no lo dice</td><td>Nada</td></tr>
+    <tr><th>Tierra</th><td>La normal</td><td>21 % de oxígeno a 14.7 psi</td><td>9 muestras quemadas en órbita y comparadas con gravedad normal, cinco estudios hechos en tierra y la tecnología de NASA que ya regresó</td></tr>
+  </tbody>
+</table></div>
+<p>Donde no hay datos, la plataforma lo dice. Ese hueco también es una respuesta: señala qué falta probar antes de mandar gente.</p>
+<p>El propio reto da el puente entre los mundos. Dice que los resultados de microgravedad y de gravedad normal podrían acotar lo que pasa en gravedades intermedias. La Estación es un extremo y la Tierra es el otro; la Luna y Marte quedan en medio.</p>
+
+<h2>Por qué el camino 5 solo no alcanzaba</h2>
+<p>El camino 5, del espacio a la Tierra, fue el que más nos llamó la atención. Solo, no cumple lo que pide el reto:</p>
+<ul>
+  <li>El reto pide resumir, ordenar e interpretar las investigaciones de PSI. El camino 5 contaba historias de tecnología, no investigaciones.</li>
+  <li>El fin del reto es la seguridad en la exploración espacial. La Tierra aparece como un extra: el tablero «también podría» tratarla.</li>
+  <li>PSI casi no tiene datos de la Tierra, y el reto dice que el proyecto debe basarse en PSI.</li>
+</ul>
+<p>Como un mundo más dentro de la plataforma, en cambio, cumple y suma: es el extremo que permite comparar.</p>
+
+<h2>Cómo se fusionan los cinco caminos</h2>
+<div class="tabla"><table class="ancha">
+  <thead><tr><th>Camino de ayer</th><th>En qué se convierte</th><th>Qué ve quien lo usa</th></tr></thead>
+  <tbody>
+    <tr><th>1. Hábitat seguro</th><td>El selector de mundos y el mapa de lo que se sabe</td><td>La portada: eliges dónde vive la gente</td></tr>
+    <tr><th>4. Equipo de nueva generación</th><td>Los tres frentes dentro de cada mundo</td><td>En cada mundo, qué se sabe para prevenir, detectar y apagar</td></tr>
+    <tr><th>5. Del espacio a la Tierra</th><td>El mundo Tierra</td><td>La comparación con gravedad normal y la tecnología que regresó a bomberos e industria</td></tr>
+    <tr><th>2. El asesor que responde</th><td>La SI que explica cada pantalla y contesta preguntas</td><td>Una caja de preguntas cuyas respuestas dicen de qué investigación salieron</td></tr>
+    <tr><th>3. Datos listos para predecir</th><td>La tabla y la descarga de datos</td><td>Los datos detrás de cada pantalla, listos para bajar</td></tr>
+  </tbody>
+</table></div>
+<p>Nadie pierde su camino: cada uno queda como una parte de la misma plataforma.</p>
+
+<h2>Cuatro piezas nuevas</h2>
+<p>Salieron hoy, al buscar más allá de los cinco caminos. Dos vienen de cruzar nuestros datos y dos de recursos que el reto da y que no habíamos usado.</p>
+
+<section class="camino">
+  <h3><span class="n">Pieza 1</span> Pasaporte de material</h3>
+  <p class="pregunta">«Quiero usar este material. ¿Qué se sabe de él?»</p>
+  <dl>
+    <dt>Qué hace</dt><dd>Eliges un material y ves, en una sola ficha, si arde, qué humo da y si el detector lo ve.</dd>
+    <dt>Con qué contamos</dt><dd>Diez materiales sólidos con nombre: acrílico, tela SIBAL, Kapton, silicón, teflón, mecha de lámpara, cera, Pyrell, Nomex y Ultem.</dd>
+    <dt>Un ejemplo real</dt><dd>El silicón casi no ardió en Saffire-II (4 muestras) y es el humo que mejor ve el detector (30 corridas). Kapton y teflón son lo contrario: solo tienen datos de humo y son los más difíciles de detectar.</dd>
+    <dt>Tiempo</dt><dd>Cerca de 1 hora.</dd>
+  </dl>
+</section>
+
+<section class="camino">
+  <h3><span class="n">Pieza 2</span> De accidente a experimento</h3>
+  <p class="pregunta">«¿Qué aprendimos de cada susto?»</p>
+  <dl>
+    <dt>Qué hace</dt><dd>Una línea de tiempo con Apollo 1, Apollo 13, el incendio en Mir y la alarma de Artemis II. Junto a cada uno, los experimentos de PSI que estudian ese mismo problema.</dd>
+    <dt>Con qué contamos</dt><dd>Las páginas de NASA que el reto da como recurso y que no habíamos usado, y las pruebas de PSI, fechadas de 2007 a 2021.</dd>
+    <dt>Un ejemplo real</dt><dd>En Mir, en 1997, la flama duró varios minutos y terminó apagándose sola; el humo tardó horas en limpiarse. Eso conecta con los experimentos de humo y de extinción.</dd>
+    <dt>Tiempo</dt><dd>Cerca de 45 minutos. Qué experimento responde a cada accidente es lectura nuestra y se marca así.</dd>
+  </dl>
+</section>
+
+<section class="camino">
+  <h3><span class="n">Pieza 3</span> Lo que falta quemar</h3>
+  <p class="pregunta">«¿Qué experimento debería hacer NASA ahora?»</p>
+  <dl>
+    <dt>Qué hace</dt><dd>Convierte los huecos en una agenda: los experimentos que todavía no existen, ordenados por urgencia para la Luna y Marte.</dd>
+    <dt>Con qué contamos</dt><dd>La lista de huecos ya hecha: sólidos con el aire de una base lunar, gravedad parcial, condiciones de traje, niebla de agua y materiales actuales. El reto nombra dos experimentos futuros, LUCI y FM2.</dd>
+    <dt>Por qué importa</dt><dd>Es la parte más visionaria: la plataforma no solo resume lo hecho, propone lo que sigue.</dd>
+    <dt>Tiempo</dt><dd>Cerca de 30 minutos. El orden de urgencia es propuesta nuestra.</dd>
+  </dl>
+</section>
+
+<section class="camino">
+  <h3><span class="n">Pieza 4</span> ¿Arderá?</h3>
+  <p class="pregunta">«Con este aire y este combustible, ¿qué pasó en las pruebas reales?»</p>
+  <dl>
+    <dt>Qué hace</dt><dd>Pones oxígeno, presión y tipo de combustible, y te enseña las pruebas reales más cercanas y cómo terminaron.</dd>
+    <dt>Con qué contamos</dt><dd>177 flamas de BRE y 274 gotas de FLEX con su desenlace, y 225 pruebas de BASS y BASS-II con oxígeno y flujo de aire, de las que solo 20 traen desenlace.</dd>
+    <dt>El cuidado</dt><dd>No predice. Enseña evidencia: qué se probó cerca de esas condiciones y qué pasó.</dd>
+    <dt>Tiempo</dt><dd>Cerca de 1 hora y cuarto. Es la pieza más interactiva y la primera que se recorta si falta tiempo.</dd>
+  </dl>
+</section>
+
+<h2>Las pantallas del MVP</h2>
+<div class="tabla"><table>
+  <thead><tr><th>Pantalla</th><th>Qué hace</th></tr></thead>
+  <tbody>
+    <tr><th>Mundos</th><td>La portada. Los cinco mundos, con sus condiciones y cuánto se sabe de cada uno</td></tr>
+    <tr><th>Un mundo</th><td>El plano de oxígeno y presión con ese mundo marcado, los tres frentes, las investigaciones ordenadas por relevancia, la explicación y lo que falta quemar</td></tr>
+    <tr><th>Investigación</th><td>La ficha de cada experimento con lo que pide el reto: objetivos, combustibles, condiciones, qué varió y qué se midió. Dos o tres lado a lado</td></tr>
+    <tr><th>Material</th><td>El pasaporte de cada material</td></tr>
+    <tr><th>Línea de tiempo</th><td>De accidente a experimento</td></tr>
+    <tr><th>¿Arderá?</th><td>El explorador de pruebas reales</td></tr>
+    <tr><th>Preguntas</th><td>La caja donde la SI responde citando su fuente, y dice cuando algo no está en los datos</td></tr>
+    <tr><th>Datos</th><td>La tabla de pruebas y su descarga</td></tr>
+  </tbody>
+</table></div>
+
+<h2>Por qué es alcanzable</h2>
+<ul>
+  <li><strong>Los datos ya están.</strong> 2,348 filas limpias, cada una con su origen, y las 24 investigaciones de combustión ya clasificadas.</li>
+  <li><strong>Las gráficas ya funcionan.</strong> Están en la pestaña «Avance del viernes» de esta misma página.</li>
+  <li><strong>No depende de instalar nada.</strong> La página se hace sin librerías: no hay nada que se rompa en la sede, y funciona sin internet salvo la caja de preguntas.</li>
+  <li><strong>Se construye por piezas.</strong> Cada una se prueba antes de pasar a la siguiente, así que siempre hay algo que enseñar.</li>
+</ul>
+<div class="tabla"><table>
+  <thead><tr><th>Pieza</th><th>Qué queda</th><th class="num">Horas</th></tr></thead>
+  <tbody>
+    <tr><th>Base</th><td>La carpeta del proyecto y su control de versiones</td><td class="num">0.25</td></tr>
+    <tr><th>Datos</th><td>Los datos convertidos al formato que lee la página</td><td class="num">1.25</td></tr>
+    <tr><th>Contenido</th><td>El resumen y la explicación de cada investigación, mundo y material, escritos desde los datos y revisados</td><td class="num">1.25</td></tr>
+    <tr><th>Portada y mundo</th><td>El selector de mundos y la vista de cada uno, con lo que falta quemar</td><td class="num">2</td></tr>
+    <tr><th>Fichas</th><td>La ficha de cada investigación y la comparación</td><td class="num">1</td></tr>
+    <tr><th>Pasaporte de material</th><td>Una ficha por material</td><td class="num">1</td></tr>
+    <tr><th>Preguntas</th><td>La caja de preguntas con SI, con respuestas guardadas como respaldo</td><td class="num">1.25</td></tr>
+    <tr><th>Línea de tiempo</th><td>De accidente a experimento</td><td class="num">0.75</td></tr>
+    <tr><th>¿Arderá?</th><td>El explorador de pruebas reales</td><td class="num">1.25</td></tr>
+    <tr><th>Datos y cierre</th><td>La descarga, el celular, los casos de error y la demo de punta a punta</td><td class="num">1</td></tr>
+  </tbody>
+</table></div>
+<p>Son unas 11 horas si se hace una pieza tras otra. Con dos frentes de trabajo a la vez cabe en el día. Si no alcanza, se recorta en este orden: ¿Arderá?, la comparación lado a lado y la tabla filtrable. La portada, la vista de mundo, el pasaporte y las preguntas no se recortan.</p>
+
+<h2>Lo que hay que decidir hoy</h2>
+<ol>
+  <li>Si aprobamos la fusión como la propuesta del equipo.</li>
+  <li>El nombre. El de trabajo es «One Fire, Many Worlds».</li>
+  <li>El idioma. La propuesta es la plataforma en inglés, por si avanza a la evaluación global; no confirmamos qué pide la sede.</li>
+  <li>Quién coteja a mano las cifras de la portada antes de presentar.</li>
+  <li>Cómo nos repartimos las piezas.</li>
+</ol>
+
+<h2>Lo que no está verificado</h2>
+<ul>
+  <li><strong>La propuesta no está construida.</strong> Lo que cada pantalla entregaría sale de los datos que ya tenemos, no de una prueba con usuarios.</li>
+  <li><strong>Las horas son estimaciones.</strong> Nadie ha medido todavía cuánto tarda una pieza.</li>
+  <li><strong>Los criterios de los jueces de la sede</strong> y cómo se declara el uso de IA siguen sin confirmarse.</li>
+  <li><strong>Las fuentes de los accidentes.</strong> El incendio en Mir sale de una página de NASA publicada el 23 de febrero de 2022; la de Apollo 1 no muestra fecha; la de Apollo 13 no la hemos leído. Las tres historias de tecnología en la Tierra son de 1976, 1978 y 1982.</li>
+  <li><strong>No hay revisión independiente de las cifras.</strong> Todas salen de la investigación del viernes.</li>
+</ul>
+</section>
+
+<section class="panel" id="panel-avance" role="tabpanel" aria-labelledby="tab-avance" hidden>
+<h1>Décadas de fuego en el espacio, convertidas en respuestas</h1>
+<p class="entrada">NASA lleva décadas quemando materiales en microgravedad y publicó los resultados. Son tantos que cuesta encontrarlos, compararlos y entenderlos. Queremos construir una plataforma a la que alguien llega con una necesidad y que le entrega lo que hace falta en ese momento: un resumen, una comparación, los datos o una conclusión, siempre con su fuente.</p>
+<p class="entrada">El viernes comprobamos que se puede. Ya tenemos los datos limpios, tres hallazgos propios y cinco caminos hacia donde llevarlo. Esta página cuenta todo eso para que mañana elijamos juntos.</p>
+
+<ul class="indice" aria-label="Contenido de la página">
+  <li><a href="#reto">Qué pide NASA</a></li>
+  <li><a href="#vision">Qué entregaría</a></li>
+  <li><a href="#logros">Lo que conseguimos</a></li>
+  <li><a href="#caminos">Cinco caminos</a></li>
+  <li><a href="#decisiones">Decisiones</a></li>
+  <li><a href="#equipo">Reparto</a></li>
+  <li><a href="#tecnica">Parte técnica</a></li>
+  <li><a href="#pendiente">Sin verificar</a></li>
+</ul>
+
+<h2 id="reto">Qué pide NASA</h2>
+<p>El reto se llama Flame in Freefall. Pide un tablero web interactivo, impulsado por superinteligencia (el reto la abrevia SI), que resuma, ordene e interprete los experimentos de combustión que NASA guarda en su repositorio PSI. El fin es sacar conclusiones de seguridad contra incendios para la exploración con tripulación.</p>
+<div class="tabla"><table class="ancha">
+  <thead><tr><th>Lo difícil hoy</th><th>Lo que pide el reto</th><th>Cómo se vería en la plataforma</th></tr></thead>
+  <tbody>
+    <tr><th>Encontrar</th><td>Ordenar las investigaciones por relevancia</td><td>Llegas con tu necesidad y ves primero lo que más te sirve, no una lista de 133 investigaciones</td></tr>
+    <tr><th>Comparar</th><td>Resumir cada una con los mismos atributos: qué se quemó, con qué aire, qué se midió</td><td>Dos o tres experimentos lado a lado, en el mismo formato</td></tr>
+    <tr><th>Interpretar</th><td>Decir qué significan los resultados para la seguridad</td><td>Una conclusión en palabras claras, con su fuente y con lo que falta por saber</td></tr>
+  </tbody>
+</table></div>
+<div class="dos">
+<div>
+<h3>Por qué importa</h3>
+<ul>
+  <li>En 1967 la tripulación de Apollo 1 murió en un incendio durante una prueba, con la cabina llena de oxígeno.</li>
+  <li>En 1997 hubo un incendio a bordo de la estación Mir.</li>
+  <li>En Artemis II sonó una alarma de humo a unas 80,000 millas de la Tierra.</li>
+  <li>En microgravedad el aire caliente no sube. Una flama deja de tener forma de gota y se vuelve una esfera azul.</li>
+  <li>La base lunar y los rovers tendrán más oxígeno y menos presión que la Tierra, para facilitar el uso de trajes. Con más oxígeno, los materiales arden más fácil.</li>
+</ul>
+</div>
+<div>
+<h3>Lo que sugiere que el usuario pueda hacer</h3>
+<ol>
+  <li>Identificar las investigaciones que más importan para naves, estaciones, bases en la Luna y en Marte, y rovers.</li>
+  <li>Extraer datos que sirvan para modelos que predigan si algo arde y cómo.</li>
+  <li>Resaltar la investigación que ayuda a crear los controles y equipos de seguridad que vienen.</li>
+</ol>
+<p>Como extra, menciona aplicaciones en la Tierra: extintores de niebla de agua, detectores de humo y equipo de bomberos. El público que nombra son profesores, estudiantes, investigadores e ingenieros aeroespaciales. Cohetes y propelentes quedan fuera.</p>
+</div>
+</div>
+
+<h2 id="vision">Qué entregaría la plataforma</h2>
+<p>La idea central: no es una pantalla con una sola respuesta. Es una plataforma que entiende qué necesita quien llega y se lo entrega. Estos ejemplos están armados con datos que ya tenemos.</p>
+<div class="tabla"><table class="ancha">
+  <thead><tr><th>Quién llega</th><th>Qué necesita</th><th>Qué recibe</th></tr></thead>
+  <tbody>
+    <tr><th>Ingeniera que diseña un módulo lunar</th><td>Saber qué se sabe del fuego con el aire de una base lunar</td><td>Las 71 pruebas hechas con un aire parecido, lo que pasó en ellas (las flamas tienden a seguir ardiendo) y el aviso de que ninguna tela ni plástico se ha probado ahí</td></tr>
+    <tr><th>Estudiante que apenas entra al tema</th><td>Entender qué es BASS y en qué se parece a Saffire</td><td>La ficha de cada experimento y las dos lado a lado: qué quemaron, con qué aire y qué midieron</td></tr>
+    <tr><th>Investigador que hace modelos</th><td>Pruebas con oxígeno, presión y el dato de si la flama se apagó</td><td>Una tabla lista para descargar, con el origen de cada número</td></tr>
+    <tr><th>Quien diseña detectores de humo</th><td>Saber qué humo se le escapa al detector actual</td><td>El de partículas más chicas, como el de Kapton y el de teflón, con los tamaños medidos en órbita</td></tr>
+    <tr><th>Bombero o protección civil</th><td>Saber qué de todo esto sirve en la Tierra</td><td>Las tecnologías de NASA que ya llegaron aquí y lo que los experimentos enseñan sobre humo y extinción</td></tr>
+  </tbody>
+</table></div>
+<p>Dos reglas que no se negocian: cada respuesta dice de qué investigación y de qué prueba salió, y cuando algo no está en los datos, lo dice en vez de inventarlo.</p>
+
+<h2 id="logros">Lo que conseguimos el viernes</h2>
+<p>Antes de construir nada había que saber qué datos hay de verdad. Eso fue el viernes: bajar todo lo que NASA tiene publicado, limpiarlo, cruzarlo y, sobre todo, desconfiar de cada conclusión.</p>
+<div class="tabla"><table>
+  <thead><tr><th>Qué</th><th class="num">Cuánto</th><th>Nota</th></tr></thead>
+  <tbody>
+    <tr><th>Investigaciones en PSI</th><td class="num">133</td><td>24 son de combustión: 19 de vuelo y 5 estudios en tierra</td></tr>
+    <tr><th>Búsquedas de control</th><td class="num">46</td><td>Para comprobar que no quedó fuera nada sobre incendios. No quedó</td></tr>
+    <tr><th>Archivos bajados</th><td class="num">738</td><td>Tablas, reportes finales, telemetría y documentos. Pesan 1.5 GB</td></tr>
+    <tr><th>Filas limpias</th><td class="num">2,348</td><td>Cada una dice de qué archivo y de qué renglón salió</td></tr>
+    <tr><th>Pruebas distintas</th><td class="num">2,199</td><td>1,460 traen oxígeno y presión a la vez</td></tr>
+    <tr><th>Vueltas de auditoría</th><td class="num">9</td><td>Cada una atacó las conclusiones de la anterior</td></tr>
+  </tbody>
+</table></div>
+<p>Hay un detalle que cambió todo el trabajo: las tablas que PSI enseña en su página son un resumen pobre. Muchos datos clave no estaban ahí, sino en hojas de cálculo, reportes y una tesis archivados junto a cada investigación. Quien use solo las tablas verá huecos que no existen.</p>
+
+<h2>Hallazgo 1. Nadie ha quemado un sólido con el aire de una base lunar</h2>
+<p>Las telas y los plásticos se probaron siempre con el oxígeno de la Tierra o menos. Una base lunar tendría <span class="num">30 %</span> o más. Es el hallazgo más fuerte que tenemos, y es justo el tipo de respuesta que la plataforma entregaría.</p>
+<p><strong>Cómo leer la gráfica:</strong> hacia arriba hay más oxígeno; hacia la derecha, más presión. El aire de la Tierra tiene <span class="num">21 %</span> de oxígeno a <span class="num">14.7 psi</span> (psi es la unidad de presión que usa NASA). Una base lunar queda arriba a la izquierda. Elige un lugar y mira qué pruebas hay ahí.</p>
+<div class="selector" role="group" aria-label="Elige un ambiente para ver qué pruebas hay ahí">
+  <button type="button" id="b-tierra" aria-pressed="true" data-amb="tierra">Tierra y Estación</button>
+  <button type="button" id="b-luna" aria-pressed="false" data-amb="luna">Base lunar</button>
+  <button type="button" id="b-traje" aria-pressed="false" data-amb="traje">Traje espacial</button>
+</div>
+<figure style="margin-top:.75rem">
+  <div class="lienzo">
+    <svg id="plano" viewBox="0 0 760 440" role="img" aria-label="Plano de oxígeno contra presión con 1,053 pruebas dibujadas. Los sólidos se agrupan cerca de 14.5 psi y 21 por ciento de oxígeno. La zona de la base lunar, con 30 por ciento o más y 11 psi o menos, solo tiene gases y gotas de líquido."></svg>
+    <p class="lectura" id="lectura" aria-live="polite"></p>
+  </div>
+  <div class="leyenda"><span class="s"><b>Sólidos: telas, acrílico, cera</b></span><span class="l"><b>Líquidos: gotas de combustible</b></span><span class="g"><b>Gases</b></span><b>Cruz roja: las tres atmósferas que NASA considera para misiones tripuladas</b></div>
+  <figcaption>Cada círculo es un grupo de pruebas con el mismo oxígeno y la misma presión; mientras más grande, más pruebas. Se dibujan <span class="num">1,053</span> de las <span class="num">1,460</span> que traen los dos datos: <span class="num">144</span> quedan fuera por tener más de <span class="num">24 psi</span> y <span class="num">263</span> son flamas inversas, donde el oxígeno sale del quemador y no es el aire de la cámara. Fuente: <code>data/pruebas.csv</code>.</figcaption>
+</figure>
+<p>De <span class="num">405</span> filas con sólidos, <span class="num">263</span> traen el oxígeno medido. Ninguna pasa de <span class="num">22.7 %</span>, y <span class="num">111</span> están por debajo de <span class="num">19.5 %</span>: los experimentos bajaron el oxígeno, nunca lo subieron. <span class="dato">Dato</span></p>
+<figure>
+  <div class="lienzo"><svg id="hist" viewBox="0 0 760 300" role="img" aria-label="Histograma del oxígeno en las pruebas con sólidos. Todas caen entre 13 y 23 por ciento. De 30 por ciento en adelante no hay ninguna."></svg></div>
+  <figcaption>Pruebas con sólidos según su oxígeno, de uno en uno por ciento. Son BASS, BASS-II y las tres Saffire. La razón está en el equipo: la guantera donde corrieron BASS y BASS-II trabaja con el aire de la Estación y solo permitía bajar el oxígeno agregando nitrógeno. Fuente: <code>data/pruebas.csv</code> y la guía de NASA de 2015.</figcaption>
+</figure>
+<p>Una excepción que hay que conocer: entre los reportes de PSI hay uno de SSCE, un experimento del transbordador que quemó papel con <span class="num">35 %</span> de oxígeno, y antes con <span class="num">50 %</span>. Fue a presión de la Tierra o mayor, y PSI no tiene sus datos, solo el reporte. Por eso la frase exacta es: ningún sólido con datos en PSI.</p>
+
+<h2>Hallazgo 2. Cerca de la Luna las flamas no se apagan solas</h2>
+<p>Sí hay pruebas con atmósferas parecidas a la de una base lunar, pero con gas y con gotas de líquido. Son <span class="num">71</span>: <span class="num">34</span> de ACME BRE, <span class="num">20</span> de ACME CFI-G y <span class="num">17</span> de FLEX. La más útil es BRE, que usa gas para imitar cómo arde un material y que se diseñó con las tres atmósferas que NASA considera para misiones tripuladas.</p>
+<div class="barras" role="img" aria-label="Desenlace de las flamas de BRE en tres atmósferas. Con aire tipo Tierra las 10 se apagaron solas. A 10.2 psia, 19 de 27 se apagaron solas. A 8.2 psia, 25 de 36 siguieron ardiendo hasta que se cortó el combustible.">
+  <div class="fila-barra"><p><strong>Cerca de 14.7 psia, con menos de 23 % de oxígeno</strong> (10 flamas)</p><div class="pista"><span class="apaga" style="flex:10">10</span></div></div>
+  <div class="fila-barra"><p><strong>Cerca de 10.2 psia, con 24 a 29 %</strong> (27 flamas)</p><div class="pista"><span class="apaga" style="flex:19">19</span><span class="arde" style="flex:8">8</span></div></div>
+  <div class="fila-barra"><p><strong>Cerca de 8.2 psia, con 30 a 39 %</strong> (36 flamas)</p><div class="pista"><span class="apaga" style="flex:8">8</span><span class="arde" style="flex:25">25</span><span class="sd" style="flex:3">3</span></div></div>
+</div>
+<div class="clave"><span><i class="apaga"></i>Se apagó sola</span><span><i class="arde"></i>Siguió ardiendo hasta que se cortó el combustible</span><span><i class="sd"></i>Sin desenlace en la tabla</span></div>
+<p>Dicho simple: con el aire de la Tierra las flamas se apagaban solas; con el aire más parecido al de una base lunar, la mayoría siguió ardiendo. El reporte final de BRE lo dice con palabras: con <span class="num">27 %</span> a <span class="num">10.2 psia</span> y con <span class="num">34 %</span> a <span class="num">8.2 psia</span>, en general persistían dos o tres minutos o más. <span class="dato">Dato</span> Las <span class="num">177</span> pruebas salen de una tesis archivada entre sus reportes; las leímos del PDF y las cotejamos con una segunda lectura automática, pero nadie las ha mirado a ojo. <span class="falta">Falta</span></p>
+
+<h2>Hallazgo 3. El detector de la Estación casi no ve el humo fino</h2>
+<p>Los reportes de SAME y SAME-R lo dicen: el detector de la Estación mide luz dispersada y responde mejor a partículas de más de un micrómetro. El humo de Kapton y de teflón, más fino, será difícil de detectar. <span class="dato">Dato</span> En nuestro resumen de sus hojas de detectores se ve el mismo orden. <span class="interp">Interpretación</span></p>
+<div class="tabla"><table>
+  <thead><tr><th>Material</th><th>Diámetro medio de la partícula</th><th>Cambio en la señal del detector</th></tr></thead>
+  <tbody>
+    <tr><th>Kapton</th><td><i class="medidor t" style="width:1.5rem"></i><span class="num">110 nm</span></td><td><i class="medidor" style="width:2px"></i><span class="num">0.006 V</span></td></tr>
+    <tr><th>Teflón</th><td><i class="medidor t" style="width:2.3rem"></i><span class="num">167 nm</span></td><td><i class="medidor" style="width:3px"></i><span class="num">0.02 V</span></td></tr>
+    <tr><th>Mecha de lámpara</th><td><i class="medidor t" style="width:2.45rem"></i><span class="num">176 nm</span></td><td><i class="medidor" style="width:1rem"></i><span class="num">0.19 V</span></td></tr>
+    <tr><th>Pyrell</th><td><i class="medidor t" style="width:4.2rem"></i><span class="num">301 nm</span></td><td><i class="medidor" style="width:1.3rem"></i><span class="num">0.24 V</span></td></tr>
+    <tr><th>Silicón</th><td><i class="medidor t" style="width:5rem"></i><span class="num">361 nm</span></td><td><i class="medidor" style="width:5.8rem"></i><span class="num">1.1 V</span></td></tr>
+  </tbody>
+</table></div>
+<h3>Qué hay para cada uno de los tres frentes del reto</h3>
+<div class="tabla"><table class="ancha">
+  <thead><tr><th>Frente</th><th>Lo mejor que hay</th><th>Su límite</th></tr></thead>
+  <tbody>
+    <tr><th>Prevenir</th><td>BASS y BASS-II: 251 pruebas con material, y casi todas con oxígeno, flujo de aire y observaciones. En BASS-II, velocidad de propagación en 20 y desenlace en otras 20</td><td>Oxígeno siempre de 22.7 % o menos. Casi todos los resultados son texto libre</td></tr>
+    <tr><th>Detectar</th><td>SAME y SAME-R: 154 corridas de humo, 131 con el tamaño de sus partículas</td><td>Sin oxígeno ni presión. Los tamaños vienen de un archivo de resultados, no de la tabla</td></tr>
+    <tr><th>Apagar</th><td>FLEX: 274 gotas con oxígeno, presión, CO2 o helio y desenlace. BASS: 7 pruebas con nitrógeno sobre sólidos</td><td>FLEX es solo metanol y heptano. En BASS el efecto está descrito, no medido</td></tr>
+  </tbody>
+</table></div>
+
+<h2>Lo que no existe</h2>
+<div class="dos">
+<div>
+<h3>Huecos reales</h3>
+<ul>
+  <li><strong>Gravedad parcial.</strong> Ningún dato de la Luna ni de Marte. Los experimentos que lo cubrirían, LUCI y FM2, son futuros.</li>
+  <li><strong>Sólidos con oxígeno alto.</strong> Nada por encima de 22.7 %.</li>
+  <li><strong>Condiciones de traje.</strong> Nada cerca de 100 % de oxígeno a 4.3 psi.</li>
+  <li><strong>Niebla de agua.</strong> El reto la menciona; PSI no tiene una sola prueba.</li>
+  <li><strong>Materiales actuales.</strong> No hay cables, espumas, baterías ni telas de traje.</li>
+  <li><strong>Resultados en número.</strong> La mayoría de las tablas dice qué se probó, no qué pasó.</li>
+</ul>
+</div>
+<div>
+<h3>Huecos que resultaron falsos</h3>
+<p>Parecían vacíos y estaban en los documentos de cada investigación.</p>
+<ul>
+  <li>Oxígeno, presión y flujo de las 122 pruebas de BASS.</li>
+  <li>Presión y desenlace de cada flama de BRE.</li>
+  <li>Resultados de 227 pruebas de CFI.</li>
+  <li>Dirección del flujo y observaciones de BASS-II.</li>
+  <li>Presión de las tres Saffire y oxígeno de Saffire-III.</li>
+  <li>Tamaño de las partículas de humo, corrida por corrida.</li>
+  <li>Las atmósferas que FLEX-2 usó de verdad.</li>
+</ul>
+</div>
+</div>
+
+<h2>Nos equivocamos y lo corregimos a la vista</h2>
+<p>La primera versión del análisis tenía errores. La auditoría los encontró uno por uno, y un programa comprueba ahora que <span class="num">18</span> cifras clave del documento sigan saliendo de los datos. Estos son los que más pesaban.</p>
+<div class="tabla"><table class="ancha">
+  <thead><tr><th>Decía</th><th>Lo correcto</th></tr></thead>
+  <tbody>
+    <tr><td><span class="tachado">Siete investigaciones no tienen documentos, entre ellas FLEX</span></td><td class="corr">Leíamos un campo que no es la lista de archivos. Hay 338 documentos, no 157</td></tr>
+    <tr><td><span class="tachado">El máximo de oxígeno en sólidos es 22.2 %</span></td><td class="corr">Es 22.7 %, de BASS</td></tr>
+    <tr><td><span class="tachado">No hay supresión sobre sólidos</span></td><td class="corr">BASS aplicó nitrógeno en 7 pruebas</td></tr>
+    <tr><td><span class="tachado">BRE no trae la presión de cada prueba</span></td><td class="corr">Está en una tesis: 177 pruebas, 34 de ellas tipo base lunar</td></tr>
+    <tr><td><span class="tachado">FLEX-2 pudo quemar gotas en condiciones de base lunar</span></td><td class="corr">Sus mezclas medidas dicen que no. Sí llegó a 39.7 % de oxígeno, con helio</td></tr>
+    <tr><td><span class="tachado">El detector de ionización sigue el mismo orden que el de la Estación</span></td><td class="corr">Según los reportes, respondió fuerte con todos los materiales</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="caminos">Cinco caminos hacia donde lo podemos llevar</h2>
+<p>Los cinco salen de los mismos datos, que ya están limpios. No se excluyen: se puede elegir uno como pantalla principal y tomar piezas de los otros. Cada uno le sirve a alguien distinto y lleva a un resultado distinto. Esta sección los describe por separado, como los vimos el viernes.</p>
+<p class="aviso"><strong>Actualización del sábado:</strong> los cinco se fusionan en una sola propuesta, con cuatro piezas nuevas. Está en la pestaña <a href="#propuesta">La propuesta</a>.</p>
+
+<section class="camino">
+  <h3><span class="n">Camino 1</span> Hábitat seguro</h3>
+  <p class="pregunta">«Voy a poner gente a vivir aquí. ¿Qué se sabe del fuego en este lugar?»</p>
+  <dl>
+    <dt>A quién sirve</dt><dd>A quien diseña o evalúa una nave, una estación, una base lunar o un rover.</dd>
+    <dt>Qué entrega</dt><dd>Eliges el lugar y ves qué pruebas se hicieron con un aire parecido, qué pasó en ellas y qué no se ha probado nunca.</dd>
+    <dt>A dónde llega</dt><dd>A un mapa de lo que se sabe y lo que falta para cada lugar, con un hallazgo que es nuestro: los sólidos nunca se probaron con el aire de una base lunar.</dd>
+    <dt>Con qué contamos</dt><dd>1,460 pruebas con oxígeno y presión, 71 de ellas cercanas a una base lunar, y la lista de huecos ya hecha. La gráfica del hallazgo 1 es una primera versión.</dd>
+    <dt>Qué falta</dt><dd>Marte y la gravedad de la Luna no tienen datos en PSI; solo se puede mostrar que faltan. Hay que decidir cómo enseñar las pruebas que no traen presión.</dd>
+    <dt>Del reto cubre</dt><dd>La primera sugerencia, y lo que dice sobre trajes, oxígeno y gravedad parcial.</dd>
+  </dl>
+</section>
+
+<section class="camino">
+  <h3><span class="n">Camino 2</span> El asesor que responde</h3>
+  <p class="pregunta">«Tengo una duda y no sé en cuál de todos los experimentos está la respuesta.»</p>
+  <dl>
+    <dt>A quién sirve</dt><dd>A estudiantes y profesores que apenas entran al tema, y a cualquiera que no conozca PSI.</dd>
+    <dt>Qué entrega</dt><dd>Escribes la pregunta con tus palabras. Recibes la respuesta con su fuente, las investigaciones ordenadas por relevancia y la opción de poner dos o tres lado a lado.</dd>
+    <dt>A dónde llega</dt><dd>A que cualquiera pueda consultar PSI sin ser experto. Es lo que el reto pide de forma más literal: resumir, ordenar e interpretar.</dd>
+    <dt>Con qué contamos</dt><dd>Las 24 investigaciones de combustión ya clasificadas por frente, combustible, equipo y relevancia; pasajes de los reportes finales con su página; 382 publicaciones ligadas.</dd>
+    <dt>Qué falta</dt><dd>Escribir y revisar a mano el resumen de cada investigación, y probar que las respuestas no inventan.</dd>
+    <dt>Del reto cubre</dt><dd>Los tres verbos del enunciado y la comparación entre investigaciones. Es probable que varios equipos tomen este camino, así que cuesta más distinguirse.</dd>
+  </dl>
+</section>
+
+<section class="camino">
+  <h3><span class="n">Camino 3</span> Datos listos para predecir</h3>
+  <p class="pregunta">«Quiero hacer un modelo que prediga si algo arde. ¿Dónde están los números?»</p>
+  <dl>
+    <dt>A quién sirve</dt><dd>A investigadores y estudiantes de posgrado que hacen modelos.</dd>
+    <dt>Qué entrega</dt><dd>Una sola tabla con todas las pruebas en el mismo formato: qué se quemó, con qué oxígeno, presión y flujo de aire, y qué pasó. Se filtra, se descarga y cada dato dice de dónde salió.</dd>
+    <dt>A dónde llega</dt><dd>A ahorrarle a un investigador las semanas de juntar y limpiar datos. Eso ya está hecho.</dd>
+    <dt>Con qué contamos</dt><dd>2,199 pruebas distintas en una tabla, y el desenlace de las 274 gotas de FLEX, las 177 flamas de BRE y 227 pruebas de CFI.</dd>
+    <dt>Qué falta</dt><dd>La mayoría de las tablas de PSI dice qué se probó, no qué pasó. Los resultados en número son pocos.</dd>
+    <dt>Del reto cubre</dt><dd>La segunda sugerencia. Es el más útil para un investigador y el que menos luce en una presentación corta.</dd>
+  </dl>
+</section>
+
+<section class="camino">
+  <h3><span class="n">Camino 4</span> Equipo de nueva generación</h3>
+  <p class="pregunta">«¿Qué detector, qué extintor y qué materiales necesitamos para la Luna?»</p>
+  <dl>
+    <dt>A quién sirve</dt><dd>A quien diseña detectores de humo o sistemas de extinción, y a quien elige materiales.</dd>
+    <dt>Qué entrega</dt><dd>Para cada frente (prevenir, detectar y apagar), lo que los experimentos ya enseñaron y lo que le falta al equipo de hoy.</dd>
+    <dt>A dónde llega</dt><dd>A una lista de lecciones para el equipo que viene. Ya tenemos una: el detector de la Estación casi no ve el humo de partículas chicas, como el de Kapton y el de teflón.</dd>
+    <dt>Con qué contamos</dt><dd>154 corridas de humo, 131 con el tamaño de sus partículas; las 274 gotas de FLEX, el experimento de extinción con dióxido de carbono y helio; 7 pruebas con nitrógeno sobre sólidos.</dd>
+    <dt>Qué falta</dt><dd>PSI no tiene una sola prueba con niebla de agua, que el reto menciona. Tampoco materiales actuales como cables, espumas o baterías.</dd>
+    <dt>Del reto cubre</dt><dd>La tercera sugerencia. En la primera versión de nuestro análisis ningún camino la cubría; salió al releer el enunciado.</dd>
+  </dl>
+</section>
+
+<section class="camino">
+  <h3><span class="n">Camino 5</span> Del espacio a la Tierra</h3>
+  <p class="pregunta">«Y a mí, aquí en la Tierra, ¿de qué me sirve esto?»</p>
+  <dl>
+    <dt>A quién sirve</dt><dd>A bomberos, protección civil, industria y público general.</dd>
+    <dt>Qué entrega</dt><dd>Las lecciones del fuego en el espacio contadas para la Tierra: qué tecnología de NASA ya llegó aquí y qué enseñan los experimentos sobre humo y extinción.</dd>
+    <dt>A dónde llega</dt><dd>A una historia que conecta con la gente de aquí. NASA documenta un detector que distingue humo de polvo y se usa en minería, y tanques de aire y ropa de bomberos que salieron de los trajes espaciales.</dd>
+    <dt>Con qué contamos</dt><dd>Las tres historias que el reto da como recurso y nuestros hallazgos de humo y extinción. En datos, poco: PSI casi no tiene nada de la Tierra, y DAFT y DAFT-2, que midieron polvo, no las hemos trabajado.</dd>
+    <dt>Qué falta</dt><dd>Casi todo el contenido. Sería más narración que datos, y habría que cuidar no afirmar nada que los datos no sostengan.</dd>
+    <dt>Del reto cubre</dt><dd>El extra que menciona al final del enunciado.</dd>
+  </dl>
+</section>
+
+<h3>Los cinco, lado a lado</h3>
+<div class="tabla"><table class="ancha">
+  <thead><tr><th>Camino</th><th>Le sirve sobre todo a</th><th>Datos que ya tenemos</th><th>Premios a los que apunta</th></tr></thead>
+  <tbody>
+    <tr><th>1. Hábitat seguro</th><td>Ingenieros que diseñan dónde vivirá gente</td><td>Muchos</td><td>Mejor uso de la ciencia; mejor concepto de misión</td></tr>
+    <tr><th>2. El asesor que responde</th><td>Estudiantes y profesores</td><td>Muchos; faltan los resúmenes</td><td>Mejor uso de la tecnología; mejor uso de los datos</td></tr>
+    <tr><th>3. Datos para predecir</th><td>Investigadores que hacen modelos</td><td>Muchos, con pocos resultados en número</td><td>Mejor uso de los datos; mejor uso de la ciencia</td></tr>
+    <tr><th>4. Equipo de nueva generación</th><td>Quien diseña detectores y extintores</td><td>Medios</td><td>Impacto galáctico; mejor concepto de misión</td></tr>
+    <tr><th>5. Del espacio a la Tierra</th><td>Bomberos, industria y público</td><td>Pocos</td><td>Impacto local; mejor narrativa; más inspirador</td></tr>
+  </tbody>
+</table></div>
+<p class="nota">Space Apps da diez premios globales, cada uno con un criterio distinto. Cuál le toca a cada camino es lectura nuestra. <span class="interp">Interpretación</span> Los premios salen de la página oficial de premios de Space Apps, leída el 13 de noviembre de 2026; no muestra fecha. No pudimos leer con qué criterios califican los jueces de la sede. <span class="falta">Falta</span></p>
+
+<h2 id="decisiones">Decisiones que dejó el viernes</h2>
+<ol>
+  <li>Qué camino es la pantalla principal y qué piezas se toman de los otros.</li>
+  <li>A quién le hablamos primero: ingenieros, estudiantes, investigadores o gente de la Tierra.</li>
+  <li>Idioma de la plataforma y de la presentación.</li>
+  <li>Quién revisa a mano los resúmenes y las cifras antes de presentar.</li>
+</ol>
+<p>Para quienes programan hay tres más:</p>
+<ol start="5">
+  <li>Con qué tecnología se hace la página y si la demo corre en una laptop o en internet.</li>
+  <li>Si las 17 pruebas de FLEX a 0.7 atm cuentan como base lunar. Midieron entre 10.3 y 10.5 psi y el reto dice 10.2 o menos.</li>
+  <li>Cómo mostrar las flamas inversas de CFI-G: llegan a 85 % de oxígeno, pero ese oxígeno sale del quemador.</li>
+</ol>
+
+<h2 id="equipo">Cómo nos repartimos</h2>
+<p>El equipo: Victor Manuel Osornio Montaño, Marco Sebastián Ortega Molina, Sebastián Martínez Navarro y Marina Luz Consuelo Osornio Montaño. Hay trabajo para quien programa y para quien no. Los papeles van sin nombre; se reparten mañana.</p>
+<div class="tabla"><table class="ancha">
+  <thead><tr><th>Papel</th><th>Qué hace el sábado</th><th>Qué necesita saber</th></tr></thead>
+  <tbody>
+    <tr><th>Datos e IA</th><td>Mantiene los datos limpios, genera los resúmenes y arma la parte que responde preguntas</td><td>Programar en Python. Continúa el trabajo del viernes</td></tr>
+    <tr><th>Mapa y gráficas</th><td>Construye la pantalla: el plano, los filtros y el selector de lugar</td><td>Programar páginas web</td></tr>
+    <tr><th>Fichas y verificación</th><td>Arma la ficha de cada investigación y coteja las cifras contra las páginas de los reportes</td><td>Leer inglés técnico. No hace falta programar</td></tr>
+    <tr><th>Historia y presentación</th><td>Guion, diapositivas, ensayo y la entrega en el sitio de Space Apps</td><td>Saber contar. No hace falta programar</td></tr>
+  </tbody>
+</table></div>
+<h3>El sábado, hora por hora</h3>
+<div class="tabla"><table>
+  <thead><tr><th>Hora</th><th>Qué</th></tr></thead>
+  <tbody>
+    <tr><th class="num">10:30</th><td>Elegir camino y repartir papeles. Esqueleto de la página y carga de los datos</td></tr>
+    <tr><th class="num">13:30</th><td>La pantalla principal del camino elegido</td></tr>
+    <tr><th class="num">16:00</th><td>Ficha por investigación con sus resúmenes; caja de preguntas</td></tr>
+    <tr><th class="num">18:30</th><td>Pulir, probar en celular y hacer la demo de punta a punta</td></tr>
+    <tr><th class="num">Domingo 8:00</th><td>Solo correcciones. A las 10:00 ya no se agregan funciones; presentación y ensayo. Entrega local a las 12:00</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="tecnica">La parte técnica</h2>
+<p>Esta sección es para quienes van a programar. Quien no programe puede saltarla sin perderse nada de lo anterior.</p>
+<h3>Cómo funcionaría por dentro</h3>
+<div class="flujo">
+  <div><b>Datos de PSI</b><span>Ya bajados y limpios: 2,348 filas con su origen</span></div>
+  <p>se convierten una vez en</p>
+  <div><b>Archivos listos para la página</b><span>Pruebas, investigaciones y un resumen por investigación hecho con IA y revisado a mano</span></div>
+  <p>que lee</p>
+  <div><b>La página</b><span>Mapa, filtros y fichas. Funciona sin internet: si se cae el wifi de la sede, la demo sigue</span></div>
+  <p>y solo para la caja de preguntas llama a</p>
+  <div class="vivo"><b>Una función en el servidor</b><span>Recibe la pregunta, arma el contexto con filas y pasajes de reportes, y consulta al modelo de IA. La clave vive ahí, nunca en la página</span></div>
+</div>
+<p>Antes de mañana conviene que cada quien conteste en el grupo si tiene cuenta de GitHub y si ha usado ramas y pull requests.</p>
+<div class="dos">
+<div>
+<h3>Si todos tienen GitHub</h3>
+<ul>
+  <li>Un repositorio privado en la cuenta de una persona; las otras tres entran como colaboradoras. El plan gratis lo permite sin límite de personas.</li>
+  <li>Nadie sube directo a la rama principal. Cada pieza va en su rama y entra por pull request que revisa otra persona. El plan gratis no puede forzar esta regla en repositorios privados, así que es un acuerdo de palabra.</li>
+  <li>Ramas cortas, de dos o tres horas. Un archivo, un dueño: así casi no hay choques.</li>
+  <li>Al fusionar, sin aplastar los commits, para poder volver a uno concreto.</li>
+</ul>
+</div>
+<div>
+<h3>Si alguien no tiene</h3>
+<ul>
+  <li>Crear la cuenta toma cinco minutos y solo pide un correo. Es lo primero que conviene intentar.</li>
+  <li>Quien no quiera usar la terminal puede editar archivos de texto desde la página de GitHub, sin instalar nada.</li>
+  <li>Si aun así no, programan por GitHub quienes lo manejan y una de esas personas integra. Guion, presentación y verificación de cifras van en un documento compartido.</li>
+</ul>
+</div>
+</div>
+<h3>Qué entra al repositorio y qué no</h3>
+<div class="tabla"><table>
+  <thead><tr><th>Entra</th><th>No entra</th></tr></thead>
+  <tbody>
+    <tr><td>Los scripts, los CSV limpios (1.7 MB), la investigación y la página</td><td>Los 1.5 GB de archivos bajados de PSI. GitHub bloquea archivos de más de 100 MiB y pide repositorios de menos de 1 GB. Cada quien los vuelve a bajar con el script, o se pasan en una carpeta compartida</td></tr>
+    <tr><td>Un archivo de ejemplo con los nombres de las variables de entorno</td><td>El archivo <code>.env</code> con la clave. Nunca, ni por WhatsApp</td></tr>
+  </tbody>
+</table></div>
+<p class="nota">Los datos de GitHub salen de su documentación oficial, consultada el 13 de noviembre de 2026; las páginas no muestran fecha. No confirmamos si Space Apps exige que el repositorio sea público al entregar.</p>
+<h3>Dónde está cada cosa</h3>
+<div class="tabla"><table>
+  <thead><tr><th>Archivo</th><th>Para qué sirve</th></tr></thead>
+  <tbody>
+    <tr><th><code>INVESTIGACION.md</code></th><td>El análisis completo, con cada cifra y su origen. Esta página es su resumen</td></tr>
+    <tr><th><code>RETO.md</code></th><td>Lo que pide el reto, en español</td></tr>
+    <tr><th><code>data/pruebas.csv</code></th><td>Una fila por prueba: material, oxígeno, presión, flujo, supresor y resultado</td></tr>
+    <tr><th><code>data/investigaciones.csv</code></th><td>Una fila por investigación, con su DOI y su cita</td></tr>
+    <tr><th><code>data/README.md</code></th><td>De dónde salió cada columna y cómo se limpió</td></tr>
+    <tr><th><code>scripts/</code></th><td>Doce scripts para repetir todo; uno de ellos verifica las cifras</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="pendiente">Lo que nadie ha verificado todavía</h2>
+<ul>
+  <li><strong>No hay revisión independiente.</strong> Todo el análisis lo hizo y lo auditó la misma IA. Antes de presentar, alguien del equipo tiene que revisar las cifras del resumen. <span class="falta">Falta</span></li>
+  <li><strong>Los resultados vienen de pasajes.</strong> Se localizaron por búsqueda en los reportes finales, con su página; ningún reporte se leyó completo, ni ninguno de los 382 artículos.</li>
+  <li><strong>Las pruebas de BRE salen del texto de un PDF.</strong> Hay que mirar a ojo las páginas 110 a 112, 163 y 164 de la tesis.</li>
+  <li><strong>Los cinco caminos son propuestas.</strong> Ninguno está construido. Lo que cada uno entregaría sale de los datos que ya tenemos, no de una prueba con usuarios.</li>
+  <li><strong>Las reglas.</strong> No confirmamos qué se permite adelantar, cómo se declara el uso de IA, con qué criterios califican los jueces de la sede ni si se puede trabajar desde casa el sábado en la noche.</li>
+</ul>
+<p class="nota">El enunciado sí se cotejó: el 13 de noviembre comparamos nuestro resumen en español con el texto literal del reto, y la pestaña de recursos oficial sigue con los mismos diez enlaces.</p>
+</section>
+
+<p class="cierre">Fuente de todos los datos: repositorio PSI (Physical Sciences Informatics) de NASA, consultado el 13 de noviembre de 2026. Esta página es un avance interno del equipo Hamác y no tiene relación oficial con NASA.</p>
+</main></div>
+
+<script>
+(function(){
+  var D = {"puntos":[["g",18.0,14.75,2],["g",18.5,15.25,2],["g",19.5,14.75,1],["g",20.0,14.75,10],["g",20.0,15.0,15],["g",20.0,15.25,1],["g",20.5,7.25,3],["g",20.5,14.75,23],["g",20.5,15.0,14],["g",21.0,7.25,2],["g",21.0,14.75,35],["g",21.0,15.0,1],["g",21.5,15.25,2],["g",22.0,15.0,2],["g",22.0,15.25,2],["g",23.5,14.75,6],["g",24.0,15.0,2],["g",24.0,15.25,3],["g",24.5,10.75,2],["g",24.5,15.0,7],["g",24.5,15.25,1],["g",25.0,10.25,1],["g",25.0,10.75,1],["g",25.0,15.0,6],["g",25.0,15.25,1],["g",25.5,15.0,1],["g",25.5,15.25,2],["g",26.0,10.25,2],["g",26.0,10.75,4],["g",26.0,15.25,2],["g",26.5,10.25,2],["g",26.5,10.75,2],["g",27.0,10.25,1],["g",27.0,10.75,3],["g",27.0,15.5,1],["g",27.5,10.5,1],["g",27.5,10.75,2],["g",28.0,10.25,1],["g",28.0,10.75,3],["g",28.5,10.75,1],["g",29.0,10.5,1],["g",29.0,15.0,1],["g",29.5,14.75,3],["g",30.0,8.25,1],["g",30.0,8.75,1],["g",30.0,14.75,2],["g",31.0,9.0,1],["g",31.0,15.5,2],["g",31.5,8.25,1],["g",31.5,8.75,1],["g",32.0,8.25,1],["g",32.0,8.75,2],["g",32.0,15.25,2],["g",32.0,15.5,1],["g",32.5,8.25,1],["g",32.5,15.0,1],["g",33.0,7.25,1],["g",33.0,8.25,1],["g",33.0,8.75,3],["g",33.0,15.0,3],["g",33.0,15.25,3],["g",33.0,15.75,1],["g",33.5,7.25,1],["g",33.5,8.75,1],["g",33.5,15.0,1],["g",34.0,7.25,1],["g",34.0,8.25,2],["g",34.0,8.75,2],["g",34.0,15.0,4],["g",34.0,15.25,3],["g",34.0,15.75,1],["g",34.5,8.75,4],["g",35.0,8.25,2],["g",35.0,8.75,5],["g",35.0,14.75,1],["g",35.0,15.0,1],["g",35.0,15.25,5],["g",35.0,15.75,1],["g",35.5,7.25,5],["g",35.5,8.25,1],["g",35.5,14.75,3],["g",36.0,7.25,1],["g",36.0,8.25,1],["g",36.0,8.75,4],["g",36.0,15.0,1],["g",36.0,15.25,5],["g",36.0,15.5,4],["g",36.5,7.25,1],["g",36.5,13.75,5],["g",36.5,15.0,4],["g",36.5,15.25,4],["g",36.5,15.5,1],["g",36.5,19.0,1],["g",37.0,7.25,2],["g",37.0,13.75,1],["g",37.0,14.75,3],["g",37.0,15.0,3],["g",37.0,15.25,8],["g",37.0,15.75,1],["g",37.0,19.0,1],["g",37.5,7.25,2],["g",37.5,13.75,4],["g",37.5,14.5,2],["g",37.5,14.75,1],["g",37.5,15.0,2],["g",37.5,15.25,7],["g",37.5,18.5,1],["g",37.5,19.0,2],["g",38.0,7.25,1],["g",38.0,13.75,4],["g",38.0,14.5,1],["g",38.0,14.75,8],["g",38.0,15.0,3],["g",38.0,15.25,9],["g",38.0,15.5,2],["g",38.0,18.5,3],["g",38.0,19.0,3],["g",38.5,7.25,2],["g",38.5,13.75,3],["g",38.5,14.75,9],["g",38.5,15.0,3],["g",38.5,15.25,4],["g",38.5,18.5,9],["g",38.5,18.75,4],["g",38.5,19.0,2],["g",39.0,7.25,2],["g",39.0,9.0,1],["g",39.0,13.75,2],["g",39.0,14.75,9],["g",39.0,15.0,4],["g",39.0,15.25,8],["g",39.0,15.5,1],["g",39.0,18.25,1],["g",39.0,18.5,8],["g",39.0,18.75,8],["g",39.0,19.0,1],["g",39.5,7.25,1],["g",39.5,13.75,3],["g",39.5,14.75,28],["g",39.5,15.0,1],["g",39.5,15.25,3],["g",39.5,18.5,6],["g",39.5,18.75,3],["g",40.0,13.75,20],["g",40.0,14.75,4],["g",40.0,15.25,3],["g",40.0,15.5,1],["g",40.0,18.5,3],["l",12.0,14.75,4],["l",12.0,15.0,4],["l",13.0,14.75,5],["l",13.0,15.0,4],["l",14.0,14.75,11],["l",15.0,10.25,4],["l",15.0,14.5,1],["l",15.0,14.75,15],["l",16.0,14.75,10],["l",17.0,10.25,7],["l",17.0,10.5,4],["l",17.0,14.5,3],["l",17.0,14.75,29],["l",18.0,10.25,11],["l",18.0,14.75,22],["l",18.0,15.0,3],["l",19.0,14.5,1],["l",19.0,14.75,6],["l",20.0,10.25,9],["l",20.0,10.5,5],["l",20.0,14.5,3],["l",20.0,14.75,12],["l",21.0,7.25,19],["l",21.0,10.25,9],["l",21.0,10.5,2],["l",21.0,11.0,18],["l",21.0,14.75,92],["l",21.0,15.0,5],["l",21.0,18.25,19],["l",23.0,10.25,14],["l",23.0,10.5,5],["l",24.0,10.25,8],["l",24.0,10.5,2],["l",24.0,14.75,9],["l",25.0,10.25,1],["l",25.0,10.5,5],["l",30.0,10.25,4],["l",30.0,10.5,4],["l",30.0,14.75,4],["l",30.0,15.0,3],["l",34.0,10.25,3],["l",34.0,10.5,6],["s",16.0,14.5,2],["s",16.5,14.25,2],["s",16.5,14.5,2],["s",17.0,14.25,6],["s",17.0,14.5,8],["s",17.5,14.5,4],["s",17.5,14.75,1],["s",18.0,14.25,1],["s",19.5,14.5,1],["s",20.0,14.5,1],["s",20.5,14.25,1],["s",21.0,14.25,16],["s",21.0,14.5,16],["s",21.0,14.75,4],["s",21.5,14.25,4],["s",21.5,14.5,16],["s",21.5,14.75,1],["s",22.0,14.25,13],["s",22.0,14.5,12],["s",22.0,14.75,8],["s",22.5,14.5,5],["s",22.5,14.75,10]],"fuera_de_escala":144,"hist_solidos":[[13,1],[14,4],[15,12],[16,21],[17,47],[18,19],[19,8],[20,23],[21,84],[22,44]],"bre":{"14.7a":{"SE":64,"FT":20,"FTO":18,"sd":2},"8.2":{"FT":25,"SE":8,"sd":3},"10.2":{"SE":19,"FT":8},"14.7b":{"SE":10}},"por_inv":[["SPICE",435],["ACME CFI-G",333],["ACME/Flame Design",327],["FLEX",274],["CFI",227],["ACME BRE",177],["BASS-II",129],["BASS",122],["SAME-R",109],["SAME",53],["SAFFIRE-II",9],["SAFFIRE-I",2],["SAFFIRE-III",2]],"con_ambos":{"ACME/Flame Design":316,"ACME BRE":177,"BASS":121,"CFI":227,"FLEX":273,"SAFFIRE-I":2,"SAFFIRE-II":9,"SAFFIRE-III":2,"ACME CFI-G":333},"flex2":[[20.7,15.0,0],[20.7,15.0,0],[20.5,15.1,0],[16.8,15.1,0],[20.5,18.7,0],[20.5,18.7,0],[20.7,18.8,0],[16.8,18.9,0],[16.8,18.9,0],[20.8,29.5,0],[20.8,29.5,0],[20.8,29.5,0],[20.8,29.5,0],[20.8,29.5,0],[20.8,30.0,0],[20.8,30.0,0],[20.8,30.0,0],[20.8,29.4,0],[20.8,29.4,0],[20.8,29.4,0],[20.8,29.4,0],[20.8,29.4,0],[17.0,14.9,0],[25.0,14.8,0],[20.7,15.3,0],[20.7,15.3,0],[20.7,15.1,0],[20.7,15.1,0],[20.9,43.8,0],[20.9,43.8,0],[20.9,43.8,0],[24.9,7.4,1],[25.2,14.8,1],[25.2,14.8,1],[29.9,14.8,1],[17.0,14.9,0],[21.0,14.8,0],[24.9,14.8,0],[24.4,14.8,0],[25.0,14.8,1],[29.8,14.9,1],[25.0,15.1,1],[29.5,14.9,1],[24.9,15.1,1],[39.7,15.0,1],[24.7,15.3,1],[39.7,44.7,1],[39.7,45.0,1],[39.1,14.9,1],[39.7,44.6,1],[19.7,45.0,0],[24.9,45.2,1],[29.8,15.1,0],[24.9,15.1,1],[19.6,15.2,0],[29.9,15.1,0],[34.7,14.7,1],[20.2,7.5,0],[17.0,14.7,0],[16.6,7.5,0],[20.6,15.1,0],[20.6,15.1,0],[20.6,15.1,0],[19.6,15.1,0],[29.3,7.7,1],[29.4,14.9,1],[29.1,14.9,1],[24.4,14.9,1],[21.0,14.8,0],[21.0,14.9,0],[21.0,14.9,0],[21.0,14.8,0],[20.9,14.8,0],[21.0,15.0,0],[20.9,15.1,0],[21.1,14.8,0],[21.0,14.8,0],[21.0,14.8,0],[21.0,14.8,0],[21.0,14.8,0],[20.9,14.8,0],[21.0,14.8,0],[21.0,14.8,0],[21.0,14.9,0],[21.0,14.8,0],[21.0,14.8,0],[20.7,14.9,0],[20.6,15.1,0],[20.6,15.1,0],[20.2,15.1,0],[20.6,15.1,0],[20.4,15.3,0],[20.6,15.1,0],[20.7,15.1,0],[20.9,15.1,0],[20.8,15.1,0],[20.7,15.1,0],[20.8,15.1,0],[20.7,15.1,0],[20.4,15.2,0],[20.4,15.1,0],[20.7,15.1,0],[20.7,15.1,0],[20.4,15.1,0],[20.8,15.1,0]]};
+  var NS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent, text){
+    var n = document.createElementNS(NS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    if (text != null) n.textContent = text;
+    parent.appendChild(n); return n;
+  }
+  /* ---- plano oxigeno contra presion ---- */
+  var svg = document.getElementById("plano");
+  var X0 = 58, X1 = 742, Y0 = 392, Y1 = 22, PMIN = 4, PMAX = 24, OMIN = 10, OMAX = 45;
+  function x(p){ return X0 + (p - PMIN) / (PMAX - PMIN) * (X1 - X0); }
+  function y(o){ return Y0 - (o - OMIN) / (OMAX - OMIN) * (Y0 - Y1); }
+  for (var p = 4; p <= 24; p += 2){ el("line", {x1:x(p), y1:Y0, x2:x(p), y2:Y1, "class":"malla"}, svg); el("text", {x:x(p), y:Y0+16, "text-anchor":"middle"}, svg, String(p)); }
+  for (var o = 10; o <= 45; o += 5){ el("line", {x1:X0, y1:y(o), x2:X1, y2:y(o), "class":"malla"}, svg); el("text", {x:X0-8, y:y(o)+4, "text-anchor":"end"}, svg, o + " %"); }
+  el("text", {x:(X0+X1)/2, y:Y0+34, "text-anchor":"middle"}, svg, "Presión, en psi");
+  el("text", {x:14, y:(Y0+Y1)/2, "text-anchor":"middle", transform:"rotate(-90 14 " + (Y0+Y1)/2 + ")"}, svg, "Oxígeno");
+  var zonas = {
+    tierra: el("rect", {x:x(13.5), y:y(23.5), width:x(16)-x(13.5), height:y(19.5)-y(23.5), "class":"zona"}, svg),
+    luna: el("rect", {x:x(4), y:y(45), width:x(11)-x(4), height:y(30)-y(45), "class":"zona"}, svg),
+    traje: el("rect", {x:x(4), y:Y1-14, width:x(5.2)-x(4), height:14, "class":"zona"}, svg)
+  };
+  D.puntos.slice().sort(function(a,b){ return b[3]-a[3]; }).forEach(function(q){
+    el("circle", {cx:x(q[2]), cy:y(q[1]), r:Math.min(15, 2.2 + Math.sqrt(q[3]) * 1.15), "class":"pt " + q[0]}, svg);
+  });
+  [[14.7,21],[10.2,26.5],[8.2,34]].forEach(function(a){
+    el("path", {d:"M" + (x(a[0])-6) + " " + (y(a[1])-6) + " l12 12 m0 -12 l-12 12", "class":"cruz"}, svg);
+  });
+  el("text", {x:x(4)+6, y:y(45)+16, "class":"rot"}, svg, "Base lunar");
+  el("text", {x:x(16)+8, y:y(18.6), "class":"rot"}, svg, "Tierra y Estación");
+  el("text", {x:x(5.2)+6, y:Y1-3, "class":"rot"}, svg, "Traje espacial: queda fuera, arriba");
+  el("path", {d:"M" + X0 + " " + Y1 + " V" + Y0 + " H" + X1, "class":"eje"}, svg);
+  var textos = {
+    tierra: "Aquí está todo lo que se quemó con sólidos: 263 filas con oxígeno medido, entre 13.6 y 22.7 %, a la presión de la cabina. Es el aire de la Estación, no el de una base lunar.",
+    luna: "71 pruebas, ninguna con sólidos: 34 flamas de gas de ACME BRE, 20 de ACME CFI-G y 17 gotas de heptano y metanol de FLEX. Con el corte exacto de 10.2 psi quedan 54.",
+    traje: "Ninguna. El oxígeno ambiente más alto que se probó es 40 % y la presión más baja 6.2 psi. Un traje trabaja con 100 % de oxígeno a 4.3 psi."
+  };
+  var lectura = document.getElementById("lectura");
+  function elegir(amb){
+    for (var k in zonas) zonas[k].setAttribute("class", "zona" + (k === amb ? " activa" : ""));
+    lectura.textContent = textos[amb];
+    document.querySelectorAll(".selector button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.amb === amb)); });
+  }
+  document.querySelectorAll(".selector button").forEach(function(b){ b.addEventListener("click", function(){ elegir(b.dataset.amb); }); });
+  elegir("tierra");
+
+  /* ---- histograma de oxigeno en solidos ---- */
+  var h = document.getElementById("hist");
+  var HX0 = 58, HX1 = 742, HY0 = 250, HY1 = 26, OA = 12, OB = 36;
+  var maxn = Math.max.apply(null, D.hist_solidos.map(function(d){ return d[1]; }));
+  function hx(o){ return HX0 + (o - OA) / (OB - OA) * (HX1 - HX0); }
+  function hy(n){ return HY0 - n / maxn * (HY0 - HY1 - 18); }
+  el("rect", {x:hx(30), y:HY1, width:HX1-hx(30), height:HY0-HY1, "class":"vacio"}, h);
+  for (var n = 0; n <= maxn; n += 20){ el("line", {x1:HX0, y1:hy(n), x2:HX1, y2:hy(n), "class":"malla"}, h); el("text", {x:HX0-8, y:hy(n)+4, "text-anchor":"end"}, h, String(n)); }
+  for (var o2 = 12; o2 <= 36; o2 += 2){ el("text", {x:hx(o2), y:HY0+16, "text-anchor":"middle"}, h, o2 + " %"); }
+  D.hist_solidos.forEach(function(d){
+    var w = hx(d[0] + 1) - hx(d[0]) - 3;
+    el("rect", {x:hx(d[0]) + 1.5, y:hy(d[1]), width:w, height:HY0 - hy(d[1]), "class":"barra"}, h);
+    el("text", {x:hx(d[0]) + 1.5 + w / 2, y:hy(d[1]) - 5, "text-anchor":"middle"}, h, String(d[1]));
+  });
+  el("line", {x1:hx(21), y1:HY1, x2:hx(21), y2:HY0, "class":"marca"}, h);
+  el("text", {x:hx(21) - 6, y:HY1 + 12, "text-anchor":"end", "class":"rot"}, h, "Aire de la Tierra: 21 %");
+  el("text", {x:hx(30) + 8, y:HY1 + 18, "class":"rot"}, h, "Base lunar: 30 % o más");
+  el("text", {x:hx(30) + 8, y:HY1 + 36}, h, "Ninguna prueba con sólidos");
+  el("text", {x:(HX0+HX1)/2, y:HY0+36, "text-anchor":"middle"}, h, "Oxígeno en la atmósfera de la prueba");
+  el("path", {d:"M" + HX0 + " " + HY1 + " V" + HY0 + " H" + HX1, "class":"eje"}, h);
+})();
+</script>
+<script>
+(function(){
+  var botones = Array.prototype.slice.call(document.querySelectorAll(".pestanas button"));
+  var nombres = ["propuesta", "avance"];
+  function mostrar(n){
+    botones.forEach(function(b){
+      var activo = b.dataset.tab === n;
+      b.setAttribute("aria-selected", String(activo));
+      b.tabIndex = activo ? 0 : -1;
+    });
+    nombres.forEach(function(k){ document.getElementById("panel-" + k).hidden = k !== n; });
+  }
+  function desdeHash(){
+    var h = location.hash.slice(1);
+    if (nombres.indexOf(h) >= 0){ mostrar(h); window.scrollTo(0, 0); return; }
+    var el = h ? document.getElementById(h) : null;
+    if (el && document.getElementById("panel-avance").contains(el)){ mostrar("avance"); el.scrollIntoView(); return; }
+    mostrar("propuesta");
+  }
+  botones.forEach(function(b, i){
+    b.addEventListener("click", function(){
+      mostrar(b.dataset.tab);
+      try { history.replaceState(null, "", "#" + b.dataset.tab); } catch (e) {}
+    });
+    b.addEventListener("keydown", function(ev){
+      if (ev.key !== "ArrowRight" && ev.key !== "ArrowLeft") return;
+      var otro = botones[(i + (ev.key === "ArrowRight" ? 1 : botones.length - 1)) % botones.length];
+      otro.focus(); otro.click();
+    });
+  });
+  window.addEventListener("hashchange", desdeHash);
+  desdeHash();
+})();
+</script>
+</body></html>

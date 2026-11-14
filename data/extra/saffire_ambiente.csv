@@ -1,0 +1,12 @@
+﻿id_investigacion,muestra,variable,sensor,n_valores,minimo,mediana,maximo,archivo,hoja
+PSI-98,todas,presion_psi,PCM Press (psi),332,14.472,14.488,14.537,PSI-98_Raw Data_Saffire-I Telemetry Data Good Process Version.xlsx,CygnusData
+PSI-99,todas,presion_psi,PCM Press EPS 1 (psi),4148,14.555,14.572,14.637,PSI-99_Raw Data_Saffire-II Telemetry Data.xlsx,CygnusData
+PSI-99,todas,presion_psi,PCM Press ECM 2 (psi),4142,14.468,14.484,14.533,PSI-99_Raw Data_Saffire-II Telemetry Data.xlsx,CygnusData
+PSI-99,todas,presion_psi,PCM Press EPS 3 (psi),4138,14.756,14.789,14.854,PSI-99_Raw Data_Saffire-II Telemetry Data.xlsx,CygnusData
+PSI-100,todas,presion_psi,PCM Press EPS 1 (psi),536,13.975,13.991,14.056,PSI-100_Raw Data_Saffire-III Telemetry Data.xlsx,CygnusData
+PSI-100,todas,presion_psi,PCM Press ECM 2 (psi),551,13.953,13.969,14.034,PSI-100_Raw Data_Saffire-III Telemetry Data.xlsx,CygnusData
+PSI-100,todas,presion_psi,PCM Press EPS 3 (psi),551,13.977,13.994,14.059,PSI-100_Raw Data_Saffire-III Telemetry Data.xlsx,CygnusData
+PSI-100,S1,oxigeno_pct,O2,20909,19.399,19.782,20.077,PSI-100_Raw Data_Saffire III Sample 1 Sensors.xlsx,Calibrated Data
+PSI-100,S1,presion_psi,Ambient Pressure,20909,14.403,14.461,14.497,PSI-100_Raw Data_Saffire III Sample 1 Sensors.xlsx,Calibrated Data
+PSI-100,S2,oxigeno_pct,O2,4848,19.694,19.770,20.132,PSI-100_Raw Data_Saffire III Sample 2 Sensors.xlsx,Calibrated Data
+PSI-100,S2,presion_psi,Ambient Pressure,4848,14.395,14.416,14.440,PSI-100_Raw Data_Saffire III Sample 2 Sensors.xlsx,Calibrated Data
