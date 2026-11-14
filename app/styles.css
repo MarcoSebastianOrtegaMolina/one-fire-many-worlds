@@ -173,7 +173,7 @@ td.burn{color:var(--solid); font-weight:600} td.noburn{color:var(--ink-2)}
   .world{padding:.5rem .6rem .55rem}
   .axis-caption{display:none}
   .gravity{padding-top:1rem; padding-bottom:1rem}
-  .top .wrap{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.45rem .75rem}
+  .top .wrap{display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:.45rem .5rem}
   .top nav{grid-column:1 / -1; grid-row:2; flex-wrap:nowrap; overflow-x:auto; margin:0 -16px; padding:0 16px .15rem; scrollbar-width:none}
   .top nav::-webkit-scrollbar{display:none}
   .top nav a{white-space:nowrap; flex:0 0 auto}
