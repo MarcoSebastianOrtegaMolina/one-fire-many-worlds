@@ -294,6 +294,7 @@ def saffire(acc, acr, tabla, filas):
     i_bl, i_sl = col("g burn length"), col("g spread length")
     notas_tabla = [r[0] for r in filas[1:] if r and r[0].lower().startswith("note")]
     out = []
+    material_previo = ""
     for n, r in enumerate(filas[1:], start=2):
         if not any(r) or r[0].lower().startswith("note"):
             continue
@@ -304,7 +305,11 @@ def saffire(acc, acr, tabla, filas):
             continue
         f = fila_base(acc, acr, tabla, n, "muestra")
         f["id_prueba"] = r[0]
-        f["combustible_material"], f["material_familia"], f["tipo_combustible"] = r[1], familia(r[1]), "solido"
+        # la tabla escribe el material una vez por grupo de muestras: una celda vacia hereda el de la fila de arriba
+        heredado = not r[1] and bool(material_previo)
+        material = r[1] or material_previo
+        material_previo = material
+        f["combustible_material"], f["material_familia"], f["tipo_combustible"] = material, familia(material), "solido"
         if acc == "PSI-100":  # las imagenes de S1 y S2 llevan sello del 2017-06-03, 21:11 a 21:14 GMT
             f["fecha"] = "2017-06-03"
             f["fecha_original"] = "no viene en la tabla; sale de SAFFIRE-III_MergeResult-raw_Final.xlsx"
@@ -330,7 +335,9 @@ def saffire(acc, acr, tabla, filas):
         f["resultado"] = pares(**res)
         f["notas"] = pares(potencia_de_ignicion=con_unidad(i_ip, "W") if i_ip is not None else "",
                            tiempo_de_ignicion=con_unidad(i_it, "s") if i_it is not None else "")
-        if not r[1]:
+        if heredado:
+            f["notas"] = (f["notas"] + "; material vacio en la tabla original: se tomo el de la fila anterior").strip("; ")
+        elif not r[1]:
             f["notas"] = (f["notas"] + "; material vacio en la tabla original").strip("; ")
         out.append(f)
     if notas_tabla and out:

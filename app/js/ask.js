@@ -21,16 +21,33 @@
 
   /* Turn each citation into a link, as text only (nothing is inserted as HTML), and remember what was cited:
      [PSI-20] opens the record, [PSI-20 row 3] opens that row in Data, [bre-final-18] opens the page of the report. */
+  /* What one reference points at. [PSI-20 test 327] is the platform's own test number, unique; [PSI-25 row 43] is a
+     row of the source table, which two tables of one investigation can share, so it may match several tests. */
+  function resolve(inner) {
+    var m, list, ev;
+    if ((m = /^(PSI-\d+) test (\d+)$/i.exec(inner))) {
+      list = D.tests.filter(function (t) { return t.n === Number(m[2]) && t.inv === m[1]; });
+      return list.length ? { kind: "test", inv: m[1], tests: list, href: "#/data/" + m[1] + "/n" + m[2], text: m[1] + " " + T("test") + " " + (list[0].id || "#" + m[2]) } : null;
+    }
+    if ((m = /^(PSI-\d+) (?:row|fila) (.+)$/i.exec(inner))) {
+      list = D.tests.filter(function (t) { return t.inv === m[1] && String(t.row) === m[2]; });
+      return list.length ? { kind: "test", inv: m[1], tests: list, href: "#/data/" + m[1] + "/" + encodeURIComponent(m[2]), text: inner } : null;
+    }
+    if (/^PSI-\d+$/.test(inner) && A.inv(inner)) return { kind: "inv", inv: inner, href: "#/investigation/" + inner, text: inner };
+    ev = A.evidence ? A.evidence(inner) : null;
+    return ev ? { kind: "page", ev: ev } : null;
+  }
   function cited(text, refs) {
-    var out = [], re = /\[([^\]\n]{3,60})\]/g, last = 0, m, inner, row, ev;
+    var out = [], re = /\[([^\[\]\n]{3,80})\]/g, last = 0, m, got;
     while ((m = re.exec(text))) {
-      inner = m[1].trim();
-      row = /^(PSI-\d+) row (\S+)$/i.exec(inner);
-      ev = A.evidence ? A.evidence(inner) : null;
+      got = m[1].trim().split(/\s*[,;]\s*/).map(resolve);      /* "[PSI-25, PSI-26]" is read as two references */
       if (m.index > last) out.push(text.slice(last, m.index));
-      if (row && A.inv(row[1])) { out.push(h("a", { href: "#/data/" + row[1] + "/" + encodeURIComponent(row[2]), text: m[0] })); note(refs.rows, row[1] + " " + row[2]); note(refs.invs, row[1]); }
-      else if (/^PSI-\d+$/.test(inner) && A.inv(inner)) { out.push(h("a", { href: "#/investigation/" + inner, text: m[0] })); note(refs.invs, inner); }
-      else if (ev) { out.push(A.sourceLink(ev, "[" + A.sourceLabel(ev) + "]")); note(refs.pages, ev.id); }
+      if (got.every(Boolean)) got.forEach(function (r, k) {
+        if (k) out.push(" ");
+        if (r.kind === "page") { out.push(A.sourceLink(r.ev, "[" + A.sourceLabel(r.ev) + "]")); note(refs.pages, r.ev.id); return; }
+        out.push(h("a", { href: r.href, text: "[" + r.text + "]" })); note(refs.invs, r.inv);
+        if (r.kind === "test" && r.tests.length <= 3) r.tests.forEach(function (t) { note(refs.rows, t.n); });   /* a row shared by many tests is a link, not table rows */
+      });
       else out.push(m[0]);
       last = re.lastIndex;
     }
@@ -40,8 +57,9 @@
 
   /* The model's text as page elements. A line that is only [[figure:ID]] becomes that figure, in place (at most
      three, and only ids in the catalog). In a report, "# " is the title, "## " a section and "- " a list item. */
+  var HEADINGS = ["summary", "what the data says", "prevention, detection and suppression", "what has not been tested", "limits of this report"];
   function body(text, refs, report) {
-    var nodes = [], para = [], items = [], title = "";
+    var nodes = [], para = [], items = [], title = "", heads = [];
     function endPara() { if (para.length) { nodes.push(h("p", null, cited(para.join(" "), refs))); para = []; } }
     function endList() { if (items.length) { nodes.push(h("ul", { "class": "replist" }, items.map(function (t) { return h("li", null, cited(t, refs)); }))); items = []; } }
     text.replace(/\*\*([^*\n]+)\*\*/g, "$1").replace(/[ \t]*\[\[figure:([\w-]+)\]\][ \t]*/g, "\n[[figure:$1]]\n").split("\n").forEach(function (raw) {
@@ -55,14 +73,21 @@
       }
       if (report && (m = /^#{1,3}\s+(.+)$/.exec(line))) {
         endPara(); endList();
-        if (line.charAt(1) !== "#" && !title) title = m[1]; else nodes.push(h("h3", { text: m[1] }));
+        if (line.charAt(1) !== "#" && !title) title = m[1]; else { heads.push(h("h3", { text: m[1].replace(/:$/, "") })); nodes.push(heads[heads.length - 1]); }
         return;
       }
       if (report && (m = /^[-•]\s+(.+)$/.exec(line))) { endPara(); items.push(m[1]); return; }
       endList();
       para.push(line.replace(/^#{1,3}\s+/, ""));
+      if (!report) endPara();                                  /* in a short answer every line is its own paragraph */
     });
     endPara(); endList();
+    /* The model sometimes leaves one heading in English inside a report in another language: put it in the page's language. */
+    var english = heads.filter(function (n) { return HEADINGS.indexOf(n.textContent.trim().toLowerCase()) >= 0; });
+    if (english.length && english.length < heads.length) english.forEach(function (n) {
+      var k = HEADINGS.indexOf(n.textContent.trim().toLowerCase());
+      n.textContent = T(["Summary", "What the data says", "Prevention, detection and suppression", "What has not been tested", "Limits of this report"][k]);
+    });
     return { title: title, nodes: nodes };
   }
 
@@ -70,15 +95,16 @@
     var mine = typeof AbortController === "function" ? new AbortController() : {};
     if (pending && pending.abort) pending.abort();
     pending = mine;
+    forget();                                                 /* a new request replaces the report kept for this tab */
     state = { q: question, status: "loading", kind: kind, answer: "", note: "", saved: false, model: "", when: "" };
     view();
     fetch("/api/ask", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question: question, kind: kind }), signal: mine.signal })
-      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, body: j }; }); })
       .then(function (r) {
         if (mine !== pending) return;                         /* cancelled, or replaced by a newer request */
         pending = null;
         if (r.ok && r.body.answer) {
-          state.status = "done"; state.answer = r.body.answer; state.model = r.body.model || ""; state.when = new Date().toISOString();
+          state.status = "done"; state.answer = r.body.declined ? T(r.body.answer) : r.body.answer; state.model = r.body.model || ""; state.when = new Date().toISOString();
           /* a refusal or a one-line "not about this data" comes back as a plain answer, not as a report */
           state.kind = kind === "report" && r.body.kind === "report" && /^#\s/m.test(r.body.answer) ? "report" : "answer";
           state.note = r.body.truncated ? T(state.kind === "report" ? "The report was cut short." : "The answer was cut short.") : "";
@@ -93,7 +119,11 @@
       });
   }
   function cancel() { var p = pending; pending = null; if (p && p.abort) p.abort(); state.status = "idle"; view(); }
-  function showSaved(e) { state = { q: e.q, status: "done", kind: "answer", answer: e.a, note: "", saved: true, model: "", when: "" }; view(); }
+  function showSaved(e) {
+    var p = pending; pending = null; if (p && p.abort) p.abort();        /* a late live answer must not replace the saved one being read */
+    forget();
+    state = { q: e.q, status: "done", kind: "answer", answer: e.a, note: "", saved: true, model: "", when: "" }; view();
+  }
   function closeReport() { forget(); state = { q: state.q, status: "idle", kind: "answer", answer: "", note: "", saved: false, model: "", when: "" }; view(); }
 
   /* ---------- report ---------- */
@@ -103,19 +133,18 @@
   }
   function url(u) { return h("a", { "class": "url", href: u, target: "_blank", rel: "noopener", text: u }); }
   function testsTable(rows) {
-    var list = rows.map(function (key) {
-      var p = key.split(" ");
-      return D.tests.filter(function (t) { return t.inv === p[0] && String(t.row) === p[1]; })[0];
-    }).filter(Boolean);
+    /* rows holds the platform's test numbers, unique, so the table can never show a different test from the one cited */
+    var list = rows.map(function (n) { return D.tests.filter(function (t) { return t.n === n; })[0]; }).filter(Boolean);
     if (!list.length) return null;
     return [h("h3", { text: T("Tests cited") }),
       h("div", { "class": "table" }, h("table", null,
-        h("thead", null, h("tr", null, [T("Source row"), T("Test"), T("Fuel or material"), T("Oxygen"), T("Pressure"), T("Flow"), T("Result")].map(function (t) { return h("th", { scope: "col", text: t }); }))),
+        h("thead", null, h("tr", null, [T("Test"), T("Fuel or material"), T("Oxygen"), T("Pressure"), T("Flow"), T("Result"), T("Source row")].map(function (t) { return h("th", { scope: "col", text: t }); }))),
         h("tbody", null, list.map(function (t) {
-          return h("tr", null, h("th", { scope: "row" }, h("a", { href: "#/data/" + t.inv + "/" + encodeURIComponent(t.row), text: t.inv + " row " + t.row })),
-            h("td", { text: (t.acr ? t.acr + " " : "") + (t.id || "") }), h("td", { text: t.fuel }),
-            h("td", { "class": "num", text: t.o2 === null ? "" : t.o2 + " %" }), h("td", { "class": "num", text: t.p === null ? "" : t.p + " psi" }),
-            h("td", { "class": "num", text: t.flow === null ? "" : t.flow + " cm/s" }), h("td", { text: t.res.length > 170 ? t.res.slice(0, 170) + " ..." : t.res }));
+          return h("tr", null, h("th", { scope: "row" }, h("a", { href: "#/data/" + t.inv + "/n" + t.n, text: t.acr + " " + (t.id || "#" + t.n) })),
+            h("td", { text: t.fuel }),
+            h("td", { "class": "num", text: t.o2 === null ? "" : t.o2 + " %" + (t.ref === "burner" ? " " + T("(burner gas)") : "") }), h("td", { "class": "num", text: t.p === null ? "" : t.p + " psi" }),
+            h("td", { "class": "num", text: t.flow === null ? "" : t.flow + " cm/s" }), h("td", { text: t.res.length > 170 ? t.res.slice(0, 170) + " ..." : t.res }),
+            h("td", { text: String(t.src).replace(/^PSI-\d+_Experimental table_/, "").replace(/\.csv$/, "") + " · " + t.row }));
         }))))];
   }
   function sources(refs) {

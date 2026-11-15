@@ -43,7 +43,7 @@ ENTRADAS = [
     ("bass2-19", "bass2", 19, "U-shaped flammability boundary", ["PSI-25", "PSI-26"],
      "The tests outlined a U-shaped flammability boundary, with blowoff on one side and quenching on the other.",
      "Las pruebas delinearon una frontera de inflamabilidad en forma de U, con soplado de un lado y extinción por falta de flujo del otro."),
-    ("bass2-84", "bass2", 84, "classic U-shaped flammability map", ["PSI-25", "PSI-26"],
+    ("bass2-84", "bass2", 84, "is significantly lower than the observed upward flame spread limit", ["PSI-25", "PSI-26"],
      "Figure 6.10 draws the flammability boundary. The minimum oxygen in microgravity, 13.5 %, is lower than the 15.4 % upward flame spread limit in normal gravity: the material stays flammable under the weak ventilation only found in microgravity.",
      "La figura 6.10 dibuja la frontera de inflamabilidad. El oxígeno mínimo en microgravedad, 13.5 %, es menor que el límite de 15.4 % de la propagación hacia arriba en gravedad normal: el material sigue siendo inflamable con la ventilación débil que solo hay en microgravedad."),
     ("bass2-36", "bass2", 36, "COMPARISON OF EXTINCTION VELOCITY", ["PSI-25"],
@@ -62,8 +62,8 @@ ENTRADAS = [
      "Every test in the series gave a strong signal on the Shuttle ionization detector.",
      "Todas las pruebas de la serie dieron señal fuerte en el detector de ionización del transbordador."),
     ("same-56", "same", 56, "count mean diameters are all in the 100 to 200 nm range", ["PSI-102"],
-     "The count mean diameters of the smoke particles are all between 100 and 200 nm.",
-     "Los diámetros medios por conteo de las partículas de humo están todos entre 100 y 200 nm."),
+     "The report says the count mean diameters are all in the 100 to 200 nm range, gives 227 nm for silicone rubber on the same page, and warns that one statistic can mislead: almost half of the silicone smoke mass is in particles larger than 1000 nm. In the per-run results, single silicone runs reach 372 nm.",
+     "El reporte dice que los diámetros medios por conteo están todos entre 100 y 200 nm, en la misma página da 227 nm para el silicón y advierte que una sola cifra engaña: casi la mitad de la masa del humo de silicón está en partículas de más de 1000 nm. En los resultados por corrida, hay corridas de silicón que llegan a 372 nm."),
     ("samer-5", "samer", 5, "will make detection of this smoke challenging for light scattering devices", ["PSI-101"],
      "The much smaller particles of Kapton and Teflon smoke will be hard to detect with light-scattering devices.",
      "Las partículas mucho más chicas del humo de Kapton y de teflón serán difíciles de detectar con dispositivos de dispersión de luz."),
@@ -74,8 +74,8 @@ ENTRADAS = [
      "The report suggests electric fields may be a tool for approximating buoyancy at partial gravity. It is a suggestion, not a measurement.",
      "El reporte sugiere que los campos eléctricos podrían servir para aproximar la flotación en gravedad parcial. Es una sugerencia, no una medición."),
     ("guide-19", "guide", 19, "The glovebox is normally limited to ISS", ["PSI-25", "PSI-26"],
-     "The glovebox where BASS ran is normally limited to Station air, 21 % oxygen at one atmosphere; nitrogen was used to go lower. This is why solids were never tested with more oxygen.",
-     "La guantera donde corrió BASS está limitada al aire de la Estación, 21 % de oxígeno a una atmósfera; se usó nitrógeno para bajarlo. Por eso los sólidos nunca se probaron con más oxígeno."),
+     "The glovebox where BASS ran is normally limited to Station air, 21 % oxygen at one atmosphere; nitrogen was used to go lower. The team reads this as the reason solids were not tested with more oxygen; the page does not say so.",
+     "La guantera donde corrió BASS está limitada al aire de la Estación, 21 % de oxígeno a una atmósfera; se usó nitrógeno para bajarlo. El equipo lo lee como la razón de que los sólidos no se probaran con más oxígeno; la página no lo dice."),
     ("guide-22", "guide", 22, "NASA-STD-6001 Test 1 worst case", ["PSI-25", "PSI-26"],
      "The microgravity limiting oxygen is compared with the ground test NASA-STD-6001 Test 1 to evaluate the safety margins of normal-gravity testing.",
      "El oxígeno límite en microgravedad se compara con la prueba en tierra NASA-STD-6001 Test 1 para evaluar los márgenes de seguridad de probar en gravedad normal."),
@@ -92,19 +92,29 @@ SIN_IMAGEN = [
 
 
 def limpio(t):
-    return re.sub(r"\s+", " ", t).strip()
+    #  es la letra mu de la fuente Symbol: sin esto «1 µm» se lee «1 m»
+    return re.sub(r"\s+", " ", t.replace("", "µ")).strip()
 
 
-def cita(texto, frase):
-    """La oracion que contiene la frase, mas la siguiente si es corta."""
+# Citas que son una tabla: se corta despues del titulo, porque el resto son celdas sueltas (se ven en la imagen)
+RECORTE = {"bass2-36": "AT 1 atm"}
+FIN_ORACION = re.compile(r"(?<!Ref)(?<!Fig)(?<!al)(?<!vs)\. ")
+ENCABEZADO = re.compile(r"^N?ASA/TM\S* \d+ (?:\d+(?:\.\d+)+ )?")
+
+
+def cita(texto, frase, eid=""):
+    """La oracion que contiene la frase, sin el encabezado de pagina ni el numero de seccion."""
     t = limpio(texto)
     i = t.lower().find(frase.lower())
     if i < 0:
         return frase
     ini = max(t.rfind(". ", 0, i), t.rfind("? ", 0, i)) + 2
-    fin = t.find(". ", i + len(frase))
-    fin = len(t) if fin < 0 else fin + 1
-    return t[ini:fin][:420]
+    m = FIN_ORACION.search(t, i + len(frase))
+    fin = m.start() + 1 if m else len(t)
+    q = ENCABEZADO.sub("", t[ini:fin])
+    if eid in RECORTE and RECORTE[eid] in q:
+        q = q[:q.find(RECORTE[eid]) + len(RECORTE[eid])]
+    return q[:420]
 
 
 def main():
@@ -142,7 +152,7 @@ def main():
             descarga = registro = "https://www.nasa.gov/missions/station/a-researchers-guide-to-combustion-science/"
         salida.append({
             "id": eid, "invs": invs, "docInv": inv or "", "doc": {"en": titulo_en, "es": titulo_es}, "file": archivo,
-            "page": pag, "pages": len(pdf), "claim": {"en": en, "es": es}, "quote": cita(pagina.get_text(), frase),
+            "page": pag, "pages": len(pdf), "claim": {"en": en, "es": es}, "quote": cita(pagina.get_text(), frase, eid),
             "rects": [[round(z.x0 / w, 4), round(z.y0 / h, 4), round(z.x1 / w, 4), round(z.y1 / h, 4)] for z in zonas],
             "img": "evidence/" + destino.name, "w": pix.width, "h": pix.height, "download": descarga, "record": registro,
         })

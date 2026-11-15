@@ -4,7 +4,7 @@ window.OFMW_CONTENT_ES = {
   investigations: {
     "PSI-20": {
       line: "Flamas de gas sobre un quemador poroso que imitan cómo arde un material sólido o líquido, en las tres atmósferas que NASA considera para misiones tripuladas.",
-      finding: "Las flamas se extinguían sobre todo con 21 % de oxígeno a 14.7 psia. Con 27 % a 10.2 psia y con 34 % a 8.2 psia, en general persistían dos o tres minutos o más (reporte final de 2022, págs. 18 y 55). Los datos por prueba van en la misma dirección: cerca de 8.2 psia con 30 a 39 % de oxígeno, 25 de 36 flamas siguieron ardiendo hasta que se cortó el combustible.",
+      finding: "Las flamas se extinguían sobre todo con 21 % de oxígeno a 14.7 psia. Con 27 % a 10.2 psia y con 34 % a 8.2 psia, en general persistían dos o tres minutos o más (reporte final de 2022, págs. 18 y 55). Los datos por prueba van en la misma dirección: cerca de 8.2 psia con 29.8 a 39.3 % de oxígeno, 25 de 36 flamas siguieron ardiendo hasta que se cortó el combustible.",
       why: "Es el puente más directo entre las flamas de gas y la inflamabilidad de materiales en atmósferas de exploración. 34 de sus 177 pruebas están cerca de las condiciones de una base lunar.",
       caveat: "La presión y el desenlace de cada prueba salen de una tesis archivada entre sus reportes, leída del texto del PDF y todavía sin cotejar a ojo."
     },
@@ -52,7 +52,7 @@ window.OFMW_CONTENT_ES = {
     },
     "PSI-102": {
       line: "Tamaño de las partículas de humo y respuesta de los detectores, medidos en microgravedad en 2007 para teflón, Kapton, silicón, mecha de lámpara y un líquido de referencia.",
-      finding: "Los diámetros medios por conteo de las partículas de humo están todos entre 100 y 200 nm (reporte final, pág. 56). El detector de ionización del transbordador dio señal fuerte en todas las pruebas; el de dispersión de luz de la Estación fue errático con humo de teflón, cuyas partículas miden menos de un micrómetro (págs. 25 y 28).",
+      finding: "El reporte final pone los diámetros medios por conteo de las partículas de humo entre 100 y 200 nm y da 227 nm para el silicón (pág. 56); en los resultados por corrida, hay corridas de silicón que llegan a 372 nm. El detector de ionización del transbordador dio señal fuerte en todas las pruebas; el de dispersión de luz de la Estación fue errático con humo de teflón, cuyas partículas miden menos de un micrómetro (págs. 25 y 28).",
       why: "Misma relevancia que SAME-R, con menos corridas.",
       caveat: "La tabla experimental tiene 8 renglones; las 45 corridas salen de su archivo de resultados."
     },
@@ -164,7 +164,7 @@ window.OFMW_CONTENT_ES = {
     },
     moon: {
       headline: "Aquí las flamas no se apagan solas",
-      prevention: "71 pruebas se hicieron con un aire así, ninguna con sólidos: 34 flamas de gas de ACME BRE, 20 de ACME CFI-G y 17 gotas de FLEX. En BRE, cerca de 8.2 psia con 30 a 39 % de oxígeno, 25 de 36 flamas siguieron ardiendo hasta que se cortó el combustible. Cerca de 14.7 psia con menos de 23 % de oxígeno, las 10 se apagaron solas.",
+      prevention: "71 pruebas se hicieron con un aire así, ninguna con sólidos: 34 flamas de gas de ACME BRE, 20 de ACME CFI-G y 17 gotas de FLEX. En BRE, cerca de 8.2 psia con 29.8 a 39.3 % de oxígeno, 25 de 36 flamas siguieron ardiendo hasta que se cortó el combustible. Cerca de 14.7 psia con menos de 23 % de oxígeno, las 10 se apagaron solas.",
       detection: "No se hizo ninguna prueba de humo en esta atmósfera. Los experimentos de humo no registran oxígeno ni presión.",
       suppression: "Las 17 gotas de FLEX, a 0.7 atm con 30 a 34 % de oxígeno, son las únicas pruebas de un experimento de supresión cerca de estas condiciones.",
       takeaway: "Ninguna tela ni plástico se ha quemado en microgravedad con el aire de una base lunar en los datos que tiene PSI. La gravedad de la Luna nunca se ha probado."
@@ -224,7 +224,7 @@ window.OFMW_CONTENT_ES = {
       lesson: "Las lecciones pasaron al diseño y a las operaciones de la Estación Espacial Internacional.",
       source: "NASA, 25 Years Ago: Fire Aboard Space Station Mir (publicado el 23 de febrero de 2022)" },
     { title: "SAME mide el humo en órbita", what: "Tamaño de partícula y respuesta de los detectores para humo hecho en microgravedad.",
-      lesson: "Las partículas de humo en microgravedad miden entre 100 y 200 nm de diámetro medio por conteo.", source: "PSI-102" },
+      lesson: "Las partículas de humo en microgravedad miden unos cientos de nanómetros: el reporte da diámetros medios por conteo de 100 a 200 nm, y 227 nm para el silicón.", source: "PSI-102" },
     { title: "FLEX empieza a quemar gotas con supresores", what: "274 pruebas con gotas hasta 2011, con dióxido de carbono y helio.",
       lesson: "Cada prueba registra extinción, disrupción o combustión completa.", source: "PSI-69" },
     { title: "BASS y BASS-II queman sólidos", what: "251 pruebas con materiales sólidos hasta 2018, siempre con 22.7 % de oxígeno o menos.",
@@ -252,7 +252,7 @@ window.OFMW_CONTENT_ES = {
 
   examples: [
     { q: "¿Qué se sabe del fuego con la atmósfera de una base lunar?",
-      a: "71 pruebas se hicieron con un aire como el de una base lunar, con 30 % de oxígeno o más a 11 psi o menos, y ninguna con sólidos: 34 flamas de gas de ACME BRE [PSI-20], 20 de ACME CFI-G [PSI-159] y 17 gotas de FLEX [PSI-69]. En BRE, cerca de 8.2 psia con 30 a 39 % de oxígeno, 25 de 36 flamas siguieron ardiendo hasta que se cortó el combustible, mientras que cerca de 14.7 psia con menos de 23 % de oxígeno las 10 se apagaron solas. El reporte final lo dice con palabras [bre-final-18]. La figura muestra una de esas flamas, que seguía ardiendo estable a los 172 segundos con 34 % de oxígeno y 8.2 psia.\n\n[[figure:bre-p57-fig6]]\n\nNinguna tela ni plástico se ha quemado con ese aire en los datos, y nada se ha probado en la gravedad de la Luna." },
+      a: "71 pruebas se hicieron con un aire como el de una base lunar, con 30 % de oxígeno o más a 11 psi o menos, y ninguna con sólidos: 34 flamas de gas de ACME BRE [PSI-20], 20 de ACME CFI-G [PSI-159] y 17 gotas de FLEX [PSI-69]. En BRE, cerca de 8.2 psia con 29.8 a 39.3 % de oxígeno, 25 de 36 flamas siguieron ardiendo hasta que se cortó el combustible, mientras que cerca de 14.7 psia con menos de 23 % de oxígeno las 10 se apagaron solas. El reporte final lo dice con palabras [bre-final-18]. La figura muestra una de esas flamas, que seguía ardiendo estable a los 172 segundos con 34 % de oxígeno y 8.2 psia.\n\n[[figure:bre-p57-fig6]]\n\nNinguna tela ni plástico se ha quemado con ese aire en los datos, y nada se ha probado en la gravedad de la Luna." },
     { q: "¿Qué humo le cuesta más ver al detector de la Estación?",
       a: "El de Kapton y el de teflón. En SAME-R, la señal de oscurecimiento del detector de la Estación cambió una mediana de 0.006 V con humo de Kapton y 0.019 V con teflón, contra 1.08 V con silicón. Sus partículas son las más chicas: una mediana de 110 y 167 nm de diámetro medio por conteo [PSI-101]. El reporte final de SAME-R concluye que el humo de Kapton y de teflón será difícil de detectar con dispositivos de dispersión de luz, y en SAME el detector de la Estación fue errático con humo de teflón [PSI-102] [samer-5] [same-25]. La figura grafica los diámetros de las partículas del humo de Kapton contra la velocidad del aire en SAME-R.\n\n[[figure:samer-p6-fig7]]\n\nLas cifras del detector son un resumen grueso que ordena materiales. No son un umbral de alarma." },
     { q: "¿Qué supresores se probaron, y sobre qué?",
@@ -260,6 +260,6 @@ window.OFMW_CONTENT_ES = {
     { q: "¿Hay datos para un hábitat en Marte?",
       a: "Eso no está en los datos. PSI no tiene ninguna prueba de combustión en gravedad parcial, y el reto no da una atmósfera para un hábitat en Marte. Lo más cercano está en los dos extremos de la escala de gravedad: las pruebas de vuelo en microgravedad y Saffire-II, que repitió 9 muestras en gravedad normal [PSI-99]. La figura, de la guía de NASA sobre ciencia de la combustión en la Estación, pone flamas en gravedad normal junto a flamas de los mismos combustibles en microgravedad.\n\n[[figure:guide-p9-fig1]]\n\nACME E-FIELD Flames sugiere que los campos eléctricos podrían aproximar la flotación de la gravedad parcial; es una sugerencia de su reporte, no una medición [PSI-22] [efield-37]. El reto nombra dos experimentos futuros, LUCI y FM2." },
     { q: "¿El silicón arde?",
-      a: "En microgravedad, casi no: las cuatro muestras de silicón de Saffire-II no propagaron la flama, con un largo quemado de casi 0 [PSI-99]. En gravedad normal las mismas muestras se comportaron distinto: dos ardieron completas, una ardió 7.6 cm y una no ardió.\n\nEl silicón sí da humo cuando se sobrecalienta. En SAME y SAME-R produjo las partículas más grandes y la respuesta más fuerte del detector de la Estación [PSI-101] [PSI-102]. La figura muestra las trazas de los instrumentos en una corrida de humo de silicón en SAME. Solo se probó con 21.5 a 22.1 % de oxígeno, así que no se sabe nada de él con el aire de una base lunar.\n\n[[figure:same-p27-fig13]]" }
+      a: "En microgravedad, casi no: las cuatro muestras de silicón de Saffire-II no propagaron la flama, con un largo quemado de casi 0 [PSI-99]. En gravedad normal las mismas muestras se comportaron distinto: dos ardieron completas, una ardió 7.6 cm y una no ardió.\n\nEl silicón sí da humo cuando se sobrecalienta. En SAME y SAME-R produjo las partículas más grandes y la respuesta más fuerte del detector de la Estación [PSI-101] [PSI-102]. La figura muestra las trazas de los instrumentos en una corrida de humo de silicón en SAME. Sus pruebas de flama en Saffire-II fueron con 21.5 a 22.1 % de oxígeno y sus corridas de humo no registran oxígeno, así que no se sabe nada de él con el aire de una base lunar.\n\n[[figure:same-p27-fig13]]" }
   ]
 };

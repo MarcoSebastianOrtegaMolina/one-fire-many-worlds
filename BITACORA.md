@@ -10,6 +10,7 @@ tabla del día y toca «Commit changes». No hace falta instalar nada.
 
 | Qué se hizo | Quién | Dónde quedó |
 |---|---|---|
+| Revisión independiente de la IA y sus arreglos: cada prueba se cita con un número único (antes las de BRE no se podían citar y 290 filas se repetían entre tablas), se corrigió lo que decíamos del tamaño de las partículas de SAME, dos muestras de Saffire-II recuperaron su material (PMMA pasa a 91 pruebas y SIBAL a 45) y se limpiaron citas y figuras repetidas | Marco Sebastián, con Claude | `api/ask.js`, `app/js/ask.js`, `app/js/explore.js`, `scripts/limpiar_psi.py`, `scripts/construir_evidencia.py`, `data/pruebas.csv` |
 | Botón «Crear informe»: la IA escribe un informe de investigación sobre el tema que le pidas (resumen, qué dicen los datos, prevención, detección y supresión, qué falta probar, límites), con figuras, tabla de las pruebas citadas y fuentes; se imprime o se guarda como PDF | Marco Sebastián, con Claude | `app/js/ask.js`, `api/ask.js`, `app/views.css` |
 | Imágenes en la respuesta: la IA pone figuras de los reportes de NASA dentro de lo que contesta, cada una con su pie, su página y su fuente; también salen en la ficha de cada investigación (71 figuras de 8 documentos) | Marco Sebastián, con Claude | `app/js/sources.js`, `app/js/ask.js`, `api/ask.js`, `scripts/construir_figuras.py`, `app/figures/` |
 | Fuentes exactas: cada cita de la IA abre la página del reporte de NASA con el pasaje marcado | Marco Sebastián, con Claude | `app/js/sources.js`, `scripts/construir_evidencia.py` |

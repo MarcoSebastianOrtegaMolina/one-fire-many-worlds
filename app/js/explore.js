@@ -104,8 +104,9 @@
     document.title = T("Data · One Fire, Many Worlds");
     var focused = document.activeElement && document.activeElement.id, caret = focused === "d-q" ? document.activeElement.selectionStart : null;
     var q = filt.q.trim().toLowerCase();
+    var byNumber = /^n\d+$/.test(filt.row);                  /* #/data/PSI-20/n327 opens one test by the platform's own number */
     var rows = D.tests.filter(function (t) {
-      return (!filt.inv || t.inv === filt.inv) && (!filt.row || t.row === filt.row) && (!filt.type || t.type === filt.type) &&
+      return (!filt.inv || t.inv === filt.inv) && (!filt.row || (byNumber ? t.n === Number(filt.row.slice(1)) : String(t.row) === filt.row)) && (!filt.type || t.type === filt.type) &&
         (!q || (t.fuel + " " + t.acr + " " + t.id + " " + t.res + " " + t.family).toLowerCase().indexOf(q) >= 0);
     });
     var page = rows.slice(0, filt.shown);
@@ -117,7 +118,7 @@
     A.main.replaceChildren(h("div", { "class": "wrap" }, h("div", { "class": "sheet page" },
       h("h1", { text: T("Data") }),
       h("p", { "class": "intro", text: T("Every individual test behind this site, in one table with one format: ") + fmt(D.summary.tests) + T(" tests from the repository, ") + fmt(D.summary.withO2AndPressure) + T(" of them with oxygen and pressure together. Each row names the table and row it came from.") }),
-      filt.row ? h("p", { "class": "aviso" }, T("Showing row ") + filt.row + T(" of ") + filt.inv + ". ",
+      filt.row ? h("p", { "class": "aviso" }, (byNumber ? T("Showing test ") + (rows[0] ? rows[0].id || "#" + rows[0].n : filt.row) : T("Showing row ") + filt.row) + T(" of ") + filt.inv + ". ",
         h("button", { type: "button", id: "d-all", "class": "action quiet small", onclick: function () { filt.row = ""; dataView(); } }, T("Show every test of this investigation"))) : null,
       h("div", { "class": "filters" },
         h("label", { "for": "d-inv" }, h("span", { text: T("Investigation") }), invSel), h("label", { "for": "d-type" }, h("span", { text: T("Fuel") }), typeSel),

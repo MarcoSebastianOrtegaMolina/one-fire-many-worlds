@@ -21,12 +21,14 @@ const COMMON = [
   "Readers are hackathon judges and students, not combustion specialists.",
   "",
   "Use only the knowledge base below and the test rows that come with the request.",
-  "Cite every investigation you rely on by its PSI id in square brackets, like [PSI-20]. Cite a test row as [PSI-20 row 123].",
+  "Cite every investigation you rely on by its PSI id in square brackets, like [PSI-20]. Cite a single test by copying its cite value in square brackets, like [PSI-20 test 327]. One citation per pair of brackets: write [PSI-25] [PSI-26], never [PSI-25, PSI-26].",
   "When a statement rests on a page listed in reportPages, also cite that page by its id in square brackets, like [bre-final-18], so the reader can open the exact page.",
   "The knowledge base lists figures cut from the reports, each with its caption. You have not seen the images, only the captions.",
   "When a figure would let the reader see what a paragraph says, put it right after that paragraph, on a line of its own, as [[figure:ID]] with an id copied exactly from the list.",
   "Use at most three figures, only where the caption clearly matches what you wrote, and say nothing about a figure beyond what its caption says. When the reader asks for images, give the ones that fit. When no figure fits, use none.",
   "The test rows are picked by keyword and may not be relevant: use them only when they help, and never comment on rows you do not use.",
+  "The test rows are a sample, not every test: never conclude from them that something was not tested or not recorded. Say that the data lacks something only when the knowledge base says so.",
+  "In a test row, oxygenIs tells what the oxygen value refers to: 'atmosphere' is the air in the chamber, 'burner' is the gas leaving the burner and must not be read as the atmosphere.",
   "When the knowledge base does not hold the answer, say that it is not in the data and name the closest thing that is.",
   "Keep data apart from interpretation: relevance grades, rankings and the list of experiments still to be done are the team's reading, and you say so when you use them.",
   "If the request is not about this data or about fire safety in space, say in one line that you can only write about this data.",
@@ -44,7 +46,7 @@ const FORMAT = {
     "## What has not been tested: two to five list items, each a gap the data shows. Say when an item is the team's interpretation.",
     "## Limits of this report: two or three sentences on what the data cannot support.",
     "Write the title and all five headings in the language of the request, the last one included, without the instructions after the colon.",
-    "When test rows come with the request and fit the topic, cite at least three of them as [PSI-N row R] next to the statements they support: the page lists every cited test in a table. When none fits, cite none.",
+    "When test rows come with the request and fit the topic, cite at least three of them by their cite value, like [PSI-25 test 1412], next to the statements they support: the page lists every cited test in a table. When none fits, cite none.",
     "Do not add a list of sources or a closing remark: the page builds the sources from your citations. Between 450 and 700 words, in the language of the request.",
   ].join("\n"),
 };
@@ -67,6 +69,7 @@ function load() {
   }));
   const worlds = D.worlds.map((w) => ({ id: w.id, name: w.name, gravity: w.gravity, air: w.air, testsInAirLikeThis: w.near, note: w.nearNote, also: w.extra, ...C.worlds[w.id] }));
   const base = { summary: D.summary, worlds, investigations: invs, materials: D.materials.map((m) => ({ ...m, note: C.materials[m.name] })),
+    materialsSmokeNote: "In materials[].smoke, medianDiameterNm and detectorMedianV come from SAME-R runs only [PSI-101]. detectorMedianV is the obscuration channel of the Station detector, as the magnitude of its change. They are not SAME results: do not cite [PSI-102] for them.",
     sameSampleInOrbitAndOnTheGround: D.gravityPairs, experimentsStillToBeDone: C.agenda, timeline: C.timeline,
     reportPages: E.map((e) => ({ id: e.id, investigations: e.invs, document: e.doc.en, page: e.page || e.pageLabel, supports: e.claim.en, passage: e.quote })),
     figures: G.map((f) => ({ id: f.id, investigations: f.invs, document: f.doc.en, page: f.page, caption: f.caption })) };
@@ -91,7 +94,18 @@ function rowsFor(question, tests, most) {
     if (score) scored.push([score, t]);
   }
   scored.sort((a, b) => b[0] - a[0] || a[1].n - b[1].n);
-  return scored.slice(0, most).map(([, t]) => ({ id: t.inv, row: t.row, test: t.id, fuel: t.fuel, oxygenPct: t.o2, pressurePsi: t.p, flowCmS: t.flow, ended: t.out, result: t.res.slice(0, 220) }));
+  /* Share the quota among the investigations that matched, best first, so one large table cannot crowd out the rest. */
+  const groups = new Map();
+  for (const [, t] of scored) { if (!groups.has(t.inv)) groups.set(t.inv, []); groups.get(t.inv).push(t); }
+  const picked = [];
+  for (let round = 0; picked.length < most && round < most; round += 1) {
+    let added = false;
+    for (const list of groups.values()) { if (list[round] && picked.length < most) { picked.push(list[round]); added = true; } }
+    if (!added) break;
+  }
+  /* cite is unique per test (the platform's own test number): source rows repeat across tables of one investigation. */
+  return picked.map((t) => ({ cite: t.inv + " test " + t.n, testId: t.id, table: t.src, sourceRow: t.row, fuel: t.fuel, oxygenPct: t.o2, oxygenIs: t.ref, pressurePsi: t.p,
+    flowCmS: t.flow, ended: t.out, result: t.res.slice(0, 220) }));
 }
 
 const hits = { answer: new Map(), report: new Map() };
@@ -146,7 +160,7 @@ export default async function handler(req, res) {
     }
     const answer = response.content.filter((b) => b.type === "text").map((b) => b.text).join("\n").trim();
     return res.status(200).json({ answer: answer || "No answer came back. Ask again.", kind, model: response.model, truncated: response.stop_reason === "max_tokens",
-      usage: { input: response.usage.input_tokens, cached: response.usage.cache_read_input_tokens, output: response.usage.output_tokens } });
+      usage: { input: response.usage.input_tokens, cached: response.usage.cache_read_input_tokens, cacheWrite: response.usage.cache_creation_input_tokens, output: response.usage.output_tokens } });
   } catch (error) {
     if (error instanceof Anthropic.AuthenticationError) return res.status(503).json({ error: "not_configured", message: "Live answers are not set up on this server." });
     if (error instanceof Anthropic.RateLimitError) return res.status(429).json({ error: "limit", message: "The model is busy. Wait a moment and ask again." });

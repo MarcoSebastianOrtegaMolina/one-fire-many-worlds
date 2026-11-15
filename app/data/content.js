@@ -5,7 +5,7 @@ window.OFMW_CONTENT = {
   investigations: {
     "PSI-20": {
       line: "Gas flames on a porous burner that emulate how a solid or liquid material burns, run in the three atmospheres NASA considers for crewed missions.",
-      finding: "Flames mostly self-extinguished at 21 % oxygen and 14.7 psia. At 27 % and 10.2 psia, and at 34 % and 8.2 psia, they generally persisted for two to three minutes or more (2022 final report, pp. 18 and 55). The per-test data agree: near 8.2 psia with 30 to 39 % oxygen, 25 of 36 flames kept burning until the fuel was cut off.",
+      finding: "Flames mostly self-extinguished at 21 % oxygen and 14.7 psia. At 27 % and 10.2 psia, and at 34 % and 8.2 psia, they generally persisted for two to three minutes or more (2022 final report, pp. 18 and 55). The per-test data agree: near 8.2 psia with 29.8 to 39.3 % oxygen, 25 of 36 flames kept burning until the fuel was cut off.",
       why: "The most direct bridge between gas flames and material flammability in exploration atmospheres. 34 of its 177 tests are near Moon-base conditions.",
       caveat: "Per-test pressure and outcome come from a thesis archived with the reports, read from the PDF text and not yet checked by eye."
     },
@@ -53,7 +53,7 @@ window.OFMW_CONTENT = {
     },
     "PSI-102": {
       line: "Smoke particle size and detector response measured in microgravity in 2007 for Teflon, Kapton, silicone, lamp wick and a liquid reference.",
-      finding: "Count mean diameters of the smoke particles all fall between 100 and 200 nm (final report, p. 56). The Shuttle ionization detector gave a strong signal in every test; the Station light-scattering detector was erratic with Teflon smoke, whose particles are smaller than one micrometer (pp. 25 and 28).",
+      finding: "The final report puts the count mean diameters of the smoke particles in the 100 to 200 nm range and gives 227 nm for silicone (p. 56); in the per-run results, single silicone runs reach 372 nm. The Shuttle ionization detector gave a strong signal in every test; the Station light-scattering detector was erratic with Teflon smoke, whose particles are smaller than one micrometer (pp. 25 and 28).",
       why: "Same relevance as SAME-R, with fewer runs.",
       caveat: "The experimental table has 8 rows; the 45 runs come from its results file."
     },
@@ -165,7 +165,7 @@ window.OFMW_CONTENT = {
     },
     moon: {
       headline: "Flames here do not go out on their own",
-      prevention: "71 tests ran in air like this, none with solids: 34 gas flames from ACME BRE, 20 from ACME CFI-G and 17 droplets from FLEX. In BRE, near 8.2 psia with 30 to 39 % oxygen, 25 of 36 flames kept burning until the fuel was cut off. Near 14.7 psia with less than 23 % oxygen, all 10 went out by themselves.",
+      prevention: "71 tests ran in air like this, none with solids: 34 gas flames from ACME BRE, 20 from ACME CFI-G and 17 droplets from FLEX. In BRE, near 8.2 psia with 29.8 to 39.3 % oxygen, 25 of 36 flames kept burning until the fuel was cut off. Near 14.7 psia with less than 23 % oxygen, all 10 went out by themselves.",
       detection: "No smoke test was run in this atmosphere. The smoke experiments do not record oxygen or pressure.",
       suppression: "The 17 FLEX droplets, at 0.7 atm with 30 to 34 % oxygen, are the only tests from a suppression experiment near these conditions.",
       takeaway: "No fabric or plastic has been burned in microgravity with Moon-base air in the data PSI holds. Lunar gravity itself has never been tested."
@@ -234,7 +234,7 @@ window.OFMW_CONTENT = {
       source: "NASA, 25 Years Ago: Fire Aboard Space Station Mir (published February 23, 2022)", url: "https://www.nasa.gov/history/25-years-ago-fire-aboard-space-station-mir/" },
     { year: "2007", title: "SAME measures smoke in orbit", kind: "experiment",
       what: "Particle size and detector response for smoke made in microgravity.",
-      lesson: "Smoke particles in microgravity are between 100 and 200 nm in count mean diameter.",
+      lesson: "Smoke particles in microgravity are a few hundred nanometers across: the report gives count mean diameters of 100 to 200 nm, and 227 nm for silicone.",
       answers: ["PSI-102"], front: "detection", source: "PSI-102", url: "" },
     { year: "2009", title: "FLEX starts burning droplets with suppressants", kind: "experiment",
       what: "274 droplet tests through 2011 with carbon dioxide and helium.",
@@ -274,7 +274,7 @@ window.OFMW_CONTENT = {
   /* Saved answers for the question box. They work with no network and were checked against the data. */
   examples: [
     { q: "What is known about fire in a Moon base atmosphere?",
-      a: "71 tests ran in air like a Moon base, with 30 % oxygen or more at 11 psi or less, and none of them with solids: 34 gas flames from ACME BRE [PSI-20], 20 from ACME CFI-G [PSI-159] and 17 droplets from FLEX [PSI-69]. In BRE, near 8.2 psia with 30 to 39 % oxygen, 25 of 36 flames kept burning until the fuel was cut off, while near 14.7 psia with less than 23 % oxygen all 10 went out by themselves. The final report says the same in words [bre-final-18]. The figure shows one of those flames, still burning steadily at 172 seconds with 34 % oxygen and 8.2 psia.\n\n[[figure:bre-p57-fig6]]\n\nNo fabric or plastic has been burned in that air in the data, and nothing has been tested in lunar gravity." },
+      a: "71 tests ran in air like a Moon base, with 30 % oxygen or more at 11 psi or less, and none of them with solids: 34 gas flames from ACME BRE [PSI-20], 20 from ACME CFI-G [PSI-159] and 17 droplets from FLEX [PSI-69]. In BRE, near 8.2 psia with 29.8 to 39.3 % oxygen, 25 of 36 flames kept burning until the fuel was cut off, while near 14.7 psia with less than 23 % oxygen all 10 went out by themselves. The final report says the same in words [bre-final-18]. The figure shows one of those flames, still burning steadily at 172 seconds with 34 % oxygen and 8.2 psia.\n\n[[figure:bre-p57-fig6]]\n\nNo fabric or plastic has been burned in that air in the data, and nothing has been tested in lunar gravity." },
     { q: "Which smoke is hardest for the Station detector to see?",
       a: "Kapton and Teflon. In SAME-R the Station detector's obscuration signal changed by a median of 0.006 V with Kapton smoke and 0.019 V with Teflon, against 1.08 V with silicone. Their particles are the smallest: a median count mean diameter of 110 and 167 nm [PSI-101]. The SAME-R final report concludes that Kapton and Teflon smoke will be hard to detect with light-scattering devices, and in SAME the Station detector was erratic with Teflon smoke [PSI-102] [samer-5] [same-25]. The figure plots the particle diameters of Kapton smoke against air speed in SAME-R.\n\n[[figure:samer-p6-fig7]]\n\nThe detector figures are a coarse summary that ranks materials. They are not an alarm threshold." },
     { q: "Which suppressants were tested, and on what?",
@@ -282,7 +282,7 @@ window.OFMW_CONTENT = {
     { q: "Is there data for a Mars habitat?",
       a: "That is not in the data. PSI holds no combustion test at partial gravity, and the challenge gives no atmosphere for a Mars habitat. The closest evidence sits at the two ends of the gravity scale: the microgravity flight tests, and Saffire-II, which repeated 9 samples in normal gravity [PSI-99]. The figure, from NASA's guide to combustion science on the Station, sets flames in normal gravity beside flames of the same fuels in microgravity.\n\n[[figure:guide-p9-fig1]]\n\nACME E-FIELD Flames suggests that electric fields could approximate partial-gravity buoyancy; that is a suggestion in its report, not a measurement [PSI-22] [efield-37]. The challenge names two future experiments, LUCI and FM2." },
     { q: "Does silicone burn?",
-      a: "In microgravity, barely: the four silicone samples of Saffire-II did not spread flame, with a burn length of about 0 [PSI-99]. In normal gravity the same samples behaved differently: two burned completely, one burned 7.6 cm and one did not burn.\n\nSilicone does make smoke when overheated. In SAME and SAME-R it produced the largest particles and the strongest response of the Station detector [PSI-101] [PSI-102]. The figure shows the instrument traces of one silicone smoke run in SAME. It was tested only at 21.5 to 22.1 % oxygen, so nothing is known about it in Moon-base air.\n\n[[figure:same-p27-fig13]]" }
+      a: "In microgravity, barely: the four silicone samples of Saffire-II did not spread flame, with a burn length of about 0 [PSI-99]. In normal gravity the same samples behaved differently: two burned completely, one burned 7.6 cm and one did not burn.\n\nSilicone does make smoke when overheated. In SAME and SAME-R it produced the largest particles and the strongest response of the Station detector [PSI-101] [PSI-102]. The figure shows the instrument traces of one silicone smoke run in SAME. Its flame tests in Saffire-II ran at 21.5 to 22.1 % oxygen and its smoke runs do not record oxygen, so nothing is known about it in Moon-base air.\n\n[[figure:same-p27-fig13]]" }
   ],
 
   sources: {

@@ -215,7 +215,11 @@
     "Tests cited": "Pruebas citadas", "Print or save as PDF": "Imprimir o guardar como PDF", "Close the report": "Cerrar el informe",
     "The report was cut short.": "El informe quedó cortado.", "The report was not written": "No se escribió el informe",
     "The ranking of investigations and the list of experiments still to be done are the team's interpretation, not NASA's. A student project, not affiliated with or endorsed by NASA. Check the sources before relying on this report.": "El orden de las investigaciones y la lista de experimentos por hacer son interpretación del equipo, no de NASA. Proyecto estudiantil, sin afiliación ni respaldo de NASA. Revisa las fuentes antes de apoyarte en este informe.",
+    "Summary": "Resumen", "What the data says": "Qué dicen los datos", "Prevention, detection and suppression": "Prevención, detección y supresión",
+    "What has not been tested": "Qué no se ha probado", "Limits of this report": "Límites de este informe",
+    "(burner gas)": "(gas del quemador)", "Showing test ": "Se muestra la prueba ",
     /* messages that come from the server */
+    "The model declined to answer this question. Try asking about an investigation, a material or a world.": "El modelo declinó responder esta pregunta. Prueba a preguntar por una investigación, un material o un mundo.",
     "Too many questions in a minute. Wait a moment and ask again.": "Demasiadas preguntas en un minuto. Espera un momento y vuelve a preguntar.",
     "The daily limit for live answers was reached. The saved answers still work.": "Se alcanzó el límite diario de respuestas en vivo. Las respuestas guardadas siguen funcionando.",
     "Too many reports in a minute. Wait a moment and try again.": "Demasiados informes en un minuto. Espera un momento e inténtalo de nuevo.",

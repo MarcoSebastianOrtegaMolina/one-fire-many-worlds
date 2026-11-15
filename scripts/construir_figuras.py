@@ -39,7 +39,8 @@ FORZAR = {"bass2": ["6.10", "6.9", "1.2", "2.20", "1.3"], "bre": ["15", "4"], "s
           "samer": ["6", "7", "8"], "guide": ["1", "8", "9", "11", "12", "13"]}
 EXCLUIR = {("samer", "20"), ("samer", "21"), ("samer", "23"), ("bre", "2"), ("guide", "3")}
 # paginas enteras fuera: figuras repetidas de otra pagina, graficas con rotulos encimados y fotos de camaras
-EXCLUIR_PAG = {("same", 47), ("samer", 77), ("bre", 104), ("bre", 126), ("bre", 129), ("bre", 130), ("spice", 15)}
+EXCLUIR_PAG = {("same", 47), ("samer", 77), ("bre", 104), ("bre", 126), ("bre", 129), ("bre", 130), ("spice", 15),
+               ("bre", 96), ("bre", 131), ("same", 56)}       # la misma figura ya entra por otra pagina (pp. 28, 31 y 27)
 PIE = re.compile(r"^\s*(Figure|Fig\.)\s*(\d+(?:\.\d+)*)\s*[\.:\-—–]", re.I)
 CLAVE = re.compile(r"flam|extinc|quench|blowoff|blow-off|smoke|detector|particle|oxygen|spread|ignit|burn|fire|droplet|soot|candle|microgravity|suppress", re.I)
 
@@ -100,9 +101,9 @@ def figuras_de(pdf):
                 continue
             # el recorte llega hasta donde empieza el pie (asi entran los rotulos de los ejes) y no lo incluye:
             # el pie va como texto en la pagina, completo, y no cortado dentro de la imagen
-            clip = pymupdf.Rect(min(zona.x0, pie.x0), zona.y0, max(zona.x1, pie.x1), max(zona.y1, pie.y0))
+            clip = pymupdf.Rect(min(zona.x0, pie.x0), zona.y0, max(zona.x1, pie.x1), pie.y0)
             orilla = 3 if ancho < 450 else 8          # en la guia el texto de la otra columna queda a 5 pt de la imagen
-            clip += (-orilla, -orilla, orilla, 2)
+            clip += (-orilla, -orilla, orilla, 0)     # abajo termina justo donde empieza el pie: ni un renglon cortado
             clip &= pag.rect
             out.append((n + 1, m.group(2), texto, clip))
     return out

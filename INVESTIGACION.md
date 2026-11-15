@@ -78,7 +78,7 @@ agregando nitrógeno. La ficha de BASS-II dice lo mismo y la matriz de pruebas d
   14.7 psia. Con 27 % a 10.2 psia y con 34 % a 8.2 psia, en general persistían 2 o 3 minutos o más. Es el
   resultado más directo sobre atmósferas de exploración que hay en PSI. Los datos por prueba van en la misma
   dirección: a cerca de 14.7 psia con menos de 23 % de oxígeno, las 10 flamas se autoextinguieron; a cerca
-  de 8.2 psia con 30 a 39 %, 25 de 36 siguieron ardiendo hasta que se cortó el combustible (8 se
+  de 8.2 psia con 29.8 a 39.3 %, 25 de 36 siguieron ardiendo hasta que se cortó el combustible (8 se
   autoextinguieron y 3 no traen desenlace). A cerca de 10.2
   psia con 24 a 29 % el cuadro es menos claro: 19 de 27 se autoextinguieron, y la tabla da el tiempo que
   tardaron, que no revisamos.
@@ -89,8 +89,9 @@ agregando nitrógeno. La ficha de BASS-II dice lo mismo y la matriz de pruebas d
   los materiales arden con menos oxígeno en microgravedad que en la Tierra.
 - **CFI** (reporte final, págs. 6 y 9): por encima de unas 2 atm aparecen ciclos de reignición: la flama
   caliente se apaga por pérdida radiativa, queda una flama fría y vuelve a encenderse, hasta consumir la gota.
-- **SAME** (reporte final, pág. 56): los diámetros medios por conteo de las partículas de humo están entre
-  100 y 200 nm.
+- **SAME** (reporte final, pág. 56): el reporte dice que los diámetros medios por conteo de las partículas de humo
+  están entre 100 y 200 nm y, en la misma página, da 227 nm para el silicón; en los resultados por corrida hay
+  corridas de silicón que llegan a 372 nm (corregido el 14-nov tras la revisión de la IA).
 - **SAME-R** (archivo de resultados, tabla del artículo ICES 2012): con el humo recién hecho, el diámetro
   medio geométrico va de 42 nm (Kapton) a 149 nm (Pyrell); tras 720 s de envejecimiento va de 70 a 293 nm.
   Crece en cuatro de los cinco materiales y baja en el teflón. Por corrida (131 con dato), el diámetro
@@ -190,7 +191,7 @@ nuestra; la justificación de cada una está en la segunda tabla. Las filas van 
 | PSI-99 | SAFFIRE-II | RETO.md y ficha | Dato: 9 muestras con resultado en microgravedad y en gravedad normal lado a lado (largo quemado y velocidad de propagación), a 20 cm/s y 21.5 a 22.1 % de O2. Interpretación: la mejor comparación directa 0 g contra 1 g por material. |
 | PSI-100 | SAFFIRE-III | RETO.md y ficha | Dato: 2 muestras a 30 cm/s; la tabla no trae oxígeno ni resultado, pero sus sensores (datos crudos) dan 19.4 a 20.1 % de O2 y 14.4 a 14.5 psi. Interpretación: relevante por escala; casi sin datos en la tabla. |
 | PSI-101 | SAME-R | RETO.md y ficha | Dato: 109 pruebas (106 ya con tamaño de partícula por corrida) con material, velocidad de entrada (0 a 8.1 cm/s) y tiempos de envejecimiento del humo; sin oxígeno. Resultado (archivo de resultados, tabla del artículo ICES 2012): diámetro medio geométrico de 42 a 149 nm con el humo recién hecho y de 70 a 293 nm tras 720 s. Su reporte final (pág. 5) concluye que el humo de Kapton y de teflón será difícil de detectar con dispositivos de dispersión de luz y que hace falta medir más de un momento de la distribución de tamaños. También aclara que fueron 67 corridas y que las 109 filas cuentan aparte los envejecimientos secundarios. Interpretación: es la base para diseñar detectores de humo en microgravedad. |
-| PSI-102 | SAME | RETO.md y ficha | Dato: tabla de 8 renglones; solo 4 traen condiciones y los otros remiten a ellas. El archivo de resultados trae sus 45 corridas de 2007 (ya integradas), 25 con tamaño de partícula. Resultado (reporte final, pág. 56): los diámetros medios por conteo están todos entre 100 y 200 nm. El reporte (págs. 25 y 28) dice que el detector del transbordador (ionización) dio señal fuerte en todas las pruebas y que el de la Estación (dispersión de luz) fue errático con humo de teflón, de partículas menores de un micrómetro. Interpretación: misma relevancia que SAME-R con muchos menos datos en la tabla. |
+| PSI-102 | SAME | RETO.md y ficha | Dato: tabla de 8 renglones; solo 4 traen condiciones y los otros remiten a ellas. El archivo de resultados trae sus 45 corridas de 2007 (ya integradas), 25 con tamaño de partícula. Resultado (reporte final, pág. 56): el reporte dice que los diámetros medios por conteo están todos entre 100 y 200 nm y en la misma página da 227 nm para el silicón; en los resultados por corrida hay corridas que llegan a 372 nm. El reporte (págs. 25 y 28) dice que el detector del transbordador (ionización) dio señal fuerte en todas las pruebas y que el de la Estación (dispersión de luz) fue errático con humo de teflón, de partículas menores de un micrómetro. Interpretación: misma relevancia que SAME-R con muchos menos datos en la tabla. |
 | PSI-159 | ACME CFI-G | RETO.md y ficha | Dato: 333 pruebas con oxígeno, presión y desenlace; 20 flamas normales con 33 a 39 % de O2 en la cámara a 7.3 psi; en las flamas inversas el oxidante del quemador llega a 85 % de O2. Interpretación: es la investigación con más pruebas individuales en condiciones tipo base lunar, aunque con gas y no con materiales. |
 | PSI-10 | ACME/Flame Design | interpretación (objetivos de la ficha: límites de hollín y de extinción de flamas esféricas) | Interpretación: no estudia materiales, pero es de las pocas con pruebas individuales que traen oxígeno y presión juntos (327 filas; atmósfera de 19.8 a 40 % de O2) y límites de extinción, útiles para modelos. |
 | PSI-22 | ACME E-FIELD Flames | RETO.md y ficha | Dato: RETO.md la señala como la única que imitó gravedad parcial. La ficha dice que no se hizo para aplicaciones espaciales. Su reporte final (pág. 37) dice que los campos eléctricos podrían servir para aproximar las fuerzas de flotación de la gravedad parcial; es una sugerencia, no una medición. Interpretación: relevante solo como aproximación al hueco de gravedad parcial; la tabla no trae voltajes ni oxígeno. |
