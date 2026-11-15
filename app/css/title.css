@@ -1,0 +1,88 @@
+/* title: the home title with its two special words. Prefix tt-. Built by js/title.js (window.OFMW_TITLE).
+   "Fire" / "incendios": white on top, flames rising inside the lower half of the letters.
+   "world" / "mundo": NASA's Earth at night (city lights over sea and land) turning slowly inside the letters.
+   The rest of the title stays pure white. The two words are the only place with a colour fill (owner's request).
+   Without background-clip:text, without the script, or in print: the whole title is plain white (black in print). */
+
+.tt-title{color:var(--text)}
+.tt-title .tt-w{position:relative; display:inline-block; padding:.14em .06em; margin:-.14em -.06em; color:var(--text)}
+/* 3D (js/title.js with the shared stage): the word stays real text, transparent, and the stage draws it with volume
+   inside .tt-stage, a box over the word that rises above it for the city, the flames and the two craft. */
+.tt-stage{position:absolute; left:0; width:100%; display:block; pointer-events:none}
+.tt-title .tt-w.tt-3d-on{background:none !important; color:transparent !important; -webkit-text-fill-color:transparent !important;
+  -webkit-text-stroke:0 !important; filter:none !important; animation:none !important}
+.tt-defs{position:absolute; width:0; height:0; overflow:hidden; pointer-events:none}
+
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  /* Flames. Five layers, top to bottom: tree silhouettes (variant B only), a lift that keeps the foot of the letters
+     always hot (screen), a light ramp that is dark over the upper half of the letters and full at their foot, and two tileable noise textures made once at load time
+     (js/title.js) that rise at different speeds. The ramp multiplies the noise into one "heat" value, and the
+     SVG filter #tt-fire-map turns heat into colour: none is white, little is pale yellow, much is orange.
+     So the top of the letters stays white and the tongues reach up into it without a straight edge. */
+  .tt-on .tt-fire{
+    background-image:var(--tt-trees, linear-gradient(transparent, transparent)),
+      linear-gradient(to bottom, #000 var(--tt-r3, .95em), #808080 var(--tt-r2, 1.1em)),
+      linear-gradient(to bottom, #000 var(--tt-r0, .55em), #fff var(--tt-r1, 1.02em)),
+      var(--tt-nb, none), var(--tt-na, none);
+    background-size:2.6em .62em, 100% 100%, 100% 100%, 1.5em 1.5em, 1em 2.4em;
+    background-repeat:repeat-x, no-repeat, no-repeat, repeat, repeat;
+    background-position:0 var(--tt-ty, .6em), 0 0, 0 0, 0 0, 0 0;
+    background-blend-mode:normal, screen, multiply, normal, normal;
+    background-color:#000;
+    -webkit-background-clip:text; background-clip:text;
+    color:transparent; -webkit-text-fill-color:transparent;
+    filter:url(#tt-fire-map);
+    animation:tt-rise 9s linear infinite;
+  }
+  /* World: the strip joins sea to sea, so one tile width is one seamless turn. 1466 x 360 px, 4.0722 to 1. */
+  .tt-on .tt-world{
+    background-image:url("../img/title/tierra-noche-2012.jpg");
+    background-size:5.2939em 1.3em;
+    background-repeat:repeat-x;
+    background-position:0 var(--tt-wy, .02em);
+    background-color:#1b2160;
+    -webkit-background-clip:text; background-clip:text;
+    color:transparent; -webkit-text-fill-color:transparent;
+    -webkit-text-stroke:.01em rgba(176, 200, 255, .42);
+    animation:tt-turn 80s linear infinite;
+  }
+}
+/* Noise A rises one tile (slow), noise B four tiles up and one to the side (fast): the two drift against
+   each other, so the flame keeps changing instead of sliding as one picture. The loop is seamless. */
+@keyframes tt-rise{
+  from{background-position:0 var(--tt-ty, .6em), 0 0, 0 0, 0 0, 0 0}
+  to{background-position:0 var(--tt-ty, .6em), 0 0, 0 0, 1.5em -6em, 0 -2.4em}
+}
+@keyframes tt-turn{
+  from{background-position:0 var(--tt-wy, .02em)}
+  to{background-position:5.2939em var(--tt-wy, .02em)}
+}
+@media (prefers-reduced-motion: reduce){
+  .tt-on .tt-fire, .tt-on .tt-world{animation:none}
+}
+@media print{
+  .tt-stage{display:none !important}
+  .tt-title, .tt-title .tt-w, .tt-title .tt-w.tt-3d-on, .tt-on .tt-fire, .tt-on .tt-world{background:none !important; color:#000 !important; -webkit-text-fill-color:#000 !important;
+    -webkit-text-stroke:0 !important; filter:none !important; animation:none !important}
+}
+
+/* ---------- review page #/title-preview ---------- */
+.tt-preview{padding-bottom:var(--s-6)}
+.tt-set{border-top:1px solid var(--line); padding:var(--s-4) 0 var(--s-2)}
+.tt-set h2{border-top:0; font-size:var(--t-lg)}
+.tt-set > p{margin-top:.5rem; max-width:70ch; color:var(--text-2)}
+/* English and Spanish side by side when there is room, so a wide screen has no empty half. */
+.tt-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 34rem), 1fr)); gap:0 var(--s-6); align-items:start}
+.tt-sample{margin-top:var(--s-4); min-width:0}
+.tt-label{font:400 var(--t-2xs)/1.4 var(--font-body); color:var(--text-3)}
+.tt-line{margin-top:.5rem; font-family:var(--font-display); font-weight:400; letter-spacing:.005em; line-height:1.04; text-transform:uppercase;
+  color:var(--text); text-wrap:balance; max-width:17em}
+.tt-line[data-mode="3d"]{margin-top:var(--tt-top, .62em); line-height:1.5}   /* CAP 0.86 + --tt-top: the line above hides nothing */
+.tt-56{font-size:min(56px, 13vw)}
+.tt-74{font-size:min(74px, 15vw)}
+.tt-96{font-size:min(96px, 17vw)}
+.tt-meta{display:grid; grid-template-columns:minmax(0,1fr); gap:.6rem; margin-top:var(--s-3); max-width:80ch; font-size:var(--t-2xs); color:var(--text-2)}
+.tt-meta p{max-width:none}
+.tt-meta .num{color:var(--text)}
+.tt-worlds-row{display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:var(--s-2); margin-top:var(--s-3)}
+.tt-world-box{aspect-ratio:1; border:1px solid var(--line); border-radius:var(--radius)}

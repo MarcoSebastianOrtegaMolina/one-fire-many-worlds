@@ -1,0 +1,240 @@
+/* explore: Will it burn?, Data, Sources, Figures and How this was made. Own classes with the exp- prefix;
+   only tokens and components of base.css, nothing from legacy.css. */
+
+.exp-page{padding-bottom:var(--s-6)}
+.exp-page h2{border-top:0}
+.exp-h2{margin:var(--s-6) 0 var(--s-2); font-size:var(--t-lg)}
+.exp-h3{margin:var(--s-3) 0 .5rem; font:600 var(--t-xs)/1.3 var(--font-head); color:var(--text)}
+.exp-small{margin-top:.75rem; font-size:var(--t-2xs); line-height:1.5; color:var(--text-3); max-width:75ch}
+.exp-backrow{margin:var(--s-3) 0 0}
+.exp-backrow + .c-intro{padding-top:var(--s-2)}
+.exp-actions{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:var(--s-2)}
+.exp-links{line-height:1.7}
+.exp-more{margin-top:var(--s-2)}
+
+/* form pieces */
+.exp-field{display:grid; gap:.4rem; min-width:0}
+.exp-label{margin:0; font:600 var(--t-2xs)/1.3 var(--font-body); color:var(--text-2)}
+select.exp-select,input.exp-input{width:100%; min-height:2.75rem; margin:0; padding:0 .75rem; background:var(--surface); color:var(--text); border:1px solid var(--line-strong);
+  border-radius:var(--radius); font:400 var(--t-2xs)/1.2 var(--font-body)}
+.exp-select:hover,.exp-input:hover{border-color:var(--text-2)}
+.exp-search{position:relative}
+.exp-search .exp-input{padding-right:4.75rem}
+.exp-search .exp-input::-webkit-search-cancel-button{display:none}
+.exp-clear{position:absolute; top:1px; right:1px; bottom:1px; min-width:2.75rem; padding:0 .85rem; border:0; border-left:1px solid var(--line-strong); border-radius:0 var(--radius) var(--radius) 0;
+  background:var(--surface); color:var(--text); font:600 var(--t-2xs)/1 var(--font-head); cursor:pointer}
+.exp-clear:hover{background:var(--surface-2)}
+.exp-clear[hidden]{display:none}
+.exp-segs{display:flex; gap:.4rem; min-width:0}
+.exp-seg{min-height:2.75rem; padding:.55rem .9rem; border:1px solid var(--line-strong); border-radius:var(--radius); background:transparent; color:var(--text);
+  font:600 var(--t-2xs)/1.2 var(--font-head); text-align:left; cursor:pointer; transition:background-color .2s var(--ease), border-color .2s var(--ease)}
+.exp-seg:hover{border-color:var(--text); background:var(--surface-2)}
+.exp-seg[aria-pressed="true"]{background:var(--action); border-color:var(--action); color:#000}
+.exp-count{margin:0; font-size:var(--t-2xs); color:var(--text-2); white-space:nowrap}
+.exp-count .num{color:var(--text); font-size:var(--t-xs)}
+
+/* filter bar: Data keeps it on top while the table scrolls */
+.exp-bar-filters{display:flex; flex-wrap:wrap; align-items:flex-end; gap:var(--s-2); padding:var(--s-2) 0; background:var(--space); border-bottom:1px solid var(--line)}
+.exp-bar-filters > .exp-field{flex:1 1 11rem}
+.exp-bar-filters > .exp-field-grow{flex:3 1 16rem}
+.exp-bar-end{display:flex; align-items:center; gap:.75rem; flex:0 0 auto; min-height:2.75rem}
+.exp-bar-end .c-btn[hidden]{display:none}
+.exp-data .exp-bar-filters{position:sticky; top:var(--head-h); z-index:20}
+
+/* sortable heads */
+.exp-sort{display:inline-flex; flex-direction:column; align-items:flex-start; gap:.15rem; min-height:2.75rem; justify-content:center; margin:-.35rem 0; padding:0; border:0; background:none;
+  color:inherit; font:inherit; letter-spacing:inherit; text-transform:inherit; text-align:left; cursor:pointer}
+th.num .exp-sort{align-items:flex-end; text-align:right}
+.exp-sort:hover .exp-sort-name{color:var(--text); text-decoration:underline; text-underline-offset:.25em}
+.exp-sortstate{font:400 var(--t-2xs)/1.1 var(--font-body); color:var(--link)}
+th[aria-sort="ascending"],th[aria-sort="descending"]{color:var(--text)}
+
+/* academic tables and figures built with A.apaTable and A.apaFigure */
+.exp-apa{margin:var(--s-2) 0 0}
+.exp-apa .c-fig-note em{font-style:italic; color:var(--text-2)}
+.exp-apa .c-table td.exp-res{color:var(--text-2)}
+.exp-near .c-table td.exp-res{min-width:16rem}
+.exp-far td,.exp-far th{color:var(--text-3)}
+.exp-far th a{color:var(--text-2)}
+.exp-farnote{display:block; margin-top:.2rem; font:400 var(--t-2xs)/1.3 var(--font-body); color:var(--text-3)}
+
+/* ---------- Will it burn? ---------- */
+.exp-burn-top{display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s-3); align-items:start}
+.exp-controls{display:grid; gap:var(--s-3)}
+.exp-slide{display:flex; align-items:center; gap:.75rem}
+.exp-controls input.exp-range{flex:1 1 auto; min-width:0; height:2.75rem; min-height:2.75rem; margin:0; accent-color:var(--text); cursor:pointer; background:transparent}
+.exp-numwrap{position:relative; flex:0 0 7.5rem}
+.exp-numwrap input.exp-numin{padding-right:3.25rem; padding-left:.5rem; font-family:var(--font-data); font-variant-numeric:tabular-nums; text-align:right}
+.exp-unit{position:absolute; right:.7rem; top:50%; transform:translateY(-50%); font:400 var(--t-2xs)/1 var(--font-data); color:var(--text-3); pointer-events:none}
+.exp-fuelrow{grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:.75rem}
+.exp-chart{min-width:0}
+.exp-chart figure{margin:0}
+.exp-chart svg{max-height:calc(100vh - var(--head-h) - 8rem)}
+.exp-result{display:grid; gap:var(--s-2); margin-top:var(--s-4); padding:var(--s-3); background:var(--surface); border:1px solid var(--line); border-radius:var(--radius)}
+.exp-result-none{border-color:var(--missing)}
+.exp-result .c-tag{justify-self:start}
+.exp-verdict{font-size:var(--t-sm); line-height:1.45; color:var(--text-2); max-width:70ch}
+.exp-big{display:block; margin-bottom:.15rem; font:700 var(--t-2xl)/1.05 var(--font-head); letter-spacing:-.02em; color:var(--text); font-variant-numeric:tabular-nums}
+.exp-none .exp-big{color:var(--missing)}
+.exp-result .exp-small{margin-top:0}
+.exp-stacks{display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s-3)}
+.exp-stack-t{margin-bottom:.5rem; font:600 var(--t-xs)/1.3 var(--font-head); color:var(--text)}
+.exp-bar{display:flex; gap:2px; height:1.25rem}
+.exp-bar-seg{flex:1 1 0; min-width:3px; border-radius:1px}
+.exp-stack-key{display:flex; flex-wrap:wrap; gap:.35rem 1.25rem; margin:.6rem 0 0; padding:0; list-style:none; font-size:var(--t-2xs); color:var(--text-2)}
+.exp-stack-key li{display:inline-flex; align-items:center; gap:.4rem}
+.exp-stack-n{color:var(--text)}
+.exp-sw{display:inline-block; width:.75rem; height:.75rem; border-radius:1px}
+.exp-o-burn{background:var(--text)}
+.exp-o-out{background:var(--ok)}
+.exp-o-none{background:var(--text-3)}
+.exp-o-unk{background:transparent; border:1px dashed var(--text-2)}
+@media (min-width:48rem){ .exp-stacks{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (min-width:64rem){
+  .exp-burn-top{grid-template-columns:minmax(18rem,23rem) minmax(0,1fr); gap:var(--s-4)}
+  .exp-controls{position:sticky; top:calc(var(--head-h) + 1rem)}
+  .exp-controls .exp-segs{flex-direction:column}
+  .exp-controls .exp-seg{width:100%}
+}
+@media (max-width:63.99rem){
+  .exp-controls{padding:var(--s-2); gap:var(--s-2)}
+  .exp-controls .exp-segs{overflow-x:auto; padding-bottom:.25rem; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch}
+  .exp-controls .exp-seg{flex:0 0 auto; white-space:nowrap; scroll-snap-align:start}
+}
+
+/* ---------- Data ---------- */
+.exp-introrow{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:0 var(--s-4)}
+.exp-introrow .c-intro{flex:1 1 32rem; min-width:0}
+.exp-download{margin-bottom:var(--s-3)}
+.exp-notice{display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1rem; margin-top:var(--s-2); padding:.75rem 1rem; border:1px solid var(--line-strong); border-radius:var(--radius); color:var(--text-2)}
+.exp-dfig .c-table{overflow:visible; border-left:0; border-right:0}
+@supports (overflow:clip){ .exp-dfig .c-table{overflow-x:clip} }
+.exp-dtable{table-layout:auto}
+.exp-dtable thead th{top:calc(var(--head-h) + var(--exp-barh, 0px)); z-index:5; white-space:normal; vertical-align:middle}
+@media (min-width:64rem){ .exp-dtable td.exp-res{min-width:12rem} }
+.exp-page .c-table thead th{vertical-align:middle}
+.exp-dtable td,.exp-dtable th{padding:.85rem .9rem; overflow-wrap:break-word}
+.exp-dtable tbody th{min-width:6.5rem}
+.exp-dtable td.num,.exp-dtable th.num{overflow-wrap:normal}
+.exp-drow{cursor:pointer}
+.exp-drow.exp-open td,.exp-drow.exp-open th{background:var(--surface)}
+.exp-drow.exp-open th{box-shadow:inset 2px 0 0 var(--link)}
+.exp-rowbtn{display:inline-flex; align-items:center; min-height:2.75rem; margin:-.6rem 0; padding:0; border:0; background:none; color:var(--link);
+  font:600 var(--t-2xs)/1.3 var(--font-body); text-align:left; cursor:pointer; text-decoration:underline; text-decoration-color:transparent; text-underline-offset:.2em}
+.exp-rowbtn:hover{text-decoration-color:currentColor}
+.exp-drow-detail > td{padding:0 !important; background:var(--surface)}
+.c-table tbody tr.exp-drow-detail:hover td{background:var(--surface)}
+.exp-detail{padding:var(--s-2) var(--s-3) var(--s-3); border-left:2px solid var(--link)}
+.exp-dl{display:grid; grid-template-columns:repeat(auto-fill,minmax(11rem,1fr)); gap:var(--s-2) var(--s-3); margin:0}
+.exp-dl dt{font:600 var(--t-2xs)/1.3 var(--font-body); color:var(--text-3)}
+.exp-dl dd{margin:.25rem 0 0; color:var(--text); overflow-wrap:anywhere}
+.exp-dl dd.num{font-size:var(--t-2xs); text-align:left; white-space:normal}
+.exp-dl-wide{grid-column:1 / -1; max-width:80ch}
+.exp-none-v{color:var(--text-3) !important}
+.exp-srcfile{font-size:var(--t-2xs); color:var(--text-2)}
+.exp-detail-act{margin-top:var(--s-2)}
+.exp-shown{margin-top:var(--s-2)}
+@media (max-width:89.99rem){ .exp-dtable .exp-hide-l{display:none} }
+@media (max-width:63.99rem){ .exp-dtable .exp-hide-m{display:none} }
+@media (max-width:39.99rem){
+  .exp-dtable .exp-hide-s{display:none}
+  .exp-dtable td,.exp-dtable th{padding:.75rem .5rem}
+  .exp-dtable tbody th{min-width:0}
+  .exp-data .exp-bar-filters{position:static}
+  .exp-bar-filters > .exp-field{flex:1 1 9rem}
+  .exp-bar-end{flex:1 1 100%; justify-content:space-between}
+  .exp-download{width:100%}
+}
+
+/* ---------- Sources and Figures ---------- */
+.exp-tabs{display:flex; gap:var(--s-1); border-bottom:1px solid var(--line); overflow-x:auto}
+.exp-tab{display:inline-flex; align-items:center; gap:.55rem; min-height:2.75rem; padding:.6rem 1rem; margin-bottom:-1px; border-bottom:2px solid transparent;
+  color:var(--text-2); font:600 var(--t-xs)/1 var(--font-head); text-decoration:none; white-space:nowrap}
+.exp-tab:hover{color:var(--text); text-decoration:none}
+.exp-tab[aria-current="page"]{color:var(--text); border-bottom-color:var(--text)}
+.exp-tab-n{color:var(--text-3)}
+.exp-bar-loose{border-bottom:0; margin-top:var(--s-1)}
+.exp-segs-row .exp-seg{text-align:center}
+.exp-group{margin-top:var(--s-4); padding-top:var(--s-3); border-top:1px solid var(--line)}
+.exp-group-h{display:flex; flex-wrap:wrap; align-items:baseline; gap:.35rem 1rem; font-size:var(--t-md); line-height:1.25}
+.exp-group-t{flex:0 1 auto; min-width:0; max-width:60ch}
+.exp-gcount{font:400 var(--t-2xs)/1.2 var(--font-body); color:var(--text-3)}
+.exp-gcount .num{margin-right:.25rem; color:var(--text-2)}
+.exp-srclist{display:grid; grid-template-columns:minmax(0,1fr); gap:0; margin:var(--s-2) 0 0; padding:0; list-style:none}
+.exp-src{display:grid; grid-template-columns:4.5rem minmax(0,1fr); gap:var(--s-2); padding:var(--s-2) 0; border-top:1px solid var(--line)}
+.exp-src:first-child{border-top:0}
+.exp-src-thumb{display:block; align-self:start; border:1px solid var(--line-strong); border-radius:var(--radius); overflow:hidden; background:var(--surface)}
+.exp-src-thumb:hover{border-color:var(--text)}
+.exp-src-thumb img{display:block; width:100%; height:auto}
+.exp-noimg{display:flex; align-items:center; justify-content:center; aspect-ratio:3 / 4; padding:.3rem; font:400 var(--t-2xs)/1.2 var(--font-body); text-align:center; color:var(--text-3)}
+.exp-src-text{display:grid; gap:.35rem; min-width:0; max-width:80ch}
+.exp-src-where{display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; font:600 var(--t-xs)/1.3 var(--font-head)}
+.exp-src-where a{display:inline-flex; align-items:center; min-height:2.75rem; margin:-.6rem 0}
+.exp-src-claim{color:var(--text-2); line-height:1.5; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden}
+.exp-src-invs{font-size:var(--t-2xs); color:var(--text-3)}
+.exp-label-inline{font:600 var(--t-2xs)/1.3 var(--font-body); color:var(--text-3)}
+.exp-srctable td{min-width:14rem}
+@media (min-width:64rem){ .exp-srclist{grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:var(--s-4)} .exp-src:nth-child(2){border-top:0} .exp-src{grid-template-columns:5.5rem minmax(0,1fr)} }
+@media (min-width:120rem){ .exp-srclist{grid-template-columns:repeat(3,minmax(0,1fr))} .exp-src:nth-child(3){border-top:0} }
+
+.exp-thumbs{display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,13rem),1fr)); gap:var(--s-3) var(--s-2); margin:var(--s-2) 0 0; padding:0; list-style:none}
+.exp-thumb{display:grid; align-content:start; gap:.4rem; height:100%; color:var(--text); text-decoration:none}
+.exp-thumb:hover{text-decoration:none; color:var(--text)}
+.exp-thumb-img{display:flex; align-items:center; justify-content:center; aspect-ratio:4 / 3; padding:.4rem; background:#fff; border:1px solid var(--line-strong); border-radius:var(--radius); overflow:hidden}
+.exp-thumb:hover .exp-thumb-img{border-color:var(--link); outline:1px solid var(--link)}
+.exp-thumb-img img{display:block; width:100%; height:100%; object-fit:contain}
+.exp-thumb-t{font:600 var(--t-2xs)/1.3 var(--font-head); color:var(--link)}
+.exp-thumb-tags{display:flex; flex-wrap:wrap; gap:.3rem}
+.exp-thumb-c{font-size:var(--t-2xs); line-height:1.45; color:var(--text-2); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+
+/* one figure */
+.exp-figgrid{display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s-4); align-items:start}
+.exp-bigfig{margin:0}
+.exp-zoombox{display:grid; gap:.5rem}
+.exp-zoombar{display:flex; flex-wrap:wrap; align-items:center; gap:.5rem}
+.exp-zoom-level{min-width:3.5rem; text-align:center; color:var(--text-2)}
+.exp-zoom{overflow:auto; max-height:78vh; padding:.5rem; background:#fff; border:1px solid var(--line-strong); border-radius:var(--radius); -webkit-overflow-scrolling:touch}
+.exp-zoom-img{display:block; width:100%; max-width:none; height:auto; margin:0 auto}
+.exp-zoomed{cursor:move}
+.exp-figside{min-width:0}
+.exp-figside .exp-h3:first-child{margin-top:0}
+.exp-quote{margin:0; padding:.25rem 0 .25rem 1rem; border-left:2px solid var(--line-strong); color:var(--text-2); font-style:italic; line-height:1.55}
+.exp-prevnext{display:flex; justify-content:space-between; gap:var(--s-2); margin-top:var(--s-5); padding-top:var(--s-3); border-top:1px solid var(--line)}
+@media (min-width:64rem){ .exp-figgrid{grid-template-columns:minmax(0,2fr) minmax(18rem,1fr); gap:var(--s-5)} .exp-figside{position:sticky; top:calc(var(--head-h) + 1rem)} }
+
+/* ---------- How this was made ---------- */
+.exp-read{max-width:70ch}
+.exp-read p{margin-top:1rem; line-height:1.6; color:var(--text-2)}
+.exp-steps{margin:0; padding:0; list-style:none; counter-reset:exp-step}
+.exp-steps li{position:relative; padding:.85rem 0 .85rem 2.75rem; border-top:1px solid var(--line); line-height:1.55; color:var(--text-2); counter-increment:exp-step}
+.exp-steps li:first-child{border-top:0}
+.exp-steps li::before{content:counter(exp-step); position:absolute; left:0; top:.85rem; font:500 var(--t-sm)/1.35 var(--font-data); color:var(--text)}
+.exp-how td,.exp-how th{min-width:11rem}
+.exp-how td:last-child{min-width:18rem; max-width:60ch}
+
+@media print{
+  .exp-bar-filters,.exp-tabs,.exp-zoombar,.exp-prevnext,.exp-more,.exp-controls{display:none !important}
+  .exp-dtable thead th{position:static}
+  .exp-src-claim{-webkit-line-clamp:unset; display:block}
+}
+
+/* table heads in the interface letter, normal case (the inherited stylesheet set them in capitals) */
+.exp-page .c-table thead th,.exp-page .c-table thead th .exp-sort{font:600 var(--t-2xs)/1.3 var(--font-head); text-transform:none; letter-spacing:0}
+.exp-page .c-table thead th .exp-sortstate{font:400 var(--t-2xs)/1.1 var(--font-body)}
+.exp-srctable td.num{width:1%; text-align:left}
+@media (max-width:29.99rem){ .exp-fuelrow{grid-template-columns:minmax(0,1fr)} .exp-fuelrow .c-btn{justify-self:start} }
+
+/* Data: download what you see, or what you chose */
+.exp-dls{display:flex; flex-wrap:wrap; justify-content:flex-end; gap:.5rem; margin-bottom:var(--s-3)}
+.exp-dls .exp-download{margin-bottom:0}
+.exp-dls .c-btn[hidden]{display:none}
+.exp-cellwrap{display:flex; flex-wrap:nowrap; align-items:center; gap:0 .35rem}
+@media (max-width:39.99rem){ .exp-cellwrap{flex-wrap:wrap} }
+.exp-check{display:inline-flex; align-items:center; justify-content:center; flex:0 0 auto; width:2.75rem; height:2.75rem; margin:-.6rem 0 -.6rem -.6rem; cursor:pointer}
+.exp-check input{width:1.15rem; height:1.15rem; margin:0; accent-color:var(--link); cursor:pointer}
+.exp-dtable tr.exp-sel td,.exp-dtable tr.exp-sel th{background:var(--surface)}
+.exp-selbar{flex:1 1 100%; display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1rem; padding:.6rem .9rem; border:1px solid var(--link); border-radius:var(--radius); background:var(--surface)}
+.exp-selbar[hidden]{display:none}
+.exp-seltext{margin:0 auto 0 0; color:var(--text-2)}
+.exp-seltext .num{color:var(--text)}
+@media (max-width:39.99rem){ .exp-dls{width:100%; justify-content:stretch} .exp-dls .c-btn{flex:1 1 100%} }

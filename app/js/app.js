@@ -8,8 +8,8 @@
   var REL = { high: 3, medium: 2, low: 1, "n/a": 0 };
   var TYPES = [["solid", T("Solids: fabrics, acrylic, wax")], ["liquid", T("Liquids: fuel droplets")], ["gas", T("Gases")]];
   var FRONTS = [["prevention", T("Prevent")], ["detection", T("Detect")], ["suppression", T("Suppress")]];
-  var SECTIONS = [{ id: "world", label: T("Worlds"), href: "#/world/moon" }];
-  var VIEWS = {}, lastSection = "";
+  var SECTIONS = [{ id: "world", label: T("Worlds"), href: "#/" }];
+  var VIEWS = {}, lastSection = "", KEEP_SCROLL = { world: 1, timeline: 1 };
 
   /* ---------- helpers ---------- */
   function h(tag, props) {
@@ -171,7 +171,10 @@
   function invLink(i) { return h("a", { href: "#/investigation/" + i.id, text: i.acr }); }
 
   /* ---------- world view ---------- */
-  function worldView(id) {
+  /* worldSheet builds the page of one world and returns it. With { bare: true } it leaves out the title block
+     and the old 3D box, and hands those pieces back in sheet.parts, so the journey can place them beside its scene. */
+  function worldSheet(id, opts) {
+    opts = opts || {};
     var w = world(id) || world("moon"), c = C.worlds[w.id], cnt = worldCount(w);
     document.title = T(w.name) + " · One Fire, Many Worlds";
     var byType = w.near.byType || {};
@@ -186,11 +189,12 @@
       w.id !== "earth" ? h("div", null, h("dt", { text: T("Also") }), h("dd", null, T(w.extra.label) + ": ", h("strong", { text: w.extra.text ? T(w.extra.text) : fmt(w.extra.n) }))) : null,
       c.outside ? h("div", { "class": "outside" }, h("dt", { text: T("Outside PSI") }), h("dd", { text: c.outside.replace(/^[^:]+:\s*/, "") })) : null);   /* D-1440, after PSI */
 
+    var planeFig = plane(w);
     var sheet = h("div", { "class": "sheet" },
-      h("div", { "class": "lead" },
+      opts.bare ? null : h("div", { "class": "lead" },
         h("div", null, h("h1", { text: T(w.name) }), h("p", { "class": "headline", text: c.headline }), facts, h("p", { "class": "takeaway", text: c.takeaway })),
-        plane(w)),
-      window.OFMW_APP && window.OFMW_APP.viewer3d ? window.OFMW_APP.viewer3d(w.id) : null,
+        planeFig),
+      !opts.bare && window.OFMW_APP && window.OFMW_APP.viewer3d ? window.OFMW_APP.viewer3d(w.id) : null,
       h("h2", { text: T("What is known, front by front") }),
       h("p", { text: T("NASA's fire safety work has three fronts. Investigations are ordered by how much they tested in this world's air, then by relevance to fire safety. The order is our reading of the data.") }),
       h("div", { "class": "fronts" }, FRONTS.map(function (f) {
@@ -229,18 +233,29 @@
           h("div", null, h("p", { text: a.why }), h("p", { text: T("Closest evidence today: ") + a.closest + (a.planned ? " " + a.planned : "") })));
       })) : h("p", { "class": "note", text: T("Nothing listed for this world.") })]);
 
-    main.replaceChildren(h("div", { "class": "wrap" }, gravityNav(w.id), sheet));
+    sheet.parts = { world: w, name: T(w.name), headline: c.headline, takeaway: c.takeaway, facts: facts, plane: planeFig, count: cnt };
+    return sheet;
+  }
+  function worldView(id) {
+    var w = world(id) || world("moon");
+    main.replaceChildren(h("div", { "class": "wrap" }, gravityNav(w.id), worldSheet(w.id)));
   }
 
   /* ---------- router ---------- */
   function setNav(section) {
     var nav = document.getElementById("nav");
-    nav.replaceChildren.apply(nav, SECTIONS.map(function (x) {
+    var ask = document.getElementById("ask-link");
+    nav.replaceChildren.apply(nav, SECTIONS.filter(function (x) { return x.id !== "ask"; }).map(function (x) {
       return h("a", { href: x.href, "aria-current": x.id === section ? "page" : null, text: x.label });
     }));
+    if (section === "ask") ask.setAttribute("aria-current", "page"); else ask.removeAttribute("aria-current");
+    document.body.setAttribute("data-section", section);
+    closeMenu();
   }
   function route() {
-    var parts = location.hash.replace(/^#\/?/, "").split("/"), section = parts[0] || "world";
+    /* A view can keep its state after a "?" in the hash (#/burn?o2=30&p=10.2): the router ignores it and the view
+       reads it from A.query(). */
+    var parts = location.hash.replace(/^#\/?/, "").split("?")[0].split("/"), section = parts[0] || "world";
     if (!D || !C) {
       main.replaceChildren(h("div", { "class": "wrap" }, h("div", { "class": "error" }, h("h1", { text: T("The data did not load") }),
         h("p", { text: T("This page needs data/data.js and data/content.js next to it. Rebuild them with: python scripts/construir_datos_app.py") }))));
@@ -249,52 +264,68 @@
     var v = VIEWS[section];
     if (!v) { section = "world"; }
     setNav(v ? v.nav : "world");
-    if (section !== "world" || lastSection !== "world") window.scrollTo(0, 0);
+    /* Moving inside these views (another world, another year) keeps the scroll; the view moves it when it must. */
+    if (!(KEEP_SCROLL[section] && lastSection === section)) window.scrollTo(0, 0);
     lastSection = section;
     if (v) v.fn(parts.slice(1)); else worldView(parts[1] || "moon");
   }
-  var themeBtn = document.getElementById("theme");
-  function currentTheme() {
-    return document.documentElement.getAttribute("data-theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-  }
-  function paintTheme() { themeBtn.textContent = currentTheme() === "dark" ? T("Light sheet") : T("Dark board"); }
-  themeBtn.addEventListener("click", function () {
-    var next = currentTheme() === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", next);
-    try { localStorage.setItem("ofmw-theme", next); } catch (e) { /* private mode: the choice lasts for this visit */ }
-    paintTheme();
+  /* ---------- shell: one dark theme, a menu button on small screens, the language switch ---------- */
+  var head = document.getElementById("head"), menuBtn = document.getElementById("menu");
+  function closeMenu() { head.removeAttribute("data-open"); menuBtn.setAttribute("aria-expanded", "false"); menuBtn.textContent = T("Menu"); }
+  menuBtn.addEventListener("click", function () {
+    if (head.hasAttribute("data-open")) { closeMenu(); return; }
+    head.setAttribute("data-open", ""); menuBtn.setAttribute("aria-expanded", "true"); menuBtn.textContent = T("Close");
   });
-  try { var saved = localStorage.getItem("ofmw-theme"); if (saved) document.documentElement.setAttribute("data-theme", saved); } catch (e) { /* ignore */ }
-  paintTheme();
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && head.hasAttribute("data-open")) { closeMenu(); menuBtn.focus(); } });
   var langBtn = document.getElementById("lang"), other = window.OFMW_LANG === "es" ? "en" : "es";
   langBtn.textContent = other === "es" ? "Español" : "English";
   langBtn.setAttribute("lang", other);
   langBtn.addEventListener("click", function () { window.OFMW_SETLANG(other); });
   document.querySelector(".skip").textContent = T("Skip to content");
   document.getElementById("nav").setAttribute("aria-label", T("Sections"));
+  document.getElementById("ask-link").textContent = T("Ask the data");
+  document.getElementById("banner").textContent = T("2026 NASA Space Apps Challenge, Flame in Freefall. A student project by Team Hamác, not an official NASA site.");
   document.getElementById("foot").replaceChildren(
-    h("p", { text: T("Data: NASA Physical Sciences Informatics (PSI) Data Repository, downloaded November 13, 2026. Every figure traces to a PSI record, table or report.") }),
-    h("p", { text: T("Summaries were written with AI from those records. The ranking of investigations and the list of experiments still to be done are the team's interpretation, not NASA's.") }),
-    window.OFMW_LANG === "es" ? h("p", { text: T("The fuel names, test results and NASA's own text are shown in English, as in the repository.") }) : null,
-    h("p", null, h("a", { href: "#/method", text: T("How this was made: data, tools and use of AI") })),
-    h("p", { text: T("Team Hamác, 2026 NASA Space Apps Challenge, Flame in Freefall. A student project, not affiliated with or endorsed by NASA.") }));
+    h("div", { "class": "foot-cols" },
+      h("div", null,
+        h("p", { text: T("Data: NASA Physical Sciences Informatics (PSI) Data Repository, downloaded November 13, 2026. Every figure traces to a PSI record, table or report.") }),
+        h("p", { text: T("Summaries were written with AI from those records. The ranking of investigations and the list of experiments still to be done are the team's interpretation, not NASA's.") }),
+        window.OFMW_LANG === "es" ? h("p", { text: T("The fuel names, test results and NASA's own text are shown in English, as in the repository.") }) : null),
+      h("div", null,
+        h("p", null, h("a", { href: "#/method", text: T("How this was made: data, tools and use of AI") })),
+        h("p", { text: T("Team Hamác, 2026 NASA Space Apps Challenge, Flame in Freefall. A student project, not affiliated with or endorsed by NASA.") }))));
+
+  /* Shared pieces every view uses, so the whole site reads as one thing.
+     back(): the way out of a detail page. intro(): the page title and one line saying what you do here.
+     tag(): the small labels (outside PSI, no data). state(): empty, loading and error blocks. */
+  function back(href, label) { return h("a", { "class": "c-back", href: href }, h("span", { "aria-hidden": "true", "class": "c-back-arrow" }), label || T("Back")); }
+  function intro(title, what) { return h("header", { "class": "c-intro" }, h("h1", { text: title }), what ? h("p", { "class": "c-what", text: what }) : null); }
+  function tag(kind, text) { return h("span", { "class": "c-tag c-tag-" + kind, text: text }); }
+  function state(kind, title, text, action) {
+    return h("div", { "class": "c-state c-state-" + kind, role: kind === "error" ? "alert" : "status" },
+      h("p", { "class": "c-state-title", text: title }), text ? h("p", { text: text }) : null, action || null);
+  }
 
   /* Tables and figures in academic layout: a number, a title above, the table or figure, and a note below with
      the source. Every table added to the site, and every table that comes out of the question box, goes through here. */
   function counter() { var t = 0, f = 0; return { table: function () { t += 1; return t; }, figure: function () { f += 1; return f; } }; }
-  function apaNote(note) { return note ? h("p", { "class": "apanote" }, h("em", { text: T("Note. ") }), note) : null; }
+  function apaNote(note) { return note ? h("p", { "class": "apanote c-fig-note" }, h("em", { text: T("Note. ") }), note) : null; }
   function apaTable(n, title, table, note) {
-    return h("figure", { "class": "apa" },
-      h("figcaption", null, h("span", { "class": "apanum", text: T("Table ") + n }), h("span", { "class": "apatitle", text: title })),
-      h("div", { "class": "table" }, table), apaNote(note));
+    return h("figure", { "class": "apa c-fig" },
+      h("figcaption", null, h("span", { "class": "apanum c-fig-num", text: T("Table ") + n }), h("span", { "class": "apatitle c-fig-title", text: title })),
+      h("div", { "class": "table c-table" }, table), apaNote(note));
   }
   function apaFigure(n, title, content, note, lang) {
-    return h("figure", { "class": "apa fig" },
-      h("figcaption", null, h("span", { "class": "apanum", text: T("Figure ") + n }), h("span", { "class": "apatitle", lang: lang || null, text: title })),
+    return h("figure", { "class": "apa fig c-fig" },
+      h("figcaption", null, h("span", { "class": "apanum c-fig-num", text: T("Figure ") + n }), h("span", { "class": "apatitle c-fig-title", lang: lang || null, text: title })),
       content, apaNote(note));
   }
   window.OFMW_APP = { h: h, s: s, add: add, fmt: fmt, plural: plural, num: num, inv: inv, world: world, plane: plane, invLink: invLink,
     counter: counter, apaTable: apaTable, apaFigure: apaFigure,
+    back: back, intro: intro, tag: tag, state: state, es: window.OFMW_ES_ADD || function () {},
+    keepScroll: function (id) { KEEP_SCROLL[id] = 1; },
+    query: function () { var q = location.hash.split("?")[1] || "", out = {}; q.split("&").forEach(function (kv) { if (!kv) return; var a = kv.split("="); out[decodeURIComponent(a[0])] = decodeURIComponent((a[1] || "").replace(/\+/g, " ")); }); return out; },
+    gravityNav: gravityNav, worldCount: worldCount, rank: rank, worldView: worldView, worldSheet: worldSheet, axisX: axisX,
     D: D, C: C, T: T, main: main, TYPES: TYPES, FRONTS: FRONTS, REL: REL,
     section: function (def, fn) { SECTIONS.push(def); VIEWS[def.id] = { fn: fn, nav: def.id }; },
     route: function (id, nav, fn) { VIEWS[id] = { fn: fn, nav: nav }; },

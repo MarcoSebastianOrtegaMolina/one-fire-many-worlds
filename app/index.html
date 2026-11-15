@@ -6,43 +6,75 @@
 <title>One Fire, Many Worlds</title>
 <meta name="description" content="What NASA's microgravity combustion data says about fire safety wherever people will live: the Station, a Moon base, a spacesuit, Mars and Earth.">
 <meta name="robots" content="noindex, nofollow">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="views.css">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="img/favicon.ico" sizes="any">
+<link rel="icon" href="img/ofmw-icono.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="img/ofmw-icono-180.png">
+<link rel="preload" href="fonts/inter/Inter-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/public-sans/PublicSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/legacy.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/chart.css">
+<link rel="stylesheet" href="css/people.css">
+<link rel="stylesheet" href="css/journey.css">
+<link rel="stylesheet" href="css/intro.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/title.css">
+<link rel="stylesheet" href="css/world.css">
+<link rel="stylesheet" href="css/ask.css">
+<link rel="stylesheet" href="css/investigations.css">
+<link rel="stylesheet" href="css/materials.css">
+<link rel="stylesheet" href="css/explore.css">
+<link rel="stylesheet" href="css/timeline.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three/0.187.0/build/three.module.js", "three/addons/": "./vendor/three/0.187.0/examples/jsm/" } }
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="top">
+<p class="site-banner" id="banner">2026 NASA Space Apps Challenge, Flame in Freefall. A student project by Team Hamác, not an official NASA site.</p>
+<header class="site-head" id="head">
   <div class="wrap">
-    <a class="brand" href="#/world/moon">One Fire, Many Worlds</a>
-    <nav id="nav" aria-label="Sections"></nav>
-    <button type="button" class="theme" id="lang">Español</button>
-    <button type="button" class="theme" id="theme">Dark board</button>
+    <a class="site-brand" href="#/" aria-label="One Fire, Many Worlds"><img src="img/ofmw-logo-horizontal-fondo-oscuro.svg" alt="One Fire, Many Worlds" width="2492" height="304"></a>
+    <button type="button" class="site-menu" id="menu" aria-expanded="false" aria-controls="head-panel">Menu</button>
+    <div class="site-panel" id="head-panel">
+      <nav class="site-nav" id="nav" aria-label="Sections"></nav>
+      <div class="site-actions">
+        <a class="c-btn c-btn-primary" id="ask-link" href="#/ask">Ask the data</a>
+        <button type="button" class="c-btn c-btn-quiet" id="lang">Español</button>
+      </div>
+    </div>
   </div>
 </header>
+<div class="stage" id="stage" aria-hidden="true"></div>
 <main id="main" tabindex="-1"></main>
-<footer class="foot">
-  <div class="wrap" id="foot">
-    <p>Data: NASA Physical Sciences Informatics (PSI) Data Repository, downloaded November 13, 2026. Every figure traces to a PSI record, table or report.</p>
-    <p>Summaries were written with AI from those records. The ranking of investigations and the list of experiments still to be done are the team's interpretation, not NASA's.</p>
-    <p>Team Hamác, 2026 NASA Space Apps Challenge, Flame in Freefall. A student project, not affiliated with or endorsed by NASA.</p>
-  </div>
+<footer class="site-foot">
+  <div class="wrap" id="foot"></div>
 </footer>
 <script src="data/data.js"></script>
 <script src="data/content.js"></script>
 <script src="data/content.es.js"></script>
 <script src="data/evidence.js"></script>
 <script src="data/figures.js"></script>
+<script src="data/people.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/app.js"></script>
+<script src="js/people.js"></script>
+<script src="js/chart.js"></script>
+<script src="js/world.js"></script>
+<script src="js/title.js"></script>
+<script src="js/intro.js"></script>
+<script src="js/home.js"></script>
+<script src="js/journey.js"></script>
+<script type="module" src="js/stage.js"></script>
 <script src="js/investigations.js"></script>
 <script src="js/materials.js"></script>
 <script src="js/explore.js"></script>
+<script src="js/timeline.js"></script>
 <script src="js/sources.js"></script>
+<script src="js/source.js"></script>
 <script src="js/method.js"></script>
-<script src="js/viewer3d.js"></script>
 <script src="js/ask.js"></script>
 <script src="js/start.js"></script>
 </body>

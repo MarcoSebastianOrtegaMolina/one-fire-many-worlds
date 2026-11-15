@@ -1,0 +1,8 @@
+Fonts served from this site.
+
+Inter, Public Sans and DM Mono are licensed under the SIL Open Font License 1.1
+(https://openfontlicense.org). The files were taken from the npm package @nasa-hds/core 0.10.0
+(NASA Horizon Design System), which bundles them under that license.
+Inter: https://github.com/rsms/inter  Public Sans: https://github.com/uswds/public-sans  DM Mono: https://github.com/googlefonts/dm-mono
+
+Anton (the lettering of the logo, page titles): SIL Open Font License 1.1, copied from logo/fuente/fuentes/. https://github.com/googlefonts/AntonFont

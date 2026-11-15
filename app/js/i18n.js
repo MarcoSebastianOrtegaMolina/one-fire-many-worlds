@@ -14,6 +14,9 @@
     "Worlds": "Mundos", "Investigations": "Investigaciones", "Materials": "Materiales", "Timeline": "Línea de tiempo",
     "Will it burn?": "¿Arderá?", "Data": "Datos", "Ask": "Preguntar", "Light sheet": "Hoja clara", "Dark board": "Pizarrón oscuro",
     "Skip to content": "Saltar al contenido", "Sections": "Secciones",
+    "Menu": "Menú", "Close": "Cerrar", "Back": "Volver", "Ask the data": "Pregúntale a los datos",
+    "2026 NASA Space Apps Challenge, Flame in Freefall. A student project by Team Hamác, not an official NASA site.":
+      "NASA Space Apps Challenge 2026, Flame in Freefall. Proyecto estudiantil del equipo Hamác; no es un sitio oficial de NASA.",
     "Data: NASA Physical Sciences Informatics (PSI) Data Repository, downloaded November 13, 2026. Every figure traces to a PSI record, table or report.":
       "Datos: repositorio Physical Sciences Informatics (PSI) de NASA, descargado el 13 de noviembre de 2026. Cada cifra sale de una ficha, tabla o reporte de PSI.",
     "Summaries were written with AI from those records. The ranking of investigations and the list of experiments still to be done are the team's interpretation, not NASA's.":
@@ -391,6 +394,9 @@
   merge();
   window.OFMW_LANG = lang;
   window.OFMW_T = T;
+  /* Each view file adds its own Spanish strings with A.es({ "English": "Español" }) before it uses them,
+     so two people working on two views never edit the same dictionary. */
+  window.OFMW_ES_ADD = function (more) { for (var k in more) if (Object.prototype.hasOwnProperty.call(more, k)) ES[k] = more[k]; };
   window.OFMW_SETLANG = function (next) {
     try { localStorage.setItem("ofmw-lang", next); } catch (e) { /* private mode: nothing to save */ }
     location.href = location.pathname + "?lang=" + next + location.hash;

@@ -1,0 +1,86 @@
+/* chart: the shared oxygen and pressure chart (js/chart.js). Class prefix ch-. Only base.css tokens; no legacy.css. */
+.ch-fig{margin:0; min-width:0; container-type:inline-size}
+.ch-canvas{max-width:1100px}
+/* a wide box: the chart keeps about 1100 px and the legend, the note and the table button sit beside it */
+@container (min-width:80rem){
+  .ch-body{display:grid; grid-template-columns:minmax(0,1100px) minmax(15rem,1fr); column-gap:var(--s-5); align-items:start}
+  .ch-body > .ch-tools, .ch-body > .ch-tablebox{grid-column:1 / -1}
+  .ch-body > .ch-canvas{grid-column:1; grid-row:2 / span 4}
+  .ch-body > .ch-key, .ch-body > .c-fig-note, .ch-body > .ch-more{grid-column:2}
+  .ch-body > .ch-key{flex-direction:column; align-items:flex-start; margin-top:0}
+}
+.ch-fig .ch-cap{margin:0 0 .75rem; font-size:inherit; color:inherit; max-width:none}
+.ch-fig .c-fig-title{max-width:70ch}
+
+/* fuel switches */
+.ch-tools{display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin:0 0 .75rem}
+.ch-tools-l{margin-right:.25rem; font:600 var(--t-2xs)/1.2 var(--font-body); color:var(--text-2)}
+.ch-tog{display:inline-flex; align-items:center; gap:.5rem; min-height:2.75rem; padding:0 .95rem; border:1px solid var(--line-strong); border-radius:var(--radius);
+  background:transparent; color:var(--text); font:600 var(--t-2xs)/1 var(--font-head); cursor:pointer; transition:border-color .2s var(--ease), color .2s var(--ease)}
+.ch-tog::before{content:""; flex:0 0 auto; width:.75rem; height:.75rem; border-radius:50%; background:var(--c); border:2px solid var(--c); box-sizing:border-box}
+.ch-tog:hover{border-color:var(--text)}
+.ch-tog[aria-pressed="false"]{color:var(--text-3); border-style:dashed; text-decoration:line-through; text-decoration-thickness:1px}
+.ch-tog[aria-pressed="false"]::before{background:transparent}
+
+/* the drawing */
+.ch-canvas{position:relative; border:1px solid var(--line); border-radius:var(--radius); background:var(--space); touch-action:manipulation}
+.ch-canvas:focus{outline:none}
+.ch-canvas:focus-visible{outline:2px solid var(--link); outline-offset:3px}
+.ch-svg{display:block; width:100%; height:auto; max-width:100%}
+.ch-svg text{font:400 14px/1 var(--font-data); fill:var(--text-2); letter-spacing:0}
+.ch-svg .ch-ttl{font:600 15px/1 var(--font-body); fill:var(--text-2)}
+.ch-svg .ch-gl{stroke:#1d1d22; stroke-width:1}
+.ch-svg .ch-ax{stroke:var(--text-3); stroke-width:1.2; fill:none}
+.ch-svg .ch-pt{fill-opacity:.62; stroke:#000; stroke-width:.6}
+.ch-svg .ch-solid{fill:var(--solid)} .ch-svg .ch-liquid{fill:var(--liquid)} .ch-svg .ch-gas{fill:var(--gas)}
+.ch-svg .ch-pt.ch-dim{fill-opacity:.14; stroke:none}
+.ch-svg .ch-pt.ch-hot{fill-opacity:.92; stroke:#000; stroke-width:1}
+.ch-svg .ch-pt.ch-off{fill-opacity:.05; stroke:none}
+.ch-svg .ch-zone{fill:#fff; fill-opacity:0; stroke:var(--text-3); stroke-width:1; stroke-dasharray:5 4}
+.ch-svg .ch-zone.ch-on{fill-opacity:.1; stroke:var(--text); stroke-dasharray:none; stroke-width:1.8}
+.ch-svg .ch-zone.ch-miss{fill:var(--missing); stroke:var(--missing); stroke-dasharray:4 3}
+.ch-svg .ch-zone.ch-miss.ch-on{fill-opacity:.22}
+.ch-svg .ch-lbl{font:600 14px/1 var(--font-body); fill:var(--text-2); paint-order:stroke; stroke:#000; stroke-width:4px; stroke-linejoin:round}
+.ch-svg .ch-lbl-on{fill:var(--text)}
+.ch-svg .ch-lbl-miss{fill:var(--missing)}
+.ch-svg .ch-cross{stroke:var(--text); stroke-width:2; fill:none}
+.ch-svg .ch-probe{fill:var(--link); fill-opacity:.14; stroke:var(--link); stroke-width:1.5; stroke-dasharray:5 4}
+.ch-svg .ch-probe-x{stroke:var(--text); stroke-width:2.5; fill:none}
+.ch-svg .ch-ring{fill:none; stroke:var(--text); stroke-width:2}
+
+/* tooltip: kept inside the chart by js */
+.ch-tip{position:absolute; left:0; top:0; z-index:3; max-width:min(17rem, calc(100% - 8px)); padding:.55rem .75rem; background:var(--surface); border:1px solid var(--line-strong);
+  border-radius:var(--radius); font:400 var(--t-2xs)/1.4 var(--font-body); color:var(--text); pointer-events:none}
+.ch-tip[hidden]{display:none}
+.ch-tip-h{margin-bottom:.2rem; font-weight:600; color:var(--text-2)}
+.ch-sr{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
+
+/* legend */
+.ch-key{margin-top:.85rem}
+.ch-key .ch-k-plain::before, .ch-key .ch-k-plain span::before{display:none}
+.ch-key .c-key{margin:0}
+.ch-key .ch-k-plain{display:inline-block}
+.ch-key-x{display:inline-block; width:.75rem; height:.75rem; margin-right:.4rem; vertical-align:-.05rem; stroke:var(--text); stroke-width:2; fill:none}
+.ch-key .ch-k-miss{color:var(--missing)}
+.ch-fig .c-fig-note{max-width:90ch}
+.ch-fig .c-fig-note em{font-style:italic; color:var(--text-2)}
+
+/* table alternative */
+.ch-more{margin-top:.85rem}
+.ch-tablebox{margin-top:.85rem}
+.ch-tablebox[hidden]{display:none}
+.ch-table-t{font:600 var(--t-2xs)/1.3 var(--font-head); color:var(--text)}
+.ch-table-n{margin:.2rem 0 .6rem; font-size:var(--t-2xs); color:var(--text-3); max-width:70ch}
+.ch-table{max-height:24rem; overflow:auto}
+.ch-table th, .ch-table td{border-right:0}
+@media print{ .ch-tools, .ch-more{display:none} .ch-tablebox{display:block} }
+.ch-table thead th{letter-spacing:0; text-transform:none}
+@media (max-width:30rem){ .ch-tools-l{flex-basis:100%} }
+
+/* legend groups, each with its title */
+.ch-key{display:flex; flex-wrap:wrap; gap:.75rem var(--s-4)}
+.ch-key-g{min-width:0}
+.ch-key-t{margin-bottom:.3rem; font:600 var(--t-2xs)/1.3 var(--font-head); color:var(--text)}
+.ch-key-g .c-key{gap:.35rem 1.25rem}
+.ch-table-cap{margin:0 0 .6rem}
+@container (min-width:80rem){ .ch-body > .ch-key{flex-direction:column; gap:.9rem} .ch-key-g .c-key{flex-direction:column; align-items:flex-start} }

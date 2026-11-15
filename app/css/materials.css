@@ -1,0 +1,227 @@
+/* materials: estilos propios de esta vista. Clases con su prefijo; no depende de legacy.css.
+   Lista (galería o tabla) y pasaporte de cada material. Solo colores, letras y medidas de base.css. */
+
+.mat-page{padding-bottom:var(--s-4)}
+.mat-page h2, .mat-page h3{border-top:0; margin:0; padding:0}
+.mat-page ul, .mat-page ol{margin:0; padding:0}
+.mat-page figure{margin:0}
+.mat-page dl, .mat-page dd{margin:0}
+.mat-page p{margin:0}
+.mat-page figcaption{margin-top:0; font-size:var(--t-2xs); color:inherit; max-width:none}
+.mat-page figcaption.c-fig-note{color:var(--text-3); font-weight:400}
+
+/* ---------- tools: view and sort ---------- */
+.mat-tools{display:flex; flex-wrap:wrap; align-items:flex-end; gap:var(--s-2) var(--s-4); margin:var(--s-1) 0 var(--s-4)}
+.mat-tool{min-width:0}
+.mat-tool-label{display:block; margin-bottom:.45rem; font:600 var(--t-2xs)/1.3 var(--font-body); color:var(--text-3)}
+.mat-seg{display:flex; flex-wrap:wrap; gap:.5rem}
+.mat-seg-btn{min-height:2.75rem; padding:0 1rem; background:transparent; border:1px solid var(--line-strong); border-radius:var(--radius); color:var(--text-2);
+  font:600 var(--t-2xs)/1.1 var(--font-head); cursor:pointer; transition:background-color .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease)}
+.mat-seg-btn:hover{border-color:var(--text); color:var(--text)}
+.mat-seg-btn[aria-pressed="true"]{background:var(--action); border-color:var(--action); color:#000}
+
+/* ---------- gallery ---------- */
+.mat-grid{list-style:none; display:grid; grid-template-columns:minmax(0,1fr); grid-auto-flow:row dense; gap:var(--s-3)}
+.mat-card{position:relative; display:flex; flex-direction:column; min-width:0; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+  transition:border-color .2s var(--ease)}
+.mat-card:hover{border-color:var(--line-strong)}
+.mat-card:has(.mat-card-link:focus-visible){outline:2px solid var(--link); outline-offset:3px}
+.mat-card-link:focus-visible{outline:none}
+.mat-media{position:relative; aspect-ratio:4 / 3; overflow:hidden; background:#000; border-bottom:1px solid var(--line)}
+.mat-media img{display:block; width:100%; height:100%; object-fit:cover}
+.mat-media .c-tag{position:absolute; left:.6rem; top:.6rem; background:#000}
+.mat-media-missing{display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; gap:.75rem; padding:var(--s-3); background:var(--surface)}
+.mat-media-missing .c-tag{position:static}
+.mat-media-name{font:700 var(--t-lg)/1.1 var(--font-head); letter-spacing:-.02em; color:var(--text-3); overflow-wrap:anywhere}
+.mat-credit{position:relative; z-index:2; min-height:1.9rem; padding:.45rem var(--s-2) 0; font-size:var(--t-2xs); line-height:1.4; color:var(--text-3)}
+.mat-credit a{color:var(--text-2)}
+.mat-credit a:hover{color:var(--text)}
+.mat-card-body{display:flex; flex-direction:column; gap:var(--s-2); flex:1; padding:.5rem var(--s-2) var(--s-2)}
+.mat-card-name{font:700 var(--t-md)/1.15 var(--font-head); letter-spacing:-.02em; overflow-wrap:anywhere}
+.mat-card-link{color:var(--text); text-decoration:none}
+.mat-card-link::after{content:""; position:absolute; inset:0; z-index:1}
+.mat-card:hover .mat-card-link{text-decoration:underline; text-decoration-thickness:1px}
+.mat-card-flag{margin-top:-.5rem}
+.mat-counts{display:flex; flex-wrap:wrap; gap:.25rem 1.1rem; margin-top:auto; font-size:var(--t-2xs); color:var(--text-2)}
+.mat-counts .num{color:var(--text)}
+
+/* the three answers, the same strip on every card so materials compare at a glance */
+.mat-strip{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+.mat-strip > div{min-width:0; padding:.65rem .6rem .75rem 0}
+.mat-strip > div + div{padding-left:.6rem; border-left:1px solid var(--line)}
+.mat-strip dt{font:600 var(--t-2xs)/1.25 var(--font-body); color:var(--text-3)}
+.mat-strip dd{margin-top:.45rem; min-width:0}
+.mat-v{display:block; font:500 var(--t-xs)/1.2 var(--font-data); font-variant-numeric:tabular-nums; color:var(--text); white-space:nowrap}
+.mat-u{display:block; margin-top:.35rem; font-size:var(--t-2xs); line-height:1.3; color:var(--text-3)}
+.mat-rail{position:relative; display:block; height:4px; margin-top:.45rem; background:var(--surface-2); border-radius:1px; overflow:hidden}
+.mat-fill{position:absolute; top:0; bottom:0; left:0; background:var(--text)}
+
+@media (min-width:40rem){
+  .mat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mat-card-full{grid-column:1 / -1; display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); grid-template-rows:auto 1fr}
+  .mat-card-full .mat-media{grid-column:1; grid-row:1; border-bottom:0}
+  .mat-card-full .mat-credit{grid-column:1; grid-row:2; padding-bottom:.6rem}
+  .mat-card-full .mat-card-body{grid-column:2; grid-row:1 / span 2; padding:var(--s-3); border-left:1px solid var(--line); justify-content:center}
+  .mat-card-full{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .mat-card-full .mat-card-name{font-size:var(--t-lg)}
+  .mat-card-full .mat-v{font-size:var(--t-sm)}
+}
+@media (min-width:68rem){
+  .mat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .mat-card-full{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}
+  .mat-card-full .mat-card-body{padding:var(--s-3) var(--s-5)}
+  .mat-card-full .mat-v{font-size:var(--t-md)}
+}
+
+/* ---------- tables ---------- */
+.mat-apa{margin-top:var(--s-2)}
+.mat-tableframe{max-width:100%}
+.mat-table{min-width:56rem}
+.mat-table thead th.mat-r{text-align:right}
+.mat-page .num{font-size:1em}
+.mat-table tbody th a{font-weight:600}
+.mat-table:not(.mat-tests) tbody th{min-width:20rem}
+.mat-sub{display:block; margin-top:.35rem; max-width:52ch; font-weight:400; color:var(--text-2); white-space:normal}
+.mat-meter{display:inline-flex; flex-direction:column; align-items:flex-end; min-width:6rem}
+.mat-meter .mat-rail{width:6rem}
+.mat-tests{min-width:64rem}
+.mat-tests tbody th{white-space:nowrap}
+.mat-table thead th{white-space:nowrap; font:600 var(--t-2xs)/1.3 var(--font-head); text-transform:none; letter-spacing:0}
+.mat-tests td:nth-child(2){min-width:11rem}
+.mat-tests td:nth-child(6){min-width:22rem}
+.mat-table td, .mat-table th, .mat-table td.num{font-size:var(--t-2xs)}
+.mat-table tbody th{font:600 var(--t-2xs)/1.4 var(--font-head); letter-spacing:0}
+.mat-table th, .mat-table td{border-right:0}
+.mat-noburn{color:var(--text-3)}
+
+/* ---------- passport ---------- */
+.mat-backrow{padding-top:var(--s-3)}
+.mat-head{display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s-3); margin-top:var(--s-2)}
+.mat-head .c-intro{padding-top:0}
+.mat-head .c-intro h1{font-size:clamp(2.25rem, 1.2rem + 3vw, 4rem); overflow-wrap:anywhere; hyphens:auto}
+.mat-hero-cap{margin-bottom:.6rem}
+.mat-media-hero{aspect-ratio:4 / 3; border:1px solid var(--line); border-radius:var(--radius)}
+.mat-media-hero img{object-fit:contain}
+@media (max-width:55.99rem){ .mat-media-hero{aspect-ratio:16 / 9} }
+.mat-hero .c-fig-note{max-width:none}
+.mat-stats{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius); margin-top:var(--s-2)}
+.mat-stats > div{background:var(--space); padding:.8rem 1rem}
+.mat-stats dt{font:600 var(--t-2xs)/1.25 var(--font-body); color:var(--text-3)}
+.mat-stats dd{margin-top:.3rem; font-size:var(--t-lg); line-height:1; color:var(--text)}
+@media (min-width:30rem){ .mat-stats{grid-template-columns:repeat(4,minmax(0,1fr))} }
+@media (min-width:56rem){
+  .mat-head{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:var(--s-5); align-items:start}
+  .mat-head-text{padding-top:var(--s-4)}
+}
+
+/* index of the passport: a bar stuck under the header on a phone, a column beside the sections on a desk */
+.mat-layout{display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s-3); margin-top:var(--s-5)}
+.mat-toc{position:sticky; top:var(--head-h); z-index:5; background:var(--space); border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+.mat-toc-title{display:none}
+.mat-toc ul{list-style:none; display:flex; gap:.25rem; overflow-x:auto; scrollbar-width:thin; -webkit-overflow-scrolling:touch}
+.mat-toc li{flex:0 0 auto}
+.mat-toc-btn{position:relative; min-height:2.75rem; padding:0 .75rem; background:transparent; border:0; color:var(--text-2); font:500 var(--t-2xs)/1.2 var(--font-head); cursor:pointer; white-space:nowrap; text-align:left}
+.mat-toc-btn:hover{color:var(--text)}
+.mat-toc-btn[aria-current="true"]{color:var(--text)}
+.mat-toc-btn[aria-current="true"]::after{content:""; position:absolute; left:.75rem; right:.75rem; bottom:.3rem; height:2px; background:var(--text)}
+.mat-sec{scroll-margin-top:calc(var(--head-h) + 4rem); padding-top:var(--s-4)}
+.mat-sec + .mat-sec{margin-top:var(--s-4); border-top:1px solid var(--line)}
+.mat-sec > h2{font-size:var(--t-lg); margin-bottom:var(--s-2)}
+.mat-sec > h2:focus{outline:none}
+.mat-sec > h2:focus-visible{outline:2px solid var(--link)}
+@media (min-width:64rem){
+  .mat-layout{grid-template-columns:12.5rem minmax(0,1fr); gap:var(--s-6)}
+  .mat-toc{top:calc(var(--head-h) + var(--s-3)); align-self:start; border:0; background:transparent}
+  .mat-toc-title{display:block; margin-bottom:.5rem; font:600 var(--t-2xs)/1.3 var(--font-body); color:var(--text-3)}
+  .mat-toc ul{flex-direction:column; gap:0; overflow:visible; border-left:1px solid var(--line)}
+  .mat-toc-btn{width:100%; white-space:normal; padding:.55rem 0 .55rem 1rem}
+  .mat-toc-btn[aria-current="true"]::after{left:-1px; right:auto; top:.4rem; bottom:.4rem; width:2px; height:auto}
+  .mat-sec{scroll-margin-top:calc(var(--head-h) + 1.5rem)}
+}
+.mat-body{min-width:0}
+.mat-note{margin-top:var(--s-2); max-width:75ch; font-size:var(--t-2xs); line-height:1.5; color:var(--text-3)}
+.mat-lead{max-width:70ch; color:var(--text-2)}
+
+/* the three answers, side by side */
+.mat-answers{display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s-2)}
+@media (min-width:48rem){ .mat-answers{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.mat-answer{min-width:0; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:var(--s-3) var(--s-2) var(--s-2)}
+.mat-answer h3{font-size:var(--t-sm)}
+.mat-big{display:flex; flex-wrap:wrap; align-items:baseline; gap:.5rem; margin-top:var(--s-2); font:500 var(--t-2xl)/1 var(--font-data); color:var(--text)}
+.mat-big .num{font-size:1em}
+.mat-big-unit{font:400 var(--t-xs)/1.2 var(--font-body); color:var(--text-2)}
+.mat-big-missing{font:700 var(--t-xl)/1 var(--font-head); letter-spacing:-.02em; color:var(--missing)}
+.mat-answer > .mat-rail{height:6px; margin-top:var(--s-2)}
+.mat-detail{margin-top:var(--s-2); padding-top:var(--s-2); border-top:1px solid var(--line)}
+.mat-known{font-size:var(--t-2xs); line-height:1.55; color:var(--text-2)}
+.mat-known + .mat-known{margin-top:.6rem}
+.mat-known strong{color:var(--text)}
+.mat-outside{padding-top:.6rem; border-top:1px dashed var(--line-strong)}
+
+/* what the documents say */
+.mat-group{margin-top:var(--s-4)}
+.mat-group-head{display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1rem}
+.mat-group-head h3, .mat-figgroup h3{font-size:var(--t-sm)}
+.mat-group-n{color:var(--text-3); font-weight:400}
+.mat-group .mat-note{margin-top:.4rem}
+.mat-docs{list-style:none; margin-top:var(--s-2)}
+.mat-doc{display:grid; grid-template-columns:4.5rem minmax(0,1fr); gap:var(--s-2); padding:var(--s-2) 0; border-top:1px solid var(--line)}
+.mat-doc[hidden]{display:none}
+.mat-doc-thumb{display:block; align-self:start}
+.mat-doc-thumb img{display:block; width:4.5rem; height:6rem; object-fit:cover; object-position:top; background:#fff; border:1px solid var(--line)}
+.mat-doc-noimg{display:flex; align-items:center; justify-content:center; width:4.5rem; height:6rem; border:1px solid var(--line); font:400 var(--t-2xs)/1.2 var(--font-body); color:var(--text-3)}
+.mat-doc-text{min-width:0}
+.mat-doc-link{display:inline-block; padding:.2rem 0; font-weight:600; overflow-wrap:anywhere}
+.mat-doc-claim{margin-top:.3rem; max-width:75ch; font-size:var(--t-2xs); line-height:1.55; color:var(--text-2)}
+.mat-doc-tags{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.5rem}
+.mat-doc-tags:empty{display:none}
+.mat-more{margin-top:var(--s-1)}
+
+/* figures and the enlarged view */
+.mat-figgroup + .mat-figgroup{margin-top:var(--s-3)}
+.mat-thumbs{list-style:none; display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,9.5rem),1fr)); gap:var(--s-2); margin-top:var(--s-1)}
+.mat-thumb{display:flex; flex-direction:column; gap:.4rem; width:100%; height:100%; padding:0 0 .75rem; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+  color:var(--text); text-align:left; cursor:zoom-in; transition:border-color .2s var(--ease)}
+.mat-thumb:hover{border-color:var(--line-strong)}
+.mat-thumb-img{display:block; aspect-ratio:4 / 3; background:#fff; border-bottom:1px solid var(--line)}
+.mat-thumb-img img{display:block; width:100%; height:100%; object-fit:contain}
+.mat-thumb-t{padding:0 .75rem; font:600 var(--t-2xs)/1.3 var(--font-head)}
+.mat-thumb-tags{display:flex; flex-wrap:wrap; gap:.35rem; padding:0 .75rem}
+.mat-thumb-c{padding:0 .75rem; font-size:var(--t-2xs); line-height:1.45; color:var(--text-2); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
+
+.mat-lb{width:min(72rem, calc(100vw - 2rem)); max-width:none; max-height:calc(100vh - 2rem); max-height:calc(100dvh - 2rem); padding:0; margin:auto;
+  background:var(--space); color:var(--text); border:1px solid var(--line-strong); border-radius:var(--radius); overflow:auto}
+.mat-lb::backdrop{background:rgba(0,0,0,.86)}
+.mat-lb-bar{position:sticky; top:0; z-index:1; display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.5rem .5rem .5rem 1rem; background:var(--space); border-bottom:1px solid var(--line)}
+.mat-lb-count{font:400 var(--t-2xs)/1.3 var(--font-body); color:var(--text-2)}
+.mat-lb-stage{display:flex; align-items:center; justify-content:center; padding:var(--s-2); background:#fff}
+.mat-lb-img{display:block; max-width:100%; width:auto; height:auto; max-height:58vh; max-height:58dvh; object-fit:contain}
+.mat-lb-text{padding:var(--s-2) var(--s-3) 0}
+.mat-lb-title{display:flex; flex-wrap:wrap; align-items:center; gap:.4rem; font:600 var(--t-sm)/1.3 var(--font-head)}
+.mat-lb-cap{margin-top:.5rem; max-width:80ch; font-size:var(--t-2xs); line-height:1.55; color:var(--text-2)}
+.mat-lb-credit{margin-top:.6rem; max-width:80ch; font-size:var(--t-2xs); line-height:1.5; color:var(--text-3)}
+.mat-lb-credit strong{color:var(--text-2); font-weight:600}
+.mat-lb-links{margin-top:.6rem; font-size:var(--t-2xs)}
+.mat-lb-links a{display:inline-block; padding:.6rem 0}
+.mat-lb-nav{display:flex; justify-content:space-between; gap:1rem; padding:var(--s-2) var(--s-3) var(--s-3)}
+
+/* tests, gaps, previous and next */
+.mat-invs{display:flex; flex-wrap:wrap; gap:.25rem 1.25rem; font-size:var(--t-2xs)}
+.mat-invs a{display:inline-block; padding:.6rem 0; font-weight:600}
+.mat-invs-n{color:var(--text-3)}
+.mat-more-row{margin-top:var(--s-2)}
+.mat-gaps{list-style:none; counter-reset:gap; max-width:80ch}
+.mat-gaps li{counter-increment:gap; display:grid; grid-template-columns:2rem minmax(0,1fr); gap:.5rem; padding:.85rem 0; border-top:1px solid var(--line); color:var(--text-2)}
+.mat-gaps li::before{content:counter(gap); font:600 var(--t-xs)/1.55 var(--font-head); color:var(--text-3)}
+.mat-pager{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--s-2); margin-top:var(--s-6); padding-top:var(--s-3); border-top:1px solid var(--line)}
+.mat-pager-a{display:flex; flex-direction:column; gap:.35rem; min-height:2.75rem; padding:var(--s-2); border:1px solid var(--line-strong); border-radius:var(--radius); color:var(--text); text-decoration:none; min-width:0}
+.mat-pager-a:hover{border-color:var(--text); background:var(--surface); color:var(--text)}
+.mat-pager-next{text-align:right; grid-column:2}
+.mat-pager-l{font:600 var(--t-2xs)/1.25 var(--font-body); color:var(--text-3)}
+.mat-pager-n{font:600 var(--t-sm)/1.25 var(--font-head); overflow-wrap:anywhere}
+
+@media print{
+  .mat-toc, .mat-tools, .mat-pager, .mat-more, .mat-lb{display:none !important}
+  .mat-doc[hidden]{display:grid}
+  .mat-media, .mat-card, .mat-answer{background:#fff}
+}

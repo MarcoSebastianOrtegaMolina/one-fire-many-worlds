@@ -1,0 +1,194 @@
+/* home: the bands under the journey, one per tool. Prefix hm-. Only tokens from base.css. */
+.hm{position:relative; color:var(--text)}
+.hm h2{border-top:0; margin:0; font-family:var(--font-head); font-size:clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem)}
+.hm h2:focus{outline:none}
+.hm h2:focus-visible{outline:2px solid var(--link); outline-offset:4px}
+.hm-what{margin-top:var(--s-2); max-width:44ch; font:400 var(--t-sm)/1.5 var(--font-body); color:var(--text-2)}
+.hm-note, .hm-cap{margin-top:var(--s-2); max-width:62ch; font:400 var(--t-2xs)/1.5 var(--font-body); color:var(--text-3)}
+.hm-cap{margin:0 0 var(--s-2); color:var(--text-2)}
+.hm-saved-lead{margin:var(--s-3) 0 var(--s-1); font:600 var(--t-2xs)/1.4 var(--font-body); color:var(--text-2)}
+.hm .num{font-family:var(--font-data)}
+
+/* the bridge from the worlds: one line and the six names */
+.hm-bridge{padding:var(--s-2) 0 var(--s-3)}
+.hm-bridge .wrap{border-top:1px solid var(--line); padding-top:var(--s-3)}
+.hm-bridge-line{font:600 var(--t-sm)/1.4 var(--font-head); color:var(--text); max-width:60ch}
+.hm-jump{list-style:none; margin:var(--s-2) 0 0; padding:0; display:flex; flex-wrap:wrap; gap:.25rem var(--s-1)}
+.hm-jump a{display:inline-flex; align-items:center; min-height:2.75rem; padding:0 .85rem; border:1px solid var(--line-strong); border-radius:var(--radius);
+  font:500 var(--t-2xs)/1.2 var(--font-head); color:var(--text); text-decoration:none; transition:border-color .2s var(--ease), background-color .2s var(--ease)}
+.hm-jump a:hover{border-color:var(--text); background:var(--surface); color:var(--text)}
+
+/* one band per tool */
+/* the page already keeps the sticky head clear (scroll-padding-top in base.css) */
+.hm-sec > .wrap > *{border-top:1px solid var(--line); padding:var(--s-8) 0}
+.hm-grid{display:grid; grid-template-columns:minmax(0,1fr); grid-template-areas:"text" "preview" "actions"; gap:var(--s-3)}
+.hm-text{grid-area:text; min-width:0}
+.hm-preview{grid-area:preview; min-width:0}
+.hm-actions{grid-area:actions; display:flex; flex-wrap:wrap; gap:var(--s-1); align-items:flex-start; align-content:flex-start}
+@media (min-width:64rem){
+  .hm-sec > .wrap > *{padding:var(--s-10) 0}
+  .hm-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr); grid-template-areas:"text preview" "actions preview"; grid-template-rows:auto 1fr; column-gap:var(--s-8); row-gap:var(--s-3)}
+  .hm-flip .hm-grid{grid-template-columns:minmax(0,7fr) minmax(0,5fr); grid-template-areas:"preview text" "preview actions"}
+}
+
+/* Ask the data: first, larger and centred */
+.hm-ask{text-align:center}
+.hm-ask h2{font-size:clamp(2.25rem, 1.4rem + 3vw, 3.5rem)}
+.hm-ask .hm-what{margin-left:auto; margin-right:auto; max-width:52ch}
+.hm-ask > .hm-rise{max-width:52rem; margin:var(--s-4) auto 0; text-align:left}
+.hm-label{display:block; margin-bottom:.4rem; font:600 var(--t-2xs)/1.3 var(--font-body); color:var(--text-2)}
+.hm-ask-row{display:flex; gap:var(--s-1)}
+.hm-ask-row input{flex:1; min-width:0; min-height:3.25rem; padding:0 1rem; font:400 var(--t-xs)/1.3 var(--font-body); color:var(--text);
+  background:var(--surface); border:1px solid var(--line-strong); border-radius:var(--radius)}
+.hm-ask-row input::placeholder{color:var(--text-3)}
+.hm-ask-row input:focus-visible{outline:2px solid var(--link); outline-offset:2px}
+.hm-ask-row .c-btn{min-height:3.25rem}
+.hm-saved{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--s-1)}
+.hm-saved-btn{display:flex; flex-direction:column; align-items:flex-start; gap:.3rem; width:100%; height:100%; min-height:2.75rem; padding:.85rem 1rem; text-align:left;
+  background:transparent; border:1px solid var(--line-strong); border-radius:var(--radius); cursor:pointer; transition:border-color .2s var(--ease), background-color .2s var(--ease)}
+.hm-saved-btn:hover{border-color:var(--text); background:var(--surface)}
+.hm-saved-front{font:600 var(--t-2xs)/1.2 var(--font-body); color:var(--text-3)}
+.hm-saved-q{font:500 var(--t-xs)/1.4 var(--font-head); color:var(--text)}
+@media (max-width:47.99rem){
+  .hm-ask{text-align:left}
+  .hm-ask .hm-what{margin-left:0}
+  .hm-ask-row{flex-direction:column}
+  .hm-saved{grid-template-columns:minmax(0,1fr)}
+}
+
+/* drawings that are redrawn at their real size */
+.hm-fit{width:100%; min-width:0}
+.hm-fit svg{display:block; max-width:100%; overflow:visible}
+.hm-num{font:400 14px var(--font-data); fill:var(--text-3)}
+.hm-axlabel{font:400 14px var(--font-body); fill:var(--text-2)}
+.hm-zlabel{font:600 14px var(--font-body); fill:var(--text-2)}
+.hm-tick, .hm-grid-l{stroke:var(--line); stroke-width:1}
+.hm-tick{stroke:var(--line-strong)}
+.hm-ax, .hm-base{stroke:var(--line-strong); stroke-width:1; fill:none}
+.hm-dot{fill-opacity:.6; stroke:none}
+.hm-gas{fill:var(--gas); stroke:var(--gas)} .hm-liquid{fill:var(--liquid); stroke:var(--liquid)} .hm-solid{fill:var(--solid); stroke:var(--solid)} .hm-none{fill:var(--text-3)}
+.hm-dot.hm-ring{fill:none; stroke-width:1.2; stroke-opacity:.75}
+.hm-gap{fill:var(--missing); fill-opacity:.14; stroke:var(--missing); stroke-opacity:.6; stroke-dasharray:3 3}
+.hm-pt{fill-opacity:.55; stroke:#000; stroke-width:.75}
+.hm-zone{fill:var(--surface); stroke:var(--line-strong); stroke-dasharray:4 3}
+.hm-cross{stroke:var(--text); stroke-width:2; fill:none}
+
+/* Investigations: the strip of dots */
+.hm-strip-list{list-style:none; margin:0; padding:0}
+.hm-strip-row{display:grid; grid-template-columns:minmax(0,1fr); gap:.15rem; padding:.35rem 0}
+.hm-strip-name{font:600 var(--t-xs)/1.3 var(--font-head)}
+.hm-strip-name a{color:var(--text); text-decoration:none; display:inline-flex; align-items:center; min-height:2.75rem}
+.hm-strip-name a:hover{text-decoration:underline}
+.hm-strip-n{font:400 var(--t-2xs)/1.3 var(--font-body); color:var(--text-3)}
+.hm-strip-axisrow{display:grid; grid-template-columns:minmax(0,1fr)}
+@media (min-width:36rem){
+  .hm-strip-row, .hm-strip-axisrow{grid-template-columns:11rem minmax(0,1fr); column-gap:var(--s-2); align-items:center}
+  .hm-strip-axisrow > .hm-fit{grid-column:2}
+  .hm-strip-name{display:flex; flex-direction:column}
+  .hm-strip-name a{min-height:2rem}
+}
+.hm-gap-key{display:flex; align-items:center; gap:.5rem; margin-top:var(--s-1); font:400 var(--t-2xs)/1.4 var(--font-body); color:var(--missing)}
+.hm-gap-sw{flex:0 0 auto; width:1.25rem; height:.85rem; border:1px dashed var(--missing); background:color-mix(in srgb, var(--missing) 14%, transparent)}
+.hm-key{margin-top:var(--s-1)}
+
+/* Materials: ten cards, the gallery image, three short answers */
+.hm-mats{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fill, minmax(11.5rem, 1fr)); gap:var(--s-2)}
+.hm-mats > li{display:flex; min-width:0}
+.hm-mat{display:flex; flex-direction:column; width:100%; color:var(--text); text-decoration:none; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;
+  transition:border-color .2s var(--ease), background-color .2s var(--ease)}
+.hm-mat:hover{border-color:var(--text); background:var(--surface); color:var(--text)}
+.hm-mat-img{display:block; aspect-ratio:4/3; overflow:hidden; background:var(--surface); border-bottom:1px solid var(--line)}
+.hm-mat-img img{display:block; width:100%; height:100%; object-fit:cover}
+.hm-mat-noimg{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem; padding:var(--s-2); text-align:center}
+.hm-mat-noimg-name{font:600 var(--t-sm)/1.2 var(--font-head); color:var(--text-2)}
+.hm-mat-noimg .c-tag{white-space:normal; text-transform:none; letter-spacing:0; font-family:var(--font-body); font-size:var(--t-2xs); min-height:1.75rem}
+.hm-mat-name{padding:.75rem .85rem 0; font:600 var(--t-xs)/1.3 var(--font-head); overflow-wrap:anywhere}
+.hm-mat-credit{padding:.15rem .85rem 0; font:400 var(--t-2xs)/1.3 var(--font-body); color:var(--text-3)}
+.hm-answers{list-style:none; margin:auto 0 0; padding:.6rem .85rem .8rem; display:grid; gap:.15rem}
+.hm-ans{font:400 var(--t-2xs)/1.4 var(--font-body); color:var(--text)}
+.hm-ans-k{color:var(--text-2)}
+.hm-ans-none{color:var(--missing)}
+.hm-ans-none .hm-ans-k{color:var(--text-2)}
+
+/* legends with a title, and the figure frame of the base inside a band */
+.hm .c-fig{margin:0}
+.hm-legend{margin-top:var(--s-2); display:grid; gap:.35rem}
+.hm-legend-t{font:600 var(--t-2xs)/1.3 var(--font-body); color:var(--text)}
+.hm-legend .hm-key{margin-top:0}
+.hm-marker{display:flex; flex-wrap:wrap; gap:.35rem 1.25rem; align-items:center; font:400 var(--t-2xs)/1.4 var(--font-body); color:var(--text-2)}
+.hm-marker .hm-legend-t{flex-basis:100%}
+.hm-mk::before{content:""; display:inline-block; width:.65rem; height:.65rem; margin-right:.45rem; border-radius:50%; vertical-align:-.05rem}
+.hm-mk-fill::before{background:var(--text-2)}
+.hm-mk-ring::before{border:1.5px solid var(--text-2)}
+.hm-mk-cross::before{display:none}
+.hm-mk-cross svg{width:.8rem; height:.8rem; margin-right:.45rem; vertical-align:-.05rem; stroke:var(--text); stroke-width:2; fill:none}
+.hm-probe{fill:none; stroke:var(--text); stroke-width:1.5}
+.hm-cross-on{stroke-width:2.5}
+.hm-plabel{font:600 14px var(--font-body); fill:var(--text); stroke:#000; stroke-width:4px; stroke-linejoin:round}
+.hm-presets-box{flex-basis:100%; margin-top:var(--s-1)}
+.hm-presets-help{margin:0 0 var(--s-1)}
+.hm-preset[aria-current="true"]{border-color:var(--text); background:var(--surface)}
+
+/* Timeline: four models in small */
+.hm-models{list-style:none; margin:0 0 var(--s-3); padding:0; display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:var(--s-1)}
+.hm-model{display:flex; flex-direction:column; gap:.15rem; color:var(--text); text-decoration:none; min-height:2.75rem}
+.hm-model:hover .hm-model-title{text-decoration:underline}
+.hm-scene{position:relative; aspect-ratio:1/1; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; margin-bottom:.35rem}
+.hm-model:hover .hm-scene{border-color:var(--text)}
+.hm-scene img, .hm-scene-still{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.hm-model-year{font:500 var(--t-2xs)/1.3 var(--font-body); color:var(--text-2)}
+.hm-model-year.num{font-family:var(--font-data)}
+.hm-model-title{font:600 var(--t-2xs)/1.3 var(--font-head)}
+.hm-model-credit{font:400 var(--t-2xs)/1.3 var(--font-body); color:var(--text-3)}
+.hm-tl-key{display:flex; flex-wrap:wrap; gap:.35rem 1.25rem; font:400 var(--t-2xs)/1.4 var(--font-body); color:var(--text-2)}
+.hm-tl-key > span{display:inline-flex; align-items:center; gap:.45rem}
+.hm-tl-key .hm-tl-dot{display:inline-block; width:.8rem; height:.8rem}
+@media (max-width:35.99rem){ .hm-models{grid-template-columns:repeat(2, minmax(0,1fr))} }
+
+/* Will it burn? */
+.hm-presets{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:var(--s-1)}
+.hm-preset.c-btn{white-space:normal; flex-direction:column; align-items:flex-start; gap:.15rem; padding:.55rem .9rem; text-align:left; line-height:1.25}
+.hm-preset-v{font:400 var(--t-2xs)/1.2 var(--font-body); color:var(--text-3)}
+.hm-preset:hover .hm-preset-v{color:var(--text-2)}
+
+/* Timeline: every entry on one line */
+.hm-tl{list-style:none; margin:0; padding:0; position:relative}
+.hm-tl::before{content:""; position:absolute; left:.45rem; top:.9rem; bottom:.9rem; width:1px; background:var(--line-strong)}
+.hm-tl a{position:relative; display:grid; grid-template-columns:1rem 4.75rem minmax(0,1fr) auto; column-gap:.75rem; align-items:baseline; min-height:2.75rem; padding:.6rem .5rem .6rem 0;
+  color:var(--text); text-decoration:none; border-bottom:1px solid var(--line)}
+.hm-tl li:last-child a{border-bottom:0}
+.hm-tl a:hover{background:var(--surface)}
+.hm-tl a:hover .hm-tl-title{text-decoration:underline}
+.hm-tl-dot{align-self:center; width:.9rem; height:.9rem; border-radius:50%; border:2px solid var(--text); background:var(--space)}
+.hm-tl-accident .hm-tl-dot{background:var(--text)}
+.hm-tl-planned .hm-tl-dot{border-style:dashed; border-color:var(--text-2)}
+.hm-tl-year{font:500 var(--t-xs)/1.3 var(--font-body); color:var(--text-2)}
+.hm-tl-year.num{font-family:var(--font-data)}
+.hm-tl-title{font:600 var(--t-xs)/1.35 var(--font-head)}
+.hm-tl-kind{font:400 var(--t-2xs)/1.3 var(--font-body); color:var(--text-3)}
+@media (max-width:35.99rem){
+  .hm-tl a{grid-template-columns:1rem 4rem minmax(0,1fr)}
+  .hm-tl-kind{grid-column:3}
+}
+
+/* Data and sources */
+.hm-figs{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--s-2); margin:0}
+.hm-figs > div{display:flex; flex-direction:column-reverse; justify-content:flex-end; border-top:1px solid var(--line-strong); padding-top:var(--s-1)}
+.hm-figs dd{margin:0; font:500 clamp(1.75rem, 1.2rem + 1.6vw, 3rem)/1.05 var(--font-data); color:var(--text); white-space:nowrap}
+.hm-figs dt{margin-top:.35rem; font:400 var(--t-2xs)/1.35 var(--font-body); color:var(--text-2)}
+.hm-pages{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(6, minmax(0,1fr)); gap:var(--s-1)}
+.hm-pages a{display:flex; flex-direction:column; gap:.3rem; color:var(--text-2); text-decoration:none; min-height:2.75rem}
+.hm-pages img{display:block; width:100%; height:auto; aspect-ratio:893/1155; object-fit:cover; object-position:center; background:var(--surface); border:1px solid var(--line-strong); border-radius:var(--radius); transition:border-color .2s var(--ease)}
+.hm-pages a:hover img{border-color:var(--text)}
+.hm-pages a:hover{color:var(--text)}
+.hm-page-n{font:400 var(--t-2xs)/1.2 var(--font-body)}
+@media (max-width:35.99rem){
+  .hm-pages{grid-template-columns:repeat(3, minmax(0,1fr))}
+}
+
+/* appearing once, 300 ms. Only what the observer has reported off screen is hidden (hm-wait); everything else,
+   and everything without the observer, with reduced motion or in print, is simply there. */
+.hm-anim .hm-rise{transition:opacity .3s var(--ease), transform .3s var(--ease)}
+.hm-anim .hm-rise.hm-wait{opacity:0; transform:translateY(12px)}
+@media (prefers-reduced-motion: reduce){ .hm-anim .hm-rise, .hm-anim .hm-rise.hm-wait{opacity:1; transform:none; transition:none} }
+@media print{ .hm-anim .hm-rise.hm-wait{opacity:1; transform:none} .hm-jump, .hm-actions, .hm-ask-form, .hm-models{display:none} }
