@@ -128,7 +128,7 @@ Sale de la ficha JSON, salvo `palabras_clave`, que solo viene en la lista.
 | `fecha` | En formato AAAA-MM-DD, solo si la tabla trae la fecha completa |
 | `fecha_original` | Lo que dice la tabla |
 | `combustible_material` | Texto original |
-| `material_familia` | **Derivada.** Solo cuando el texto nombra el material (PMMA, SIBAL, Nomex, cera...). Si no, "no especificado en la tabla" |
+| `material_familia` | **Derivada.** Cuando el texto nombra el material (PMMA, SIBAL, Nomex, cera...). Si no, "no especificado en la tabla". Una excepción con fuente: en BASS-II (PSI-25), 57 muestras que la tabla solo describe como barra, lámina o sección esférica son PMMA según el cartel de BASS-II (ASGSR 2014, NTRS 20160000593, láminas 12, 14, 18 y 20) y el reporte resumen NASA/TM-20210011385; esas filas lo dicen en `notas` (cambio del 14-nov-2026) |
 | `tipo_combustible` | **Derivada**, fija por tabla: sólido, líquido o gas |
 | `forma_tamano` | Forma y tamaño de la muestra o del quemador, cuando vienen en columnas aparte |
 | `oxigeno_pct_min`, `oxigeno_pct_max` | Oxígeno en porcentaje por volumen. Iguales si la fila da un solo valor |

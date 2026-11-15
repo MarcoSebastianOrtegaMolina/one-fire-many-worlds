@@ -121,6 +121,16 @@ FAMILIAS = [("sibal", "SIBAL (tela de algodon y fibra de vidrio)"), ("pmma", "PM
             ("dibutyl", "ftalato de dibutilo"), ("cotton", "SIBAL (tela de algodon y fibra de vidrio)")]
 
 
+# BASS-II: la tabla de PSI no nombra el material de las muestras de cuatro investigadores (dice «1/4" clear rod»,
+# «100 micron film», «4 cm spherical section»). El cartel de BASS-II de 2014 lo nombra para cada grupo: laminas de
+# PMMA de 0.1 a 0.4 mm (Bhattacharjee, lamina 12), barras de PMMA negro y transparente (Fernandez-Pello, lamina 14),
+# barras de PMMA (Olson, lamina 18) y secciones esfericas de PMMA (T'ien, lamina 20). Aporte de Marina, revisado en
+# aportes/REVISION.md. Solo cambia la familia; el texto original del material queda igual.
+BASS2_PMMA = {"Bhattacharjee": r"film|thick|micron","Fernandez-Pello": r"rod", "Olson": r"rod", "T'ien": r"spherical section"}
+FUENTE_BASS2_PMMA = ("material PMMA segun el cartel de BASS-II (ASGSR 2014, NTRS 20160000593, laminas 12, 14, 18 y 20) "
+                     "y el reporte resumen NASA/TM-20210011385; la tabla de PSI no lo nombra")
+
+
 def familia(txt):
     t = (txt or "").lower()
     hallados = []
@@ -231,6 +241,10 @@ def bass2(acc, acr, tabla, filas):
                       pares(Air_display_cm_s=r[8], Fan_display_voltaje_x10=r[7], Flow_restrictor=r[6]))
         f["notas"] = pares(PI=r[0], muestra=r[4], O2_final_pct=r[12], CO2_inicial_pct=r[13], CO2_final_pct=r[14],
                            CO_inicial_ppm=r[15], CO_final_ppm=r[16])
+        patron = BASS2_PMMA.get(limpio(r[0]))
+        if f["material_familia"] == "no especificado en la tabla" and patron and re.search(patron, r[5], re.I):
+            f["material_familia"] = "PMMA (acrilico)"
+            f["notas"] += "; " + FUENTE_BASS2_PMMA
         ini, fin = numeros(r[11]), numeros(r[12])
         if "?" in r[8]:
             f["notas"] += "; la lectura de flujo trae un signo de duda en el original"

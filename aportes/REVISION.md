@@ -543,6 +543,9 @@ material. Pyrell y Ultem siguen sin figura. Los enlaces a imágenes de páginas 
 
 Saffire VI ya está en todos los textos que decían que no había datos con aire de base lunar (encargo D-1429).
 
+Mejora 4 hecha: las 57 filas de BASS-II sin material son ahora PMMA, con la fuente en `notas`
+(`scripts/limpiar_psi.py`). PMMA pasa de 91 a 148 pruebas en la plataforma; el verificador da 18 de 18.
+
 ## Llegó después de la revisión (leído a las 17:40)
 
 Decisión de Marco Sebastián del 14-nov (D-1422): todo lo que el equipo suba se integra con todo su valor, y

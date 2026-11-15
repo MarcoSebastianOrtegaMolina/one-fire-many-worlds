@@ -463,7 +463,7 @@ dudoso quedó vacío o marcado en la columna `notas`.
 | FLEX | Sus 31 archivos de mezcla son de 2013 y 2014, posteriores a las 274 pruebas de su tabla (2009 a 2011) | Exportados aparte; no se cruzaron con la tabla |
 | BASS | Una fecha "6/29/`12" y otra del año 2103 | Fecha vacía con nota |
 | BASS | En 3 pruebas el material de la tabla no coincide con el de la matriz | Marcado con "OJO" en `notas` |
-| BASS, BASS-II | Material, forma y tamaño en una sola celda de texto libre, con erratas | Se conserva el texto; `material_familia` solo cuando el texto nombra el material (88 filas quedan como "no especificado") |
+| BASS, BASS-II | Material, forma y tamaño en una sola celda de texto libre, con erratas | Se conserva el texto; `material_familia` solo cuando el texto nombra el material. El 14-nov, con el cartel de BASS-II de 2014 (NTRS 20160000593), las 57 filas de BASS-II sin material pasaron a PMMA; quedan 31 como "no especificado", todas de BASS |
 | BASS-II | Dos pruebas con oxígeno final de 39.1 y 40.4 % partiendo de 20 % | Marcadas con "AVISO"; probable errata |
 | BASS-II | El anemómetro responde en un minuto (lo dice su ReadMe); 10 celdas mezclan velocidades y posiciones del potenciómetro, y 3 dan más de 40 cm/s | Marcadas en `notas` |
 | BASS-II | El sensor de oxígeno estaba descalibrado y se corrigió con un desplazamiento fijo (lo dice su ReadMe) | Se usa el valor calibrado de la tabla |
