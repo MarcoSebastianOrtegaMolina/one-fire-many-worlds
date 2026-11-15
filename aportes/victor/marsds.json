@@ -1,0 +1,56 @@
+
+[
+{
+  "ntrs_id": "20010074098",
+  "title": "Physical and Chemical Aspects of Fire Suppression in Extraterrestrial Environments",
+  "authors": ["Takahashi, F.", "Linteris, G. T.", "Katta, V. R."],
+  "publication_date": "2001-05-01",
+  "source": "NASA NTRS (STI Collection)",
+  "url": "https://ntrs.nasa.gov/citations/20010074098",
+  "pdf_url": "https://ntrs.nasa.gov/api/citations/20010074098/downloads/20010074098.pdf",
+  "worlds": ["station", "moon", "mars"],
+  "pillar": "suppress",
+  "key_finding": "NASA's historical reliance on material flammability control and ignition prevention has left very little research on fire suppression in microgravity and reduced-gravity environments. This study evaluates gravity and oxygen concentration as independent variables to model suppression chemistry and develop new fire-extinguishing agents for ISS, lunar, and Martian habitats."
+},
+
+{
+  "ntrs_id": "20040053580",
+  "title": "Experimental And Numerical Evaluation Of Gaseous Agents For Suppressing Cup-Burner Flames In Low Gravity",
+  "authors": ["Takahashi, Fumiaki", "Linteris, Gregory T.", "Katta, Viswanath R."],
+  "center": "Glenn Research Center",
+  "source": "NASA NTRS (STI Collection)",
+  "url": "https://ntrs.nasa.gov/citations/20040053580",
+  "pdf_url": "https://ntrs.nasa.gov/api/citations/20040053580/downloads/20040053580.pdf",
+  "worlds": ["station", "moon", "mars"],
+  "pillar": "suppress",
+  "key_finding": "While the Space Shuttle used Halon 1301 (CF3Br) and the ISS relies on CO2 or water-based suppression, long-duration Moon and Mars missions require alternative extinguishing agents. This study experimentally and numerically evaluates gaseous agents on cup-burner flames across varying gravity and O2 levels to model and predict low-gravity fire suppression."
+},
+
+{
+  "ntrs_id": "20210022402",
+  "title": "Topical: Solid Fuel Combustion in Partial and Micro-Gravity",
+  "authors": ["Gollner, Michael", "Wichman, Indrek", "Liao, Ya-Ting", "Carmignani, Luca"],
+  "center": "Glenn Research Center",
+  "document_type": "White Paper",
+  "source": "NASA NTRS (STI Collection)",
+  "url": "https://ntrs.nasa.gov/citations/20210022402",
+  "pdf_url": "https://ntrs.nasa.gov/api/citations/20210022402/downloads/217-_GollnerMichaelJ.pdf",
+  "worlds": ["station", "moon", "mars"],
+  "pillar": "prevent",
+  "key_finding": "Most spaceflight fire hazards involve solid fuels such as cotton fabrics, plastics, and high-energy density battery electrodes. Current flammability controls are challenged by future Moon and Mars missions that combine partial gravity, enhanced oxygen atmospheres, composite materials, and high-energy batteries."
+},
+{
+  "ntrs_id": "20040053567",
+  "title": "Upward And Downward Flame Spreading And Extinction In Partial Gravity Environments",
+  "document_type": "Conference Paper",
+  "source": "NASA NTRS (STI Collection)",
+  "url": "https://ntrs.nasa.gov/citations/20040053567",
+  "pdf_url": "https://ntrs.nasa.gov/api/citations/20040053567/downloads/20040053567.pdf",
+  "worlds": ["moon", "mars", "earth"],
+  "pillar": "prevent",
+  "key_finding": "Partial-gravity experiments (0.1 to 1 G) aboard the NASA KC-135 aircraft measured upward and downward flame spread rates and extinction boundaries over thin solid fuels across varying pressures and oxygen levels. Results show buoyant flow brings the flame closer to the fuel surface and provide 3D models to evaluate Limiting Oxygen Index (LOI) standards for Lunar and Martian habitats."
+}
+
+
+]
+
