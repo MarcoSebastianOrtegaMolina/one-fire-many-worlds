@@ -147,12 +147,14 @@ export default async function handler(req, res) {
   const limit = allowed(ip, kind);
   if (limit) return res.status(429).json({ error: "limit", message: LIMIT_MESSAGE[kind][limit] });
 
+  const live = req.body?.stream === true;                  // opt-in: the answer travels in parts; without it, the JSON below as before
+  let streamed = false;
   try {
     const { system, tests } = load();
     const cap = KINDS[kind];
     const rows = rowsFor(question, tests, cap.rows);
     const client = new Anthropic();
-    const response = await client.beta.messages.create({
+    const params = {
       model: MODEL,
       max_tokens: cap.maxTokens,
       betas: ["server-side-fallback-2026-07-01"],
@@ -161,18 +163,45 @@ export default async function handler(req, res) {
       system: [{ type: "text", text: system, cache_control: { type: "ephemeral" } },   // stable prefix: cached across questions and reports
         { type: "text", text: FORMAT[kind] }],
       messages: [{ role: "user", content: (kind === "report" ? "Topic of the report: " : "Question: ") + question + (rows.length ? "\n\nTest rows that may help (JSON):\n" + JSON.stringify(rows) : "") }],
-    });
-    if (response.stop_reason === "refusal") {
-      return res.status(200).json({ answer: "The model declined to answer this question. Try asking about an investigation, a material or a world.", kind: "answer", model: response.model, declined: true });
-    }
-    const answer = response.content.filter((b) => b.type === "text").map((b) => b.text).join("\n").trim();
-    return res.status(200).json({ answer: answer || "No answer came back. Ask again.", kind, model: response.model, truncated: response.stop_reason === "max_tokens",
-      usage: { input: response.usage.input_tokens, cached: response.usage.cache_read_input_tokens, cacheWrite: response.usage.cache_creation_input_tokens, output: response.usage.output_tokens } });
+    };
+    if (!live) return res.status(200).json(result(await client.beta.messages.create(params), kind));
+
+    /* Streaming (server-sent events): one "delta" per piece of text, then one "done" with the same fields as the JSON answer.
+       The page must use done.answer as the final text: after a refusal it replaces what was shown. */
+    res.status(200);
+    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache, no-transform");
+    res.setHeader("X-Accel-Buffering", "no");
+    if (res.flushHeaders) res.flushHeaders();
+    streamed = true;
+    const send = (event) => { if (!res.writableEnded) res.write("data: " + JSON.stringify(event) + "\n\n"); };
+    const stream = client.beta.messages.stream(params);
+    res.on("close", () => { if (!res.writableEnded) stream.abort(); });   // the reader left: stop paying for tokens nobody reads
+    stream.on("text", (text) => send({ type: "delta", text }));
+    const message = await stream.finalMessage();
+    send({ type: "done", ...result(message, kind) });
+    return res.end();
   } catch (error) {
-    if (error instanceof Anthropic.AuthenticationError) return res.status(503).json({ error: "not_configured", message: "Live answers are not set up on this server." });
-    if (error instanceof Anthropic.RateLimitError) return res.status(429).json({ error: "limit", message: "The model is busy. Wait a moment and ask again." });
-    if (error instanceof Anthropic.APIError) return res.status(502).json({ error: "upstream", message: "The model could not answer just now. Ask again in a moment." });
-    console.error(error);
-    return res.status(500).json({ error: "server", message: "Something failed on the server. The saved answers still work." });
+    const failure = error instanceof Anthropic.AuthenticationError ? [503, "not_configured", "Live answers are not set up on this server."]
+      : error instanceof Anthropic.RateLimitError ? [429, "limit", "The model is busy. Wait a moment and ask again."]
+      : error instanceof Anthropic.APIUserAbortError ? [499, "aborted", "The request was cancelled."]
+      : error instanceof Anthropic.APIError ? [502, "upstream", "The model could not answer just now. Ask again in a moment."]
+      : [500, "server", "Something failed on the server. The saved answers still work."];
+    if (failure[0] === 500) console.error(error);
+    if (streamed) {
+      if (!res.writableEnded) { res.write("data: " + JSON.stringify({ type: "error", error: failure[1], message: failure[2] }) + "\n\n"); res.end(); }
+      return;
+    }
+    return res.status(failure[0] === 499 ? 500 : failure[0]).json({ error: failure[1], message: failure[2] });
   }
+}
+
+/* The fields of a finished answer, the same for the JSON reply and for the "done" event. */
+function result(response, kind) {
+  if (response.stop_reason === "refusal") {
+    return { answer: "The model declined to answer this question. Try asking about an investigation, a material or a world.", kind: "answer", model: response.model, declined: true };
+  }
+  const answer = response.content.filter((b) => b.type === "text").map((b) => b.text).join("\n").trim();
+  return { answer: answer || "No answer came back. Ask again.", kind, model: response.model, truncated: response.stop_reason === "max_tokens",
+    usage: { input: response.usage.input_tokens, cached: response.usage.cache_read_input_tokens, cacheWrite: response.usage.cache_creation_input_tokens, output: response.usage.output_tokens } };
 }
