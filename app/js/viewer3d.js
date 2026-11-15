@@ -9,11 +9,13 @@
   var NO_INSIGNIA = T("The NASA insignia was removed from its texture.");
   var LIGHTER = T("Its textures were recompressed to JPEG to load faster.");
   var MODELS = {
-    station: [{ src: "models/iss.glb", bytes: 39708, name: "International Space Station (ISS) (A)", credit: "NASA",
-      alt: T("3D model of the International Space Station"), page: "https://science.nasa.gov/3d-resources/international-space-station-iss-a/", change: "" }],
+    /* D-1443: the realistic Station (IGOAL), 14.4 MB, downloaded only when the reader opens it. D-1444: insignias kept. */
+    station: [{ src: "models/iss-igoal.glb", bytes: 14408204, name: "International Space Station (ISS) (D) (IGOAL)", credit: "NASA",
+      alt: T("3D model of the International Space Station with its textures"), page: "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/International%20Space%20Station%20(ISS)%20(D)%20(IGOAL)",
+      change: T("It was simplified and its textures were compressed to 512 px WebP so it loads in a browser (96 MB to 14.4 MB).") }],
     moon: [
-      { src: "models/habitat-1.glb", bytes: 195820, label: T("Part 1"), name: "Habitat Demonstration Unit (part 1)", credit: "NASA",
-        alt: T("3D model of NASA's Habitat Demonstration Unit, part 1"), page: "https://science.nasa.gov/3d-resources/habitat-demonstration-unit/", change: T("The NASA insignias were removed from its texture.") },
+      { src: "models/habitat-1.glb", bytes: 516748, label: T("Part 1"), name: "Habitat Demonstration Unit (part 1)", credit: "NASA",
+        alt: T("3D model of NASA's Habitat Demonstration Unit, part 1"), page: "https://science.nasa.gov/3d-resources/habitat-demonstration-unit/", change: "" },
       { src: "models/habitat-2.glb", bytes: 710988, label: T("Part 2"), name: "Habitat Demonstration Unit (part 2)", credit: "NASA",
         alt: T("3D model of NASA's Habitat Demonstration Unit, part 2"), page: "https://science.nasa.gov/3d-resources/habitat-demonstration-unit/", change: "" },
       { src: "models/moon-lro.glb", bytes: 3953768, label: T("The Moon"), name: "Moon 3D Models for Web, AR, and Animation (moon_small)", credit: "NASA's Goddard Space Flight Center",
@@ -100,6 +102,10 @@
         if (m.orbit) mv.setAttribute("camera-orbit", m.orbit);
         if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) mv.setAttribute("interaction-prompt", "none");   /* no animated hand either */
         else mv.setAttribute("auto-rotate", "");
+        mv.addEventListener("progress", function (e) {           /* the Station weighs 14 MB: say how far it is */
+          var p = e.detail && e.detail.totalProgress;
+          if (p > 0 && p < 1 && pick === k) status.textContent = T("Loading the 3D model ...") + " " + Math.round(p * 100) + " %";
+        });
         mv.addEventListener("load", function () { status.textContent = T("Drag to turn it, pinch or scroll to zoom, and double-tap to reset."); });
         mv.addEventListener("error", function () {
           if (!mv.isConnected || pick !== k) return;               /* a late error from a model already replaced */

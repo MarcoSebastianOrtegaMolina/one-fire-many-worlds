@@ -77,8 +77,8 @@ https://www.spaceappschallenge.org/2026/judging/ no existe).
 
 | Mundo | Modelo | Enlace | Fecha del archivo | Cambios del equipo |
 |---|---|---|---|---|
-| Estación | International Space Station (ISS) (A) | https://science.nasa.gov/3d-resources/international-space-station-iss-a/ | 27-feb-2025 | Ninguno |
-| Base lunar | Habitat Demonstration Unit, partes 1 y 2 | https://science.nasa.gov/3d-resources/habitat-demonstration-unit/ | 27-feb-2025 | Se borraron las 10 insignias de NASA de la textura de la parte 1 |
+| Estación | International Space Station (ISS) (D) (IGOAL), realista y con texturas (D-1441, D-1443) | https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/International%20Space%20Station%20(ISS)%20(D)%20(IGOAL) | Último cambio de la carpeta el 20-mar-2025 (API de GitHub, consultada el 14-nov-2026) | Simplificada con gltf-transform 4.5.1 y texturas WebP de 512 px: 96 a 14.4 MB. Conserva sus insignias de NASA (D-1444) |
+| Base lunar | Habitat Demonstration Unit, partes 1 y 2 | https://science.nasa.gov/3d-resources/habitat-demonstration-unit/ | 27-feb-2025 | Ninguno: se volvió al original con sus insignias (D-1444) |
 | Traje | Extravehicular Mobility Unit (NASA/Michael D. Carbajal), el traje de las caminatas de la Estación (D-1441); reemplaza al Mark III | https://science.nasa.gov/3d-resources/extravehicular-mobility-unit/ | Archivo del 26-mar-2025; página actualizada el 16-jun-2025 | Se quitaron las copias PNG de respaldo de sus 3 texturas (quedan las WebP); 3.29 a 2.54 MB. Sus texturas no traen insignia de NASA |
 | Base lunar | Moon 3D Models for Web, AR, and Animation, `moon_small.glb` (NASA's Goddard Space Flight Center, imágenes del orbitador LRO), pestaña «La Luna» | https://svs.gsfc.nasa.gov/14959/ | Publicado el 29-ene-2026; página actualizada el 1-abr-2026 | Textura de 4096 px de PNG a JPEG calidad 88, mismo tamaño en píxeles; 13.2 a 4.0 MB |
 | Marte | Planet Mars, 3D Model (NASA/JPL-Caltech) | https://science.nasa.gov/resource/planet-mars-3d-model | Archivos del 8-mar-2024, según la página | Texturas recomprimidas a JPEG (4.0 a 0.7 MB) |

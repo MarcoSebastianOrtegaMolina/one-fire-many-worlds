@@ -1,10 +1,10 @@
 """Prepara los modelos 3D de NASA para la plataforma (D-1427).
 
-- Habitat Demonstration Unit (parte 1): borra las insignias de NASA de la textura, pintando cada una con el
-  color de su alrededor. Las banderas y los demas rotulos se quedan.
-- Mark III: su textura «texturelogo» es solo la insignia sobre un fondo liso; se pinta toda del color de fondo.
+- Habitat Demonstration Unit (partes 1 y 2): se copian sin cambios. Antes se borraban las insignias de NASA de la
+  parte 1; desde D-1444 los modelos se muestran con sus insignias (regla_habitat se deja por si se vuelve a pedir).
+- Mark III: ya no se usa (lo reemplazo el EMU, D-1441, preparado con aligerar_glb.py).
 - Tierra y Marte: sus texturas PNG pasan a JPEG de buena calidad, mismo tamano en pixeles.
-- ISS y Habitat (parte 2): se copian sin cambios.
+- La Estacion realista (IGOAL) se prepara con gltf-transform; ver FUENTES.md.
 Reescribe el bloque binario del .glb con las imagenes nuevas y deja todo lo demas igual.
 
 Uso: python -E -P preparar_modelos.py CARPETA_BAJADOS CARPETA_SALIDA
@@ -146,9 +146,8 @@ def regla_planeta(k, img, im):
     return codificar(im.convert("RGB"), "JPEG", quality=88), "image/jpeg"
 
 
-procesar("hdu1.glb", "habitat-1.glb", regla_habitat)
+procesar("hdu1.glb", "habitat-1.glb", lambda k, img, im: None)   # D-1444: con sus insignias
 procesar("hdu2.glb", "habitat-2.glb", lambda k, img, im: None)
-procesar("mark3.glb", "mark-iii.glb", regla_traje)
 procesar("earth.glb", "earth.glb", regla_planeta)
 procesar("mars.glb", "mars.glb", regla_planeta)
-procesar("iss.glb", "iss.glb", lambda k, img, im: None)
+

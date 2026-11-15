@@ -241,8 +241,8 @@
     "Report pages cited on this site, with what each one supports": "Páginas de reportes citadas en este sitio, con lo que sostiene cada una",
     "Each document opens at the cited page with the passage marked. Documents outside PSI are cited as context and say so. What each page supports is the team's summary; the passage is quoted as written.": "Cada documento se abre en la página citada con el pasaje marcado. Los documentos fuera de PSI se citan como contexto y lo dicen. Lo que sostiene cada página es el resumen del equipo; el pasaje se cita como está escrito.",
     "3D models": "Modelos 3D", "HTML, CSS and JavaScript of our own, with Google Fonts for the type": "HTML, CSS y JavaScript propios, con Google Fonts para las letras",
-    "model-viewer 4.4.0 (Google, Apache-2.0), the Draco decoder of three.js 0.187.0 (MIT), and Pillow for the textures": "model-viewer 4.4.0 (Google, Apache-2.0), el decodificador Draco de three.js 0.187.0 (MIT) y Pillow para las texturas",
-    "Show a NASA model of each world, served from this site and loaded only when asked. The script scripts/preparar_modelos.py removed the NASA insignias from two textures and lightened two models.": "Mostrar un modelo de NASA de cada mundo, servido desde este sitio y cargado solo cuando se pide. El script scripts/preparar_modelos.py quitó las insignias de NASA de dos texturas y aligeró dos modelos.",
+    "model-viewer 4.4.0 (Google, Apache-2.0), the Draco decoder of three.js 0.187.0 (MIT), gltf-transform 4.5.1 (MIT) and Pillow to lighten them": "model-viewer 4.4.0 (Google, Apache-2.0), el decodificador Draco de three.js 0.187.0 (MIT), gltf-transform 4.5.1 (MIT) y Pillow para aligerarlos",
+    "Show a NASA model of each world, served from this site and loaded only when asked. The scripts scripts/preparar_modelos.py and scripts/aligerar_glb.py and gltf-transform made the heavy models lighter; the geometry and the insignias are NASA's.": "Mostrar un modelo de NASA de cada mundo, servido desde este sitio y cargado solo cuando se pide. Los scripts scripts/preparar_modelos.py y scripts/aligerar_glb.py y gltf-transform aligeraron los modelos pesados; la geometría y las insignias son las de NASA.",
     /* outside PSI (D-1429) */
     "and": "y", "outside PSI": "fuera de PSI", "document outside PSI": "documento fuera de PSI", "See the page": "Ver la página",
     "Saffire VI burned it in December 2023, aboard an uncrewed Cygnus, at ": "Saffire VI lo quemó en diciembre de 2023, en una Cygnus sin tripulación, con ",
@@ -255,6 +255,8 @@
     /* 3D */
     "In 3D": "En 3D", "A NASA model of the place, to turn and look at.": "Un modelo de NASA del lugar, para girarlo y mirarlo.",
     "See in 3D": "Ver en 3D", "Close the 3D view": "Cerrar la vista 3D", "Try again": "Intentar de nuevo", "Model": "Modelo", "Part 1": "Parte 1", "Part 2": "Parte 2", "The Moon": "La Luna",
+    "3D model of the International Space Station with its textures": "Modelo 3D de la Estación Espacial Internacional con sus texturas",
+    "It was simplified and its textures were compressed to 512 px WebP so it loads in a browser (96 MB to 14.4 MB).": "Se simplificó y sus texturas se comprimieron a WebP de 512 px para que cargue en un navegador (de 96 MB a 14.4 MB).",
     "3D model of the Moon made with imagery from NASA's Lunar Reconnaissance Orbiter": "Modelo 3D de la Luna hecho con imágenes del orbitador LRO de NASA",
     "Its texture was recompressed to JPEG, same size in pixels, to load faster.": "Su textura se recomprimió a JPEG, con el mismo tamaño en píxeles, para que cargue más rápido.",
     "3D model of the Extravehicular Mobility Unit, the suit worn on Space Station spacewalks": "Modelo 3D de la Unidad de Movilidad Extravehicular, el traje de las caminatas espaciales de la Estación",
