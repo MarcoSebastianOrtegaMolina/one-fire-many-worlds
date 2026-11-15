@@ -519,6 +519,19 @@ hecha, sin commit todavía: el catálogo de páginas citadas pasó de 16 a 39 fu
 
 Falta: figuras por material, las 57 filas de PMMA, la línea de tiempo y los modelos 3D.
 
+## Respuestas de Marco Sebastián a las preguntas abiertas (21:20)
+
+- **Logotipos:** la sede ya dijo que los equipos sí pueden usar logotipos. Falta precisar si incluye la insignia
+  de NASA o solo el logo de Space Apps: la guía de marca de NASA pide permiso explícito de NASA para su insignia.
+- **Nombres de archivo y plantilla:** no se pide a nadie. El mensaje de cada commit dice qué es cada archivo.
+- **«Hasta 2018»:** se deja como está. Comprobación de que la fecha 6/24/2018 de las pruebas T9 y T18 de BASS-II
+  es una errata por 2014, con tres indicios de los propios datos de PSI:
+  1. T10, la prueba siguiente, lleva fecha 6/24/2014, el mismo día y mes.
+  2. La muestra 133 de T9 se volvió a usar en T23 el 9-jul-2014; no pudo quemarse primero en 2018.
+  3. El cartel de BASS-II de octubre de 2014 ya cuenta 29 pruebas de T'ien, y PSI tiene 29 contando T9 y T18.
+  Ningún documento de NASA dice «errata»: es una inferencia, aunque con tres indicios independientes. Los datos y la
+  línea de tiempo quedan con la fecha de NASA.
+
 ## Imágenes bajadas de NASA (19:30, D-1430)
 
 Con el visto bueno de Marco Sebastián se bajaron dos fotos, ya en las fichas de PMMA con su crédito:
