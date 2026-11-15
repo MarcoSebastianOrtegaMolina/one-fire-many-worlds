@@ -519,6 +519,17 @@ hecha, sin commit todavía: el catálogo de páginas citadas pasó de 16 a 39 fu
 
 Falta: figuras por material, las 57 filas de PMMA, la línea de tiempo y los modelos 3D.
 
+## Imágenes bajadas de NASA (19:30, D-1430)
+
+Con el visto bueno de Marco Sebastián se bajaron dos fotos, ya en las fichas de PMMA con su crédito:
+- Flama sobre PMMA de 1 cm en Saffire IV, de la página de NASA del 20-may-2020 enlazada por Sebastián Martínez.
+- SoFIE GEL en la Estación, de NASA SVS 31394 (6-may-2026). La página no nombra el material; el nombre del
+  archivo de NASA dice PMMA de 0.5 mm, y el pie lo aclara.
+
+No se usaron: dos secuencias de SVS cuyo material no se nombra, el video de SIBAL de Saffire IV (YouTube), la
+ficha de Saffire (99 KB, una sola imagen de cabecera) y la foto del equipo de Saffire-I (no muestra material).
+Con esto quedan 79 figuras; PMMA tiene 8 y siguen sin figura Pyrell y Ultem.
+
 ## Tercera tanda y pendientes (revisados a las 19:10)
 
 | Aporte | Qué es (verificado en NTRS o en la página, hoy) | Qué se hizo |

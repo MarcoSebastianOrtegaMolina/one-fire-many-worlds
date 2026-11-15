@@ -107,9 +107,11 @@
   function fig(id) { return F.filter(function (f) { return f.id === id; })[0]; }
   function figName(f) {
     var slide = /^slide\s+(\S+)/i.exec(String(f.number || ""));          /* slides have no figure number, only their own */
-    return slide ? T("Slide ") + slide[1] : T("Figure ") + f.number;
+    if (slide) return T("Slide ") + slide[1];
+    if (!f.number || /^photo$/i.test(f.number)) return T("Photo");      /* a photo from a web page: no number, no page */
+    return T("Figure ") + f.number;
   }
-  function figWhere(f) { return f.doc[L] + ", " + T("p. ") + f.page; }
+  function figWhere(f) { return f.page ? f.doc[L] + ", " + T("p. ") + f.page : f.doc[L]; }
   function figAlt(f) { return figName(f) + T(" of the report"); }
   /* A ground test or a team image says so on its thumbnail, so it is never read as a result from orbit. */
   var GROUND = { ground: T("ground test"), standard: T("standard"), history: T("memo, history"), planned: T("planned") };
@@ -118,7 +120,7 @@
       var tag = f.team ? T("team image") : GROUND[f.origin];
       return h("li", null, h("a", { href: "#/figure/" + f.id },
         h("img", { src: f.img, alt: "", loading: "lazy", width: f.w, height: f.h }),
-        h("span", { "class": "t", text: (f.number ? figName(f) + ", " : "") + (f.page ? T("p. ") + f.page : "") }),
+        h("span", { "class": "t", text: figName(f) + (f.page ? ", " + T("p. ") + f.page : "") }),
         tag ? h("span", { "class": "tag tag-" + (f.team ? "team" : f.origin), text: tag }) : null,
         h("span", { "class": "c", lang: "en", text: f.caption })));
     }));
@@ -133,7 +135,8 @@
     var title = f.caption.replace(/^\s*(?:Figure|Fig\.?)\s*[\d.]+\s*[.:—–-]*\s*/i, "");
     return A.apaFigure(n, title.charAt(0).toUpperCase() + title.slice(1),
       h("a", { "class": "figimg", href: "#/figure/" + f.id }, h("img", { src: f.img, width: f.w, height: f.h, loading: "lazy", alt: figAlt(f) })),
-      [T("From ") + figWhere(f) + T(", where it is ") + figName(f) + T(". Cut from the page of the report; the title is the caption as written there. "),
+      [f.page ? T("From ") + figWhere(f) + T(", where it is ") + figName(f) + T(". Cut from the page of the report; the title is the caption as written there. ")
+        : T("Photo from ") + figWhere(f) + T("; the title is the caption as written there. "),
         h("a", { href: "#/figure/" + f.id, text: T("Open the figure and its source") }), "."], "en");
   };
   /* The figures of one investigation's reports, for its record. */
@@ -160,7 +163,8 @@
         ? h("a", { "class": "action", href: f.download, target: "_blank", rel: "noopener", text: T("Open the document at NASA") })
         : [h("a", { "class": "action", href: f.download, target: "_blank", rel: "noopener", text: T("Download the original document") }),
           h("a", { "class": "action quiet", href: f.record, target: "_blank", rel: "noopener", text: T("Open the record in PSI") })]),
-      h("p", { "class": "note", text: (nasa ? "" : T("PSI delivers the whole PDF. Once it opens, go to page ") + f.page + ". ") + T("Cut from the page of the report. Nothing else was changed.") }),
+      h("p", { "class": "note", text: !f.page ? T("Photo as published on that page. Nothing else was changed.")
+        : (nasa ? "" : T("PSI delivers the whole PDF. Once it opens, go to page ") + f.page + ". ") + T("Cut from the page of the report. Nothing else was changed.") }),
       h("p", { "class": "links" }, prev ? h("a", { href: "#/figure/" + prev.id, text: T("Previous figure") }) : null, prev && next ? " · " : "",
         next ? h("a", { href: "#/figure/" + next.id, text: T("Next figure") }) : null));
     A.main.replaceChildren(h("div", { "class": "wrap" }, h("div", { "class": "sheet page" },

@@ -102,6 +102,29 @@ EQUIPO = [
 ]
 
 
+# Imagenes sueltas de paginas de NASA que enlazo el equipo, bajadas a data/raw/contexto/imagenes/ con el visto bueno
+# de Marco Sebastian (D-1430). Se reducen a la mitad y se guardan en JPEG. El pie es el de la pagina de NASA.
+IMAGENES = [
+    # id, archivo, pagina de origen, documento, numero, pie, investigaciones, materiales, origen, credito
+    ("saffire4-pmma", "master_image_saffire-upsized.jpg",
+     "https://www.nasa.gov/humans-in-space/the-flame-of-discovery-grows-as-saffire-sets-new-fires-in-space/",
+     {"en": "The Flame of Discovery Grows as Saffire Sets New Fires in Space, NASA, May 20, 2020",
+      "es": "The Flame of Discovery Grows as Saffire Sets New Fires in Space, NASA, 20 de mayo de 2020"},
+     "photo",
+     "Saffire IV: this edge view of Saffire's flame shows it developing over a one-centimeter thick sample of a plexiglass type material found on spacecraft. The blue color is typical of microgravity flames and moves from left to right at 20 cm per second.",
+     [], ["PMMA (acrylic)"], "microgravity",
+     "NASA (credit on the NASA page of May 20, 2020). Link provided by Sebastián Martínez."),
+    ("sofie-gel-pmma", "R134346C-opposed-flow-air-0.5mmPMMA-1080p.png",
+     "https://svs.gsfc.nasa.gov/31394/",
+     {"en": "NASA Studies Fire in Microgravity, NASA Scientific Visualization Studio 31394, May 6, 2026",
+      "es": "NASA Studies Fire in Microgravity, NASA Scientific Visualization Studio 31394, 6 de mayo de 2026"},
+     "photo",
+     "This image is from the Solid Fuel Ignition and Extinction (SoFIE) Growth and Extinction Limits (GEL) experiment aboard the space station. The page does not name the material; NASA's file name says opposed flow, air and 0.5 mm PMMA.",
+     [], ["PMMA (acrylic)"], "microgravity",
+     "NASA (SVS 31394, credit: NASA). Link provided by Sebastián Martínez."),
+]
+
+
 def materiales_de(pie):
     return [nombre for patron, nombre in MATERIAL_EN_PIE if patron.search(pie)]
 
@@ -252,6 +275,19 @@ def main():
                        "origin": origen, "materials": mats, "team": True, "credit": credito})
         miniaturas.append((fid, destino))
     print("equipo  figuras: %d" % len(EQUIPO))
+    for fid, archivo, enlace, titulo, num, pie, invs, mats, origen, credito in IMAGENES:
+        pix = pymupdf.Pixmap(str(CTX / "imagenes" / archivo))
+        if pix.alpha:
+            pix = pymupdf.Pixmap(pix, 0)            # sin canal alfa: JPEG no lo admite
+        if pix.width > 1300:
+            pix.shrink(1)                            # a la mitad: una imagen de 1920 px queda en 960
+        destino = SAL_IMG / (fid + ".jpg")
+        destino.write_bytes(pix.tobytes("jpeg", jpg_quality=80))
+        salida.append({"id": fid, "invs": invs, "doc": titulo, "page": None, "number": num, "caption": pie,
+                       "img": "figures/" + destino.name, "w": pix.width, "h": pix.height, "download": enlace, "record": enlace,
+                       "origin": origen, "materials": mats, "team": True, "credit": credito})
+        miniaturas.append((fid, destino))
+    print("imagenes de paginas de NASA: %d" % len(IMAGENES))
     SAL_JS.write_text("window.OFMW_FIGURES=" + json.dumps(salida, ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8", newline="\n")
     peso = sum(f.stat().st_size for f in SAL_IMG.glob("*.jpg"))
     print("total: %d figuras | %.1f MB" % (len(salida), peso / 1e6))
