@@ -1,0 +1,88 @@
+/* intro: the first screen of the home page, the problem (agent K). Prefix in-.
+   Desktop: the text on the left (up to 58 %), the flame on the right, the fires the challenge cites in one row
+   below, then what the platform does and the button. Phone: title, flame, problem, fires, button, one under the other.
+   The screen fills the window under the header; when it does not fit, the title and the flame give way first. */
+
+.in-screen{position:relative; display:flex; flex-direction:column;
+  min-height:max(560px, calc(100vh - var(--in-top, 6rem))); min-height:max(560px, calc(100svh - var(--in-top, 6rem)))}
+.in-grid{flex:1 0 auto; display:grid; align-content:center; column-gap:var(--s-6); row-gap:clamp(.625rem, 1.8vh, 1.75rem);
+  grid-template-columns:minmax(0, 58fr) minmax(0, 42fr);
+  grid-template-areas:"title flame" "problem flame" "acc acc" "act act";
+  padding-top:clamp(.75rem, 2.2vh, 2.5rem); padding-bottom:clamp(.5rem, 1.5vh, 1.5rem)}
+
+/* the title: the platform's own sentence, with the two 3D words of js/title.js */
+.in-title{grid-area:title; align-self:end; max-width:16em; font-size:clamp(2rem, min(3.4vw, 5.1vh), 4.25rem); line-height:1.04}
+.in-title.tt-on{line-height:1.48; padding-top:var(--tt-top, .62em)}   /* --tt-top is a length (title.js writes it in em) */
+
+/* the problem, in three short sentences from the challenge statement */
+.in-problem{grid-area:problem; align-self:start; max-width:40em}
+.in-p{font-size:clamp(1.0625rem, min(1.25vw, 2.3vh), 1.5rem); line-height:1.45; color:var(--text-2); max-width:38em}
+.in-p + .in-p{margin-top:.55em}
+.in-p-1{color:var(--text)}
+.in-src{margin-top:.5rem; font-size:var(--t-2xs); line-height:1.4; color:var(--text-3)}
+.in-sr{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
+
+/* the flame: two candles in SVG, on Earth and in free fall. The only gradients on this screen are inside the flames. */
+.in-flame{grid-area:flame; align-self:center; justify-self:center; margin:0; display:flex; flex-direction:column; align-items:center;
+  --in-flame:clamp(13rem, 38vh, 27rem); width:min(100%, calc(var(--in-flame) * 1.2))}
+.in-flame-box{position:relative; width:100%; aspect-ratio:6 / 5}
+.in-svg{display:block; width:100%; height:100%; overflow:visible}
+.in-fl-earth{transform-box:fill-box; transform-origin:50% 92%; animation:in-flicker 2.2s ease-in-out infinite}
+.in-fl-space{transform-box:fill-box; transform-origin:50% 50%; animation:in-breathe 9s ease-in-out infinite}
+@keyframes in-flicker{0%, 100%{transform:scale(1, 1) skewX(0deg)} 22%{transform:scale(.97, 1.04) skewX(1.6deg)} 48%{transform:scale(1.02, .97) skewX(-1.2deg)} 74%{transform:scale(.99, 1.02) skewX(.8deg)}}
+@keyframes in-breathe{0%, 100%{transform:scale(.97); opacity:.88} 50%{transform:scale(1.03); opacity:1}}
+.in-flame-labels{position:relative; width:100%; height:1.5rem; margin-top:.25rem}
+.in-lab{position:absolute; top:0; transform:translateX(-50%); white-space:nowrap; font-size:var(--t-2xs); line-height:1.4; color:var(--text-2)}
+.in-lab-earth{left:29.2%}
+.in-lab-space{left:66.9%; color:var(--text)}
+.in-flame-cap{margin-top:.5rem; max-width:26rem; font-size:var(--t-2xs); line-height:1.45; color:var(--text-3); text-align:center}
+
+/* the fires and the alarm the challenge cites, linked to their year on the timeline */
+.in-acc{grid-area:acc; min-width:0}
+.in-acc-h{border:0; padding:0; margin:0 0 .35rem; font:600 var(--t-xs)/1.3 var(--font-head); letter-spacing:0; color:var(--text-2)}
+.in-acc-list{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:0 var(--s-3)}
+.in-acc-item{min-width:0}
+.in-acc-link{display:flex; flex-direction:column; gap:.15rem; min-height:2.75rem; height:100%; padding:.5rem 0 .2rem; border-top:1px solid var(--line-strong);
+  color:var(--text); text-decoration:none; transition:border-color .2s var(--ease)}
+.in-acc-link:hover{color:var(--text); border-top-color:var(--text)}
+.in-acc-link:hover .in-acc-title{text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.2em}
+.in-acc-year{font-size:var(--t-2xs); color:var(--text-3)}
+.in-acc-title{font:600 var(--t-sm)/1.25 var(--font-head); letter-spacing:-.01em}
+.in-acc-what{font-size:var(--t-2xs); line-height:1.45; color:var(--text-2)}
+
+/* what the platform does, and the way down */
+.in-act{grid-area:act; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--s-2) var(--s-4);
+  padding-top:clamp(.5rem, 1.6vh, 1rem); border-top:1px solid var(--line)}
+.in-platform{flex:1 1 30rem; max-width:62ch; font-size:var(--t-xs); line-height:1.5; color:var(--text-2)}
+.in-go{flex:0 0 auto}
+
+.in-foot{display:flex; align-items:flex-end; justify-content:space-between; gap:var(--s-3); padding-bottom:.5rem}
+.in-more{display:flex; align-items:center; gap:.6rem; margin:0; flex:0 0 auto; font-size:var(--t-2xs); line-height:1.3; color:var(--text-3)}
+.in-more-line{display:block; width:1px; height:1.75rem; background:var(--line-strong)}
+.in-credit{flex:0 1 auto; min-width:0; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:var(--t-2xs); line-height:1.35; color:var(--text-3)}
+.in-credit a{color:var(--text-3)}
+.in-credit a:hover{color:var(--text-2)}
+
+/* review page */
+.in-preview-next{min-height:100vh; padding-top:var(--s-6); padding-bottom:var(--s-6); border-top:1px solid var(--line)}   /* stands in for the worlds, so the button has somewhere to go */
+.in-preview-next:focus{outline:none}
+
+/* tablet: the fires go two by two */
+@media (max-width:64rem){
+  .in-acc-list{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:0 var(--s-3)}
+}
+/* phone: one column in reading order, the flame under the title */
+@media (max-width:48rem){
+  .in-screen{min-height:0}
+  .in-grid{grid-template-columns:minmax(0, 1fr); grid-template-areas:"title" "flame" "problem" "acc" "act"; row-gap:var(--s-3); padding-top:var(--s-3)}
+  .in-title{align-self:auto; font-size:clamp(2rem, 9.4vw, 3rem)}
+  .in-flame{--in-flame:min(60vw, 15rem)}
+  .in-p{font-size:1.125rem}
+  .in-act{flex-direction:column; align-items:stretch}
+  .in-platform{flex:0 0 auto}
+  .in-go{width:100%}
+  .in-foot{flex-direction:column; align-items:flex-start; padding-top:var(--s-2)}
+  .in-more{display:none}
+  .in-credit{white-space:normal}
+}
+@media (prefers-reduced-motion: reduce){ .in-fl-earth, .in-fl-space{animation:none} }

@@ -1,0 +1,967 @@
+{
+  "generated": "2026-11-15T07:44:46.333Z",
+  "loader": "three.js 0.187.0 GLTFLoader with DRACOLoader (examples/jsm/libs/draco/gltf/) and MeshoptDecoder",
+  "recommendations": {
+    "capsule": "capsule-alt",
+    "marsHabitat": "habitat-1"
+  },
+  "hatchFocus": {
+    "description": "Box of the Quest airlock (node \"Airlock\") in station model coordinates, to aim the camera at it on station-lite or station-full.",
+    "min": [
+      0.196,
+      -0.841,
+      -0.277
+    ],
+    "max": [
+      0.747,
+      -0.181,
+      0.778
+    ]
+  },
+  "models": [
+    {
+      "id": "station",
+      "tier": "lite",
+      "file": "station-lite.glb",
+      "bytes": 8569116,
+      "triangles": 1994174,
+      "drawCalls": 53,
+      "textures": {
+        "count": 110,
+        "maxPx": 512
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -3.7312,
+          -2.2479,
+          -5.0467
+        ],
+        "max": [
+          3.7315,
+          0.865,
+          5.0467
+        ]
+      },
+      "size": 10.0934,
+      "up": "y",
+      "name": "International Space Station (ISS) (D) (IGOAL)",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/International%20Space%20Station%20(ISS)%20(D)%20(IGOAL)",
+      "changes": "Meshes joined by material (839 to 53 draw calls), normals quantized to 8 bits; same 0.001 simplification and 512 px WebP textures as the full file. Over the 1.5 MB target: see notes.",
+      "notes": "Misses the 1.5 MB target: 110 textures at 512 px already weigh 1.6 MB and the geometry (2 million triangles) does not simplify further without losing the radiators (D-1443)."
+    },
+    {
+      "id": "station",
+      "tier": "full",
+      "file": "station-full.glb",
+      "bytes": 14408204,
+      "triangles": 2335094,
+      "drawCalls": 839,
+      "textures": {
+        "count": 110,
+        "maxPx": 512
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -3.7312,
+          -2.2479,
+          -5.0467
+        ],
+        "max": [
+          3.7315,
+          0.865,
+          5.0467
+        ]
+      },
+      "size": 10.0934,
+      "up": "y",
+      "name": "International Space Station (ISS) (D) (IGOAL)",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/International%20Space%20Station%20(ISS)%20(D)%20(IGOAL)",
+      "changes": "Unchanged copy of app/models/iss-igoal.glb (simplified at 0.001, Draco, 512 px WebP textures, D-1443)."
+    },
+    {
+      "id": "station",
+      "tier": "path",
+      "file": "station-path.glb",
+      "bytes": 3400500,
+      "triangles": 1471733,
+      "drawCalls": 42,
+      "textures": {
+        "count": 87,
+        "maxPx": 256
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -3.7312,
+          -2.2479,
+          -5.0467
+        ],
+        "max": [
+          3.7315,
+          0.865,
+          5.0467
+        ]
+      },
+      "size": 10.0934,
+      "up": "y",
+      "name": "International Space Station (ISS) (D) (IGOAL)",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/International%20Space%20Station%20(ISS)%20(D)%20(IGOAL)",
+      "changes": "Path tier for 140-260 px views: Details nodes and pieces under 0.2 units removed, normals dropped (flat shading), 256 px WebP textures, meshes joined.",
+      "notes": "Misses the 1.5 MB target (3.4 MB). At 260 px it looks like station-lite: solar arrays and radiators kept. A 2.7 MB try with 128 px textures lost the color of the arrays and was dropped."
+    },
+    {
+      "id": "moon",
+      "tier": "lite",
+      "file": "moon-lite.glb",
+      "bytes": 133968,
+      "triangles": 23232,
+      "drawCalls": 1,
+      "textures": {
+        "count": 1,
+        "maxPx": 1024
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -1.2719,
+          -1.2719,
+          -1.2719
+        ],
+        "max": [
+          1.2719,
+          1.2719,
+          1.2719
+        ]
+      },
+      "size": 2.5437,
+      "up": "y",
+      "name": "Moon 3D Models for Web, AR, and Animation (moon_small)",
+      "credit": "NASA's Goddard Space Flight Center",
+      "sourceUrl": "https://svs.gsfc.nasa.gov/14959/",
+      "changes": "Texture resized from 4096 to 1024 px WebP; Draco geometry."
+    },
+    {
+      "id": "moon",
+      "tier": "full",
+      "file": "moon-full.glb",
+      "bytes": 355200,
+      "triangles": 23232,
+      "drawCalls": 1,
+      "textures": {
+        "count": 1,
+        "maxPx": 2048
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -1.2719,
+          -1.2719,
+          -1.2719
+        ],
+        "max": [
+          1.2719,
+          1.2719,
+          1.2719
+        ]
+      },
+      "size": 2.5437,
+      "up": "y",
+      "name": "Moon 3D Models for Web, AR, and Animation (moon_small)",
+      "credit": "NASA's Goddard Space Flight Center",
+      "sourceUrl": "https://svs.gsfc.nasa.gov/14959/",
+      "changes": "Texture resized from 4096 to 2048 px WebP; Draco geometry."
+    },
+    {
+      "id": "mars",
+      "tier": "lite",
+      "file": "mars-lite.glb",
+      "bytes": 50628,
+      "triangles": 3072,
+      "drawCalls": 1,
+      "textures": {
+        "count": 2,
+        "maxPx": 1024
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -500,
+          -497.0556,
+          -500
+        ],
+        "max": [
+          500,
+          497.0556,
+          500
+        ]
+      },
+      "size": 1000.0001,
+      "up": "y",
+      "name": "Planet Mars, 3D Model",
+      "credit": "NASA/JPL-Caltech",
+      "sourceUrl": "https://science.nasa.gov/resource/planet-mars-3d-model",
+      "changes": "Textures resized from 2048 to 1024 px WebP; Draco geometry."
+    },
+    {
+      "id": "mars",
+      "tier": "full",
+      "file": "mars-full.glb",
+      "bytes": 255424,
+      "triangles": 3072,
+      "drawCalls": 1,
+      "textures": {
+        "count": 2,
+        "maxPx": 2048
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -500,
+          -497.0556,
+          -500
+        ],
+        "max": [
+          500,
+          497.0556,
+          500
+        ]
+      },
+      "size": 1000.0001,
+      "up": "y",
+      "name": "Planet Mars, 3D Model",
+      "credit": "NASA/JPL-Caltech",
+      "sourceUrl": "https://science.nasa.gov/resource/planet-mars-3d-model",
+      "changes": "Textures re-encoded as 2048 px WebP (same size in pixels); Draco geometry."
+    },
+    {
+      "id": "earth",
+      "tier": "lite",
+      "file": "earth-lite.glb",
+      "bytes": 135568,
+      "triangles": 3072,
+      "drawCalls": 1,
+      "textures": {
+        "count": 2,
+        "maxPx": 1024
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -500,
+          -498.3235,
+          -500
+        ],
+        "max": [
+          500,
+          498.3234,
+          500
+        ]
+      },
+      "size": 1000,
+      "up": "y",
+      "name": "Earth with Clouds 3D Model",
+      "credit": "NASA Visualization Technology Applications and Development (VTAD)",
+      "sourceUrl": "https://science.nasa.gov/resource/earth-with-clouds-3d-model",
+      "changes": "Textures resized from 4096 to 1024 px WebP; Draco geometry."
+    },
+    {
+      "id": "earth",
+      "tier": "full",
+      "file": "earth-full.glb",
+      "bytes": 408904,
+      "triangles": 3072,
+      "drawCalls": 1,
+      "textures": {
+        "count": 2,
+        "maxPx": 2048
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -500,
+          -498.3235,
+          -500
+        ],
+        "max": [
+          500,
+          498.3234,
+          500
+        ]
+      },
+      "size": 1000,
+      "up": "y",
+      "name": "Earth with Clouds 3D Model",
+      "credit": "NASA Visualization Technology Applications and Development (VTAD)",
+      "sourceUrl": "https://science.nasa.gov/resource/earth-with-clouds-3d-model",
+      "changes": "Textures resized from 4096 to 2048 px WebP; Draco geometry."
+    },
+    {
+      "id": "suit",
+      "tier": "lite",
+      "file": "suit-lite.glb",
+      "bytes": 192668,
+      "triangles": 37300,
+      "drawCalls": 19,
+      "textures": {
+        "count": 3,
+        "maxPx": 1024
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -0.5702,
+          0.0478,
+          -0.4845
+        ],
+        "max": [
+          0.5647,
+          2.0506,
+          0.9289
+        ]
+      },
+      "size": 2.0028,
+      "up": "y",
+      "name": "Extravehicular Mobility Unit",
+      "credit": "NASA/Michael D. Carbajal",
+      "sourceUrl": "https://science.nasa.gov/3d-resources/extravehicular-mobility-unit/",
+      "changes": "Transmission extension removed (it made the whole suit see-through, black on a dark background), simplified at 0.002, meshes joined, 1024 px WebP textures."
+    },
+    {
+      "id": "suit",
+      "tier": "full",
+      "file": "suit-full.glb",
+      "bytes": 990264,
+      "triangles": 340657,
+      "drawCalls": 25,
+      "textures": {
+        "count": 3,
+        "maxPx": 1032
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -0.5702,
+          0.0478,
+          -0.4845
+        ],
+        "max": [
+          0.5647,
+          2.0506,
+          0.9289
+        ]
+      },
+      "size": 2.0028,
+      "up": "y",
+      "name": "Extravehicular Mobility Unit",
+      "credit": "NASA/Michael D. Carbajal",
+      "sourceUrl": "https://science.nasa.gov/3d-resources/extravehicular-mobility-unit/",
+      "changes": "Transmission extension removed (it made the whole suit see-through, black on a dark background); geometry and textures unchanged."
+    },
+    {
+      "id": "habitat-1",
+      "tier": "lite",
+      "file": "habitat-1-lite.glb",
+      "bytes": 38652,
+      "triangles": 2264,
+      "drawCalls": 1,
+      "textures": {
+        "count": 1,
+        "maxPx": 1024
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -142.2571,
+          11.525,
+          -82.9695
+        ],
+        "max": [
+          237.941,
+          228.9502,
+          82.9596
+        ]
+      },
+      "size": 380.1981,
+      "up": "y",
+      "name": "Habitat Demonstration Unit (part 1)",
+      "credit": "NASA",
+      "sourceUrl": "https://science.nasa.gov/3d-resources/habitat-demonstration-unit/",
+      "changes": "JPEG fallback copy of the texture dropped (three.js uses the WebP one); WebP re-encoded at 1024 px; Draco geometry.",
+      "notes": "Recommended for the surface of Mars: a closed inflatable module with the NASA insignia. Part 2 is a test stand with ramps and railings."
+    },
+    {
+      "id": "habitat-1",
+      "tier": "full",
+      "file": "habitat-1-full.glb",
+      "bytes": 516748,
+      "triangles": 2264,
+      "drawCalls": 1,
+      "textures": {
+        "count": 1,
+        "maxPx": 1024
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -142.2571,
+          11.5209,
+          -82.9695
+        ],
+        "max": [
+          237.941,
+          228.9502,
+          82.9696
+        ]
+      },
+      "size": 380.1981,
+      "up": "y",
+      "name": "Habitat Demonstration Unit (part 1)",
+      "credit": "NASA",
+      "sourceUrl": "https://science.nasa.gov/3d-resources/habitat-demonstration-unit/",
+      "changes": "Unchanged copy of app/models/habitat-1.glb.",
+      "notes": "Recommended for the surface of Mars: a closed inflatable module with the NASA insignia. Part 2 is a test stand with ramps and railings."
+    },
+    {
+      "id": "habitat-2",
+      "tier": "lite",
+      "file": "habitat-2-lite.glb",
+      "bytes": 74256,
+      "triangles": 4230,
+      "drawCalls": 1,
+      "textures": {
+        "count": 1,
+        "maxPx": 1024
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -300.137,
+          -0.688,
+          -204.204
+        ],
+        "max": [
+          356.2795,
+          225.7304,
+          254.3221
+        ]
+      },
+      "size": 656.4165,
+      "up": "y",
+      "name": "Habitat Demonstration Unit (part 2)",
+      "credit": "NASA",
+      "sourceUrl": "https://science.nasa.gov/3d-resources/habitat-demonstration-unit/",
+      "changes": "JPEG fallback copy of the texture dropped (three.js uses the WebP one); WebP re-encoded at 1024 px; Draco geometry."
+    },
+    {
+      "id": "habitat-2",
+      "tier": "full",
+      "file": "habitat-2-full.glb",
+      "bytes": 710988,
+      "triangles": 4320,
+      "drawCalls": 1,
+      "textures": {
+        "count": 1,
+        "maxPx": 1024
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -300.137,
+          -0.6904,
+          -204.204
+        ],
+        "max": [
+          356.2795,
+          225.7304,
+          254.3054
+        ]
+      },
+      "size": 656.4165,
+      "up": "y",
+      "name": "Habitat Demonstration Unit (part 2)",
+      "credit": "NASA",
+      "sourceUrl": "https://science.nasa.gov/3d-resources/habitat-demonstration-unit/",
+      "changes": "Unchanged copy of app/models/habitat-2.glb."
+    },
+    {
+      "id": "rover",
+      "tier": "lite",
+      "file": "rover-lite.glb",
+      "bytes": 522792,
+      "triangles": 61217,
+      "drawCalls": 1,
+      "textures": {
+        "count": 3,
+        "maxPx": 512
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -2.0192,
+          -2.2421,
+          -3.352
+        ],
+        "max": [
+          2.0193,
+          1.7264,
+          2.5551
+        ]
+      },
+      "size": 5.9071,
+      "up": "y",
+      "name": "Space Exploration Vehicle",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Space%20Exploration%20Vehicle",
+      "changes": "Simplified at 0.003 (413k to 61k triangles), textures resized from 4096 to 512 px WebP, Draco geometry."
+    },
+    {
+      "id": "rover",
+      "tier": "full",
+      "file": "rover-full.glb",
+      "bytes": 1828912,
+      "triangles": 295764,
+      "drawCalls": 1,
+      "textures": {
+        "count": 3,
+        "maxPx": 2048
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -2.0192,
+          -2.2421,
+          -3.3549
+        ],
+        "max": [
+          2.0193,
+          1.7264,
+          2.5551
+        ]
+      },
+      "size": 5.91,
+      "up": "y",
+      "name": "Space Exploration Vehicle",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Space%20Exploration%20Vehicle",
+      "changes": "Light simplification (0.0001), textures resized from 4096 to 2048 px WebP, Draco geometry (22.4 MB to 1.8 MB)."
+    },
+    {
+      "id": "capsule",
+      "tier": "lite",
+      "file": "capsule-lite.glb",
+      "bytes": 7664,
+      "triangles": 650,
+      "drawCalls": 2,
+      "textures": {
+        "count": 0,
+        "maxPx": 0
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -83.1683,
+          -81.9048,
+          -62.0522
+        ],
+        "max": [
+          83.1683,
+          81.9048,
+          23.9964
+        ]
+      },
+      "size": 166.3367,
+      "up": "y",
+      "name": "ESAS Crew Module",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/ESAS%20Crew%20Module",
+      "changes": "Unchanged NASA file (7.6 KB, 650 triangles, no textures).",
+      "notes": "Poor: 650 faceted triangles, no textures. See capsule-alt."
+    },
+    {
+      "id": "capsule",
+      "tier": "full",
+      "file": "capsule-full.glb",
+      "bytes": 7664,
+      "triangles": 650,
+      "drawCalls": 2,
+      "textures": {
+        "count": 0,
+        "maxPx": 0
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -83.1683,
+          -81.9048,
+          -62.0522
+        ],
+        "max": [
+          83.1683,
+          81.9048,
+          23.9964
+        ]
+      },
+      "size": 166.3367,
+      "up": "y",
+      "name": "ESAS Crew Module",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/ESAS%20Crew%20Module",
+      "changes": "Unchanged NASA file (7.6 KB, 650 triangles, no textures).",
+      "notes": "Poor: 650 faceted triangles, no textures. See capsule-alt."
+    },
+    {
+      "id": "capsule-alt",
+      "tier": "lite",
+      "file": "capsule-alt-lite.glb",
+      "bytes": 68384,
+      "triangles": 3626,
+      "drawCalls": 7,
+      "textures": {
+        "count": 5,
+        "maxPx": 1024
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -3.5455,
+          0.1384,
+          -3.6142
+        ],
+        "max": [
+          3.6696,
+          13.8121,
+          3.5921
+        ]
+      },
+      "size": 13.6737,
+      "up": "y",
+      "name": "Gemini",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Gemini",
+      "changes": "Unused animation tracks removed so meshes could be joined (94 to 7 draw calls), simplified at 0.001, 1024 px WebP textures, Draco geometry.",
+      "recommended": true,
+      "notes": "Recommended instead of the ESAS module: a real crewed capsule with UNITED STATES lettering and flag."
+    },
+    {
+      "id": "capsule-alt",
+      "tier": "full",
+      "file": "capsule-alt-full.glb",
+      "bytes": 1387812,
+      "triangles": 38840,
+      "drawCalls": 94,
+      "textures": {
+        "count": 4,
+        "maxPx": 1500
+      },
+      "compression": "none",
+      "bbox": {
+        "min": [
+          -3.5455,
+          0.1384,
+          -3.6142
+        ],
+        "max": [
+          3.6696,
+          13.8121,
+          3.5921
+        ]
+      },
+      "size": 13.6737,
+      "up": "y",
+      "name": "Gemini",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Gemini",
+      "changes": "Unchanged NASA file.",
+      "recommended": true,
+      "notes": "Recommended instead of the ESAS module: a real crewed capsule with UNITED STATES lettering and flag."
+    },
+    {
+      "id": "shuttle",
+      "tier": "lite",
+      "file": "shuttle-lite.glb",
+      "bytes": 264896,
+      "triangles": 3144,
+      "drawCalls": 14,
+      "textures": {
+        "count": 11,
+        "maxPx": 664
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -706.07,
+          -468.5,
+          -139.65
+        ],
+        "max": [
+          764.9999,
+          468.515,
+          415.7233
+        ]
+      },
+      "size": 1471.0699,
+      "up": "y",
+      "name": "Space Shuttle (D)",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Space%20Shuttle%20(D)",
+      "changes": "Unused animation tracks removed so meshes could be joined (42 to 14 draw calls), simplified at 0.001, WebP textures at original size (664 px), Draco geometry.",
+      "notes": "Alternative to capsule-alt for the ship that orbits the Station: the Shuttle docked with the Station many times; not a capsule."
+    },
+    {
+      "id": "shuttle",
+      "tier": "full",
+      "file": "shuttle-full.glb",
+      "bytes": 2471932,
+      "triangles": 19378,
+      "drawCalls": 42,
+      "textures": {
+        "count": 11,
+        "maxPx": 664
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -706.07,
+          -468.5,
+          -139.65
+        ],
+        "max": [
+          764.9999,
+          468.515,
+          415.72
+        ]
+      },
+      "size": 1471.0699,
+      "up": "y",
+      "name": "Space Shuttle (D)",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Space%20Shuttle%20(D)",
+      "changes": "Unchanged NASA file.",
+      "notes": "Alternative to capsule-alt for the ship that orbits the Station: the Shuttle docked with the Station many times; not a capsule."
+    },
+    {
+      "id": "astronaut",
+      "tier": "lite",
+      "file": "astronaut-lite.glb",
+      "bytes": 55348,
+      "triangles": 6271,
+      "drawCalls": 2,
+      "textures": {
+        "count": 2,
+        "maxPx": 1024
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -34.4546,
+          -37.1314,
+          -13.8003
+        ],
+        "max": [
+          34.4547,
+          37.1313,
+          13.8006
+        ]
+      },
+      "size": 74.2627,
+      "up": "y",
+      "name": "Astronaut",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Astronaut",
+      "changes": "PNG fallback copies of the textures dropped (three.js uses the WebP ones); WebP re-encoded at 1024 px; Draco geometry."
+    },
+    {
+      "id": "astronaut",
+      "tier": "full",
+      "file": "astronaut-full.glb",
+      "bytes": 762988,
+      "triangles": 6381,
+      "drawCalls": 2,
+      "textures": {
+        "count": 2,
+        "maxPx": 1024
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -34.4546,
+          -37.1314,
+          -13.8006
+        ],
+        "max": [
+          34.4547,
+          37.1313,
+          13.8006
+        ]
+      },
+      "size": 74.2627,
+      "up": "y",
+      "name": "Astronaut",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Astronaut",
+      "changes": "Unchanged NASA file."
+    },
+    {
+      "id": "hatch",
+      "tier": "lite",
+      "file": "hatch-lite.glb",
+      "bytes": 527880,
+      "triangles": 50292,
+      "drawCalls": 4,
+      "textures": {
+        "count": 8,
+        "maxPx": 1024
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          0.1965,
+          -0.8413,
+          -0.2767
+        ],
+        "max": [
+          0.7471,
+          -0.1809,
+          0.7777
+        ]
+      },
+      "size": 1.0544,
+      "up": "y",
+      "name": "Quest Joint Airlock (node \"Airlock\" of International Space Station (ISS) (D) (IGOAL))",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/International%20Space%20Station%20(ISS)%20(D)%20(IGOAL)",
+      "changes": "Only the Quest airlock node cut from the 96 MB original Station, kept in Station coordinates; meshes joined, simplified at 0.001, WebP textures, Draco geometry.",
+      "notes": "Same coordinates as the station files: placing it at the origin with the same scale overlays it on the Station."
+    },
+    {
+      "id": "hatch",
+      "tier": "full",
+      "file": "hatch-full.glb",
+      "bytes": 530560,
+      "triangles": 50947,
+      "drawCalls": 4,
+      "textures": {
+        "count": 8,
+        "maxPx": 1024
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          0.1965,
+          -0.8413,
+          -0.2767
+        ],
+        "max": [
+          0.7471,
+          -0.1809,
+          0.7777
+        ]
+      },
+      "size": 1.0544,
+      "up": "y",
+      "name": "Quest Joint Airlock (node \"Airlock\" of International Space Station (ISS) (D) (IGOAL))",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/International%20Space%20Station%20(ISS)%20(D)%20(IGOAL)",
+      "changes": "Only the Quest airlock node cut from the 96 MB original Station, kept in Station coordinates; WebP textures at original size (1024 px), Draco geometry.",
+      "notes": "Same coordinates as the station files: placing it at the origin with the same scale overlays it on the Station."
+    },
+    {
+      "id": "skylab",
+      "tier": "lite",
+      "file": "skylab-lite.glb",
+      "bytes": 30844,
+      "triangles": 5791,
+      "drawCalls": 4,
+      "textures": {
+        "count": 1,
+        "maxPx": 64
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -21.544,
+          29.4522,
+          -13.4447
+        ],
+        "max": [
+          17.196,
+          41.2335,
+          16.4068
+        ]
+      },
+      "size": 38.7401,
+      "up": "y",
+      "name": "Skylab",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Skylab",
+      "changes": "Unused animation track removed, meshes joined, simplified at 0.001, Draco geometry."
+    },
+    {
+      "id": "mir",
+      "tier": "lite",
+      "file": "mir-lite.glb",
+      "bytes": 13480,
+      "triangles": 3350,
+      "drawCalls": 1,
+      "textures": {
+        "count": 0,
+        "maxPx": 0
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -69.25,
+          -544.8246,
+          -1634.4995
+        ],
+        "max": [
+          967.7753,
+          1141.4867,
+          -239.3788
+        ]
+      },
+      "size": 1686.3113,
+      "up": "y",
+      "name": "Mir",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Mir",
+      "changes": "Unused animation track removed, simplified at 0.001, Draco geometry."
+    },
+    {
+      "id": "lunar-module",
+      "tier": "lite",
+      "file": "lunar-module-lite.glb",
+      "bytes": 93600,
+      "triangles": 14305,
+      "drawCalls": 7,
+      "textures": {
+        "count": 4,
+        "maxPx": 900
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -3.2114,
+          0.1026,
+          -3.2125
+        ],
+        "max": [
+          3.2098,
+          5.1154,
+          3.2109
+        ]
+      },
+      "size": 6.4235,
+      "up": "y",
+      "name": "Apollo Lunar Module",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Apollo%20Lunar%20Module",
+      "changes": "Unused animation tracks removed so meshes could be joined (157 to 7 draw calls), simplified at 0.001, WebP textures, Draco geometry."
+    }
+  ]
+}

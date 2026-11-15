@@ -1,0 +1,55 @@
+/* people: the cards of the investigators and the page #/people. Prefix pp-; values from base.css only. */
+
+.pp-cards{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap:var(--s-2); margin-top:var(--s-1)}
+.pp-card{min-width:0; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius)}
+.pp-card.is-open{border-color:var(--line-strong)}
+.pp-head{display:grid; grid-template-columns:auto minmax(0,1fr); grid-template-areas:"photo who" "photo toggle"; column-gap:var(--s-2); row-gap:.35rem; align-items:start;
+  width:100%; min-height:2.75rem; padding:var(--s-2); background:transparent; border:0; border-radius:var(--radius); color:var(--text); text-align:left; cursor:pointer}
+.pp-head:hover .pp-name{text-decoration:underline; text-underline-offset:.2em}
+.pp-photo{grid-area:photo; display:flex; align-items:center; justify-content:center; width:4rem; height:4rem; overflow:hidden; border-radius:50%; background:var(--surface-2); flex:0 0 auto}
+.pp-photo img{display:block; width:100%; height:100%; object-fit:cover}
+.pp-initials{font:600 var(--t-md)/1 var(--font-head); color:var(--text-2)}
+.pp-who{grid-area:who; display:flex; flex-direction:column; gap:.15rem; min-width:0}
+.pp-name{font:600 var(--t-sm)/1.25 var(--font-head); overflow-wrap:anywhere}
+.pp-role{font:400 var(--t-2xs)/1.4 var(--font-body); color:var(--text-2)}
+.pp-org{font:400 var(--t-2xs)/1.4 var(--font-body); color:var(--text-3)}
+.pp-toggle{grid-area:toggle; font:600 var(--t-2xs)/1.3 var(--font-head); color:var(--link)}
+.pp-links{display:flex; flex-wrap:wrap; gap:.25rem 1rem; margin:0}
+.pp-links-top{padding:0 var(--s-2) var(--s-2) calc(var(--s-2) + 4rem + var(--s-2))}
+.pp-link{display:inline-flex; align-items:center; min-height:2.75rem; font:600 var(--t-2xs)/1.3 var(--font-head)}
+.pp-missing{display:flex; flex-direction:column; align-items:flex-start; gap:.25rem; padding:0 var(--s-2) var(--s-2) calc(var(--s-2) + 4rem + var(--s-2))}
+.pp-missing .c-tag{white-space:normal; line-height:1.25; padding-top:.2rem; padding-bottom:.2rem}
+.pp-detail{padding:var(--s-2); border-top:1px solid var(--line)}
+.pp-detail[hidden]{display:none}
+.pp-detail > * + *{margin-top:var(--s-2)}
+.pp-note{font-size:var(--t-2xs); color:var(--text)}
+.pp-sub h4{font:600 var(--t-2xs)/1.3 var(--font-head); color:var(--text); margin-bottom:.35rem}
+.pp-quiet{font-size:var(--t-2xs); line-height:1.5; color:var(--text-3)}
+.pp-quiet + .pp-quiet{margin-top:.25rem}
+.pp-invs{margin:0; padding:0; list-style:none; font-size:var(--t-2xs); color:var(--text-2)}
+.pp-invs li{display:flex; flex-wrap:wrap; align-items:center; gap:0 .5rem}
+.pp-invs a{display:inline-flex; align-items:center; min-height:2.75rem; font-weight:600}
+.pp-sources a{overflow-wrap:anywhere}
+
+/* compact: smaller photo, contacts only in the detail */
+.pp-compact .pp-photo{width:2.75rem; height:2.75rem}
+.pp-compact .pp-initials{font-size:var(--t-xs)}
+.pp-compact .pp-missing{padding-left:calc(var(--s-2) + 2.75rem + var(--s-2))}
+
+/* page */
+.pp-bar{display:flex; flex-wrap:wrap; align-items:flex-end; gap:var(--s-2) var(--s-3); padding:var(--s-2) 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+.pp-ctl{display:flex; flex-direction:column; gap:.35rem; min-width:0; max-width:100%}
+.pp-ctl-q{flex:1 1 18rem}
+.pp-ctl label{font:400 var(--t-2xs)/1.3 var(--font-body); color:var(--text-3)}
+.pp-input{min-height:2.75rem; width:100%; max-width:100%; padding:0 .75rem; background:var(--surface); color:var(--text); border:1px solid var(--line-strong); border-radius:var(--radius); font:400 var(--t-xs)/1.2 var(--font-body)}
+.pp-input:hover{border-color:var(--text)}
+.pp-status{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.5rem 1rem; min-height:2.75rem; margin:var(--s-2) 0 var(--s-1)}
+.pp-count{font-size:var(--t-2xs); color:var(--text-2)}
+.pp-count:focus{outline:none}
+.pp-status .c-btn[hidden]{display:none}
+
+@media (max-width:40rem){
+  .pp-photo{width:3rem; height:3rem}
+  .pp-links-top, .pp-missing{padding-left:var(--s-2)}
+}
+@media print{ .pp-toggle{display:none} .pp-detail[hidden]{display:block} }

@@ -1,0 +1,221 @@
+/* journey: la portada (el recorrido de mundos sobre la linea de gravedad), la vista de cada mundo y la pantalla
+   completa de un modelo. Clases con prefijo jr-; no depende de legacy.css. Ver interfaz/DESIGN.md. */
+
+/* ---------- the shared 3D stage: one canvas behind the content ---------- */
+.stage{display:block; position:fixed; inset:0; z-index:0; pointer-events:none}
+.stage canvas{display:block; width:100%; height:100%}
+.stage.jr-top{z-index:65}
+html.jr-lock{overflow:hidden}
+
+/* ---------- a scene: the element the 3D follows ---------- */
+.jr-scene{position:relative; display:block; border-radius:var(--radius)}
+.jr-scene.is-interactive{cursor:grab}
+.jr-scene.is-dragging{cursor:grabbing}
+.jr-scene:focus-visible{outline:2px solid var(--link); outline-offset:4px}
+.jr-still{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; pointer-events:none}
+.jr-wait{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); display:none; align-items:center; gap:.5rem; font:400 var(--t-2xs)/1.3 var(--font-body); color:var(--text-3); white-space:nowrap; pointer-events:none}
+.jr-wait::before{content:""; flex:0 0 auto; width:.8rem; height:.8rem; border:1px solid var(--line-strong); border-top-color:var(--text); border-radius:50%; animation:c-spin .8s linear infinite}
+.jr-scene[data-state="loading"] .jr-wait{display:flex}
+.jr-fail{position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; gap:.75rem; padding:.5rem; text-align:center}
+.jr-fail p{font:600 var(--t-2xs)/1.3 var(--font-head); color:var(--missing)}
+.jr-scene[data-state="error"] .jr-fail{display:flex}
+
+/* ---------- home: first screen, worlds spread over space (placed by layoutHome in journey.js) ---------- */
+.jr-hero{position:relative; width:100%; max-width:150rem; margin:0 auto;
+  padding:var(--s-4) max(var(--gutter),env(safe-area-inset-right,0px)) var(--s-3) max(var(--gutter),env(safe-area-inset-left,0px));
+  min-height:max(560px, calc(100vh - var(--head-h) - 2.2rem - 56px)); min-height:max(560px, calc(100svh - var(--head-h) - 2.2rem - 56px))}
+.jr-intro{position:relative; z-index:2; font-size:var(--t-sm)}
+.jr-intro{pointer-events:none}   /* the block spans the width; only its text takes clicks, so a world beside it stays clickable */
+.jr-intro > *{max-width:46ch; pointer-events:auto}
+.jr-intro h1{max-width:min(17em, 100%); font-size:clamp(2.75rem, 1.2rem + 3.6vw, 5.25rem); line-height:1.02}
+/* with the 3D words (js/title.js) the objects on INCENDIOS and MUNDO need room: --tt-top is a length (0.616em today) */
+.jr-intro h1.tt-on{line-height:1.48; padding-top:var(--tt-top, .62em)}
+.jr-what{margin-top:var(--s-2); max-width:48ch; font-size:clamp(1.125rem, .95rem + .3vw, 1.25rem); color:var(--text-2); line-height:1.5}
+.jr-find{margin-top:var(--s-3); display:flex; flex-wrap:wrap; align-items:center; gap:var(--s-2) var(--s-3)}
+.jr-find{max-width:42rem}
+.jr-finding{flex:1 1 18rem; font:700 clamp(1.375rem, 1.05rem + .5vw, 1.625rem)/1.25 var(--font-head); letter-spacing:-.01em; color:var(--text)}
+.jr-finding .num{font-weight:500; font-size:1em}
+.jr-hint{margin-top:var(--s-3); color:var(--text-2); font-size:var(--t-xs)}
+
+/* from 48rem: each world is a box of its side (placed by layoutHome in journey.js) and its label hangs beside it */
+@media (min-width:48rem){
+  .jr-intro{max-width:56vw}
+  .jr-intro > *{max-width:100%}
+  .jr-intro .jr-what{max-width:min(72ch, 100%); margin-top:.75rem}
+  .jr-intro .jr-find{max-width:min(60rem, 100%); margin-top:1rem}
+  .jr-intro .jr-hint{margin-top:1rem}
+  .jr-intro h1{max-width:none; font-size:min(clamp(2.75rem, 1.2rem + 3.6vw, 5.25rem), 8.2vh)}
+  .jr-item{width:var(--size); height:var(--size)}
+  .jr-world{display:block; position:relative; width:100%; height:100%}
+  .jr-labels{position:absolute; top:50%; width:max-content; max-width:clamp(150px, 13vw, 240px); margin:0; transform:translateY(calc(-50% + var(--dy, 0px)))}
+  .jr-lab-right .jr-labels{left:calc(100% + 12px); align-items:flex-start; text-align:left}
+  .jr-lab-left .jr-labels{right:calc(100% + 12px); align-items:flex-end; text-align:right}
+  .jr-lab-below .jr-labels{top:calc(100% + 12px); left:50%; transform:translate(-50%, var(--dy, 0px)); align-items:center; text-align:center}
+  .jr-labels .jr-off-note{margin:0 0 .35rem; text-align:inherit}
+  .jr-home .jr-labels{display:block}   /* name and gravity share a line: one line less beside each world */
+  .jr-home .jr-labels > *{display:block}
+  .jr-home .jr-labels > .jr-name{display:inline}
+  .jr-home .jr-labels > .jr-g{display:inline; margin:0 0 0 .5em; white-space:nowrap}
+  .jr-home .jr-labels > .jr-count{margin-top:.15rem}
+  .jr-mark.is-quiet .jr-g{visibility:hidden}   /* no free corner: the dot stays, the figure is already in the label */
+  .jr-home .jr-out{font-size:.875rem; line-height:1.3}
+  .jr-short .jr-labels .jr-out{display:none}   /* areas under 720 px: the outside-PSI line stays in the world view */
+}
+@media (min-width:48rem) and (max-width:68.74rem){ .jr-intro{max-width:62vw} }
+/* with the screen before (js/intro.js) the worlds screen keeps one band of text: the invitation and the finding */
+.jr-choose{margin:0; padding:0; border:0; font:600 clamp(1.375rem, 1rem + .8vw, 2rem)/1.25 var(--font-head); letter-spacing:-.01em; color:var(--text)}
+.jr-intro-band .jr-find{margin-top:.75rem}
+
+/* the curved flight route through the four worlds on the gravity axis */
+.jr-path{position:absolute; inset:0; z-index:1; pointer-events:none}
+.jr-route{position:absolute; left:0; top:0; overflow:visible}
+.jr-route-line{fill:none; stroke:var(--text); stroke-opacity:.38; stroke-width:1; vector-effect:non-scaling-stroke}
+.jr-marks{position:absolute; inset:0}
+.jr-mark{position:absolute; width:0; height:0}
+.jr-mark .jr-dot{position:absolute; left:-3.5px; top:-3.5px; width:7px; height:7px; border-radius:50%; background:var(--space); border:1px solid var(--text)}
+.jr-mark .jr-g{position:absolute; left:.6rem; top:.35rem; white-space:nowrap}
+.jr-mark.is-w .jr-g{left:auto; right:.6rem}
+.jr-mark.is-n .jr-g{top:auto; bottom:.35rem}
+.jr-gap{position:absolute; transform:translate(-50%,-50%); transform-origin:50% 50%}
+.jr-gap-text{display:block; max-width:14rem; font:400 clamp(.875rem, .72rem + .3vw, 1.0625rem)/1.35 var(--font-body); color:var(--missing); text-align:center}
+.jr-gap-row{display:none}
+.jr-worlds{list-style:none; margin:0; padding:0}
+.jr-item{position:absolute; pointer-events:auto; --size:200px}
+.jr-world{display:flex; flex-direction:column; align-items:center; text-align:center; text-decoration:none; color:var(--text-2)}
+.jr-world:hover{color:var(--text-2); text-decoration:none}
+.jr-world:focus-visible{outline:none}
+.jr-world:focus-visible .jr-scene{outline:2px solid var(--link); outline-offset:4px}
+.jr-float{display:block; animation:jr-bob var(--bp, 9s) ease-in-out var(--bd, 0s) infinite alternate}
+@keyframes jr-bob{from{transform:translateY(calc(var(--ba, 8px) * -1))} to{transform:translateY(var(--ba, 8px))}}
+.jr-slot{display:block; width:var(--size); height:var(--size)}
+.jr-world .jr-scene{width:100%; height:100%; transition:transform .2s var(--ease)}
+.jr-world:hover .jr-scene, .jr-world:focus-visible .jr-scene{transform:scale(1.07)}
+.jr-labels{display:flex; flex-direction:column; align-items:center; margin-top:.5rem}
+.jr-name{font:600 clamp(1rem, .8rem + .45vw, 1.375rem)/1.25 var(--font-head); letter-spacing:-.01em; color:var(--text-2); transition:color .2s var(--ease)}
+.jr-world:hover .jr-name, .jr-world:focus-visible .jr-name{color:var(--text)}
+.jr-g{font:500 clamp(.875rem, .72rem + .3vw, 1.0625rem)/1.3 var(--font-data); color:var(--text)}
+.jr-labels .jr-g{margin-top:.15rem}
+.jr-count{margin-top:.2rem; font:400 clamp(.875rem, .72rem + .3vw, 1.0625rem)/1.4 var(--font-body); color:var(--text-2)}
+.jr-count .num{color:var(--text)}
+.jr-none{color:var(--missing)}
+.jr-out{margin-top:.2rem; font:400 clamp(.875rem, .72rem + .3vw, 1.0625rem)/1.35 var(--font-body); color:var(--text-3)}
+.jr-off-note{margin:0 0 .4rem; font:400 clamp(.875rem, .72rem + .3vw, 1.0625rem)/1.35 var(--font-body); color:var(--text-3); text-align:center}
+
+/* stars in three depths, inside #stage and under the canvas */
+.stage canvas{position:relative; z-index:1}
+.jr-sky{position:absolute; inset:0; z-index:0; overflow:hidden; display:none}
+.jr-sky.is-on{display:block}
+.jr-sky-layer{position:absolute; inset:-1.5rem}
+.jr-sky-in{display:block; width:100%; height:100%; transition:transform .6s var(--ease)}
+.jr-sky-0{animation:jr-drift 240s linear infinite alternate}
+.jr-sky-1{animation:jr-drift 170s linear -40s infinite alternate-reverse}
+.jr-sky-2{animation:jr-drift 120s linear -20s infinite alternate}
+@keyframes jr-drift{from{transform:translate3d(-10px,-5px,0)} to{transform:translate3d(12px,6px,0)}}
+
+@media (min-width:110rem) and (min-height:62rem){
+  .jr-hero{padding-top:var(--s-6)}
+}
+
+/* phones: a zigzag down the page on the same curved route, each label on the side opposite its world */
+@media (max-width:47.99rem){
+  .jr-hero{min-height:0; padding-bottom:0}
+  .jr-path{position:relative; inset:auto; margin-top:var(--s-4)}
+  .jr-gap{display:none}
+  .jr-gap-row{display:flex; justify-content:center; padding:var(--s-1) 0 var(--s-3); position:relative; z-index:1}
+  .jr-gap-row .jr-gap-text{max-width:none}
+  .jr-worlds{position:relative; z-index:1}
+  .jr-item{position:relative; left:auto; top:auto; width:auto; --size:46vw; padding-bottom:var(--s-3)}
+  .jr-world{display:grid; grid-template-columns:46vw minmax(0,1fr); column-gap:1rem; align-items:center; text-align:left}
+  .jr-labels{align-items:flex-start; margin-top:0}
+  .jr-right .jr-world{grid-template-columns:minmax(0,1fr) 46vw; text-align:right}
+  .jr-right .jr-float{order:2}
+  .jr-right .jr-labels{align-items:flex-end}
+  .jr-off{margin-top:var(--s-3); padding-top:var(--s-3); border-top:1px solid var(--line)}
+  .jr-off-note{text-align:left; margin-bottom:var(--s-2)}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .jr-float, .jr-sky-layer{animation:none}
+  .jr-sky-in{transition:none}
+}
+
+/* ---------- one world ---------- */
+.jr-wv{padding-top:var(--s-2)}
+.jr-top{display:flex; flex-direction:column; gap:var(--s-1)}
+.jr-top .c-back{align-self:flex-start}
+.jr-strip{overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scrollbar-width:thin; border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+.jr-strip-in{display:grid; grid-template-columns:minmax(38rem,1fr) auto; gap:var(--s-5); align-items:center; height:5.5rem; padding:0 1rem}
+.jr-strip-track{position:relative; height:100%}
+.jr-strip-line{position:absolute; left:0; right:0; top:50%; border-top:1px solid var(--text-3)}
+.jr-strip-void{position:absolute; left:.75rem; right:.75rem; top:50%; height:0; border-top:1px dashed var(--missing); background:var(--space)}
+.jr-pt{position:absolute; left:var(--x); top:0; bottom:0; width:0; color:var(--text-2); text-decoration:none}
+.jr-pt:hover{color:var(--text); text-decoration:none}
+.jr-pt:focus-visible{outline:none}
+.jr-pt:focus-visible .jr-pt-name{outline:2px solid var(--link); outline-offset:1px}
+.jr-pt-dot{position:absolute; left:-5px; top:calc(50% - 5px); width:11px; height:11px; border-radius:50%; border:1px solid var(--text-2); background:var(--space)}
+.jr-pt-name{position:absolute; top:calc(50% + .2rem); left:0; transform:translateX(-50%); padding:.55rem .35rem; white-space:nowrap; font:500 var(--t-2xs)/1.2 var(--font-head)}
+.jr-pt.is-up .jr-pt-name{top:auto; bottom:calc(50% + .2rem)}
+.jr-pt.is-first .jr-pt-name{transform:translateX(-.6rem)}
+.jr-pt.is-last .jr-pt-name{transform:translateX(calc(-100% + .6rem))}
+.jr-pt[aria-current="page"]{color:var(--text)}
+.jr-pt[aria-current="page"] .jr-pt-dot{background:var(--text); border-color:var(--text)}
+.jr-pt[aria-current="page"] .jr-pt-name{font-weight:700}
+.jr-pt-off{display:flex; align-items:center; gap:.5rem; min-height:2.75rem; color:var(--text-2); text-decoration:none; font:500 var(--t-2xs)/1.2 var(--font-head); white-space:nowrap}
+.jr-pt-off:hover{color:var(--text); text-decoration:none}
+.jr-pt-off .jr-pt-dot{position:static}
+.jr-pt-off[aria-current="page"]{color:var(--text); font-weight:700}
+.jr-pt-off[aria-current="page"] .jr-pt-dot{background:var(--text); border-color:var(--text)}
+
+.jr-lead{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:var(--s-4) var(--s-6); align-items:start; margin-top:var(--s-4)}
+.jr-text h1{font-size:clamp(2.25rem, 1.4rem + 3.2vw, 4rem)}
+.jr-headline{margin-top:var(--s-2); max-width:62ch; font:600 var(--t-md)/1.35 var(--font-head); letter-spacing:-.01em; color:var(--text)}
+.jr-text .facts{margin-top:var(--s-3)}
+.jr-takeaway{margin-top:var(--s-3); max-width:70ch; color:var(--text-2)}
+.jr-figure{margin:0; min-width:0}
+.jr-stage-slot{height:min(70vh, 720px); min-height:320px}
+.jr-stage-slot .jr-scene{width:100%; height:100%}
+.jr-figcap{display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:var(--s-2) var(--s-3); margin-top:var(--s-2)}
+.jr-cap{flex:1 1 20rem; min-width:0; font-size:var(--t-2xs); line-height:1.5; color:var(--text-3)}
+.jr-cap p + p{margin-top:.3rem}
+.jr-cap b{font-weight:600; color:var(--text-2)}
+.jr-scale{color:var(--text-2)}
+.jr-sheet{margin-top:var(--s-6)}
+.jr-err{display:none; flex-direction:column; align-items:flex-start; gap:.5rem; margin-top:var(--s-2)}
+.jr-err p{font:600 var(--t-2xs)/1.3 var(--font-head); color:var(--missing)}
+
+@media (max-width:59.99rem){
+  .jr-lead{grid-template-columns:minmax(0,1fr); margin-top:var(--s-3)}
+  .jr-figure{order:-1}
+  .jr-stage-slot{height:45vh; height:45svh; min-height:240px}
+}
+
+/* ---------- full screen: a fixed layer over the page, not the browser's full-screen API ---------- */
+.jr-full-bg{position:fixed; inset:0; z-index:60; background:var(--space)}
+.jr-full-bg .jr-scene{position:absolute; inset:0; width:100%; height:100%}
+.jr-full-ui{position:fixed; inset:0; z-index:70; pointer-events:none}
+.jr-full-ui > *{pointer-events:auto}
+.jr-close{position:absolute; top:max(1rem, env(safe-area-inset-top,0px)); right:max(var(--gutter), env(safe-area-inset-right,0px)); background:var(--space)}
+.jr-load{position:absolute; top:max(1rem, env(safe-area-inset-top,0px)); left:max(var(--gutter), env(safe-area-inset-left,0px)); max-width:calc(100% - 2 * var(--gutter) - 8rem);
+  display:flex; flex-wrap:wrap; align-items:center; gap:.4rem .75rem; padding:.6rem .8rem; background:rgba(0,0,0,.72); border:1px solid var(--line); border-radius:var(--radius); font-size:var(--t-2xs); color:var(--text-2)}
+.jr-load[hidden]{display:none}
+.jr-bar{position:relative; width:8rem; height:2px; background:var(--line-strong)}
+.jr-bar i{position:absolute; left:0; top:0; bottom:0; background:var(--text)}
+.jr-full-cap{position:absolute; left:max(var(--gutter), env(safe-area-inset-left,0px)); bottom:max(1rem, env(safe-area-inset-bottom,0px));
+  max-width:min(40rem, calc(100% - 2 * var(--gutter))); padding:.7rem .9rem; background:rgba(0,0,0,.72); border:1px solid var(--line); border-radius:var(--radius)}
+.jr-full-cap .jr-cap{color:var(--text-3)}
+.jr-help{margin-top:.4rem; font-size:var(--t-2xs); color:var(--text-2)}
+.jr-full-ui .jr-err{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); align-items:center; text-align:center; padding:1rem; background:rgba(0,0,0,.72)}
+.jr-err.is-on{display:flex}
+
+/* screens up to 900 px tall: the text gives way to the worlds */
+@media (min-width:48rem) and (max-height:56.25rem){
+  .jr-hero{padding-top:var(--s-2)}
+  .jr-what{margin-top:.5rem; font-size:clamp(1rem, .93rem + .1vw, 1.0625rem); line-height:1.45}
+  .jr-find{margin-top:.75rem; flex-wrap:nowrap; gap:var(--s-2)}
+  .jr-finding{flex:1 1 auto; font-size:clamp(1.1875rem, 1rem + .3vw, 1.375rem)}
+  .jr-find .c-btn{flex:0 0 auto}
+  .jr-hint{display:none}
+}
+.jr-credit{position:absolute; left:max(var(--gutter),env(safe-area-inset-left,0px)); right:max(var(--gutter),env(safe-area-inset-right,0px)); bottom:.5rem; z-index:2; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:var(--t-2xs); line-height:1.35; color:var(--text-3)}
+.jr-credit a{color:var(--text-3)}
+@media (max-width:47.99rem){ .jr-credit{position:static; margin:var(--s-3) 0 0} }

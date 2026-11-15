@@ -1,0 +1,199 @@
+/* One Fire, Many Worlds. Base of the new interface: tokens, type, the shell and the shared components.
+   The look follows nasa.gov and NASA's Eyes: black space, white type, hairline rules, NASA's own typefaces.
+   Palette and type values are the primitives of NASA's Horizon Design System 0.10.0 (public domain, CC0);
+   the fonts are Inter, Public Sans and DM Mono (SIL OFL 1.1), served from this site.
+   Shared file: views do not edit it. See interfaz/DESIGN.md. */
+
+@font-face{font-family:"Anton"; src:url("../fonts/anton/Anton-Regular.ttf") format("truetype"); font-weight:400; font-style:normal; font-display:swap}
+@font-face{font-family:"Inter"; src:url("../fonts/inter/Inter-Regular.woff2") format("woff2"); font-weight:400; font-style:normal; font-display:swap}
+@font-face{font-family:"Inter"; src:url("../fonts/inter/Inter-Medium.woff2") format("woff2"); font-weight:500; font-style:normal; font-display:swap}
+@font-face{font-family:"Inter"; src:url("../fonts/inter/Inter-SemiBold.woff2") format("woff2"); font-weight:600; font-style:normal; font-display:swap}
+@font-face{font-family:"Inter"; src:url("../fonts/inter/Inter-Bold.woff2") format("woff2"); font-weight:700; font-style:normal; font-display:swap}
+@font-face{font-family:"Public Sans"; src:url("../fonts/public-sans/PublicSans-Regular.woff2") format("woff2"); font-weight:400; font-style:normal; font-display:swap}
+@font-face{font-family:"Public Sans"; src:url("../fonts/public-sans/PublicSans-Italic.woff2") format("woff2"); font-weight:400; font-style:italic; font-display:swap}
+@font-face{font-family:"Public Sans"; src:url("../fonts/public-sans/PublicSans-SemiBold.woff2") format("woff2"); font-weight:600; font-style:normal; font-display:swap}
+@font-face{font-family:"Public Sans"; src:url("../fonts/public-sans/PublicSans-Bold.woff2") format("woff2"); font-weight:700; font-style:normal; font-display:swap}
+@font-face{font-family:"DM Mono"; src:url("../fonts/dm-mono/DMMono-Regular.woff2") format("woff2"); font-weight:400; font-style:normal; font-display:swap}
+@font-face{font-family:"DM Mono"; src:url("../fonts/dm-mono/DMMono-Medium.woff2") format("woff2"); font-weight:500; font-style:normal; font-display:swap}
+
+:root{
+  /* ground and surfaces */
+  --space:#000000;            /* the page: black of space */
+  --surface:#17171b;          /* a panel resting on it */
+  --surface-2:#2e2e32;        /* a control or a raised row inside a panel */
+  --line:#2e2e32;             /* hairline between things */
+  --line-strong:#58585b;      /* the edge of a control */
+  /* text */
+  --text:#ffffff;
+  --text-2:#b9b9bb;           /* supporting text, 10.7:1 on black */
+  --text-3:#959599;           /* captions and units, 7:1 on black */
+  /* meaning */
+  --link:#609af6;             /* links, focus, selection */
+  --link-strong:#288bff;
+  --action:#ffffff;           /* the primary button is white on black */
+  --missing:#ff5c52;          /* NASA red, kept for one job: what nobody has burned or measured */
+  --missing-fill:#b60109;
+  --ok:#47da84;
+  --gas:#609af6; --solid:#f29d49; --liquid:#0cc9ac;   /* the three fuel families, everywhere */
+  /* type */
+  --font-display:"Anton","Arial Narrow","Helvetica Neue",Arial,sans-serif;   /* the lettering of the logo: page titles only */
+  --font-head:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --font-body:"Public Sans","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font-data:"DM Mono",Consolas,"Courier New",monospace;
+  --t-3xs:.75rem; --t-2xs:.875rem; --t-xs:1rem; --t-sm:1.125rem; --t-md:1.375rem; --t-lg:1.75rem; --t-xl:2.25rem; --t-2xl:3rem;
+  /* space, on an 8 px grid */
+  --s-1:.5rem; --s-2:1rem; --s-3:1.5rem; --s-4:2rem; --s-5:2.5rem; --s-6:3rem; --s-8:4rem; --s-10:5rem;
+  --gutter:clamp(1rem, 3.2vw, 3rem);
+  --max:96rem;                /* content keeps both margins equal up to 2K screens */
+  --radius:2px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --head-h:3.75rem;
+  /* names the inherited stylesheet (legacy.css) still uses, pointed at the new palette */
+  --paper:var(--space); --paper-2:var(--surface); --grid:var(--line); --rule:#444447;
+  --ink:var(--text); --ink-2:var(--text-2); --pencil:var(--missing);
+  --display:var(--font-head); --body:var(--font-body); --data:var(--font-data);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{background:var(--space); scrollbar-color:#58585b var(--space); -webkit-text-size-adjust:100%; scroll-padding-top:calc(var(--head-h) + 1rem)}
+body{margin:0; min-height:100vh; display:flex; flex-direction:column; background:var(--space); color:var(--text);
+  font:400 1.0625rem/1.6 var(--font-body); caret-color:var(--link); -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility}
+::selection{background:var(--link-strong); color:#000}
+:focus-visible{outline:2px solid var(--link); outline-offset:3px; border-radius:var(--radius)}
+a{color:var(--link); text-underline-offset:.2em; text-decoration-thickness:1px}
+a:hover{color:#8fb8ff; text-decoration-thickness:2px}
+button{font:inherit; color:inherit}
+h1,h2,h3,h4{font-family:var(--font-head); margin:0; text-wrap:balance}
+h1{font-family:var(--font-display); font-weight:400; letter-spacing:.005em; line-height:1.04; text-transform:uppercase}
+h2{font-weight:700; letter-spacing:-.02em; line-height:1.1}
+h3{font-weight:600; letter-spacing:-.01em; line-height:1.2}
+p{margin:0}
+img{max-width:100%; height:auto}
+.num{font-family:var(--font-data); font-variant-numeric:tabular-nums; font-size:1em; white-space:nowrap}
+.skip{position:absolute; left:-999px; top:0; background:#fff; color:#000; padding:.75rem 1rem; z-index:100; font-weight:600}
+.skip:focus{left:0}
+.wrap{width:100%; max-width:var(--max); margin:0 auto; padding-left:max(var(--gutter),env(safe-area-inset-left,0px)); padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
+
+/* ---------- shell ---------- */
+.site-banner{margin:0; padding:.45rem var(--gutter); background:var(--surface); color:var(--text-2); font:400 .8125rem/1.4 var(--font-body); text-align:center; border-bottom:1px solid var(--line)}
+.site-head{position:sticky; top:0; z-index:50; background:rgba(0,0,0,.92); border-bottom:1px solid var(--line)}
+@supports (backdrop-filter:blur(8px)){ .site-head{background:rgba(0,0,0,.72); backdrop-filter:blur(14px) saturate(1.2)} }
+.site-head .wrap{display:flex; align-items:center; gap:var(--s-3); min-height:var(--head-h)}
+.site-brand{display:flex; align-items:center; flex:0 0 auto; padding:.5rem 0}
+.site-brand img{display:block; height:1.75rem; width:auto}
+.site-panel{display:flex; align-items:center; gap:var(--s-3); flex:1; min-width:0}
+.site-nav{display:flex; align-items:center; gap:.25rem; flex:1; min-width:0}
+.site-nav a{flex:0 0 auto; font:500 var(--t-2xs)/1 var(--font-head); color:var(--text-2); text-decoration:none; padding:.75rem .7rem; position:relative; white-space:nowrap; transition:color .2s var(--ease)}
+.site-nav a:hover{color:var(--text)}
+.site-nav a[aria-current="page"]{color:var(--text)}
+.site-nav a[aria-current="page"]::after{content:""; position:absolute; left:.7rem; right:.7rem; bottom:.25rem; height:2px; background:var(--text)}
+.site-actions{display:flex; align-items:center; gap:.5rem; flex:0 0 auto}
+.site-menu{display:none}
+main{display:block; flex:1; position:relative; z-index:1; padding-bottom:var(--s-8)}
+main:focus{outline:none}
+/* The 3D stage: one canvas fixed to the window, behind the content. Its rules live in journey.css. */
+.site-foot{position:relative; z-index:1; border-top:1px solid var(--line); background:var(--space)}
+.site-foot .wrap{padding-top:var(--s-4); padding-bottom:var(--s-6); font-size:var(--t-2xs); color:var(--text-2)}
+.foot-cols{display:grid; grid-template-columns:minmax(0,3fr) minmax(0,2fr); gap:var(--s-2) var(--s-6)}
+.foot-cols p + p{margin-top:.5rem}
+.foot-cols p{max-width:70ch}
+
+@media (max-width:74rem){
+  .site-menu{display:inline-flex; align-items:center; justify-content:center; margin-left:auto; min-height:2.75rem; padding:0 1rem; background:transparent; border:1px solid var(--line-strong); border-radius:var(--radius); font:600 var(--t-2xs)/1 var(--font-head); cursor:pointer}
+  .site-menu:hover{border-color:var(--text)}
+  .site-panel{display:none; position:absolute; left:0; right:0; top:100%; flex-direction:column; align-items:stretch; gap:0; background:#000; border-bottom:1px solid var(--line); max-height:calc(100vh - var(--head-h)); max-height:calc(100dvh - var(--head-h)); overflow-y:auto; padding:.5rem var(--gutter) 1.25rem}
+  .site-head[data-open] .site-panel{display:flex}
+  .site-nav{flex-direction:column; align-items:stretch; gap:0; flex:0 0 auto}
+  .site-nav a{flex-shrink:0; font-size:var(--t-sm); padding:1rem 0; border-bottom:1px solid var(--line)}
+  .site-nav a[aria-current="page"]::after{left:0; right:auto; width:2rem; bottom:.55rem}
+  .site-actions{flex-shrink:0; flex-direction:column; align-items:stretch; margin-top:1rem}
+  .foot-cols{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ---------- shared components (class prefix c-) ---------- */
+/* Buttons: one white primary per screen, the rest outlined. Minimum touch target 44 px. */
+.c-btn{display:inline-flex; align-items:center; justify-content:center; gap:.5rem; min-height:2.75rem; padding:0 1.15rem; border:1px solid var(--line-strong); border-radius:var(--radius);
+  background:transparent; color:var(--text); font:600 var(--t-2xs)/1.1 var(--font-head); text-decoration:none; cursor:pointer; white-space:nowrap;
+  transition:background-color .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease)}
+.c-btn:hover{border-color:var(--text); color:var(--text); background:var(--surface)}
+.c-btn-primary{background:var(--action); border-color:var(--action); color:#000}
+.c-btn-primary:hover{background:#d1d1d1; border-color:#d1d1d1; color:#000}
+.c-btn-quiet{border-color:transparent; color:var(--text-2)}
+.c-btn-quiet:hover{border-color:var(--line-strong); background:transparent}
+.c-btn[aria-current="page"]{box-shadow:0 0 0 2px #000, 0 0 0 4px var(--action)}
+.c-btn[disabled], .c-btn[aria-disabled="true"]{opacity:.45; cursor:not-allowed}
+/* Back: the way out of every detail page, top left, always in the same place. */
+.c-back{display:inline-flex; align-items:center; gap:.5rem; min-height:2.75rem; padding:0 .25rem 0 0; color:var(--text-2); font:500 var(--t-2xs)/1 var(--font-head); text-decoration:none}
+.c-back:hover{color:var(--text)}
+.c-back-arrow{width:.55rem; height:.55rem; border-left:2px solid currentColor; border-bottom:2px solid currentColor; transform:rotate(45deg); margin-left:.2rem; transition:transform .2s var(--ease)}
+.c-back:hover .c-back-arrow{transform:translateX(-3px) rotate(45deg)}
+/* Page intro: the title and one line that says what you do on this page. */
+.c-intro{padding:var(--s-5) 0 var(--s-3)}
+.c-intro h1{font-size:clamp(2.5rem, 1.5rem + 4vw, 5rem)}
+/* The one title with colour: the flame of the logo fading into the orange of its second world. Home page only. */
+.c-title-flame{color:var(--text)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .c-title-flame{background:linear-gradient(96deg, #8fb8ff 0%, #ffffff 46%, #ffffff 58%, #f3a868 100%); -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent}
+}
+.c-what{margin-top:1rem; max-width:62ch; font-size:clamp(1.125rem, 1rem + .35vw, 1.375rem); line-height:1.5; color:var(--text-2)}
+/* Tags: small labels with one meaning each. */
+.c-tag{display:inline-flex; align-items:center; min-height:1.75rem; padding:0 .6rem; border:1px solid var(--line-strong); border-radius:var(--radius); font:600 var(--t-2xs)/1 var(--font-body); color:var(--text-2); white-space:nowrap}
+.c-tag-outside{border-style:dashed}                          /* evidence from outside the PSI repository */
+.c-tag-missing{border-color:var(--missing); color:var(--missing)}   /* no data */
+.c-tag-ground{border-color:var(--text-3)}                    /* a test on the ground, not in microgravity */
+/* Panel: a block that rests on the page. No shadows; a hairline is the edge. */
+.c-panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:var(--s-3)}
+/* States */
+.c-state{margin:var(--s-3) 0; padding:var(--s-3); border:1px dashed var(--line-strong); border-radius:var(--radius); max-width:60ch; color:var(--text-2)}
+.c-state-title{font:600 var(--t-sm)/1.3 var(--font-head); color:var(--text); margin-bottom:.35rem}
+.c-state-error{border-color:var(--missing)} .c-state-error .c-state-title{color:var(--missing)}
+.c-state .c-btn{margin-top:1rem}
+.c-state-loading .c-state-title::after{content:""; display:inline-block; width:.9rem; height:.9rem; margin-left:.6rem; vertical-align:-.1rem; border:2px solid var(--line-strong); border-top-color:var(--text); border-radius:50%; animation:c-spin .8s linear infinite}
+@keyframes c-spin{to{transform:rotate(360deg)}}
+/* Tables: academic layout (number, title above, units in the header, note below), dark and easy to scan.
+   On a phone a table never pushes the page sideways: it scrolls inside its own frame. */
+.c-table{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); -webkit-overflow-scrolling:touch}
+.c-table table{border-collapse:collapse; width:100%; font-size:var(--t-2xs); line-height:1.45}
+.c-table th,.c-table td{text-align:left; vertical-align:top; padding:.7rem .9rem; border:0; border-bottom:1px solid var(--line)}
+.c-table tr:last-child th,.c-table tr:last-child td{border-bottom:0}
+.c-table thead th{position:sticky; top:0; background:var(--surface); color:var(--text-2); font:600 var(--t-2xs)/1.3 var(--font-head); border-bottom:1px solid var(--line-strong); white-space:nowrap}
+.c-table tbody tr:hover td,.c-table tbody tr:hover th{background:#0d0d10}
+.c-table td.num{font-family:var(--font-data); font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.c-table th.num{text-align:right}
+.c-fig{margin:var(--s-4) 0 0}
+.c-fig figcaption{margin:0 0 .6rem; max-width:none}
+.c-fig-num{display:block; font:600 var(--t-2xs)/1.3 var(--font-head); color:var(--text)}
+.c-fig-title{display:block; font:italic 400 var(--t-xs)/1.4 var(--font-body); color:var(--text-2); margin-top:.1rem}
+.c-fig-note{margin-top:.6rem; font-size:var(--t-2xs); line-height:1.5; color:var(--text-3); max-width:90ch}
+/* Fuel colour key, the same three dots everywhere. */
+.c-key{display:flex; flex-wrap:wrap; gap:.4rem 1.25rem; font-size:var(--t-2xs); color:var(--text-2)}
+.c-key span::before{content:""; display:inline-block; width:.65rem; height:.65rem; border-radius:50%; margin-right:.45rem; background:var(--c, var(--text-3))}
+
+/* ---------- the inherited views, brought into the new look until each one is rebuilt ---------- */
+.sheet, .gravity{background:transparent; border-color:var(--line); border-left:0; border-right:0}
+.sheet{border-bottom:0}
+h2{border-top:1px solid var(--line)}
+.canvas, .table, .facts, .fronts, .words{border-color:var(--line); border-width:1px; border-radius:var(--radius)}
+.table thead th{background:var(--surface); border-bottom-color:var(--line-strong)}
+th,td{border-color:var(--line)}
+.world{border-color:var(--line-strong); border-width:1px; border-radius:var(--radius)}
+.world[aria-pressed="true"]{background:#fff; color:#000}
+.world[aria-pressed="true"] span, .world[aria-pressed="true"] .count{color:#000}
+.action{font-family:var(--font-head); text-transform:none; letter-spacing:0; font-size:var(--t-2xs); border-width:1px; border-radius:var(--radius); background:#fff; color:#000; border-color:#fff; min-height:2.75rem}
+.action:hover{background:#d1d1d1; border-color:#d1d1d1; color:#000}
+.action.quiet{background:transparent; color:var(--text); border-color:var(--line-strong)}
+.action.quiet:hover{background:var(--surface); border-color:var(--text); color:var(--text)}
+select, input[type="text"], input[type="number"], input[type="search"], textarea{border-width:1px; border-color:var(--line-strong); border-radius:var(--radius); background:var(--surface); min-height:2.75rem}
+tbody th, .rank a, summary, .world b{letter-spacing:-.01em}
+svg .pt{stroke:#000}
+
+@media print{
+  :root{--space:#fff; --surface:#fff; --surface-2:#f6f6f6; --line:#b9b9bb; --line-strong:#77777a; --text:#000; --text-2:#2e2e32; --text-3:#58585b; --link:#0b3d91; --missing:#b60109; --gas:#1c67e3; --solid:#b85a00; --liquid:#00695c; color-scheme:light}
+  html, body{background:#fff}
+  .site-banner, .site-head, .site-foot, .stage, .skip, .c-back{display:none !important}
+  .c-title-flame{background:none; color:#000; -webkit-text-fill-color:#000}
+  main{padding-bottom:0}
+  a{color:#000}
+}
+@media (prefers-reduced-motion: reduce){ *, *::before, *::after{transition:none !important; animation-duration:.01ms !important; animation-iteration-count:1 !important} }

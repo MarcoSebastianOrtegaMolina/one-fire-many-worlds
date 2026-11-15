@@ -1,0 +1,111 @@
+/* world: the sheet under the 3D model of each world (js/world.js). Class prefix wd-. Only base.css tokens; no legacy.css. */
+
+/* ---------- the data table beside the model (sheet.parts.facts) ---------- */
+.wd-facts{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); column-gap:var(--s-3); margin:var(--s-3) 0 0; border-top:1px solid var(--line)}
+.wd-fact{grid-column:1 / -1; min-width:0; padding:.8rem 0; border-bottom:1px solid var(--line)}
+.wd-fact:nth-child(1), .wd-fact:nth-child(2){grid-column:auto}
+.wd-fact dt{margin:0 0 .3rem; font:600 var(--t-2xs)/1.3 var(--font-body); color:var(--text-2)}
+.wd-fact dd{margin:0; font:400 var(--t-xs)/1.5 var(--font-body); color:var(--text)}
+.wd-fact dd strong{font-weight:500}
+.wd-big{display:block; margin-bottom:.2rem; font:500 var(--t-2xl)/1 var(--font-data); letter-spacing:-.02em; color:var(--text)}
+.wd-fact.is-zero .wd-big, .wd-fact.is-zero dd strong{color:var(--missing)}
+.wd-mix{display:flex; gap:2px; height:6px; max-width:20rem; margin:.6rem 0 .1rem}
+.wd-mix i{display:block; min-width:2px}
+.wd-fact-note{display:block; margin-top:.4rem; font-size:var(--t-2xs); line-height:1.45; color:var(--text-3)}
+.wd-out dt{display:flex}
+.wd-out dd{color:var(--text-2)}
+
+/* ---------- the sheet ---------- */
+.wd-sheet{min-width:0}
+.wd-lead{padding:var(--s-5) 0 var(--s-3)}
+.wd-name{font-size:clamp(2.5rem, 1.5rem + 4vw, 5rem)}
+.wd-headline{margin-top:var(--s-2); max-width:62ch; font:600 var(--t-md)/1.35 var(--font-head); color:var(--text)}
+.wd-takeaway{margin-top:var(--s-3); max-width:70ch; color:var(--text-2)}
+
+/* index: sticks under the site header and marks the section in view */
+.wd-index{position:sticky; top:var(--head-h); z-index:20; background:var(--space); border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+.wd-index-in{display:flex; gap:.25rem; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.wd-index-in::-webkit-scrollbar{display:none}
+.wd-idx-b{position:relative; flex:0 0 auto; min-height:2.75rem; padding:0 .85rem; background:transparent; border:0; border-radius:var(--radius);
+  color:var(--text-2); font:500 var(--t-2xs)/1 var(--font-head); white-space:nowrap; cursor:pointer; transition:color .2s var(--ease)}
+.wd-idx-b:first-child{padding-left:0}
+.wd-idx-b:hover{color:var(--text)}
+.wd-idx-b[aria-current="true"]{color:var(--text)}
+.wd-idx-b[aria-current="true"]::after{content:""; position:absolute; left:.85rem; right:.85rem; bottom:0; height:2px; background:var(--text)}
+.wd-idx-b:first-child[aria-current="true"]::after{left:0}
+.wd-idx-b:focus-visible{outline-offset:-2px}
+
+.wd-sec{margin-top:var(--s-8); scroll-margin-top:2.75rem; min-width:0}
+.wd-index + .wd-sec{margin-top:var(--s-4)}
+.wd-sheet .wd-h2{margin:0; padding-top:var(--s-3); border-top:1px solid var(--line-strong); font:700 clamp(1.75rem, 1.3rem + 1.4vw, 2.25rem)/1.1 var(--font-head); letter-spacing:-.02em}
+.wd-sheet .wd-h2:focus{outline:none}
+.wd-sheet .wd-lede{margin-top:.75rem; max-width:70ch; font-size:var(--t-sm); line-height:1.5; color:var(--text-2)}
+.wd-sec > .ch-fig, .wd-sec > .wd-apa{margin-top:var(--s-4)}
+
+/* Read more */
+.wd-clamp:not(.is-open){display:-webkit-box; -webkit-line-clamp:5; line-clamp:5; -webkit-box-orient:vertical; overflow:hidden}
+.wd-more{display:inline-flex; align-items:center; min-height:2.75rem; padding:0; background:transparent; border:0; color:var(--link); font:600 var(--t-2xs)/1 var(--font-head); cursor:pointer; text-decoration:underline; text-underline-offset:.25em}
+.wd-more:hover{color:#8fb8ff}
+.wd-more[hidden]{display:none}
+
+/* three fronts */
+.wd-fronts{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--s-5) var(--s-4); margin-top:var(--s-4)}
+.wd-front{min-width:0; padding-top:var(--s-2); border-top:2px solid var(--text)}
+.wd-front-h{font:700 var(--t-md)/1.2 var(--font-head); letter-spacing:-.01em}
+.wd-known{margin-top:.75rem; font-size:var(--t-xs); line-height:1.55; color:var(--text); max-width:65ch}
+.wd-nodata{color:var(--missing); font-weight:600}
+.wd-rank-h{margin-top:var(--s-3); font:600 var(--t-2xs)/1.3 var(--font-head); color:var(--text-2)}
+.wd-rank{list-style:none; margin:.4rem 0 0; padding:0; border-top:1px solid var(--line)}
+.wd-row{padding:.15rem 0 .7rem; border-bottom:1px solid var(--line)}
+.wd-row-top{display:flex; align-items:center; justify-content:space-between; gap:var(--s-2)}
+.wd-acr{display:inline-flex; align-items:center; min-height:2.75rem; min-width:0; font:600 var(--t-xs)/1.25 var(--font-head); overflow-wrap:anywhere}
+.wd-n{flex:0 0 auto; font:500 var(--t-xs)/1 var(--font-data); color:var(--text)}
+.wd-n.is-part{font:400 var(--t-2xs)/1.2 var(--font-body); color:var(--text-3)}
+.wd-bar{display:block; height:6px; background:var(--surface-2); border-radius:1px}
+.wd-bar i{display:block; height:100%; background:var(--text-2); border-radius:1px}
+.wd-why{margin-top:.4rem; font-size:var(--t-2xs); line-height:1.45; color:var(--text-3)}
+.wd-row.is-dim .wd-acr{color:var(--text-2)}
+.wd-row.is-dim .wd-n{color:var(--text-3)}
+.wd-row.is-dim .wd-bar{background:transparent; border-top:1px dashed var(--line-strong); height:0}
+.wd-support{margin-top:var(--s-4); max-width:80ch; font-size:var(--t-2xs); line-height:1.6; color:var(--text-2)}
+
+/* orbit and ground (Earth) */
+.wd-pairs table{min-width:44rem}
+.wd-pairs th, .wd-pairs td{border-right:0}
+.wd-pairs tbody th{font-weight:500; color:var(--text)}
+.wd-nowrap{white-space:nowrap}
+.wd-verdict{display:block; font:600 var(--t-2xs)/1.3 var(--font-body)}
+.wd-burn .wd-verdict{color:var(--solid)}
+.wd-noburn .wd-verdict{color:var(--text-3)}
+.wd-burnv{display:block; margin-top:.15rem; color:var(--text)}
+.wd-noburn .wd-burnv{color:var(--text-3)}
+.wd-apa .wd-apa-cap{margin:0 0 .6rem; font-size:inherit; color:inherit; max-width:none}
+.wd-apa .c-fig-note em{color:var(--text-2)}
+
+/* still to burn: the one place where red leads */
+.wd-gaps{list-style:none; margin:var(--s-4) 0 0; padding:0; border-top:2px solid var(--missing)}
+.wd-gap{display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:var(--s-2) var(--s-5); padding:var(--s-3) 0; border-bottom:1px solid var(--line)}
+.wd-gap-t{font:600 var(--t-md)/1.25 var(--font-head); letter-spacing:-.01em; color:var(--missing)}
+.wd-gap-tags{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.7rem}
+.wd-gap-why{max-width:70ch; color:var(--text)}
+.wd-closest{margin-top:.75rem; max-width:70ch; font-size:var(--t-2xs); line-height:1.5; color:var(--text-2)}
+.wd-closest-l{display:block; margin-bottom:.15rem; font:600 var(--t-2xs)/1.3 var(--font-body); color:var(--text-2)}
+
+@media (max-width:63.99rem){
+  .wd-fronts{grid-template-columns:minmax(0,1fr); gap:var(--s-5)}
+}
+@media (max-width:47.99rem){
+  .wd-gap{grid-template-columns:minmax(0,1fr)}
+  .wd-sec{margin-top:var(--s-6)}
+}
+@media (max-width:22.5rem){
+  .wd-facts{grid-template-columns:minmax(0,1fr)}
+  .wd-fact:nth-child(1), .wd-fact:nth-child(2){grid-column:1 / -1}
+}
+@media print{
+  .wd-index, .wd-more{display:none}
+  .wd-clamp:not(.is-open){display:block; -webkit-line-clamp:unset; overflow:visible}
+}
+/* table headers: plain words, without the inherited capitals (legacy.css still styles every thead th) */
+.wd-pairs thead th{letter-spacing:0; text-transform:none}
+.wd-pairs tbody th.num{text-align:left}
