@@ -519,6 +519,27 @@ hecha, sin commit todavía: el catálogo de páginas citadas pasó de 16 a 39 fu
 
 Falta: figuras por material, las 57 filas de PMMA, la línea de tiempo y los modelos 3D.
 
+## Auditoría de todos los commits del equipo (21:45, D-1439)
+
+Marco Sebastián pidió revisar todo lo que subió cada quien, leyendo también el mensaje de cada commit, porque la
+plataforma se hace para NASA. Resultado: 22 commits del equipo en `aportes/`; todos los archivos están revisados.
+Los mensajes de commit traían información que la primera lectura no aprovechó:
+
+| Commit | De quién | Lo que dice el mensaje | Qué se hizo |
+|---|---|---|---|
+| `28e5faa`, memorando de 1991 | Marina | Atmósfera del traje, umbral de alarma de humo, por qué las flamas no parpadean, diagrama de respuesta a incendios | **Corregí mi revisión anterior**, que lo descartó como repetido. Verificado en el PDF (págs. 7, 9, 10 y 12): ahora son cuatro páginas citadas, dos figuras (sistema de CO2 y lógica de respuesta) y textos en el Traje, en la detección y en la supresión de la Estación. Una precisión: el umbral de alarma era el propuesto para la estación Freedom de 1991, no el de la Estación actual como dice el mensaje |
+| `68775e6`, cartel de Nomex | Marina | Con 34 % de oxígeno en la Luna, el Nomex seguiría siendo inflamable | Agregado a la nota de Nomex, marcado como lectura del equipo sobre los números del cartel (29 % en gravedad lunar es menos que 34 %), no como prueba hecha con 34 % |
+| `6ab767f`, lista de Victor | Victor | Cuatro fichas de NTRS | Los tres resúmenes que faltaban ya son fuentes citadas: los dos estudios de supresión (2001 y 2003) sostienen el hueco de supresión de la agenda, y el libro blanco de 2021 sostiene el hueco de materiales (baterías, compuestos) |
+| `1828b26`, memorando de humo de 2015 | Sebastián Martínez | Tamaños del polvo lunar (1 a 20 µm y 100 a 300 nm) y diseño de detectores híbridos | **No se usó:** el mensaje no cita fuente para los tamaños del polvo lunar ni el memorando los trae. Pista para buscar una fuente de NASA |
+| `8891a07`, cartel de FM2 | Marina | Fotos a color de las pruebas | No se reproducen: su ficha de NTRS dice uso por o para el gobierno de Estados Unidos |
+| Los demás | | Coinciden con lo ya revisado en las secciones de abajo | Sin cambios |
+
+Límites que siguen, pensando en lo que NASA necesita leer:
+- Saffire VI y FM2 son resultados preliminares o planes; la plataforma lo dice en cada lugar donde los usa.
+- Las tres fuentes de la lista de Victor y la de 2003 se citan por el resumen de su ficha, sin el PDF.
+- Ultem no tiene foto en ninguna fuente abierta; su ficha muestra la tabla de pruebas de BASS.
+- Las imágenes de páginas web de NASA sin material nombrado (dos secuencias de SoFIE) no entraron.
+
 ## Respuestas de Marco Sebastián a las preguntas abiertas (21:20)
 
 - **Logotipos:** la sede ya dijo que los equipos sí pueden usar el logo de Space Apps y también el de NASA. Cuidados

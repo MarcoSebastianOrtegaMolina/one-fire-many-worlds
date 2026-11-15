@@ -28,7 +28,7 @@
   function origin(x) { return x.origin || BY_DOC[String(x.id).split("-")[0]] || "microgravity"; }
   var GROUPS = [
     { id: "flight", label: T("In microgravity"), note: T("Tests in orbit, in parabolic flight or in drop towers, and the reports about them."), has: ["microgravity"] },
-    { id: "ground", label: T("On the ground, in partial gravity and in standards"), note: T("Tests in normal gravity or in partial gravity for a few seconds, NASA's acceptance standard for materials, and earlier memos. They do not measure microgravity."), has: ["ground", "partial", "standard", "history"] },
+    { id: "ground", label: T("On the ground, in partial gravity and in standards"), note: T("Tests in normal gravity or in partial gravity for seconds to a few minutes, NASA's acceptance standard for materials, and earlier memos. They do not measure microgravity."), has: ["ground", "partial", "standard", "history"] },
     { id: "planned", label: T("Planned, no data yet"), note: T("Experiments that are designed or proposed. Nothing has been measured yet."), has: ["planned"] }
   ];
   var TAG = { ground: T("ground test"), partial: T("partial gravity"), standard: T("standard"), history: T("memo, history"), planned: T("planned") };

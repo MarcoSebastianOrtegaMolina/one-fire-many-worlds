@@ -235,7 +235,7 @@
     "Open the data in Moon-base air: Saffire VI burned it near that air in 2023, outside PSI, but its test-by-test data is not public in PSI, and neither PSI nor Saffire VI burned it at 34 % oxygen and 8.2 psi.": "Abrir los datos con aire de base lunar: Saffire VI lo quemó casi con ese aire en 2023, fuera de PSI, pero sus datos prueba por prueba no son públicos en PSI, y ni PSI ni Saffire VI lo quemaron con 34 % de oxígeno a 8.2 psi.",
     "Burn it in flight in Moon-base air: PSI has no test of it there, and the limits outside PSI come from ground, centrifuge and drop-tower tests.": "Quemarlo en vuelo con aire de base lunar: PSI no tiene ninguna prueba de él ahí, y los límites de fuera de PSI salen de pruebas en tierra, en centrífuga y en torre de caída.",
     "partial gravity": "gravedad parcial", "On the ground, in partial gravity and in standards": "En tierra, en gravedad parcial y en normas",
-    "Tests in normal gravity or in partial gravity for a few seconds, NASA's acceptance standard for materials, and earlier memos. They do not measure microgravity.": "Pruebas en gravedad normal o en gravedad parcial por unos segundos, la norma de NASA para aceptar materiales y memorandos anteriores. No miden la microgravedad.",
+    "Tests in normal gravity or in partial gravity for seconds to a few minutes, NASA's acceptance standard for materials, and earlier memos. They do not measure microgravity.": "ruebas en gravedad normal o en gravedad parcial de segundos a unos minutos, la norma de NASA para aceptar materiales y memorandos anteriores. No miden la microgravedad.",
     "Images the team gathered, each with its credit and its license. Ground tests are marked.": "Imágenes que reunió el equipo, cada una con su crédito y su licencia. Las pruebas en tierra van marcadas.",
     "Not a microgravity result: ": "No es un resultado en microgravedad: ",
     "Report pages cited on this site, with what each one supports": "Páginas de reportes citadas en este sitio, con lo que sostiene cada una",
@@ -255,6 +255,7 @@
     /* 3D */
     "In 3D": "En 3D", "A NASA model of the place, to turn and look at.": "Un modelo de NASA del lugar, para girarlo y mirarlo.",
     "See in 3D": "Ver en 3D", "Close the 3D view": "Cerrar la vista 3D", "Try again": "Intentar de nuevo", "Model": "Modelo", "Part 1": "Parte 1", "Part 2": "Parte 2", "The Moon": "La Luna",
+    "sample pair": "par de muestras", "sample pairs": "pares de muestras", " at 0 g and 1 g, none at 3/8 g": " a 0 g y 1 g, ninguno a 3/8 g", "Outside PSI": "Fuera de PSI",
     "3D model of the International Space Station with its textures": "Modelo 3D de la Estación Espacial Internacional con sus texturas",
     "It was simplified and its textures were compressed to 512 px WebP so it loads in a browser (96 MB to 14.4 MB).": "Se simplificó y sus texturas se comprimieron a WebP de 512 px para que cargue en un navegador (de 96 MB a 14.4 MB).",
     "3D model of the Moon made with imagery from NASA's Lunar Reconnaissance Orbiter": "Modelo 3D de la Luna hecho con imágenes del orbitador LRO de NASA",

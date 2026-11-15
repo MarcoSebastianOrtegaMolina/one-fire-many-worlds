@@ -52,16 +52,54 @@ DOCUMENTOS = {
                   "Smoke from overheated spacecraft materials, NASA/TM-2015-218891 (ground tests)",
                   "Humo de materiales de nave sobrecalentados, NASA/TM-2015-218891 (pruebas en tierra)",
                   "https://ntrs.nasa.gov/citations/20160000940"),
+    "tm1991": (None, None, "NASA-TM-105317_Friedman_Sacksteder_Urban_1991.pdf",
+               "Risks, Designs, and Research for Fire Safety in Spacecraft, NASA TM-105317 (1991)",
+               "Risks, Designs, and Research for Fire Safety in Spacecraft, NASA TM-105317 (1991)",
+               "https://ntrs.nasa.gov/citations/19920004363"),
     "apollo13": (None, None, "Apollo13_caso_Anderson_2011_NTRS-20110015690.pdf",
                  "A Case Study of the Failure on Apollo 13, NASA Marshall Space Flight Center (2011)",
                  "A Case Study of the Failure on Apollo 13, NASA Marshall Space Flight Center (2011)",
                  "https://ntrs.nasa.gov/citations/20110015690"),
+    # Pieza D-1440 (14-nov-2026): fuentes para los mundos que decian «sin datos». Todas de NTRS con «Public Use
+    # Permitted»; las verifico un agente revisor distinto contra el PDF crudo antes de entrar (D-1445).
+    "kc135": (None, None, "KC-135_parcial_Sacksteder_2003_NTRS-20040053567.pdf",
+              "Sacksteder and others, Upward and Downward Flame Spreading and Extinction in Partial Gravity Environments, NASA/CP-2003-212376/REV1, pp. 141-144 (2003)",
+              "Sacksteder y otros, Upward and Downward Flame Spreading and Extinction in Partial Gravity Environments, NASA/CP-2003-212376/REV1, págs. 141-144 (2003)",
+              "https://ntrs.nasa.gov/citations/20040053567"),
+    "takahashi2001": (None, None, "Takahashi_supresion_2001_NTRS-20010074098.pdf",
+                      "Takahashi, Linteris and Katta, Physical and Chemical Aspects of Fire Suppression in Extraterrestrial Environments, NASA/CP-2001-210826, pp. 417-420 (2001)",
+                      "Takahashi, Linteris y Katta, Physical and Chemical Aspects of Fire Suppression in Extraterrestrial Environments, NASA/CP-2001-210826, págs. 417-420 (2001)",
+                      "https://ntrs.nasa.gov/citations/20010074098"),
+    "takahashi2003": (None, None, "Takahashi_supresion_2003_NTRS-20040053580.pdf",
+                      "Takahashi, Linteris and Katta, Experimental and Numerical Evaluation of Gaseous Agents for Suppressing Cup-Burner Flames in Low Gravity, NASA/CP-2003-212376/REV1, pp. 277-280 (2003)",
+                      "Takahashi, Linteris y Katta, Experimental and Numerical Evaluation of Gaseous Agents for Suppressing Cup-Burner Flames in Low Gravity, NASA/CP-2003-212376/REV1, págs. 277-280 (2003)",
+                      "https://ntrs.nasa.gov/citations/20040053580"),
+    "friedman1998": (None, None, "Friedman_NASA-TM-1998-207417_NTRS-19980209743.pdf",
+                     "Friedman, Fire Safety in Extraterrestrial Environments, NASA/TM-1998-207417 (1998)",
+                     "Friedman, Fire Safety in Extraterrestrial Environments, NASA/TM-1998-207417 (1998)",
+                     "https://ntrs.nasa.gov/citations/19980209743"),
+    "mist2003": (None, None, "Mist_STS-107_2003_NTRS-20040053582.pdf",
+                 "Abbud-Madrid and others, The Water-Mist Fire Suppression Experiment (Mist): Preliminary Results from the STS-107 Mission, NASA/CP-2003-212376/REV1, pp. 281-284 (2003)",
+                 "Abbud-Madrid y otros, The Water-Mist Fire Suppression Experiment (Mist): Preliminary Results from the STS-107 Mission, NASA/CP-2003-212376/REV1, págs. 281-284 (2003)",
+                 "https://ntrs.nasa.gov/citations/20040053582"),
+    "fwm2013": (None, None, "FWM-PFE_ICES-2013_NTRS-20130011664.pdf",
+                "Rodriguez and Young, Development of the International Space Station Fine Water Mist Portable Fire Extinguisher, ICES 2013, NASA Johnson",
+                "Rodriguez y Young, Development of the International Space Station Fine Water Mist Portable Fire Extinguisher, ICES 2013, NASA Johnson",
+                "https://ntrs.nasa.gov/citations/20130011664"),
+    "emu1980": (None, None, "EMU_incendio_1980_Chullen_2021_NTRS-20210010575.pdf",
+                "Chullen and Nowetner, Lessons Learned From the EMU Fire, NASA Johnson Space Center, 2021 (the 1980 spacesuit fire)",
+                "Chullen y Nowetner, Lessons Learned From the EMU Fire, NASA Johnson Space Center, 2021 (el incendio del traje de 1980)",
+                "https://ntrs.nasa.gov/citations/20210010575"),
 }
 GUIA = "https://www.nasa.gov/missions/station/a-researchers-guide-to-combustion-science/"
 # De donde sale cada documento (contrato D-1426 con app/js/materials.js): prueba en orbita, avion o torre de caida;
 # prueba en tierra; norma; antecedente historico o guia; experimento planeado sin datos. Lo que no esta aqui es de PSI.
-ORIGEN = {"std6001": "standard", "tm1989": "history", "apollo13": "history", "guide": "history",
-          "meyer2015": "ground", "bass2poster": "microgravity", "same2ices": "microgravity"}
+ORIGEN = {"std6001": "standard", "tm1989": "history", "tm1991": "history", "apollo13": "history", "guide": "history",
+          "meyer2015": "ground", "bass2poster": "microgravity", "same2ices": "microgravity",
+          # D-1440: avion KC-135 en gravedad parcial; propuestas y calculos; Mist en el transbordador; extintor probado en
+          # tierra (bomberos de White Sands, pag. 7); el incendio del traje de 1980 en un laboratorio
+          "kc135": "partial", "takahashi2001": "history", "takahashi2003": "history", "friedman1998": "history",
+          "mist2003": "microgravity", "fwm2013": "ground", "emu1980": "history"}
 PMMA, SIBAL = "PMMA (acrylic)", "SIBAL (cotton-fiberglass fabric)"
 
 # id, documento, pagina del PDF, frase a resaltar, investigaciones a las que sirve, que sostiene (en, es)
@@ -186,6 +224,18 @@ ENTRADAS = [
      "Ground tests: Kapton smoke matches the SAME smoke from the Station in size and shape, and Nomex smoke showed tar-ball particles.",
      "Pruebas en tierra: el humo de Kapton coincide en tamaño y forma con el de SAME en la Estación, y el humo de Nomex mostró partículas tipo bola de alquitrán.",
      ["Kapton", "Nomex"]),
+    ("tm1991-7", "tm1991", 7, "30 kPa", [],
+     "History, outside PSI: the Shuttle spacesuit used for spacewalks breathed 100 % oxygen at 30 kPa (about 4.3 psi) so that the gloves stayed flexible. Before a spacewalk the cabin could be lowered to 70 kPa, which raised its oxygen to 30 %.",
+     "Historia, fuera de PSI: el traje del transbordador para caminatas espaciales respiraba 100 % de oxígeno a 30 kPa (unos 4.3 psi) para que los guantes siguieran flexibles. Antes de una caminata, la cabina se podía bajar a 70 kPa, lo que subía su oxígeno a 30 %."),
+    ("tm1991-9", "tm1991", 9, "particle/m", [],
+     "History, outside PSI: the smoke detectors proposed for Space Station Freedom in 1991 were photoelectric, with alarm levels equivalent to 5.3 x 10^10 particles per cubic meter and 1.6 % per meter of optical obscuration; the Shuttle's ionization detectors used a particle mass criterion of 2 mg/m3.",
+     "Historia, fuera de PSI: los detectores de humo propuestos en 1991 para la estación Freedom eran fotoeléctricos, con niveles de alarma equivalentes a 5.3 x 10^10 partículas por metro cúbico y 1.6 % por metro de oscurecimiento óptico; los detectores de ionización del transbordador usaban un criterio de masa de partículas de 2 mg/m3."),
+    ("tm1991-10", "tm1991", 10, "do not flicker", [],
+     "History, outside PSI: microgravity flames are steady and do not flicker, so conventional flame detectors that use flicker circuits to filter out steady ambient light may also reject the signal of a low-gravity fire. They are also dimmer and bluer.",
+     "Historia, fuera de PSI: las flamas en microgravedad son estables y no parpadean, así que los detectores de flama comunes, que usan circuitos de parpadeo para descartar la luz ambiente constante, también podrían descartar la señal de un fuego en baja gravedad. Además son más tenues y más azules."),
+    ("tm1991-12", "tm1991", 12, "rack electrical power", [],
+     "History, outside PSI: the fire response planned for Space Station Freedom in 1991. After a verified alarm, the automatic response shuts down the rack's electrical power and ventilating air before releasing carbon dioxide; the crew can override the automatic release. Figure 10 of the same report draws this logic.",
+     "Historia, fuera de PSI: la respuesta a un incendio planeada en 1991 para la estación Freedom. Tras una alarma verificada, la respuesta automática corta la energía y el aire de ventilación del gabinete antes de soltar dióxido de carbono; la tripulación puede detener la descarga automática. La figura 10 del mismo reporte dibuja esa lógica."),
     ("apollo13-10", "apollo13", 10, "The shelf drop incident was not mentioned in these discussions", [],
      "Apollo 13, before launch: the oxygen tank would not empty in ground tests, and it was emptied by running its heaters and fans for hours. When the launch decision was discussed, the earlier drop of the tank shelf was not mentioned, and most participants did not know about the heater use.",
      "Apollo 13, antes del lanzamiento: el tanque de oxígeno no se vaciaba en las pruebas en tierra, y se vació prendiendo sus calentadores y ventiladores durante horas. Al discutir el lanzamiento no se mencionó la caída previa del estante del tanque, y la mayoría no sabía del uso de los calentadores."),
@@ -197,11 +247,82 @@ ENTRADAS = [
      "Apollo 13, in flight: the wiring in the tank had lost its Teflon insulation; when the crew turned on the tank fans, the current made a spark that ignited the oxygen. The tank burst and damaged the second oxygen tank.",
      "Apollo 13, en vuelo: los cables del tanque habían perdido su aislante de teflón; cuando la tripulación prendió los ventiladores del tanque, la corriente hizo una chispa que encendió el oxígeno. El tanque reventó y dañó el segundo tanque de oxígeno.",
      ["Teflon"]),
+
+    # --- Pieza D-1440 (14-nov-2026): los mundos que decian «sin datos». La pagina es la del PDF.
+    ("tm1991-6", "tm1991", 6, "parabolic trajectories", [],
+     "History, outside PSI: in 1991, NASA wrote that drop towers gave 2 to 5 seconds of about 10^-6 g and aircraft flying parabolic trajectories about 20 seconds of about 10^-2 g. The 2003 partial-gravity paper on this site does not say how long its parabolas lasted.",
+     "Historia, fuera de PSI: en 1991, NASA escribió que las torres de caída daban de 2 a 5 segundos de unos 10^-6 g y los aviones en trayectoria parabólica unos 20 segundos de unos 10^-2 g. El artículo de 2003 sobre gravedad parcial de este sitio no dice cuánto duraron sus parábolas."),
+    ("kc135-2", "kc135", 2, "precision mixtures of 21% O2", [],
+     "Outside PSI, 2003: the fuel was a thin cellulose tissue (Kimwipes), burned in air of 21 % oxygen at 0.2 to 0.4 atmospheres aboard NASA's KC-135 aircraft at 0.1, 0.16 and 0.38 g. The paper does not say how long each parabola lasted. That low-pressure air is a test condition, not the air of a Mars habitat.",
+     "Fuera de PSI, 2003: el combustible fue un pañuelo delgado de celulosa (Kimwipes), quemado en aire con 21 % de oxígeno a 0.2–0.4 atmósferas a bordo del avión KC-135 de NASA, a 0.1, 0.16 y 0.38 g. El artículo no dice cuánto duró cada parábola. Ese aire a baja presión es una condición de prueba, no el aire de un hábitat en Marte."),
+    ("kc135-2-peak", "kc135", 2, "peaks near the Martian gravity levels", [],
+     "Figure 1, 2 cm samples in air at 27.6 kPa (4.0 psia): upward spread grew linearly with gravity in every pressure and width tested, while downward spread was non-monotonic and peaked near Mars gravity, 0.38 g.",
+     "Figura 1, muestras de 2 cm en aire a 27.6 kPa (4.0 psia): la propagación hacia arriba creció de forma lineal con la gravedad en todas las presiones y anchos probados, mientras que la de hacia abajo no fue monótona y tuvo su pico cerca de la gravedad de Marte, 0.38 g."),
+    ("kc135-3", "kc135", 3, "wider flammable domain", [],
+     "Figure 2, flammability boundaries for 2 cm samples in air, drawn as pressure against gravity: the downward boundary is U-shaped, with extinction from too little residence time at high gravity and from radiative loss at low gravity, and upward spread has a wider flammable domain than downward.",
+     "Figura 2, fronteras de inflamabilidad de muestras de 2 cm en aire, dibujadas como presión contra gravedad: la frontera hacia abajo tiene forma de U, con extinción por poco tiempo de residencia en gravedad alta y por pérdida radiativa en gravedad baja, y la propagación hacia arriba tiene un dominio inflamable más ancho que la de hacia abajo."),
+    ("kc135-4", "kc135", 4, "Upward flame spread rates are proportional to gravity level", [],
+     "Conclusions of this exploratory study: upward spread rates are proportional to gravity and the downward case is non-monotonic; over the partial-gravity range tested, flames spread faster upward than downward. The authors say the results require further study.",
+     "Conclusiones de este estudio exploratorio: la velocidad de propagación hacia arriba es proporcional a la gravedad y la de hacia abajo no es monótona; en el rango de gravedad parcial probado, las flamas avanzaron más rápido hacia arriba que hacia abajo. Los autores dicen que los resultados requieren más estudio."),
+    ("takahashi-2001", "takahashi2001", 1, "very little research has been conducted on fire suppression", [],
+     "Outside PSI, 2001: because NASA's fire safety relies largely on controlling material flammability and eliminating ignition sources, very little research had been conducted on fire suppression in microgravity or reduced gravity. The study set out to use gravity and oxygen as variables, for spacecraft and for Moon and Mars bases.",
+     "Fuera de PSI, 2001: como la seguridad contra incendios de NASA se apoya sobre todo en controlar la inflamabilidad de los materiales y eliminar fuentes de ignición, muy poca investigación se había hecho sobre cómo apagar fuego en microgravedad o en gravedad reducida. El estudio se propuso usar la gravedad y el oxígeno como variables, para naves y para bases en la Luna y en Marte."),
+    ("takahashi2001-2", "takahashi2001", 2, "using the Martian atmosphere", [],
+     "A 2001 proposal, not a test: the paper says agent performance data were limited to Earth's atmosphere, and that innovations could use the Martian atmosphere, 95.3 % carbon dioxide, as the extinguishing agent.",
+     "Una propuesta de 2001, no una prueba: el artículo dice que los datos de desempeño de los agentes se limitaban a la atmósfera de la Tierra, y que se podría innovar usando la atmósfera de Marte, 95.3 % de dióxido de carbono, como agente extintor."),
+    ("takahashi-2003", "takahashi2003", 1, "very little research has been conducted on fire suppression", [],
+     "Outside PSI, 2003: very little research has been conducted on fire suppression in low gravity. The Shuttle carried halon 1301 and the Station carbon dioxide or water-based extinguishers; for long missions, alternative agents or techniques are desirable.",
+     "Fuera de PSI, 2003: muy poca investigación se ha hecho sobre cómo apagar fuego en baja gravedad. El transbordador llevaba halón 1301 y la Estación extintores de dióxido de carbono o a base de agua; para misiones largas conviene tener otros agentes o técnicas."),
+    ("takahashi2003-3", "takahashi2003", 3, "eliminated for gravity levels below 0.5 g", [],
+     "Computer simulations, not tests, of a methane flame on a cup burner: the flame flicker of about 10 Hz in normal gravity is eliminated below 0.5 g, and in zero gravity the carbon dioxide needed to put the flame out is about 32 % higher than in normal gravity.",
+     "Simulaciones por computadora, no pruebas, de una flama de metano en un quemador de copa: el parpadeo de la flama, de unos 10 Hz en gravedad normal, desaparece por debajo de 0.5 g, y en gravedad cero el dióxido de carbono necesario para apagarla es cerca de 32 % mayor que en gravedad normal."),
+    ("friedman1998-4", "friedman1998", 4, "enriched-oxygen mixtures", [],
+     "Outside PSI, 1998: first-order proposals for Mars missions assumed spacecraft and surface-base atmospheres of pure oxygen or enriched-oxygen mixtures; the paper cites a personal comment for this. The same page says few materials are truly fire resistant at 40 % oxygen or more.",
+     "Fuera de PSI, 1998: las propuestas preliminares para misiones a Marte suponían atmósferas de oxígeno puro o de mezclas enriquecidas en oxígeno en las naves y en las bases; el artículo lo atribuye a un comentario personal. La misma página dice que pocos materiales resisten de verdad el fuego con 40 % de oxígeno o más."),
+    ("friedman1998-5", "friedman1998", 5, "merely by interpolation", [],
+     "Outside PSI, 1998: aircraft and other tests over thin paper put the maximum flame-spread rate near Mars surface gravity, and the review concludes that partial-gravity flammability does not appear to be predictable merely by interpolating between normal gravity and microgravity.",
+     "Fuera de PSI, 1998: pruebas en avión y otras sobre papel delgado ponen la velocidad máxima de propagación cerca de la gravedad de la superficie de Marte, y la revisión concluye que la inflamabilidad en gravedad parcial no parece predecible solo interpolando entre gravedad normal y microgravedad."),
+    ("friedman1998-7", "friedman1998", 7, "fire signatures is entirely unknown", [],
+     "Outside PSI, 1998: NASA's review of fire safety for Moon and Mars missions says the influence of partial gravity on fire signatures, such as smoke, is entirely unknown, and that smoke and combustion products may be unique in partial gravity.",
+     "Fuera de PSI, 1998: la revisión de NASA sobre seguridad contra incendios en misiones a la Luna y a Marte dice que el efecto de la gravedad parcial en las señales del fuego, como el humo, es del todo desconocido, y que el humo y los productos de la combustión pueden ser únicos en gravedad parcial."),
+    ("friedman1998-7-suppression", "friedman1998", 7, "partial-gravity environments is entirely unknown", [],
+     "Outside PSI, 1998: the same review says practical fire-suppression performance in partial gravity is entirely unknown, and names carbon dioxide from the Martian atmosphere as an interesting possibility for a suppressant on the surface.",
+     "Fuera de PSI, 1998: la misma revisión dice que el desempeño práctico de la supresión de fuego en gravedad parcial es del todo desconocido, y menciona el dióxido de carbono de la atmósfera de Marte como una posibilidad interesante para apagar fuego en la superficie."),
+    ("mist2003-1", "mist2003", 1, "was flown on the STS-107 mission", [],
+     "Outside PSI: the Water-Mist Fire Suppression experiment (Mist) flew on Space Shuttle mission STS-107 in January 2003. It sent propane-air flames through clouds of water mist in microgravity, and its results were meant to assess water mist as a fire suppressant on Earth and on spacecraft.",
+     "Fuera de PSI: el experimento Water-Mist Fire Suppression (Mist) voló en la misión STS-107 del transbordador en enero de 2003. Hizo pasar flamas de propano y aire por nubes de niebla de agua en microgravedad, y sus resultados servirían para evaluar la niebla de agua como supresor de fuego en la Tierra y en naves."),
+    ("mist2003-3", "mist2003", 3, "32 tests were conducted", [],
+     "Preliminary results: 32 tests at four fuel-air ratios, with water up to 40 % of the mass and droplets of 20 and 30 µm. The leanest flames slowed as water increased and droplets got smaller, and went out at the highest water concentrations. These were premixed gas flames, not burning solids.",
+     "Resultados preliminares: 32 pruebas con cuatro proporciones de combustible y aire, con agua hasta 40 % de la masa y gotas de 20 y 30 µm. Las flamas más pobres se frenaron al subir el agua y al bajar el tamaño de gota, y se apagaron con las concentraciones de agua más altas. Eran flamas de gas premezclado, no sólidos ardiendo."),
+    ("fwm2013-1", "fwm2013", 1, "creates an unsafe breathing environment", [],
+     "Outside PSI, 2013: the Station's U.S. segments used carbon dioxide extinguishers, and the crew's emergency breathing equipment does not filter carbon dioxide, so using one creates an unsafe breathing environment. NASA set out to build a fine water mist extinguisher that puts out a fire without that hazard.",
+     "Fuera de PSI, 2013: los segmentos estadounidenses de la Estación usaban extintores de dióxido de carbono, y el equipo de respiración de emergencia no filtra ese gas, así que usar uno deja un aire peligroso para respirar. NASA se propuso hacer un extintor de niebla de agua que apague el fuego sin ese riesgo."),
+    ("fwm2013-4", "fwm2013", 4, "oxygen concentration between 24% and 30%", [],
+     "One of the Station fire test standards represents a fire in the airlock before a spacewalk, whose air is nominally 10.2 psia with 24 to 30 % oxygen, next to the Moon-base air of the challenge (30 % or more at 10.2 psi or less). The test burns a PMMA crib in a closed chamber the size of the airlock, and the fire is fought once oxygen near the crib is 30 %; the page does not give the chamber pressure.",
+     "Una de las normas de prueba de fuego de la Estación representa un fuego en la esclusa antes de una caminata espacial, cuyo aire nominal es de 10.2 psia con 24 a 30 % de oxígeno, al lado del aire de base lunar del reto (30 % o más a 10.2 psi o menos). La prueba quema una pila de barras de PMMA en una cámara cerrada del volumen de la esclusa, y el fuego se ataca cuando el oxígeno junto a la pila llega a 30 %; la página no da la presión de la cámara.",
+     [PMMA]),
+    ("fwm2013-6", "fwm2013", 6, "successfully extinguished all 16 tests", [],
+     "Ground tests of the development units: they put out all 16 open-cabin fires (about 1 s on average), all 16 rack fires (about 60 s) and all 16 elevated-oxygen fires (about 0.3 s), and 15 of 16 battery fires. The fire tests were run with the White Sands Test Facility fire department, whose ground fire fighters carried the extinguisher in a ground-based harness (p. 7).",
+     "Pruebas en tierra de las unidades de desarrollo: apagaron los 16 fuegos de cabina abierta (en 1 s en promedio), los 16 de gabinete (unos 60 s) y los 16 con oxígeno elevado (unos 0.3 s), y 15 de 16 fuegos de batería. Las pruebas de fuego se hicieron con los bomberos de White Sands Test Facility, que cargaron el extintor con un arnés para uso en tierra (pág. 7).",
+     [PMMA]),
+    ("emu1980-4", "emu1980", 4, "destroyed in a flash fire", [],
+     "History, outside PSI: in 1980 a Space Shuttle spacesuit and its life-support backpack were destroyed in a flash fire during a functional test in a Johnson Space Center laboratory; a technician standing next to the suit was burned.",
+     "Historia, fuera de PSI: en 1980, un traje del transbordador y su mochila de soporte vital se destruyeron en un incendio súbito durante una prueba de funcionamiento en un laboratorio del Johnson Space Center; un técnico que estaba junto al traje sufrió quemaduras."),
+    ("emu1980-5", "emu1980", 5, "Softgoods burned until extinguished", [],
+     "From the accident report: the test used oxygen at 900 and 6200 psi; the regulator vaporized in less than 1 second, and the suit's soft goods burned for about 1 to 2 minutes until extinguished. The fire set off an overhead sprinkler, two carbon dioxide extinguishers were used, and the Houston fire department responded and made sure the fire was out. The suit had no one inside (slide 33), and the fire was fought in a ground laboratory.",
+     "Del informe del accidente: la prueba usaba oxígeno a 900 y a 6200 psi; el regulador se vaporizó en menos de 1 segundo y los textiles del traje ardieron cerca de 1 a 2 minutos hasta que se extinguieron. El fuego activó un rociador del techo, se usaron dos extintores de dióxido de carbono y los bomberos de Houston acudieron y se aseguraron de que quedara apagado. El traje no tenía a nadie dentro (lámina 33) y el fuego se combatió en un laboratorio en tierra."),
+    ("emu1980-30", "emu1980", 30, "Spacesuits will always have all 3 hazards present", [],
+     "The lesson drawn: spacesuits will always have the three elements of fire present, and every risk-mitigation measure on the slide is about prevention: ignition sources, materials, cleanliness, training and analysis of ignition mechanisms. None describes detecting or putting out a fire inside a suit.",
+     "La lección: un traje espacial siempre tiene presentes los tres elementos del fuego, y todas las medidas de la lámina son de prevención: fuentes de ignición, materiales, limpieza, entrenamiento y análisis de los mecanismos de ignición. Ninguna describe cómo detectar o apagar un fuego dentro de un traje."),
 ]
 
 # Paginas escaneadas: el texto reconocido sale con las letras separadas, asi que la cita se escribe a mano,
 # literal, leyendo la pagina. La frase de ENTRADAS sigue sirviendo para marcar la zona en la imagen.
 CITA_FIJA = {
+    "tm1991-7": "The Shuttle space suit used for extravehicular activities (EVA), however, has a breathing atmosphere of 100 percent O2 at 30 kPa pressure to permit flexible glove operation.",
+    "tm1991-9": "Proposed detection-alarm levels for Freedom are based on light attenuation equivalent to a 5.3x10^10 particle/m3 smoke concentration and a 1.6 percent/m optical smoke obscuration.",
+    "tm1991-10": "Furthermore, small-scale experiments demonstrated that microgravity flames are steady and do not flicker (ref. 35), and thus conventional flame detectors with flicker circuits to filter out steady ambient-light interference may also reject low-gravity fire signatures.",
+    "tm1991-12": "The subsequent automatic response to a verified alarm is a shutdown of the rack electrical power and ventilating-air flow, prior to carbon dioxide release.",
     "tm1989-4": "To pass the test, the material either resists ignition or, if ignited, must not sustain a flame propagating more than a stated limit (15 cm at present).",
     "tm1989-5": "In fact, several questions for future space applications must be resolved, namely, (1) is the screened particle-size range most representative of smoke-particle densities generated in incipient space fires?",
     "tm1989-7": "The only on-orbit combustion experiments to date were direct continuations of the early aircraft tests.",
@@ -209,6 +330,17 @@ CITA_FIJA = {
     # Titulos de figura o de tabla y texto de cartel: el corte automatico por oraciones agarra rotulos sueltos.
     "bass2poster-6": "Typical Flammability Boundary for a Solid Fuel",
     "same2ices-7": "Table 1: Diameter results for baseline runs for each material (Diameters are in micrometers).",
+    # D-1440: paginas escaneadas (TM-105317, Takahashi 2001, Friedman 1998) y laminas con vinetas (EMU)
+    "tm1991-6": "These facilities are drop towers, which can provide 2 to 5 sec of ~10^-6 g (fig. 2), and aircraft flying parabolic trajectories, which can provide about 20 sec of ~10^-2 g (fig. 3).",
+    "takahashi-2001": "As a result, very little research has been conducted on fire suppression in the microgravity or reduced-gravity environment.",
+    "takahashi2001-2": "Innovations can be developed for habitation and extinguishment of in-situ resource utilization using the Martian atmosphere (95.3-vol% CO2) as the agent [4].",
+    "friedman1998-4": "First-order proposals for Martian missions assume that atmospheres in the spacecraft and surface bases are either pure oxygen or enriched-oxygen mixtures (Personal comments, D.I. Kaplan, NASA Johnson, 1997).",
+    "friedman1998-5": "In any event, partial-gravity flammability does not appear to be predictable merely by interpolation between normal-gravity and microgravity experience.",
+    "friedman1998-7": "The influence of partial gravity on fire signatures is entirely unknown.",
+    "friedman1998-7-suppression": "Furthermore, practical fire-suppression performance in partial-gravity environments is entirely unknown.",
+    "emu1980-4": "A Space Shuttle Extravehicular Mobility Unit (pressure garment and life-support backpack) was destroyed in a flash fire during a functional test in the Johnson Space Center's crew systems laboratory.",
+    "emu1980-5": "Softgoods burned until extinguished - ~1-2 minutes",
+    "emu1980-30": "Spacesuits will always have all 3 hazards present",
 }
 
 # Fuentes que se citan sin imagen de pagina (se enlaza el documento en PSI)
@@ -272,14 +404,81 @@ SIN_IMAGEN = [
      "pageLabel": "30 and 31",
      "claim": {"en": "The table of Saffire I to III results in the 2017 slides by Urban and others. Saffire-III: the large SIBAL sheets burned at 25 cm/s, 300 s concurrent with a microgravity spread rate of 2.3 mm/s and 60 s opposed at 0.98 mm/s, with oxygen falling from 21.2 to 21.0 %. Saffire-I: 420 s concurrent at 1.8 mm/s and 70 s opposed at 1.3 mm/s. The two sources disagree in three places: for Saffire-III the PSI table gives 30 cm/s and the PSI records 19.7 and 19.9 % oxygen; for Saffire-II sample 2-6 the PSI table gives 20 cm/s where the slides give 25; and for sample 2-1 PSI gives 21.5 % oxygen where the slides give about 22.1 %. The PSI table also has no Saffire-III results. The page image is not reproduced here; open the slides at NASA.",
                "es": "La tabla de resultados de Saffire I a III de las láminas de 2017 de Urban y otros. Saffire-III: las láminas grandes de SIBAL ardieron con 25 cm/s, 300 s en el mismo sentido del flujo con propagación en microgravedad de 2.3 mm/s y 60 s en contra a 0.98 mm/s, con el oxígeno bajando de 21.2 a 21.0 %. Saffire-I: 420 s en el mismo sentido a 1.8 mm/s y 70 s en contra a 1.3 mm/s. Las dos fuentes no coinciden en tres puntos: para Saffire-III la tabla de PSI da 30 cm/s y las fichas de PSI 19.7 y 19.9 % de oxígeno; para la muestra 2-6 de Saffire-II la tabla de PSI da 20 cm/s donde las láminas dan 25; y para la muestra 2-1 PSI da 21.5 % de oxígeno donde las láminas dan cerca de 22.1 %. La tabla de PSI tampoco trae resultados de Saffire-III. La imagen de la página no se reproduce aquí; abre las láminas en NASA."}},
-    {"id": "kc135-2003", "invs": [], "docInv": "", "file": "",
-     "url": "https://ntrs.nasa.gov/citations/20040053567", "origin": "partial",
-     "doc": {"en": "Sacksteder et al., Upward and Downward Flame Spreading and Extinction in Partial Gravity Environments, 2003 (NTRS 20040053567, abstract)",
-             "es": "Sacksteder y otros, Upward and Downward Flame Spreading and Extinction in Partial Gravity Environments, 2003 (NTRS 20040053567, resumen)"},
+    # D-1440: LUCI (NTRS dice «Use by or on behalf of the US Gov. Permitted», como el cartel de FM2): se cita y se
+    # enlaza, sin imagen. Las laminas se leyeron completas; la fecha del PDF es el 26-nov-2025.
+    {"id": "luci-2025", "invs": [], "docInv": "", "file": "LUCI_ASGSR-2025_NTRS-20250010653.pdf",
+     "url": "https://ntrs.nasa.gov/citations/20250010653", "materials": [SIBAL, PMMA], "origin": "partial",
+     "doc": {"en": "Ferkul, Johnston, Kralik and Liao, Lunar Combustion Investigation: Flammability Results from a Rotating Sounding Rocket, ASGSR 2025 slides (NTRS 20250010653)",
+             "es": "Ferkul, Johnston, Kralik y Liao, Lunar Combustion Investigation: Flammability Results from a Rotating Sounding Rocket, láminas de ASGSR 2025 (NTRS 20250010653)"},
+     "pageLabel": "12, 13, 22, 33 and 43",
+     "claim": {"en": "Outside PSI: NASA's Lunar-g Combustion Investigation (LUCI) launched on February 4, 2025 on Blue Origin's New Shepard, a spinning vehicle that makes lunar gravity with centrifugal force. It burned a cotton-fiberglass fabric and a 4 mm acrylic rod at the same time, in air at normal pressure. The slides call these the first-ever burn tests longer than 25 seconds in simulated lunar gravity; the burn lasted over two and a half minutes, and gravity started to drop at about 125 s. On the slide for the acrylic rod, chamber oxygen fell from 20 to 14.3 % and rose back to 15.8 % after the gravity drop. The fabric's flame base spread at 0.9 mm/s in lunar gravity against 1.5 mm/s in normal gravity. NTRS allows use only by or on behalf of the US Government, so the page image is not reproduced here; open the slides at NASA.",
+               "es": "Fuera de PSI: el experimento Lunar-g Combustion Investigation (LUCI) de NASA despegó el 4 de febrero de 2025 en el New Shepard de Blue Origin, un vehículo que gira y crea gravedad lunar con la fuerza centrífuga. Quemó al mismo tiempo una tela de algodón y fibra de vidrio y una varilla de acrílico de 4 mm, en aire a presión normal. Las láminas dicen que fueron las primeras pruebas de combustión de más de 25 segundos en gravedad lunar simulada; la quema duró más de dos minutos y medio, y la gravedad empezó a bajar hacia los 125 s. En la lámina de la varilla de acrílico, el oxígeno de la cámara bajó de 20 a 14.3 % y volvió a subir a 15.8 % tras la caída de gravedad. La base de la flama de la tela avanzó a 0.9 mm/s en gravedad lunar contra 1.5 mm/s en gravedad normal. NTRS solo permite el uso por o para el gobierno de Estados Unidos, así que la imagen de la página no se reproduce aquí; abre las láminas en NASA."}},
+    {"id": "luci-nasa-2025", "invs": [], "docInv": "", "file": "",
+     "url": "https://www.nasa.gov/centers-and-facilities/glenn/nasa-fire-safety-test-took-on-reduced-gravity", "materials": [SIBAL, PMMA], "origin": "partial",
+     "doc": {"en": "NASA Fire Safety Test Took on Reduced Gravity, NASA Glenn Research Center, February 12, 2025",
+             "es": "NASA Fire Safety Test Took on Reduced Gravity, NASA Glenn Research Center, 12 de febrero de 2025"},
+     "pageLabel": "web page",
+     "claim": {"en": "Outside PSI: NASA Glenn says LUCI, developed with Voyager Technologies, flew on Blue Origin's New Shepard suborbital flight in February 2025 and tested the flammability of cotton-fiberglass fabric and plastic rods while the payload capsule rotated to simulate lunar gravity. The page does not give the duration, the oxygen or the pressure.",
+               "es": "Fuera de PSI: NASA Glenn dice que LUCI, hecho con Voyager Technologies, voló en el vuelo suborbital New Shepard de Blue Origin en febrero de 2025 y probó la inflamabilidad de tela de algodón y fibra de vidrio y de varillas de plástico mientras la cápsula giraba para simular la gravedad lunar. La página no da la duración, el oxígeno ni la presión."}},
+    # La lamina 33 del EMU es el comunicado de 1980 con el logotipo de NASA: se cita sin imagen.
+    {"id": "emu1980-33", "invs": [], "docInv": "", "file": "EMU_incendio_1980_Chullen_2021_NTRS-20210010575.pdf",
+     "url": "https://ntrs.nasa.gov/citations/20210010575", "origin": "history",
+     "doc": {"en": "Chullen and Nowetner, Lessons Learned From the EMU Fire, NASA Johnson Space Center, 2021 (the 1980 spacesuit fire)",
+             "es": "Chullen y Nowetner, Lessons Learned From the EMU Fire, NASA Johnson Space Center, 2021 (el incendio del traje de 1980)"},
+     "pageLabel": "33",
+     "claim": {"en": "NASA's news release of June 10, 1980, reproduced on slide 33: the accident destroyed an unoccupied Space Shuttle spacesuit and life-support backpack. The board found where the fire started but not its exact cause, after more than 2,000 unsuccessful attempts to reproduce it. The slide carries the NASA logotype, so its image is not reproduced here; open the slides at NASA.",
+               "es": "El comunicado de NASA del 10 de junio de 1980, reproducido en la lámina 33: el accidente destruyó un traje del transbordador y su mochila de soporte vital sin nadie dentro. La junta encontró dónde empezó el fuego pero no su causa exacta, tras más de 2,000 intentos fallidos de reproducirlo. La lámina trae el logotipo de NASA, así que su imagen no se reproduce aquí; abre las láminas en NASA."}},
+    # Lista de Victor (marsds.json): los dos de Takahashi y el KC-135 ya se citan por pagina (arriba); Gollner sigue
+    # con el resumen de su ficha de NTRS
+    {"id": "gollner-2021", "invs": [], "docInv": "", "file": "",
+     "url": "https://ntrs.nasa.gov/citations/20210022402", "origin": "history",
+     "doc": {"en": "Gollner and others, Topical: Solid Fuel Combustion in Partial and Micro-Gravity, white paper, 2021 (NTRS 20210022402, abstract)",
+             "es": "Gollner y otros, Topical: Solid Fuel Combustion in Partial and Micro-Gravity, libro blanco, 2021 (NTRS 20210022402, resumen)"},
      "pageLabel": "NTRS abstract",
-     "claim": {"en": "Outside PSI: partial-gravity experiments from 0.1 to 1 g aboard the NASA KC-135 aircraft measured upward and downward flame spread over thin solid fuels, varying pressure and sample width, and found steady spread rates and approximate extinction boundaries. This is the abstract on the NTRS record; open the paper at NASA.",
-               "es": "Fuera de PSI: experimentos en gravedad parcial, de 0.1 a 1 g, a bordo del avión KC-135 de NASA midieron la propagación de flama hacia arriba y hacia abajo sobre sólidos delgados, variando la presión y el ancho de la muestra, y hallaron velocidades estables y fronteras de extinción aproximadas. Es el resumen de la ficha de NTRS; abre el artículo en NASA."}},
+     "claim": {"en": "Outside PSI: most spaceflight fire hazards involve solid fuels such as cotton fabric, plastics and battery electrode materials. Future Moon and Mars missions will challenge current understanding with partial gravity, enhanced oxygen, new materials such as composites, and higher energy-density batteries. This is the abstract on the NTRS record; open the paper at NASA.",
+               "es": "Fuera de PSI: la mayoría de los riesgos de incendio en vuelo involucran combustibles sólidos, como tela de algodón, plásticos y materiales de electrodos de baterías. Las misiones futuras a la Luna y a Marte pondrán a prueba lo que se sabe con gravedad parcial, más oxígeno, materiales nuevos como los compuestos y baterías con más densidad de energía. Es el resumen de la ficha de NTRS; abre el artículo en NASA."}},
 ]
+
+
+# D-1440: a que mundos sirve cada fuente (station, moon, mars, suit, earth), para las casillas de app/js/app.js.
+# Primero la tabla por id o por documento; si no esta, la regla: lo de PSI es microgravedad (station), BRE, CFI-G y FLEX
+# tienen pruebas con aire de base lunar (moon), Saffire-II se comparo con gravedad normal (earth), y lo de tierra va a earth.
+MUNDOS_VALIDOS = ("station", "moon", "mars", "suit", "earth")
+MUNDOS_ID = {
+    "bass2-84": ["station", "earth"], "bass2poster-15": ["station", "earth"], "bass2poster-18": ["station", "earth"],
+    "guide-22": ["station", "earth"], "efield-37": ["station", "mars", "moon"],
+    "std6001-29": ["earth", "station", "suit"], "std6001-60": ["station"],
+    "tm1989-4": ["earth", "station"], "tm1991-7": ["suit"], "tm1991-6": ["moon", "mars"],
+    "fwm2013-4": ["station", "moon"], "fwm2013-6": ["station", "moon", "earth"],
+    "nomex-fm2-2025": ["moon", "station", "earth"], "saffire6-11": ["station", "moon"], "saffire6-20": ["station", "moon"],
+    "saffire6-21": ["station", "moon"], "gollner-2021": ["moon", "mars", "station"],
+    "takahashi2003-3": ["mars", "moon", "station"], "friedman1998-4": ["mars"],
+}
+MUNDOS_DOC = {
+    "std6001": ["earth", "station"], "tm1989": ["station"], "tm1991": ["station"], "apollo13": ["station"],
+    "guide": ["station"], "meyer2015": ["earth", "station"], "bass2poster": ["station"], "same2ices": ["station"],
+    "fm2poster": ["moon"], "luci": ["moon"], "kc135": ["mars", "moon", "earth"], "takahashi2001": ["mars", "moon", "station"],
+    "takahashi2003": ["station", "moon", "mars"], "friedman1998": ["mars", "moon"], "mist2003": ["earth", "station"],
+    "fwm2013": ["station"], "emu1980": ["suit"],
+}
+
+
+def mundos(fila, doc=""):
+    eid = fila["id"]
+    if eid in MUNDOS_ID:
+        m = MUNDOS_ID[eid]
+    elif doc and doc in MUNDOS_DOC:
+        m = MUNDOS_DOC[doc]
+    elif eid.split("-")[0] in MUNDOS_DOC:
+        m = MUNDOS_DOC[eid.split("-")[0]]
+    else:
+        m = ["station"] if fila["invs"] or fila.get("origin") == "microgravity" else []
+        if set(fila["invs"]) & {"PSI-20", "PSI-159", "PSI-69"}:
+            m.append("moon")
+        if "PSI-99" in fila["invs"] or fila.get("origin") == "ground":
+            m.append("earth")
+    assert m and all(x in MUNDOS_VALIDOS for x in m), "sin mundo valido: %s %s" % (eid, m)
+    return list(dict.fromkeys(m))
 
 
 def limpio(t):
@@ -355,6 +554,7 @@ def main():
         fila_salida["origin"] = ORIGEN.get(doc, "microgravity")
         if materiales:
             fila_salida["materials"] = materiales
+        fila_salida["worlds"] = mundos(fila_salida, doc)
         salida.append(fila_salida)
     for s in SIN_IMAGEN:
         fila = inventario.get((s["docInv"], s["file"]))
@@ -366,6 +566,7 @@ def main():
         else:
             s2.update({"download": "https://psi.nasa.gov/geode-py/ws/studies/%s/download?file=%s&version=%s" % (s["docInv"], urllib.parse.quote(s["file"]), (fila or {}).get("version", "1")),
                        "record": "https://psi.nasa.gov/physci/repo/data/investigations/" + s["docInv"]})
+        s2["worlds"] = mundos(s2)
         salida.append(s2)
     SAL_JS.write_text("window.OFMW_EVIDENCE=" + json.dumps(salida, ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8", newline="\n")
     peso = sum(f.stat().st_size for f in SAL_IMG.glob("*.jpg"))

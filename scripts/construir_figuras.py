@@ -70,7 +70,28 @@ SAF17 = ("Saffire_ASGSR-2017_NTRS-20180005168.pdf", "https://ntrs.nasa.gov/citat
          {"en": "Saffire: A Novel Approach to Study of Spacecraft Fire Safety Using Un-manned Spacecraft, ASGSR 2017 (NTRS 20180005168)",
           "es": "Saffire: A Novel Approach to Study of Spacecraft Fire Safety Using Un-manned Spacecraft, ASGSR 2017 (NTRS 20180005168)"},
          "Urban, Ferkul, Olson, Ruff and Easton, NASA Glenn Research Center, ASGSR 2017 slides, NTRS 20180005168. Public use permitted. Contributed by Sebastián Martínez.")
+TM1991 = ("NASA-TM-105317_Friedman_Sacksteder_Urban_1991.pdf", "https://ntrs.nasa.gov/citations/19920004363",
+          {"en": "Risks, Designs, and Research for Fire Safety in Spacecraft, NASA TM-105317 (1991)",
+           "es": "Risks, Designs, and Research for Fire Safety in Spacecraft, NASA TM-105317 (1991)"},
+          "Friedman, Sacksteder and Urban, NASA Lewis Research Center, NASA TM-105317 (1991), NTRS 19920004363. Work of the US Government, public use permitted. Contributed by Marina.")
+KC135 = ("KC-135_parcial_Sacksteder_2003_NTRS-20040053567.pdf", "https://ntrs.nasa.gov/citations/20040053567",
+         {"en": "Sacksteder and others, Upward and Downward Flame Spreading and Extinction in Partial Gravity Environments, NASA/CP-2003-212376/REV1, pp. 141-144 (2003)",
+          "es": "Sacksteder y otros, Upward and Downward Flame Spreading and Extinction in Partial Gravity Environments, NASA/CP-2003-212376/REV1, págs. 141-144 (2003)"},
+         "Sacksteder, Feier, Ferkul, Kumar and T'ien, NASA Glenn Research Center, National Center for Microgravity Research and Case Western Reserve University, NASA/CP-2003-212376/REV1 (2003), NTRS 20040053567. Work of the US Government, public use permitted. Contributed by Victor.")
 EQUIPO = [
+    # D-1440: las dos figuras del articulo del KC-135 (gravedad parcial en avion), recorte = la imagen de cada una
+    ("kc135-p2-fig1", KC135, 2, "1", (309.7, 402, 540.1, 634.6),
+     "Figure 1. Upward and downward flame spread rates for 2 cm wide samples burned in 27.6 kPa (4.0 psia) air at various gravity levels. Upward pointing symbols indicate upward spread; downward pointing symbols, downward spread. Open symbols indicate results of numerical simulations of flame spread. The inset shows results for 1 cm wide samples.",
+     [], [], "partial"),
+    ("kc135-p3-fig2", KC135, 3, "2", (310.5, 72, 540.1, 304.6),
+     "Figure 2. Flammability boundaries for upward and downward spreading flames over 2 cm wide samples. Open and closed symbols indicate flammable and non- flammable conditions respectively. Crosses indicate observed extinctions occurring well after ignition. Downward pointing symbols indicate downward spread, upward pointing indicates upward spread.",
+     [], [], "partial"),
+    ("tm1991-p21-fig9", TM1991, 21, "9", (165, 88, 450, 316),
+     "Figure 9.—Conceptual schematic of carbon dioxide fire-suppression system for Freedom",
+     [], [], "history"),
+    ("tm1991-p21-fig10", TM1991, 21, "10", (145, 412, 462, 650),
+     "Figure 10.—Representation of fire-response logic for the Space Station Freedom",
+     [], [], "history"),
     # id, documento, pagina, numero, recorte, pie, investigaciones, materiales, origen
     ("meyer-p17-fig8", MEYER, 17, "8", (72, 332.6, 539, 436),
      "Figure 8.—High resolution SEM images of Teflon smoke particles at 540 °C collected onto a carbon film TEM grid. (a) 250 nm to 1.5 μm diam. range. (b) 500 nm and 700 nm diam. (c) 700 nm diam.",
@@ -148,6 +169,24 @@ RECORTES_PSI = [
      "Slide 41, BASS Test Matrix: samples 16 and 17 are thin flat Ultem sheets, 2 cm wide, with 384 mg of fuel, planned at 30 and 50 cm/s. No photograph of the Ultem samples was found in PSI; in the as-run matrix one only smoked slightly without igniting and the other ignited briefly and went out after 4 seconds.",
      ["PSI-26"], ["Ultem"], "microgravity"),
 ]
+
+
+# D-1440: a que mundos sirve cada figura. Por la clave del documento (inicio del id); lo que sale de pruebas en gravedad
+# normal suma la Tierra. E-FIELD sugiere aproximar la gravedad parcial; BRE tiene flamas en aire de base lunar.
+MUNDOS_FIG = {"bre": ["station", "moon"], "efield": ["station", "mars", "moon"], "guide": ["station", "earth"],
+              "kc135": ["mars", "moon", "earth"], "tm1991": ["station"]}
+
+
+def mundos_fig(fila):
+    m = list(MUNDOS_FIG.get(fila["id"].split("-")[0], ["station"]))
+    if fila.get("origin") == "ground" and "earth" not in m:
+        m.append("earth")
+    if fila.get("origin") == "ground" and fila["id"].startswith("meyer"):
+        m = ["earth"]
+    if "PSI-99" in fila.get("invs", []) and "earth" not in m:
+        m.append("earth")
+    assert m and all(x in ("station", "moon", "mars", "suit", "earth") for x in m), fila["id"]
+    return m
 
 
 def materiales_de(pie):
@@ -331,6 +370,8 @@ def main():
                        "origin": origen, "materials": mats})
         miniaturas.append((fid, destino))
     print("recortes de PSI: %d" % len(RECORTES_PSI))
+    for f in salida:
+        f["worlds"] = mundos_fig(f)
     SAL_JS.write_text("window.OFMW_FIGURES=" + json.dumps(salida, ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8", newline="\n")
     peso = sum(f.stat().st_size for f in SAL_IMG.glob("*.jpg"))
     print("total: %d figuras | %.1f MB" % (len(salida), peso / 1e6))

@@ -46,14 +46,16 @@
   function axisX(g) { return 3 + g * 94; }                 /* percent of the axis width */
   function worldCount(w) {
     if (w.id === "earth") return { n: w.extra.n, text: plural(w.extra.n, "sample") + T(" compared with normal gravity") };
-    if (w.id === "mars") return { n: 0, text: T("No data") };
+    /* D-1447 to D-1449: PSI has no partial-gravity data, only the two ends the challenge proposes (Saffire-II, 0 g and 1 g). */
+    if (w.id === "mars") { var pairs = world("earth").extra.n; return { n: pairs, text: plural(pairs, "sample pair") + T(" at 0 g and 1 g, none at 3/8 g") }; }
     return { n: w.near.total, text: w.near.total ? plural(w.near.total, "test") + T(" in air like this") : T("No test in air like this") };
   }
   function worldButton(w, current) {
-    var c = worldCount(w);
+    var c = worldCount(w), out = C.worlds[w.id] && C.worlds[w.id].outside;   /* D-1440: PSI first, what is outside PSI on its own line */
     return h("button", { type: "button", "class": "world", "aria-pressed": String(w.id === current),
       onclick: function () { location.hash = "#/world/" + w.id; } },
-      h("b", { text: T(w.name) }), h("span", { text: T(w.gravity) }), h("span", { "class": "count" + (c.n ? "" : " none"), text: c.text }));
+      h("b", { text: T(w.name) }), h("span", { text: T(w.gravity) }), h("span", { "class": "count" + (c.n ? "" : " none"), text: c.text }),
+      out ? h("span", { "class": "outside", text: out }) : null);
   }
   function gravityNav(current) {
     var axis = h("div", { "class": "axis", "aria-hidden": "true" });
@@ -177,11 +179,12 @@
     var facts = h("dl", { "class": "facts" },
       h("div", null, h("dt", { text: T("Gravity") }), h("dd", { text: T(w.gravity.charAt(0).toUpperCase() + w.gravity.slice(1)) })),
       h("div", null, h("dt", { text: T("Air") }), h("dd", { text: T(w.air) })),
-      h("div", { "class": cnt.n ? "" : "zero" }, h("dt", { text: T("Evidence") }),
+      h("div", { "class": (w.id === "earth" ? w.extra.n : w.near.total) ? "" : "zero" }, h("dt", { text: T("Evidence") }),
         h("dd", null, h("strong", { text: w.id === "earth" ? fmt(w.extra.n) : fmt(w.near.total) }), " ",
           w.id === "earth" ? T("samples burned in orbit and compared with normal gravity") : T("tests in air like this") + (breakdown ? " (" + breakdown + ")" : ""),
           h("br"), h("span", { "class": "note", text: T(w.nearNote) + "." }))),
-      w.id !== "earth" ? h("div", null, h("dt", { text: T("Also") }), h("dd", null, T(w.extra.label) + ": ", h("strong", { text: w.extra.text ? T(w.extra.text) : fmt(w.extra.n) }))) : null);
+      w.id !== "earth" ? h("div", null, h("dt", { text: T("Also") }), h("dd", null, T(w.extra.label) + ": ", h("strong", { text: w.extra.text ? T(w.extra.text) : fmt(w.extra.n) }))) : null,
+      c.outside ? h("div", { "class": "outside" }, h("dt", { text: T("Outside PSI") }), h("dd", { text: c.outside.replace(/^[^:]+:\s*/, "") })) : null);   /* D-1440, after PSI */
 
     var sheet = h("div", { "class": "sheet" },
       h("div", { "class": "lead" },
