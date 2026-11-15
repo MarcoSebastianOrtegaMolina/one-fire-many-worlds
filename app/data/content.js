@@ -41,7 +41,7 @@ window.OFMW_CONTENT = {
     },
     "PSI-100": {
       line: "A large cotton-fiberglass sample burned in a Cygnus vehicle at a higher airflow than Saffire-I.",
-      finding: "2 samples at 30 cm/s. The table has no oxygen or result; the vehicle sensors give 19.4 to 20.1 % oxygen and 14.4 to 14.5 psi.",
+      finding: "2 samples at 30 cm/s. The table has no oxygen or result; the vehicle sensors give 19.4 to 20.1 % oxygen and 14.4 to 14.5 psi. Outside PSI, NASA's 2017 Saffire slides give 25 cm/s instead, and the results the table lacks: 300 s of concurrent burning at 2.3 mm/s and 60 s of opposed burning at 0.98 mm/s (slides 30 and 31).",
       why: "Relevant for its scale.",
       caveat: "Almost no data in the experimental table."
     },
@@ -168,7 +168,7 @@ window.OFMW_CONTENT = {
       prevention: "71 tests ran in air like this, none with solids: 34 gas flames from ACME BRE, 20 from ACME CFI-G and 17 droplets from FLEX. In BRE, near 8.2 psia with 29.8 to 39.3 % oxygen, 25 of 36 flames kept burning until the fuel was cut off. Near 14.7 psia with less than 23 % oxygen, all 10 went out by themselves. Outside PSI, NASA's Saffire VI burned SIBAL and PMMA in microgravity at 28.8 to 31.0 % oxygen and about 55 kPa (8 psi), almost Moon-base air (34 % and 8.2 psi); its results are preliminary and its test-by-test data are not open in PSI.",
       detection: "No smoke test in PSI was run in this atmosphere. The smoke experiments do not record oxygen or pressure. Outside PSI, in Saffire VI (preliminary), the smoke was readily detected only at 981 s, after most of the hazardous gas had been released, and in the PMMA tests cabin carbon monoxide passed its 24-hour limit.",
       suppression: "The 17 FLEX droplets, at 0.7 atm with 30 to 34 % oxygen, are the only tests from a suppression experiment near these conditions.",
-      takeaway: "No fabric or plastic has been burned in microgravity with Moon-base air in the data PSI holds. Outside PSI, NASA's Saffire VI burned cotton-fiberglass fabric and acrylic at 28.8 to 31.0 % oxygen and about 55 kPa (8 psi) in a cargo ship in December 2023, almost Moon-base air; its results are preliminary and its test-by-test data are not open in PSI. Lunar gravity itself has only been tried in centrifuge drops of a few seconds."
+      takeaway: "No fabric or plastic has been burned in microgravity with Moon-base air in the data PSI holds. Outside PSI, NASA's Saffire VI burned cotton-fiberglass fabric and acrylic at 28.8 to 31.0 % oxygen and about 55 kPa (8 psi) in a cargo ship in December 2023, almost Moon-base air; its results are preliminary and its test-by-test data are not open in PSI. Lunar gravity itself has only been reproduced for seconds at a time, in parabolic flights and in centrifuges inside drop towers; no long test exists."
     },
     suit: {
       headline: "Never tested",
@@ -283,14 +283,14 @@ window.OFMW_CONTENT = {
     "Lampwick": "Only smoke data, from SAME and SAME-R.",
     "Wax": "Candle tests, almost all in BASS. There is no smoke data for it.",
     "Pyrell": "Only smoke data, from SAME-R. Its fresh smoke has the largest geometric mean diameter of the five materials, 149 nm.",
-    "Nomex": "A few tests in BASS and BASS-II. In Saffire-II the Nomex part of a combined sample did not ignite.",
+    "Nomex": "A few tests in BASS and BASS-II. In Saffire-II the Nomex part of a combined sample did not ignite. Outside PSI, a 2025 poster prepared for FM2 gives approximate limiting oxygen for Nomex HT90-40 fabric at 8.2 psi: about 23 % in normal gravity, 29 % in lunar gravity and 38 % in microgravity.",
     "Ultem": "Two tests in BASS."
   },
 
   /* Saved answers for the question box. They work with no network and were checked against the data. */
   examples: [
     { q: "What is known about fire in a Moon base atmosphere?",
-      a: "71 tests ran in air like a Moon base, with 30 % oxygen or more at 11 psi or less, and none of them with solids: 34 gas flames from ACME BRE [PSI-20], 20 from ACME CFI-G [PSI-159] and 17 droplets from FLEX [PSI-69]. In BRE, near 8.2 psia with 29.8 to 39.3 % oxygen, 25 of 36 flames kept burning until the fuel was cut off, while near 14.7 psia with less than 23 % oxygen all 10 went out by themselves. The final report says the same in words [bre-final-18]. The figure shows one of those flames, still burning steadily at 172 seconds with 34 % oxygen and 8.2 psia.\n\n[[figure:bre-p57-fig6]]\n\nNo fabric or plastic has been burned in that air in the data PSI holds. Outside PSI, NASA's Saffire VI burned a SIBAL sheet at 31.0 % oxygen and PMMA at 30.3 and 28.8 %, near 55 kPa (about 8 psi), almost Moon-base air; the results are preliminary and the test-by-test data are not open in PSI [saffire6-11]. Lunar gravity has only been tried in centrifuge drops of a few seconds, according to a 2024 poster of the FM2 experiment [fm2poster-1-limits]." },
+      a: "71 tests ran in air like a Moon base, with 30 % oxygen or more at 11 psi or less, and none of them with solids: 34 gas flames from ACME BRE [PSI-20], 20 from ACME CFI-G [PSI-159] and 17 droplets from FLEX [PSI-69]. In BRE, near 8.2 psia with 29.8 to 39.3 % oxygen, 25 of 36 flames kept burning until the fuel was cut off, while near 14.7 psia with less than 23 % oxygen all 10 went out by themselves. The final report says the same in words [bre-final-18]. The figure shows one of those flames, still burning steadily at 172 seconds with 34 % oxygen and 8.2 psia.\n\n[[figure:bre-p57-fig6]]\n\nNo fabric or plastic has been burned in that air in the data PSI holds. Outside PSI, NASA's Saffire VI burned a SIBAL sheet at 31.0 % oxygen and PMMA at 30.3 and 28.8 %, near 55 kPa (about 8 psi), almost Moon-base air; the results are preliminary and the test-by-test data are not open in PSI [saffire6-11]. Lunar gravity has only been reproduced for seconds at a time, in parabolic flights and in centrifuges inside drop towers [kc135-2003] [fm2poster-1-limits]; no long test exists." },
     { q: "Which smoke is hardest for the Station detector to see?",
       a: "Kapton and Teflon. In SAME-R the Station detector's obscuration signal changed by a median of 0.006 V with Kapton smoke and 0.019 V with Teflon, against 1.08 V with silicone. Their particles are the smallest: a median count mean diameter of 110 and 167 nm [PSI-101]. The SAME-R final report concludes that Kapton and Teflon smoke will be hard to detect with light-scattering devices, and in SAME the Station detector was erratic with Teflon smoke [PSI-102] [samer-5] [same-25]. The figure plots the particle diameters of Kapton smoke against air speed in SAME-R.\n\n[[figure:samer-p6-fig7]]\n\nThe detector figures are a coarse summary that ranks materials. They are not an alarm threshold." },
     { q: "Which suppressants were tested, and on what?",

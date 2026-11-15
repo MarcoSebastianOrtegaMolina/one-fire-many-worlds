@@ -519,6 +519,17 @@ hecha, sin commit todavía: el catálogo de páginas citadas pasó de 16 a 39 fu
 
 Falta: figuras por material, las 57 filas de PMMA, la línea de tiempo y los modelos 3D.
 
+## Tercera tanda y pendientes (revisados a las 19:10)
+
+| Aporte | Qué es (verificado en NTRS o en la página, hoy) | Qué se hizo |
+|---|---|---|
+| `marina/ASGSR_FinalPoster JSchechter.pdf` (nuevo) | «Characterizing the Flammability of Nomex Fabric for the Preparation of FM2», Schechter, Zayac, Ferkul, Dietrich y Liao (Case Western, Ohio Northern, NASA Glenn), ASGSR 2025, 3 al 6-dic-2025, NTRS 20250010975. Permiso: uso por o para el gobierno de Estados Unidos | Cita `nomex-fm2-2025`, sin imagen. Nota de Nomex: oxígeno límite aproximado de la tela Nomex HT90-40 a 8.2 psi, cerca de 23 % en gravedad normal, 29 % en gravedad lunar y 38 % en microgravedad |
+| `sebastian-martinez/20180005168.pdf` (láminas de Saffire, ASGSR 2017) | Uso público. Sus láminas 30 y 31 son la tabla de NASA con los resultados de Saffire I a III | Cita `saffire17-30`, sin imagen por la insignia de las láminas. **Discrepancia:** la tabla de PSI de Saffire-III (PSI-100) dice 30 cm/s y grosor «.33 cm»; las láminas dicen 25 cm/s y 0.37 mm, y traen los resultados que PSI no tiene (300 s a 2.3 mm/s y 60 s a 0.98 mm/s). El texto de PSI-100 lo dice ahora. También difiere el oxígeno: PSI-100 trae 19.4 a 20.1 % de la telemetría y las láminas, 21.2 a 21.0 % |
+| `sebastian-martinez/Model Development ... Saffire-IV ...pdf` | Brooker y Niehaus, NASA Glenn, ICES-2022-278, NTRS 20220002714, uso público. Modelo numérico de CO2 y temperatura en la Cygnus durante Saffire-IV | No se integra: no trae datos de combustión que falten en la plataforma |
+| `marina/19920004363.pdf` | NASA TM-105317, Friedman, Sacksteder y Urban, 1991, uso público | No se integra: repite el memorando de 1989. Dato útil para el texto: en 1991 las torres de caída daban de 2 a 5 s de baja gravedad y los aviones unos 20 s |
+| `victor/marsds.json` | Cuatro fichas de NTRS, todas existen y su resumen coincide con lo que dice el archivo: Takahashi y otros 2001 (20010074098) y 2003 (20040053580), sobre supresión en gravedad reducida; Gollner y otros 2021 (20210022402, libro blanco); Sacksteder y otros 2003 (20040053567). Una imprecisión: el archivo dice que en 2003 se varió el oxígeno, y el resumen dice que se variaron la presión y el ancho de la muestra | Cita `kc135-2003` (resumen de NTRS, sin bajar el PDF): vuelos de gravedad parcial de 0.1 a 1 g en el avión KC-135. **Corrigió una frase mía:** «la gravedad lunar solo se ha ensayado en caídas de centrífuga» pasó a «solo se ha reproducido por segundos, en vuelos parabólicos y en centrífugas» |
+| `sebastian-martinez/Articulos` | SVS 31394 existe (6-may-2026, crédito NASA, imágenes de SoFIE: una tela delgada y, según el nombre del archivo, PMMA de 0.5 mm); la foto de Christina Koch existe (15-abr-2019, inserto de ACME; su pie dice «April 9, 2018», probable errata de NASA); la página de ACME existe. La imagen de JAXA no se pudo leer | Sin integrar. Las imágenes de SVS servirían para PMMA y telas; bajarlas necesita el visto bueno de Marco Sebastián |
+
 ## Segunda tanda (leída a las 18:20)
 
 Todo bajado de GitHub y comparado con su ficha de NTRS hoy (14-nov-2026).

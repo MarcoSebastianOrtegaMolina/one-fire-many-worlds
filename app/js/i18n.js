@@ -225,7 +225,7 @@
     "Limits": "Límites", "The team did not note a specific caveat for this investigation.": "El equipo no anotó una salvedad específica para esta investigación.", "Who did it": "Quién la hizo",
     "This document is not in PSI: it is cited as context. Once it opens, go to page ": "Este documento no está en PSI: se cita como contexto. Al abrirlo, ve a la página ",
     "Context, outside PSI": "Contexto, fuera de PSI",
-    "Slide ": "Lámina ",
+    "Slide ": "Lámina ", " and ": " y ", "NTRS abstract": "Resumen de su ficha en NTRS", "Record at NASA": "Ficha en NASA",
     /* outside PSI (D-1429) */
     "and": "y", "outside PSI": "fuera de PSI", "document outside PSI": "documento fuera de PSI", "See the page": "Ver la página",
     "Saffire VI burned it in December 2023, aboard an uncrewed Cygnus, at ": "Saffire VI lo quemó en diciembre de 2023, en una Cygnus sin tripulación, con ",

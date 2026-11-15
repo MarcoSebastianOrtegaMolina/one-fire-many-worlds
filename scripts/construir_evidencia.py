@@ -257,6 +257,28 @@ SIN_IMAGEN = [
      "pageLabel": "21",
      "claim": {"en": "Outside PSI, preliminary conclusions: fires of 1.5 to 3.2 kW were tested in unmanned spacecraft with 17 to 19 m3 of free air. The temperature rose significantly only very near the fire. In the PMMA tests, carbon monoxide passed its 24-hour limit and carbon dioxide its 1-hour limit. The smoke was readily detected at 981 seconds, after most of the hazardous gas had been released. The main hazard to the crew is the smoke and gases, not the heat. The page image is not reproduced here; open the presentation at NASA.",
                "es": "Fuera de PSI, conclusiones preliminares: se probaron fuegos de 1.5 a 3.2 kW en naves sin tripulación con 17 a 19 m3 de aire libre. La temperatura solo subió mucho muy cerca del fuego. En las pruebas de PMMA, el monóxido de carbono pasó su límite de 24 horas y el dióxido de carbono su límite de 1 hora. El humo se detectó con claridad a los 981 segundos, cuando ya había salido la mayor parte de los gases peligrosos. El mayor peligro para la tripulación es el humo y los gases, no el calor. La imagen de la página no se reproduce aquí; abre la presentación en NASA."}},
+    # Tercera tanda de aportes (14-nov-2026); ver aportes/REVISION.md
+    {"id": "nomex-fm2-2025", "invs": [], "docInv": "", "file": "Nomex_FM2_Schechter_ASGSR-2025_NTRS-20250010975.pdf",
+     "url": "https://ntrs.nasa.gov/citations/20250010975", "materials": ["Nomex"], "origin": "microgravity",
+     "doc": {"en": "Characterizing the Flammability of Nomex Fabric for the Preparation of FM2, poster, ASGSR 2025 (NTRS 20250010975)",
+             "es": "Characterizing the Flammability of Nomex Fabric for the Preparation of FM2, cartel, ASGSR 2025 (NTRS 20250010975)"},
+     "pageLabel": "1",
+     "claim": {"en": "Outside PSI, approximate: for Nomex HT90-40 fabric at 8.2 psi, the poster gives a limiting oxygen concentration of about 23 % in normal gravity, about 29 % in lunar gravity (centrifuge in a 5.2 s drop tower) and about 38 % in microgravity. It concludes that gravity has significant effects on the material's flammability and that this Nomex behaves differently from other materials. The page image is not reproduced here; open the poster at NASA.",
+               "es": "Fuera de PSI, aproximado: para la tela Nomex HT90-40 a 8.2 psi, el cartel da un oxígeno límite de cerca de 23 % en gravedad normal, cerca de 29 % en gravedad lunar (centrífuga dentro de una torre de caída de 5.2 s) y cerca de 38 % en microgravedad. Concluye que la gravedad cambia mucho la inflamabilidad del material y que este Nomex se comporta distinto de otros materiales. La imagen de la página no se reproduce aquí; abre el cartel en NASA."}},
+    {"id": "saffire17-30", "invs": ["PSI-98", "PSI-99", "PSI-100"], "docInv": "", "file": "Saffire_ASGSR-2017_NTRS-20180005168.pdf",
+     "url": "https://ntrs.nasa.gov/citations/20180005168", "materials": [SIBAL, "Silicone", PMMA, "Nomex"], "origin": "microgravity",
+     "doc": {"en": "Saffire: A Novel Approach to Study of Spacecraft Fire Safety Using Un-manned Spacecraft, ASGSR 2017 (NTRS 20180005168)",
+             "es": "Saffire: A Novel Approach to Study of Spacecraft Fire Safety Using Un-manned Spacecraft, ASGSR 2017 (NTRS 20180005168)"},
+     "pageLabel": "30 and 31",
+     "claim": {"en": "NASA's own table of Saffire I to III results. Saffire-III: the large SIBAL sheets burned at 25 cm/s, 300 s concurrent with a microgravity spread rate of 2.3 mm/s and 60 s opposed at 0.98 mm/s, with oxygen falling from 21.2 to 21.0 %. Saffire-I: 420 s concurrent at 1.8 mm/s and 70 s opposed at 1.3 mm/s. The PSI table of Saffire-III gives 30 cm/s and no results, so the two sources disagree on the flow. The page image is not reproduced here; open the slides at NASA.",
+               "es": "La tabla de NASA con los resultados de Saffire I a III. Saffire-III: las láminas grandes de SIBAL ardieron con 25 cm/s, 300 s en el mismo sentido del flujo con propagación en microgravedad de 2.3 mm/s y 60 s en contra a 0.98 mm/s, con el oxígeno bajando de 21.2 a 21.0 %. Saffire-I: 420 s en el mismo sentido a 1.8 mm/s y 70 s en contra a 1.3 mm/s. La tabla de PSI de Saffire-III da 30 cm/s y ningún resultado, así que las dos fuentes no coinciden en el flujo. La imagen de la página no se reproduce aquí; abre las láminas en NASA."}},
+    {"id": "kc135-2003", "invs": [], "docInv": "", "file": "",
+     "url": "https://ntrs.nasa.gov/citations/20040053567", "origin": "microgravity",
+     "doc": {"en": "Sacksteder et al., Upward and Downward Flame Spreading and Extinction in Partial Gravity Environments, 2003 (NTRS 20040053567, abstract)",
+             "es": "Sacksteder y otros, Upward and Downward Flame Spreading and Extinction in Partial Gravity Environments, 2003 (NTRS 20040053567, resumen)"},
+     "pageLabel": "NTRS abstract",
+     "claim": {"en": "Outside PSI: partial-gravity experiments from 0.1 to 1 g aboard the NASA KC-135 aircraft measured upward and downward flame spread over thin solid fuels, varying pressure and sample width, and found steady spread rates and approximate extinction boundaries. This is the abstract on the NTRS record; open the paper at NASA.",
+               "es": "Fuera de PSI: experimentos en gravedad parcial, de 0.1 a 1 g, a bordo del avión KC-135 de NASA midieron la propagación de flama hacia arriba y hacia abajo sobre sólidos delgados, variando la presión y el ancho de la muestra, y hallaron velocidades estables y fronteras de extinción aproximadas. Es el resumen de la ficha de NTRS; abre el artículo en NASA."}},
 ]
 
 

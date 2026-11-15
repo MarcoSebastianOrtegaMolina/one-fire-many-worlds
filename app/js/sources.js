@@ -6,7 +6,14 @@
   if (!D) return;
 
   function get(id) { return E.filter(function (e) { return e.id === id; })[0]; }
-  function where(e) { return e.page ? T("p. ") + e.page : T("Pages ") + e.pageLabel; }
+  /* A cited place that is not a single PDF page: a page range, one poster page, or only the abstract of its NTRS record. */
+  function where(e) {
+    if (e.page) return T("p. ") + e.page;
+    var label = String(e.pageLabel || "");
+    if (/^\d+$/.test(label)) return T("p. ") + label;
+    if (/\d/.test(label)) return T("Pages ") + label.replace(/ and /g, T(" and "));
+    return label ? T(label) : T("Record at NASA");
+  }
   function label(e) { return e.doc[L] + ", " + where(e); }
   function link(e, text) { return h("a", { href: "#/source/" + e.id, text: text || label(e) }); }
   function forInv(id) { return E.filter(function (e) { return e.invs.indexOf(id) >= 0; }); }
