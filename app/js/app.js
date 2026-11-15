@@ -187,6 +187,7 @@
       h("div", { "class": "lead" },
         h("div", null, h("h1", { text: T(w.name) }), h("p", { "class": "headline", text: c.headline }), facts, h("p", { "class": "takeaway", text: c.takeaway })),
         plane(w)),
+      window.OFMW_APP && window.OFMW_APP.viewer3d ? window.OFMW_APP.viewer3d(w.id) : null,
       h("h2", { text: T("What is known, front by front") }),
       h("p", { text: T("NASA's fire safety work has three fronts. Investigations are ordered by how much they tested in this world's air, then by relevance to fire safety. The order is our reading of the data.") }),
       h("div", { "class": "fronts" }, FRONTS.map(function (f) {

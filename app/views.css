@@ -216,3 +216,14 @@ table.how td{line-height:1.5}
 .figgroup{margin-top:.6rem}
 .figgrid .tag{margin-top:.1rem}
 .gaps li{line-height:1.55}
+
+/* 3D model of each world: loads only when asked */
+.view3d > p{max-width:70ch}
+.tabs3d{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.8rem}
+.bar3d{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.8rem}
+.bar3d [hidden]{display:none}
+.stage3d{margin-top:.8rem; border:1.5px solid var(--ink); background:var(--paper-2); height:min(62vh,30rem); display:grid; place-items:center}
+.stage3d model-viewer{place-self:stretch; width:100%; height:100%; --poster-color:transparent; background:transparent}
+.stage3d .idle3d{color:var(--ink-2); padding:1rem; text-align:center}
+.credit3d{margin-top:.5rem; font-size:.86rem; line-height:1.5; color:var(--ink-2); max-width:84ch}
+@media print{ .view3d{display:none} }
