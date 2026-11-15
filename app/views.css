@@ -195,3 +195,24 @@ table.how td{line-height:1.5}
 .prose{margin-top:.7rem; max-width:72ch; line-height:1.6}
 @media (max-width:40rem){ table.how th[scope="row"]{width:8.5rem} }
 @media print{ .report .apa{break-inside:avoid} }
+
+/* material passport: everything about one material, documents grouped by origin */
+.tally{margin-top:.5rem; font:600 .8rem/1.4 var(--data); letter-spacing:.04em; color:var(--ink-2)}
+.evgroup{margin-top:1.4rem}
+.evgroup h3{font:600 1.35rem/1.15 var(--display)}
+.evgroup h3 .count{color:var(--ink-2); font-weight:500}
+.evgroup > .note{margin-top:.3rem}
+.evgroup-ground{border-left:3px solid var(--solid); padding-left:.9rem}
+.evgroup-planned{border-left:3px dashed var(--rule); padding-left:.9rem}
+.evlist{list-style:none; margin:.7rem 0 0; padding:0; display:grid; gap:.75rem; max-width:80ch}
+.evlist li{display:grid; gap:.2rem; padding-bottom:.7rem; border-bottom:1px solid var(--rule)}
+.evlist li:last-child{border-bottom:0}
+.evlist a{font:600 1rem/1.3 var(--display)}
+.evlist .claim{line-height:1.5}
+.tag{justify-self:start; font:600 .68rem/1.2 var(--data); letter-spacing:.06em; text-transform:uppercase; padding:.15rem .4rem; border:1px solid currentColor; color:var(--ink-2)}
+.tag-ground, .tag-standard, .tag-history{color:var(--solid)}
+.tag-planned{border-style:dashed}
+.tag-team{color:var(--liquid)}
+.figgroup{margin-top:.6rem}
+.figgrid .tag{margin-top:.1rem}
+.gaps li{line-height:1.55}

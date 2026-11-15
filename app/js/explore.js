@@ -100,7 +100,11 @@
   var filt = { inv: "", type: "", q: "", shown: 50, row: "", linked: "" };
   function dataView(parts) {
     var asked = parts && parts.length && parts[0] ? parts.map(decodeURIComponent).join("/") : "";
-    if (asked && asked !== filt.linked) { filt.linked = asked; filt.inv = decodeURIComponent(parts[0]); filt.row = parts[1] ? decodeURIComponent(parts[1]) : ""; filt.type = ""; filt.q = ""; filt.shown = 50; }
+    if (asked && asked !== filt.linked) {
+      filt.linked = asked; filt.type = ""; filt.shown = 50; filt.row = ""; filt.inv = ""; filt.q = "";
+      if (parts[0] === "material") filt.q = parts[1] ? decodeURIComponent(parts[1]) : "";      /* #/data/material/Kapton: every test of one material */
+      else { filt.inv = decodeURIComponent(parts[0]); filt.row = parts[1] ? decodeURIComponent(parts[1]) : ""; }
+    }
     document.title = T("Data · One Fire, Many Worlds");
     var focused = document.activeElement && document.activeElement.id, caret = focused === "d-q" ? document.activeElement.selectionStart : null;
     var q = filt.q.trim().toLowerCase();

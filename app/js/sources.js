@@ -96,15 +96,21 @@
   function figName(f) { return T("Figure ") + f.number; }
   function figWhere(f) { return f.doc[L] + ", " + T("p. ") + f.page; }
   function figAlt(f) { return figName(f) + T(" of the report"); }
+  /* A ground test or a team image says so on its thumbnail, so it is never read as a result from orbit. */
+  var GROUND = { ground: T("ground test"), standard: T("standard"), history: T("memo, history"), planned: T("planned") };
   function thumbs(list) {
     return h("ul", { "class": "figgrid" }, list.map(function (f) {
+      var tag = f.team ? T("team image") : GROUND[f.origin];
       return h("li", null, h("a", { href: "#/figure/" + f.id },
         h("img", { src: f.img, alt: "", loading: "lazy", width: f.w, height: f.h }),
-        h("span", { "class": "t", text: figName(f) + ", " + T("p. ") + f.page }), h("span", { "class": "c", lang: "en", text: f.caption })));
+        h("span", { "class": "t", text: (f.number ? figName(f) + ", " : "") + (f.page ? T("p. ") + f.page : "") }),
+        tag ? h("span", { "class": "tag tag-" + (f.team ? "team" : f.origin), text: tag }) : null,
+        h("span", { "class": "c", lang: "en", text: f.caption })));
     }));
   }
 
   A.figure = fig;
+  A.figureThumbs = thumbs;
   A.figureLabel = function (f) { return figName(f) + ", " + figWhere(f); };
   /* A figure shown in place, inside an answer: the image, its caption as written, and where it comes from. */
   A.figureBlock = function (f, n) {
