@@ -166,7 +166,7 @@
       ticking = false;
       if (!nav.isConnected) { if (attached) window.removeEventListener("scroll", onScroll); return; }
       attached = true;
-      var line = nav.getBoundingClientRect().bottom + 24, at = 0;
+      var line = nav.getBoundingClientRect().bottom + 40, at = 0;   /* a section reached from the index lands 26 px under it (scroll margins) */
       sections.forEach(function (sec, k) { if (sec.el.getBoundingClientRect().top <= line) at = k; });
       buttons.forEach(function (b, k) {
         if (k !== at) { b.removeAttribute("aria-current"); return; }

@@ -60,6 +60,7 @@
 .ch-key .ch-k-plain::before, .ch-key .ch-k-plain span::before{display:none}
 .ch-key .c-key{margin:0}
 .ch-key .ch-k-plain{display:inline-block}
+.ch-key .ch-atm + .ch-atm{margin-left:.4em}   /* the space after each semicolon, kept even where white space collapses */
 .ch-key-x{display:inline-block; width:.75rem; height:.75rem; margin-right:.4rem; vertical-align:-.05rem; stroke:var(--text); stroke-width:2; fill:none}
 .ch-key .ch-k-miss{color:var(--missing)}
 .ch-fig .c-fig-note{max-width:90ch}

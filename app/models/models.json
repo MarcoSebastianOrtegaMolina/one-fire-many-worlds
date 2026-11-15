@@ -962,6 +962,146 @@
       "credit": "NASA",
       "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Apollo%20Lunar%20Module",
       "changes": "Unused animation tracks removed so meshes could be joined (157 to 7 draw calls), simplified at 0.001, WebP textures, Draco geometry."
+    },
+    {
+      "id": "apollo",
+      "tier": "lite",
+      "file": "apollo-lite.glb",
+      "bytes": 58124,
+      "triangles": 14002,
+      "drawCalls": 6,
+      "textures": {
+        "count": 2,
+        "maxPx": 1000
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -12.2563,
+          -2.3324,
+          -2.5888
+        ],
+        "max": [
+          -0.4197,
+          2.8097,
+          2.5352
+        ]
+      },
+      "size": 11.8366,
+      "up": "y",
+      "name": "Apollo Command and Service Module (Apollo spacecraft cut from the NASA model \"Apollo Soyuz\")",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Apollo%20Soyuz",
+      "changes": "Only the Apollo spacecraft (command and service module with its engine nozzle and RCS quads) kept from the NASA \"Apollo Soyuz\" model; the Soyuz and the docking module were removed as whole connected pieces (no geometry was cut or added). Transform baked, unused animation and textures dropped, NASA WebP textures kept as they were (1000 px, flag and lettering included), Draco geometry. Not simplified: simplifying distorted the command module windows.",
+      "notes": "The source model has no high-gain antenna on this Apollo. On the -z side the flag on the service module is mirrored (canton at the bottom); that comes from the NASA texture mapping and was left as is.",
+      "burst": {
+        "description": "Point on the side of the service module (the large cylinder, not the command cone), in model coordinates, with the outward direction. Found by casting a ray from the ship axis at x = -7.6 towards +z and keeping the outermost hit on the service module skin (material blinn11SG). It sits aft of the UNITED STATES panel and clear of the RCS quads, on the side seen from the default view.",
+        "position": [
+          -7.6,
+          0.23,
+          2.535
+        ],
+        "direction": [
+          0,
+          0,
+          1
+        ],
+        "surfaceNormal": [
+          0,
+          0.078,
+          0.997
+        ],
+        "serviceModuleRadius": 2.562,
+        "serviceModuleSpanX": [
+          -9.55,
+          -3.947
+        ]
+      },
+      "axis": {
+        "description": "Long axis of the ship. The command module nose points to +x; the main engine nozzle points to -x.",
+        "direction": [
+          1,
+          0,
+          0
+        ],
+        "point": [
+          0,
+          0.23,
+          -0.027
+        ],
+        "noseX": -0.42,
+        "nozzleX": -12.256
+      }
+    },
+    {
+      "id": "apollo",
+      "tier": "full",
+      "file": "apollo-full.glb",
+      "bytes": 69208,
+      "triangles": 14002,
+      "drawCalls": 6,
+      "textures": {
+        "count": 2,
+        "maxPx": 1000
+      },
+      "compression": "draco",
+      "bbox": {
+        "min": [
+          -12.2563,
+          -2.3324,
+          -2.5888
+        ],
+        "max": [
+          -0.4197,
+          2.8097,
+          2.5352
+        ]
+      },
+      "size": 11.8366,
+      "up": "y",
+      "name": "Apollo Command and Service Module (Apollo spacecraft cut from the NASA model \"Apollo Soyuz\")",
+      "credit": "NASA",
+      "sourceUrl": "https://github.com/nasa/NASA-3D-Resources/tree/master/3D%20Models/Apollo%20Soyuz",
+      "changes": "Only the Apollo spacecraft (command and service module with its engine nozzle and RCS quads) kept from the NASA \"Apollo Soyuz\" model; the Soyuz and the docking module were removed as whole connected pieces (no geometry was cut or added). Transform baked, unused animation and textures dropped, NASA WebP textures kept as they were (1000 px, flag and lettering included), Draco geometry with finer quantization (position 16, normal 12, texcoord 14 bits).",
+      "notes": "The source model has no high-gain antenna on this Apollo. On the -z side the flag on the service module is mirrored (canton at the bottom); that comes from the NASA texture mapping and was left as is.",
+      "burst": {
+        "description": "Point on the side of the service module (the large cylinder, not the command cone), in model coordinates, with the outward direction. Found by casting a ray from the ship axis at x = -7.6 towards +z and keeping the outermost hit on the service module skin (material blinn11SG). It sits aft of the UNITED STATES panel and clear of the RCS quads, on the side seen from the default view.",
+        "position": [
+          -7.6,
+          0.23,
+          2.535
+        ],
+        "direction": [
+          0,
+          0,
+          1
+        ],
+        "surfaceNormal": [
+          0,
+          0.078,
+          0.997
+        ],
+        "serviceModuleRadius": 2.562,
+        "serviceModuleSpanX": [
+          -9.55,
+          -3.947
+        ]
+      },
+      "axis": {
+        "description": "Long axis of the ship. The command module nose points to +x; the main engine nozzle points to -x.",
+        "direction": [
+          1,
+          0,
+          0
+        ],
+        "point": [
+          0,
+          0.23,
+          -0.027
+        ],
+        "noseX": -0.42,
+        "nozzleX": -12.256
+      }
     }
   ]
 }

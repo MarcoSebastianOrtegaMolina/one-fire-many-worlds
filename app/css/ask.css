@@ -230,3 +230,43 @@
   .ask-people a[href^="http"]::after{content:" (" attr(href) ")"; font-size:9pt}
   .ask-streaming, .ask-docbusy{display:none}
 }
+
+/* ---------- tables of cited tests: the seven columns at readable widths; on paper, the width of the sheet ---------- */
+.ask-turn .c-fig, .ask-doc .c-fig{max-width:100%}
+.ask-view .c-table thead th{text-transform:none; letter-spacing:0; font:600 var(--t-2xs)/1.3 var(--font-head); color:var(--text-2); white-space:normal; vertical-align:bottom; overflow-wrap:normal}
+.ask-view .c-table table{table-layout:fixed; min-width:40rem}
+/* phone: fixed widths in rem, so no figure is cut and the long texts wrap at a readable width; the frame scrolls */
+@media screen and (max-width:48rem){
+  html .ask-view .c-table table{width:66rem; min-width:66rem}
+  html .ask-view .c-table thead th:nth-child(1){width:6.5rem}
+  html .ask-view .c-table thead th:nth-child(2){width:8rem}
+  html .ask-view .c-table thead th:nth-child(3), html .ask-view .c-table thead th:nth-child(5){width:5rem}
+  html .ask-view .c-table thead th:nth-child(4){width:5.5rem}
+  html .ask-view .c-table thead th:nth-child(6){width:25rem}
+  html .ask-view .c-table thead th:nth-child(7){width:11rem}
+}
+.ask-swipe{margin:0 0 .5rem; font-size:var(--t-2xs); color:var(--text-2)}
+.ask-swipe[hidden]{display:none}
+.ask-cut p{flex:1 1 16rem}
+.ask-view .c-table th, .ask-view .c-table td{padding:.6rem .5rem; overflow-wrap:anywhere}
+.ask-view .c-table thead th:nth-child(1){width:12%}
+.ask-view .c-table thead th:nth-child(2){width:13%}
+.ask-view .c-table thead th:nth-child(3), .ask-view .c-table thead th:nth-child(5){width:9%}
+.ask-view .c-table thead th:nth-child(4){width:10%}
+.ask-view .c-table thead th:nth-child(6){width:31%}
+.ask-view .c-table thead th:nth-child(7){width:16%}
+/* a refusal, a cut answer, and two citations in one place ("1, 2") */
+.ask-ref{padding:.1em 0; min-width:0}
+.ask-declined{max-width:68ch; margin-top:var(--s-2); padding:var(--s-2) var(--s-3); border:1px dashed var(--line-strong); border-radius:var(--radius); color:var(--text-2); font-size:var(--t-2xs)}
+.ask-declined-t{margin-bottom:.35rem; font:600 var(--t-xs)/1.3 var(--font-head); color:var(--text)}
+.ask-declined-list{list-style:none; margin:.5rem 0 0; padding:0}
+.ask-cut{display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; max-width:68ch; margin-top:var(--s-2); font-size:var(--t-2xs); color:var(--text)}
+@media print{
+  .ask-view .c-fig:has(.c-table){break-inside:auto}
+  .ask-view .c-table{overflow:visible; border:0}
+  .ask-view .c-table table{min-width:0; width:100%; font-size:8pt; line-height:1.3}
+  .ask-view .c-table thead th, .ask-view .c-table tbody th, .ask-view .c-table td, .ask-view .c-table a{font-size:8pt; line-height:1.3}
+  .ask-view .c-table th, .ask-view .c-table td{padding:.2rem .25rem}
+  .ask-view .c-table tr{break-inside:avoid}
+  .ask-swipe{display:none !important}
+}

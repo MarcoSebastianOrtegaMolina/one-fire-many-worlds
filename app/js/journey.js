@@ -80,6 +80,9 @@
     s.fail = h("div", { "class": "jr-fail" }, h("p", { text: T("This model did not load") }), s.retry);
     s.el = h("div", { "class": "jr-scene", role: "img", "aria-label": label(id, null), "data-scene": id, "data-state": "loading" },
       h("span", { "class": "jr-wait", text: T("Loading model") }), s.fail);
+    s.el.addEventListener("keydown", function (e) {   /* (L2) the help says the model opens: by keyboard too */
+      if ((e.key === "Enter" || e.key === " ") && !fs && cur.mode === "world" && cur.id === s.id && e.target === s.el) { e.preventDefault(); openFrom(s.el); }
+    });
     scenes[id] = s;
     attach(s);
     return s;
@@ -106,7 +109,7 @@
   function paint(s) {
     s.retry.hidden = !!s.el.closest("a");
     if (cur.mode === "world" && cur.id === s.id && cur.wv) caption(cur.wv.cap, s);
-    if (fs && fs.s === s) { caption(fs.cap, s); fullProgress(); }
+    if (fs && fs.s === s) { caption(fs.cap, s); fullProgress(); capRoom(); }
   }
   function tierFor(s) {   /* path on the home page, lite in the world view, full at full screen */
     return fs && fs.s === s ? "full" : cur.mode === "world" && cur.id === s.id ? "lite" : "path";
@@ -123,7 +126,15 @@
   function caption(box, s) {
     var info = s.info;
     if (!box) return;
-    if (!info || !info.parts.length) { box.replaceChildren(); return; }
+    /* Rebuilt only when it changes: a link in focus is never taken out from under the reader (Firefox dropped the
+       focus to the page when the full detail arrived); if it must change, the focus goes to the new first link. */
+    var key = !info || !info.parts.length ? "" : JSON.stringify([document.documentElement.lang, !!info.notToScale,
+      info.parts.map(function (p) { return [p.name, p.credit, p.page]; })]);
+    if (box.getAttribute("data-k") === key) return;
+    var had = box.contains(document.activeElement);
+    box.setAttribute("data-k", key);
+    if (!key) { box.replaceChildren(); return; }
+    setTimeout(function () { if (had && box.isConnected) { var a = box.querySelector("a"); if (a) a.focus({ preventScroll: true }); } }, 0);
     box.replaceChildren.apply(box, info.parts.map(function (p) {
       return h("p", null, T("Model: "), h("b", { text: p.name }), ". ", p.credit ? T("Credit: ") + p.credit + ". " : "",
         T("Used for education; it does not imply endorsement by NASA. "),
@@ -183,14 +194,15 @@
   var SIDE = { station: "left", moon: "right", mars: "left", earth: "right", suit: "left" };   /* zigzag on phones */
   var drawn = false, sky = null;
 
-  function countParts(text) { var m = /^([\d,]+)(\s.*)$/.exec(text); return m ? [A.num(m[1]), m[2]] : text; }
+  function nb(text) { return String(text).replace(/(\d(?:[.,\/]\d+)?) (g|%|kPa|s)\b/g, "$1\u00a0$2"); }   /* (L13) number and unit stay on one line */
+  function countParts(text) { var m = /^([\d,]+)(\s.*)$/.exec(text); return m ? [A.num(m[1]), nb(m[2])] : nb(text); }
   function card(id) {
     var w = A.world(id), c = A.worldCount(w), s = scene(id), out = C.worlds[id] && C.worlds[id].outside;   /* D-1448: PSI first */
     var labels = h("span", { "class": "jr-labels" },
       h("span", { "class": "jr-name", text: T(w.name) }),
       GRAV[id] ? h("span", { "class": "jr-g", text: GRAV[id] }) : null,
       h("span", { "class": "jr-count" + (c.n ? "" : " jr-none") }, countParts(c.text)),
-      out ? h("span", { "class": "jr-out", text: out }) : null);
+      out ? h("span", { "class": "jr-out", text: nb(out) }) : null);
     var slot = h("span", { "class": "jr-slot" }, s.el);
     s.homeSlot = slot;
     var b = BOB[id];
@@ -390,7 +402,7 @@
     A.s("rect", { x: 0, y: 0, width: nr.width, height: nr.height, fill: "#fff" }, mask);
     pts.forEach(function (p) { A.s("circle", { cx: p.x, cy: p.y, r: p.r * 0.8, fill: "#000" }, mask); });
     /* from 48rem the route also passes behind the labels, never through their text */
-    var labs = !wide ? [] : [].map.call(P.nav.querySelectorAll(".jr-labels"), function (n) {
+    var labs = [].map.call(P.nav.querySelectorAll(wide ? ".jr-labels" : ".jr-labels, .jr-gap-row .jr-gap-text"), function (n) {   /* (L13) phones: the red tag too */
       var r = n.getBoundingClientRect(); return { l: r.left - nr.left - 6, t: r.top - nr.top - 6, r: r.right - nr.left + 6, b: r.bottom - nr.top + 6 };
     });
     labs.forEach(function (q) { A.s("rect", { x: q.l, y: q.t, width: q.r - q.l, height: q.b - q.t, fill: "#000" }, mask); });
@@ -407,7 +419,9 @@
     var inLab = function (s) { return labs.some(function (q) { return s.x > q.l && s.x < q.r && s.y > q.t && s.y < q.b; }); };
     var inside = function (s, p) { return wide ? (Math.abs(s.x - p.x) < p.r + 8 && Math.abs(s.y - p.y) < p.r + 8) || inLab(s) : Math.hypot(s.x - p.x, s.y - p.y) < p.r * 0.84; };
     P.marks.replaceChildren.apply(P.marks, pts.map(function (p, k) {
-      var j = near[k], step = k === 0 ? 1 : -1;
+      /* from 48rem each mark sits where the route leaves its world for the next one (the Earth, the last, where it
+         arrives): one mark per stretch, two on the long one to the Earth; on phones as before */
+      var j = near[k], step = (wide ? k < pts.length - 1 : k === 0) ? 1 : -1;
       while (j + step >= 0 && j + step <= N && inside(samples[j], p)) j += step;
       var s = samples[j], dx = s.x - p.x, dy = s.y - p.y;
       return h("span", { "class": "jr-mark" + (dx < 0 ? " is-w" : "") + (dy < 0 ? " is-n" : ""), style: "left:" + s.x + "px; top:" + s.y + "px" },
@@ -416,15 +430,22 @@
     /* from 48rem each gravity figure takes the corner of its mark that touches no world, label or text */
     if (wide) {
       var vbox = function (n) { var r = n.getBoundingClientRect(); return { l: r.left, t: r.top, r: r.right, b: r.bottom, w: r.width }; };
-      var taken = [].slice.call(P.nav.querySelectorAll(".jr-item, .jr-labels")).concat([].slice.call(P.intro.children)).map(vbox)
+      var taken = [].slice.call(P.nav.querySelectorAll(".jr-labels")).concat([].slice.call(P.intro.children)).map(vbox)
         .filter(function (q) { return q.w > 0; }).map(function (q) { return grow(q, 4); });
+      var boxes = [].map.call(P.nav.querySelectorAll(".jr-item"), function (n) { return grow(vbox(n), 4); });
+      /* second try: the empty corner of a scene's box may hold the figure, never the disc of the world itself */
+      var discs = [].map.call(P.nav.querySelectorAll(".jr-item"), function (n) { var q = vbox(n), r = (q.r - q.l) / 2; return { x: q.l + r, y: q.t + r, r: r * 0.8 }; });   /* the drawn worlds fill about 0.7 of it */
+      var clearOf = function (q) { return discs.every(function (d) { return Math.hypot(Math.max(q.l - d.x, 0, d.x - q.r), Math.max(q.t - d.y, 0, d.y - q.b)) > d.r; }); };
       [].forEach.call(P.marks.children, function (m) {
         var first = m.className, g = m.querySelector(".jr-g"), pick = null;
-        [first, "jr-mark", "jr-mark is-w", "jr-mark is-n", "jr-mark is-w is-n"].some(function (c) {
-          m.className = c;
-          var q = vbox(g);
-          if (!hits(q, taken)) { pick = c; return true; }
-          return false;
+        var tries = [first, "jr-mark", "jr-mark is-w", "jr-mark is-n", "jr-mark is-w is-n"];
+        [true, false].some(function (strict) {
+          return tries.some(function (c) {
+            m.className = c;
+            var q = vbox(g);
+            if (!hits(q, taken) && (strict ? !hits(q, boxes) : clearOf(q))) { pick = c; return true; }
+            return false;
+          });
         });
         m.className = pick || first + " is-quiet";
         if (pick) taken.push(grow(vbox(g), 4));
@@ -515,13 +536,25 @@
     catch (e) { /* the plain title stays */ }
   }
   /* The home page goes back to where it was: now, after the next frames and after late layout of the sections under
-     it (they load their own pieces), unless the reader scrolls first. */
+     it (they load their own pieces), unless the reader scrolls first: wheel, touch, keys, or any scroll to another
+     place while the page is already tall enough to hold y (a shorter page only clamps it, which is not the reader). */
+  /* (M2) The browser puts back the scroll of the page a Back or Forward goes to before the hash change reaches us, so
+     window.scrollY then belongs to that page: the home position is followed as the reader moves and frozen from a
+     history step until the view changes. */
+  var homeY = 0, stepping = false;
+  window.addEventListener("popstate", function () { stepping = true; });
+  window.addEventListener("scroll", function () { if (cur.mode === "home" && !stepping) homeY = window.scrollY; }, { passive: true });
   function restoreScroll(y) {
     var moved = false, mark = function () { moved = true; };
+    var onScroll = function () {
+      if (Math.abs(window.scrollY - y) > 1 && document.documentElement.scrollHeight - window.innerHeight >= y + 1) moved = true;
+    };
     window.scrollTo(0, y);
     window.addEventListener("wheel", mark, { passive: true, once: true });
     window.addEventListener("touchstart", mark, { passive: true, once: true });
     window.addEventListener("keydown", mark, { once: true });
+    setTimeout(function () { window.addEventListener("scroll", onScroll, { passive: true }); }, 0);   /* after our own first jump */
+    setTimeout(function () { window.removeEventListener("scroll", onScroll); }, 1000);
     var go = function () { if (!moved && cur.mode === "home" && Math.abs(window.scrollY - y) > 1) window.scrollTo(0, y); };
     requestAnimationFrame(function () { requestAnimationFrame(go); });
     setTimeout(go, 0); setTimeout(go, 120); setTimeout(go, 300); setTimeout(go, 600); setTimeout(go, 900);
@@ -531,11 +564,16 @@
     var first = location.hash.replace(/^#\/?/, "").split("/")[0];
     if (first === "" || first === "world") return;
     if (fs) closeFull();
-    if (cur.mode === "home") { homeScroll = window.scrollY; titleOn(false); cur = { mode: "away", id: null, wv: null }; }
+    if (cur.mode === "home") { homeScroll = stepping ? homeY : window.scrollY; titleOn(false); cur = { mode: "away", id: null, wv: null }; }
     if (sky) sky.classList.remove("is-on");
+    stepping = false;
   });
 
+  var shownOnce = false;
   function showHome() {
+    /* Shown again without having left (Back pressed before the browser delivered the way out): the reader stays
+       where they are, and the screen before is put away before a fresh one is hung. */
+    if (cur.mode === "home") { homeScroll = stepping ? homeY : window.scrollY; if (home && home.parts.pre) preDispose(); }
     var preEl = preScreen();   /* a fresh one each time: the last one was put away on leaving */
     if (!home || !!preEl !== home.parts.pre) { if (home && home.parts.ro) home.parts.ro.disconnect(); home = buildHome(preEl); }
     else if (preEl) {
@@ -551,7 +589,8 @@
     if (sky) sky.classList.add("is-on");
     layoutHome();
     titleOn(true);
-    restoreScroll(homeScroll);
+    if (shownOnce) restoreScroll(homeScroll);   /* the first time there is nothing to put back */
+    shownOnce = true; stepping = false; homeY = homeScroll;
     if (STAGE) STAGE.setStars(false);
     ALL.forEach(function (id) { mode(scenes[id]); paint(scenes[id]); });
     if (s) flip(s.el, before);
@@ -584,7 +623,7 @@
   }
   function showWorld(id) {
     var s = scene(id), before = cur.mode === "home" ? rectOf(s.el) : null;
-    if (cur.mode === "home") { homeScroll = window.scrollY; titleOn(false); }
+    if (cur.mode === "home") { homeScroll = stepping ? homeY : window.scrollY; titleOn(false); }
     var prev = cur.mode === "world" && cur.id !== id ? scenes[cur.id] : null;
     if (prev) { if (prev.homeSlot) prev.homeSlot.appendChild(prev.el); else prev.el.remove(); }
     var wv = buildWorld(id);
@@ -600,6 +639,7 @@
     if (prev) mode(prev);
     mode(s); paint(s);
     flip(s.el, before);
+    stepping = false;
   }
 
   /* ---------- full screen ---------- */
@@ -609,6 +649,13 @@
     cur.wv.opener = opener;
     location.hash = "#/world/" + cur.id + "/full";
   }
+  /* (L3) The model at full screen ends above the credit box: the room under it is the box and 12 px. */
+  function capRoom() {
+    if (!fs) return;
+    var c = fs.ui.querySelector(".jr-full-cap"), r = c ? c.getBoundingClientRect() : null;
+    fs.wrap.style.setProperty("--jr-cap-h", (r && r.height ? Math.round(window.innerHeight - r.top + 12) : 0) + "px");
+  }
+  window.addEventListener("resize", function () { capRoom(); });
   function fullProgress() {
     if (!fs) return;
     var p = fs.s.progress, loading = p && !p.done, failed = (p && p.failed) || fs.s.state === "error";

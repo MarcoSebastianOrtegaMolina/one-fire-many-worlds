@@ -38,7 +38,7 @@
 .mat-credit a:hover{color:var(--text)}
 .mat-card-body{display:flex; flex-direction:column; gap:var(--s-2); flex:1; padding:.5rem var(--s-2) var(--s-2)}
 .mat-card-name{font:700 var(--t-md)/1.15 var(--font-head); letter-spacing:-.02em; overflow-wrap:anywhere}
-.mat-card-link{color:var(--text); text-decoration:none}
+.mat-card-link{display:inline-flex; align-items:center; min-height:2.75rem; color:var(--text); text-decoration:none}
 .mat-card-link::after{content:""; position:absolute; inset:0; z-index:1}
 .mat-card:hover .mat-card-link{text-decoration:underline; text-decoration-thickness:1px}
 .mat-card-flag{margin-top:-.5rem}

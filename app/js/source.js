@@ -240,10 +240,10 @@
   }
   function backLink() {
     var o = origin();
-    if (!o) return A.back("#/sources", T("All sources"));
-    var a = A.back(o.hash, T(backLabel(o.hash)));
-    a.addEventListener("click", function (ev) { ev.preventDefault(); history.back(); });
-    return a;
+    /* Entered directly (stepping between sources replaces the address, it does not add history): a plain link to the
+       list, drawn like A.back, so Back never leaves the site. */
+    if (!o) return h("a", { "class": "c-back", href: "#/sources" }, h("span", { "aria-hidden": "true", "class": "c-back-arrow" }), T("All sources"));
+    return A.back(o.hash, T(backLabel(o.hash)));            /* A.back goes back in history when there is a page to return to */
   }
 
   function view(parts) {

@@ -149,7 +149,7 @@
   /* ---------- will it burn? ---------- */
   var DEF = { o2: 30, p: 10.2, type: "" };
   var probe = { o2: DEF.o2, p: DEF.p, type: DEF.type };
-  var PRESETS = [[T("Station air"), 21, 14.7], ["10.2 psia crew atmosphere", 26.5, 10.2], ["8.2 psia crew atmosphere", 34, 8.2], [T("Moon base"), 30, 10.2], [T("Spacesuit"), 100, 4.3]];
+  var PRESETS = [[T("Station air"), 21, 14.7], [T("10.2 psia crew atmosphere"), 26.5, 10.2], [T("8.2 psia crew atmosphere"), 34, 8.2], [T("Moon base"), 30, 10.2], [T("Spacesuit"), 100, 4.3]];
   var LIM = { o2: [10, 100, 0.5], p: [3, 24, 0.1] };
   var RO = 5, RP = 2;                                  /* "near" means within 5 % oxygen and 2 psi */
   var FUELS = ["solid", "liquid", "gas"];

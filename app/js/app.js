@@ -9,7 +9,7 @@
   var TYPES = [["solid", T("Solids: fabrics, acrylic, wax")], ["liquid", T("Liquids: fuel droplets")], ["gas", T("Gases")]];
   var FRONTS = [["prevention", T("Prevent")], ["detection", T("Detect")], ["suppression", T("Suppress")]];
   var SECTIONS = [{ id: "world", label: T("Worlds"), href: "#/" }];
-  var VIEWS = {}, lastSection = "", KEEP_SCROLL = { world: 1, timeline: 1 };
+  var VIEWS = {}, lastSection = "", KEEP_SCROLL = { world: 1, timeline: 1 }, trail = [];
 
   /* ---------- helpers ---------- */
   function h(tag, props) {
@@ -256,18 +256,63 @@
     /* A view can keep its state after a "?" in the hash (#/burn?o2=30&p=10.2): the router ignores it and the view
        reads it from A.query(). */
     var parts = location.hash.replace(/^#\/?/, "").split("?")[0].split("/"), section = parts[0] || "world";
+    /* The page being left is still on screen here: keep where the reader was on it. */
+    if (current !== null) pos[current] = window.scrollY;
     if (!D || !C) {
-      main.replaceChildren(h("div", { "class": "wrap" }, h("div", { "class": "error" }, h("h1", { text: T("The data did not load") }),
-        h("p", { text: T("This page needs data/data.js and data/content.js next to it. Rebuild them with: python scripts/construir_datos_app.py") }))));
+      main.replaceChildren(h("div", { "class": "wrap" }, state("error", T("The data did not load"),
+        T("The page could not read its data files. Check the connection and load the page again."),
+        h("button", { type: "button", "class": "c-btn", text: T("Load the page again"), onclick: function () { location.reload(); } }))));
       return;
     }
     var v = VIEWS[section];
+    /* An address the site does not know (an old link, a typo) opens the home page, never a half-built one. */
+    if (!v && VIEWS.world) {
+      v = VIEWS.world; section = "world"; parts = ["world"];
+      try { history.replaceState(null, "", location.pathname + location.search + "#/"); } catch (e) {}
+    }
+    /* The trail of pages walked in this visit, so the Back link of a page returns to where the reader came from. */
+    var here = location.hash || "#/", wentBack = false;
+    if (trail.length > 1 && trail[trail.length - 2] === here) { trail.pop(); wentBack = true; }
+    else if (trail[trail.length - 1] !== here) trail.push(here);
+    var saved = pos[here] || 0, sameAddress = current === here;
+    current = here;
     if (!v) { section = "world"; }
     setNav(v ? v.nav : "world");
-    /* Moving inside these views (another world, another year) keeps the scroll; the view moves it when it must. */
-    if (!(KEEP_SCROLL[section] && lastSection === section)) window.scrollTo(0, 0);
+    /* Moving inside these views (another world, another year) keeps the scroll; the view moves it when it must.
+       So does being sent to the address already on screen (a click undone by Back before it was drawn). */
+    if (!sameAddress && !(KEEP_SCROLL[section] && lastSection === section)) window.scrollTo(0, 0);
+    /* A new page takes the keyboard focus, so Tab starts from its content and not from where the old page was. */
+    if (lastSection && !sameAddress) { try { main.focus({ preventScroll: true }); } catch (e) {} }
     lastSection = section;
     if (v) v.fn(parts.slice(1)); else worldView(parts[1] || "moon");
+    /* Coming back with Back (or going again with Forward), the page returns to where the reader left it. The home
+       page and the chat do it themselves. */
+    if ((wentBack || stepped) && !sameAddress && saved > 0 && !OWN_SCROLL[section]) putBack(here, saved);
+    stepped = false;
+  }
+  /* A step through the browser history (Back, Forward) announces itself with popstate; a link does not. */
+  var stepped = false;
+  window.addEventListener("popstate", function () { stepped = true; });
+  /* The pages are drawn by script, so the browser cannot put the scroll back by itself: it would move the page
+     being left before its position is read. The site does it (here, and the home page and the chat on their own). */
+  try { history.scrollRestoration = "manual"; } catch (e) { /* old browser: nothing to switch off */ }
+  /* Scroll memory: where each address was left (read in route(), on the way out), to put it back on the way back. */
+  var pos = {}, current = null, OWN_SCROLL = { world: 1, ask: 1 }, touched = false;
+  ["wheel", "touchmove", "keydown", "mousedown"].forEach(function (ev) {
+    window.addEventListener(ev, function () { touched = true; }, { passive: true, capture: true });
+  });
+  function putBack(hash, y) {
+    touched = false;
+    /* It is put back now and again a little later, for content that grows late (images, models). The later tries
+       only act while the page is still where the last try left it: if the reader or the page moved, they stop. */
+    var left = -1;
+    var put = function () {
+      if (current !== hash || touched) return;
+      if (left >= 0 && Math.abs(window.scrollY - left) > 2) { touched = true; return; }
+      if (Math.abs(window.scrollY - y) > 1) window.scrollTo(0, y);
+      left = window.scrollY;
+    };
+    put(); requestAnimationFrame(put); setTimeout(put, 250); setTimeout(put, 700);
   }
   /* ---------- shell: one dark theme, a menu button on small screens, the language switch ---------- */
   var head = document.getElementById("head"), menuBtn = document.getElementById("menu");
@@ -282,6 +327,10 @@
   langBtn.setAttribute("lang", other);
   langBtn.addEventListener("click", function () { window.OFMW_SETLANG(other); });
   document.querySelector(".skip").textContent = T("Skip to content");
+  /* The skip link moves the focus to the content without touching the address (the router reads the hash). */
+  document.querySelector(".skip").addEventListener("click", function (ev) {
+    ev.preventDefault(); main.focus(); main.scrollIntoView();
+  });
   document.getElementById("nav").setAttribute("aria-label", T("Sections"));
   document.getElementById("ask-link").textContent = T("Ask the data");
   document.getElementById("banner").textContent = T("2026 NASA Space Apps Challenge, Flame in Freefall. A student project by Team Hamác, not an official NASA site.");
@@ -298,7 +347,21 @@
   /* Shared pieces every view uses, so the whole site reads as one thing.
      back(): the way out of a detail page. intro(): the page title and one line saying what you do here.
      tag(): the small labels (outside PSI, no data). state(): empty, loading and error blocks. */
-  function back(href, label) { return h("a", { "class": "c-back", href: href }, h("span", { "aria-hidden": "true", "class": "c-back-arrow" }), label || T("Back")); }
+  /* The Back link and the browser's Back button lead to the same place. When the reader got here from another page
+     of the site, the link goes back there (with its filters, selection and scroll); its label then says only "Back",
+     because the named destination would be wrong. Entered directly, it leads to href. */
+  function pathOf(hash) { return String(hash || "").replace(/^#\/?/, "").split("?")[0].replace(/\/$/, ""); }
+  function back(href, label) {
+    var prev = trail.length > 1 ? trail[trail.length - 2] : null;
+    var same = prev !== null && pathOf(prev) === pathOf(href);
+    var a = h("a", { "class": "c-back", href: href }, h("span", { "aria-hidden": "true", "class": "c-back-arrow" }),
+      prev !== null && !same ? T("Back") : (label || T("Back")));
+    if (prev !== null) a.addEventListener("click", function (ev) {
+      if (ev.defaultPrevented || ev.button || ev.ctrlKey || ev.metaKey || ev.shiftKey || ev.altKey) return;
+      ev.preventDefault(); history.back();
+    });
+    return a;
+  }
   function intro(title, what) { return h("header", { "class": "c-intro" }, h("h1", { text: title }), what ? h("p", { "class": "c-what", text: what }) : null); }
   function tag(kind, text) { return h("span", { "class": "c-tag c-tag-" + kind, text: text }); }
   function state(kind, title, text, action) {

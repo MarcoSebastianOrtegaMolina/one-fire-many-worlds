@@ -69,6 +69,13 @@
     "Close": "Cerrar",
     "Open full page": "Abrir la página completa",
     "Answer ready.": "Respuesta lista.",
+    "Cut short": "Cortada",
+    "Swipe sideways to see every column": "Desliza a los lados para ver todas las columnas",
+    "The answer stops before its end. Ask again, or ask a narrower question.": "La respuesta se detiene antes de terminar. Pregunta de nuevo, o haz una pregunta más acotada.",
+    "The report stops before its end. Try again, or ask about a narrower topic.": "El informe se detiene antes de terminar. Intenta de nuevo, o pide un tema más acotado.",
+    "No answer from the data": "Sin respuesta con los datos",
+    "This box answers from the investigations, materials and worlds on this site. Ask about one of them, or about preventing, detecting or putting out a fire, or start with a saved question:": "Esta caja responde con las investigaciones, los materiales y los mundos de este sitio. Pregunta por uno de ellos, o por prevenir, detectar o apagar un fuego, o empieza con una pregunta guardada:",
+    "row": "fila",
     "Download these tests (CSV)": "Descargar estas pruebas (CSV)",
     "The download did not work. Try again.": "La descarga no funcionó. Intenta de nuevo.",
     "Writing the answer": "Escribiendo la respuesta",
@@ -147,11 +154,12 @@
     var m, list, ev;
     if ((m = /^(PSI-\d+) test (\d+)$/i.exec(inner))) {
       list = D.tests.filter(function (t) { return t.n === Number(m[2]) && t.inv === m[1]; });
-      return list.length ? { kind: "test", key: "t" + m[1] + m[2], inv: m[1], tests: list, href: "#/data/" + m[1] + "/n" + m[2], text: m[1] + " " + T("test") + " " + (list[0].id || "#" + m[2]) } : null;
+      return list.length ? { kind: "test", key: "t" + m[1] + m[2], inv: m[1], tests: list, href: "#/data/" + m[1] + "/n" + m[2], text: m[1] + " " + T("test") + " " + (list[0].id || "#" + m[2]),
+        parts: [m[1], T("test"), list[0].id || "#" + m[2]] } : null;
     }
     if ((m = /^(PSI-\d+) (?:row|fila) (.+)$/i.exec(inner))) {
       list = D.tests.filter(function (t) { return t.inv === m[1] && String(t.row) === m[2]; });
-      return list.length ? { kind: "test", key: "r" + inner, inv: m[1], tests: list, href: "#/data/" + m[1] + "/" + encodeURIComponent(m[2]), text: inner } : null;
+      return list.length ? { kind: "test", key: "r" + inner, inv: m[1], tests: list, href: "#/data/" + m[1] + "/" + encodeURIComponent(m[2]), text: inner, parts: [m[1], T("row"), m[2]] } : null;
     }
     if (/^PSI-\d+$/.test(inner) && A.inv(inner)) return { kind: "inv", key: "i" + inner, inv: inner, href: "#/investigation/" + inner, text: inner };
     ev = A.evidence ? A.evidence(inner) : null;
@@ -173,7 +181,7 @@
           var n = number(refs, r);
           if (r.kind === "page") note(refs.pages, r.ev.id); else note(refs.invs, r.inv);
           if (r.kind === "test" && r.tests.length <= 3) r.tests.forEach(function (t) { note(refs.rows, t.n); });   /* a row shared by many tests is a link, not table rows */
-          if (k) refsHere.appendChild(document.createTextNode(","));
+          if (k) refsHere.appendChild(document.createTextNode(", "));
           refsHere.appendChild(h("a", { "class": "ask-ref", href: r.href, "data-src": r.kind === "page" ? r.ev.id : null,
             "aria-label": T("Source ") + n + ": " + r.text, title: r.text, text: String(n) }));
         });
@@ -278,6 +286,17 @@
   function citedTests(rows) {
     return rows.map(function (n) { return D.tests.filter(function (t) { return t.n === n; })[0]; }).filter(Boolean);
   }
+  /* A table wider than its frame scrolls inside it; a line above says so, only while it overflows. */
+  function swipeHints(root) {
+    Array.prototype.forEach.call((root || document).querySelectorAll(".ask-view .c-table, .ask-turn .c-table"), function (box) {
+      var hint = box.previousElementSibling;
+      if (!hint || !hint.classList.contains("ask-swipe")) { hint = h("p", { "class": "ask-swipe", hidden: "" }, T("Swipe sideways to see every column")); box.before(hint); }
+      var over = box.scrollWidth > box.clientWidth + 1;
+      if (over) hint.removeAttribute("hidden"); else hint.setAttribute("hidden", "");
+    });
+  }
+  function hintsSoon() { (window.requestAnimationFrame || setTimeout)(function () { swipeHints(A.main); }); }
+  window.addEventListener("resize", function () { if (onAsk() || onReport()) hintsSoon(); });
   function testsTable(rows, num, isReport) {
     /* rows holds the platform's test numbers, unique, so the table can never show a different test from the one cited */
     var list = rows.map(function (n) { return D.tests.filter(function (t) { return t.n === n; })[0]; }).filter(Boolean);
@@ -335,6 +354,11 @@
   }
   /* What can be shown of a text still arriving: a half-written figure tag and an unclosed bold mark wait for the rest.
      A citation whose bracket has not closed stays as plain text until it closes. */
+  /* A text that stopped for good (stopped, failed): what follows an unclosed bracket is dropped, so no half citation shows. */
+  function closed(text) {
+    var s = settled(text), i = s.lastIndexOf("[");
+    return i >= 0 && s.indexOf("]", i) < 0 ? s.slice(0, i).replace(/\s+$/, "") : s;
+  }
   function settled(text) {
     var s = String(text || ""), i = s.lastIndexOf("[[");
     if (i >= 0 && s.indexOf("]]", i) < 0) s = s.slice(0, i);
@@ -360,7 +384,7 @@
     if (pendingA) return;
     var t = again ? turns.filter(function (x) { return x.id === again; })[0] : null;
     if (!t) { t = { id: "t" + (seq++), q: q }; turns.push(t); }
-    Object.assign(t, { status: "loading", answer: "", partial: "", note: "", saved: false, model: "", when: "", err: null, started: Date.now() });
+    Object.assign(t, { status: "loading", declined: false, answer: "", partial: "", note: "", saved: false, model: "", when: "", err: null, started: Date.now() });
     var c = ctl(); pendingA = { c: c, id: t.id };
     figCache[t.id] = {};
     saveTurns(); refresh(t.id); tick();
@@ -374,7 +398,7 @@
       var bad = outcome(r);
       if (bad) { t.status = "error"; t.err = bad; t.partial = r.partial || ""; }
       else {
-        t.status = "done"; t.answer = r.body.declined ? T(r.body.answer) : r.body.answer; t.model = r.body.model || ""; t.when = new Date().toISOString();
+        t.status = "done"; t.declined = !!r.body.declined; t.answer = r.body.declined ? T(r.body.answer) : r.body.answer; t.model = r.body.model || ""; t.when = new Date().toISOString();
         t.note = r.body.truncated ? "The answer was cut short." : ""; t.partial = "";
       }
       saveTurns();
@@ -404,7 +428,7 @@
     var el = document.getElementById("ask-" + t.id);
     if (!el || !convo) { refresh(); return; }
     var a = el.querySelector(".ask-a"), y0 = a ? a.getBoundingClientRect().top : 0;
-    var fresh = modern(turnEl(t)); el.replaceWith(fresh); setBar();
+    var fresh = modern(turnEl(t)); el.replaceWith(fresh); setBar(); swipeHints(fresh);
     var a2 = fresh.querySelector(".ask-a");
     if (a && a2) window.scrollBy(0, a2.getBoundingClientRect().top - y0);
     delete figCache[t.id];
@@ -589,7 +613,8 @@
           title = [h("span", { "class": "ask-cite-doc", text: i.acr }), " ", h("span", { text: i.title || "" })];
           what = h("span", { "class": "ask-cite-what", text: T("Investigation record") });
         } else {
-          title = h("span", { "class": "ask-cite-doc num", text: r.text });
+          title = r.parts ? h("span", { "class": "ask-cite-doc" }, h("span", { "class": "num", text: r.parts[0] }), " " + r.parts[1] + " ", h("span", { "class": "num", text: r.parts[2] }))
+            : h("span", { "class": "ask-cite-doc", text: r.text });
           what = h("span", { "class": "ask-cite-what" }, T("Row of the experimental table"), r.tests[0] && r.tests[0].fuel ? ": " + r.tests[0].fuel : "");
         }
         return h("li", { "class": "ask-cite" + (thumb ? "" : " ask-cite-nothumb") },
@@ -629,6 +654,10 @@
       return h("section", { "class": "ask-people" + (print ? " ask-people-has-print" : "") }, head, h("div", { "class": "ask-people-cards" }, cards), print);
     } catch (e) { return null; }
   }
+  function cutNotice(text, label, again) {
+    return h("div", { "class": "ask-cut", role: "note" }, A.tag("missing", T("Cut short")), h("p", { text: T(text) }),
+      again ? h("button", { type: "button", "class": "c-btn", onclick: again }, T(label)) : null);
+  }
   function copyText(t, el) {
     var text = t.q + "\n\n" + (el.querySelector(".ask-a") ? el.querySelector(".ask-a").innerText : "") +
       (el.querySelector(".ask-cites") ? "\n\n" + el.querySelector(".ask-cites").innerText : "");
@@ -650,7 +679,7 @@
           h("button", { type: "button", "class": "c-btn", onclick: stopAnswer }, T("Stop"))));
       return el;
     }
-    if (t.partial && (t.status === "cancelled" || t.status === "error")) el.appendChild(h("div", { "class": "ask-a ask-a-partial" }, body(settled(t.partial), newRefs(), false, A.counter()).nodes));
+    if (t.partial && (t.status === "cancelled" || t.status === "error")) el.appendChild(h("div", { "class": "ask-a ask-a-partial" }, body(closed(t.partial), newRefs(), false, A.counter()).nodes));
     if (t.status === "cancelled") {
       el.appendChild(A.state("empty", T(t.note || "You stopped this answer."), null,
         h("button", { type: "button", "class": "c-btn", onclick: function () { ask(t.q, t.id); } }, T("Ask again"))));
@@ -664,6 +693,16 @@
         h("button", { type: "button", "class": "c-btn", onclick: function () { ask(t.q, t.id); } }, T("Try again"))));
       return el;
     }
+    if (t.declined) {
+      el.append(h("div", { "class": "ask-a" }, body(t.answer, newRefs(), false, A.counter()).nodes),
+        h("div", { "class": "ask-declined" }, h("p", { "class": "ask-declined-t", text: T("No answer from the data") }),
+          h("p", { text: T("This box answers from the investigations, materials and worlds on this site. Ask about one of them, or about preventing, detecting or putting out a fire, or start with a saved question:") }),
+          h("ul", { "class": "ask-declined-list" }, C.examples.map(function (e) {
+            return h("li", null, h("button", { type: "button", "class": "ask-saved", onclick: function () { addSaved(e); } }, e.q));
+          }))));
+      return el;
+    }
+    var cut = t.note === "The answer was cut short.";
     var refs = newRefs(), num = A.counter(), b = body(t.answer, refs, false, num);
     var copyBtn = h("button", { type: "button", "class": "c-btn" }, T("Copy answer"));
     var copyMsg = h("span", { "class": "ask-copy-msg", "aria-live": "polite" });
@@ -673,11 +712,12 @@
       else copyMsg.textContent = T("Copy failed. Select the text to copy it.");
     });
     A.add(el, [h("div", { "class": "ask-a" }, b.nodes),
+      cut ? cutNotice("The answer stops before its end. Ask again, or ask a narrower question.", "Ask again", function () { ask(t.q, t.id); }) : null,
       testsTable(refs.rows, num, false),
       citesList(refs),
       peopleSection(refs, false),
       h("p", { "class": "ask-note", text: (t.saved ? T("Saved answer, written with AI and checked against the data. ") : T("Answer written live by AI from this site's data. Check the cited records before relying on it. ")) +
-        (refs.figs.length && !t.saved ? T("The AI picked the figures by their captions; it has not seen the images. ") : "") + (t.note ? T(t.note) : "") }),
+        (refs.figs.length && !t.saved ? T("The AI picked the figures by their captions; it has not seen the images. ") : "") + (t.note && !cut ? T(t.note) : "") }),
       h("div", { "class": "ask-actions" }, copyBtn, csvButton(refs.rows, t.q, "answer"),
         h("button", { type: "button", "class": "c-btn", onclick: function () { startReport(t.q); } }, T("Turn into report")), copyMsg)]);   /* add() skips the parts an answer does not have */
     if (t.saved) el.querySelector(".ask-q").appendChild(A.tag("kind", T("Works offline")));
@@ -699,6 +739,9 @@
         } }, T("Clear")), keep));
       keep.focus();
     }
+    wrap.addEventListener("keydown", function (ev) {
+      if (ev.key === "Escape" && confirmOpen) { ev.preventDefault(); ev.stopPropagation(); confirmOpen = false; closed(); wrap.querySelector("button").focus(); }
+    });
     if (confirmOpen) open(); else closed();
     return wrap;
   }
@@ -767,6 +810,7 @@
       ev.preventDefault(); openPanel(a.getAttribute("data-src"), a);
     });
     A.main.replaceChildren(modern(root));
+    hintsSoon();
     if (hadFocus && box) box.focus({ preventScroll: true });
   }
   /* Redraw after a change. With a target turn, bring it into view; otherwise keep the reader where they were. */
@@ -776,7 +820,7 @@
     if (!convo || !turns.length) chatPage();
     else {
       var hadFocus = document.activeElement && document.activeElement.id === "ask-q";
-      convo.replaceChildren.apply(convo, turns.map(turnEl)); modern(convo); setBar();
+      convo.replaceChildren.apply(convo, turns.map(turnEl)); modern(convo); setBar(); swipeHints(convo);
       var strip = root.querySelector(".ask-strip"), next = reportStrip();
       if (strip && next) strip.replaceWith(next); else if (strip) strip.remove(); else if (next) live.before(next);
       if (hadFocus && box) box.focus({ preventScroll: true });
@@ -818,7 +862,6 @@
   }
   function reportPage() {
     var top = h("div", { "class": "ask-docbar" }), back = A.back("#/ask", T("Back to the conversation"));
-    back.addEventListener("click", goBack);
     top.appendChild(back);
     var page = h("div", { "class": "wrap ask-view ask-report" }, top), r = report;
     document.title = T("Report") + " · One Fire, Many Worlds";
@@ -838,7 +881,7 @@
         docHead(sb.title || r.q, r, true), h("div", { "class": "ask-doc" }, h("div", { "class": "ask-doc-body" }, sb.nodes))));
     } else if (r.status === "error" || r.status === "cancelled") {
       var e = r.err || {};
-      if (r.partial) page.append(h("article", { "class": "ask-doc-grid" }, h("div", { "class": "ask-doc" }, h("div", { "class": "ask-doc-body" }, body(settled(r.partial), newRefs(), true, A.counter()).nodes))));
+      if (r.partial) page.append(h("article", { "class": "ask-doc-grid" }, h("div", { "class": "ask-doc" }, h("div", { "class": "ask-doc-body" }, body(closed(r.partial), newRefs(), true, A.counter()).nodes))));
       page.append(A.intro(T("Research report"), r.q),
         r.status === "cancelled" ? A.state("empty", T("You stopped the report."), null, null)
           : A.state(e.type === "limit" ? "empty" : "error",
@@ -870,17 +913,19 @@
           nav,
           h("div", { "class": "ask-doc" },
           h("div", { "class": "ask-doc-body" }, b.nodes),
+          r.note === "The report was cut short." ? cutNotice("The report stops before its end. Try again, or ask about a narrower topic.", "Try again", function () { startReport(r.q); }) : null,
           testsH, tests, tests ? h("div", { "class": "ask-actions" }, csvButton(refs.rows, r.q, "report")) : null,
           srcH, src.items.length ? h("ol", { "class": "ask-doc-src" }, src.items) : null,
           src.figs.length ? [h("h3", { "class": "ask-doc-h", text: T("Figures") }), h("ul", { "class": "ask-doc-src" }, src.figs)] : null,
           people,
           h("p", { "class": "ask-note", text: (refs.figs.length ? T("The AI picked the figures by their captions; it has not seen the images. ") : "") +
-            T("The ranking of investigations and the list of experiments still to be done are the team's interpretation, not NASA's. A student project, not affiliated with or endorsed by NASA. Check the sources before relying on this report.") + (r.note ? " " + T(r.note) : "") }))));
+            T("The ranking of investigations and the list of experiments still to be done are the team's interpretation, not NASA's. A student project, not affiliated with or endorsed by NASA. Check the sources before relying on this report.") }))));
     }
     /* Printing uses the browser's own dialog on this same page (window.print, @media print in ask.css). Images
        below the fold load now, so the print preview does not show empty boxes for figures not yet scrolled to. */
     Array.prototype.forEach.call(page.querySelectorAll("img[loading='lazy']"), function (img) { img.loading = "eager"; });
     A.main.replaceChildren(modern(page));
+    hintsSoon();
   }
 
   function view(parts) {

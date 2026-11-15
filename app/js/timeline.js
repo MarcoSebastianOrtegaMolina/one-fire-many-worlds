@@ -203,7 +203,7 @@
         h("a", { href: "#/figure/" + f.id, text: T("Open the figure and its source") }), "."));
     } else {
       frame.setAttribute("data-kind", "year");
-      frame.appendChild(h("div", { "class": "tl-bigyear", "aria-hidden": "true", text: e.year }));
+      frame.appendChild(h("div", { "class": "tl-bigyear" + (/^\d{4}$/.test(e.year) ? "" : " tl-word"), "aria-hidden": "true", text: e.year }));
       cap.appendChild(h("p", { text: T("No 3D model fits this entry and its investigations have no figure, so the frame shows the year.") }));
     }
     if (id) frame.setAttribute("data-kind", "model");
@@ -212,13 +212,13 @@
   function entryView(e) {
     return [frameFor(e),
       h("div", { "class": "tl-text" },
-        h("div", { "class": "tl-head" }, h("span", { "class": "tl-year", text: e.year }), kindTag(e)),
+        h("div", { "class": "tl-head" }, h("span", { "class": "tl-year" + (/^\d{4}$/.test(e.year) ? "" : " tl-word"), text: e.year }), kindTag(e)),
         h("h2", { "class": "tl-title", text: e.title }), texts(e), invLinks(e), source(e))];
   }
   function listView(list) {
     return h("ol", { "class": "tl-list" }, list.map(function (e, i) {
       return h("li", { "class": "tl-row" },
-        h("div", { "class": "tl-head" }, h("span", { "class": "tl-year", text: e.year }), kindTag(e)),
+        h("div", { "class": "tl-head" }, h("span", { "class": "tl-year" + (/^\d{4}$/.test(e.year) ? "" : " tl-word"), text: e.year }), kindTag(e)),
         h("div", { "class": "tl-text" }, h("h2", { "class": "tl-title", text: e.title }), texts(e)),
         h("div", { "class": "tl-side" }, invLinks(e), source(e),
           h("a", { "class": "c-btn tl-open", href: "#/timeline/" + slug(e, i) }, T("Open on the timeline"))));
@@ -254,7 +254,7 @@
       return h("a", { "class": "tl-node tl-node-" + e.kind + (ui.pos[i] > SPAN ? " tl-node-far" : ""), href: "#/timeline/" + slug(e, i),
         style: "--x:" + ui.pos[i].toFixed(3) + "%", tabindex: "-1", "aria-label": e.year + ", " + T(KIND[e.kind] || e.kind) + ": " + e.title, "data-row": "0" },
         h("span", { "class": "tl-node-dot", "aria-hidden": "true" }, h("span", { "class": "tl-dot tl-dot-" + e.kind })),
-        h("span", { "class": "tl-node-year", "aria-hidden": "true", text: e.year }));
+        h("span", { "class": "tl-node-year" + (/^\d{4}$/.test(e.year) ? "" : " tl-word"), "aria-hidden": "true", text: e.year }));
     });
     var farFrom = Math.min.apply(null, ui.pos.filter(function (p) { return p > SPAN; }).concat([100]));
     ui.axis = h("div", { "class": "tl-axis", role: "group", "aria-label": T("Timeline entries. Use the left and right arrow keys to move between them.") },

@@ -132,6 +132,7 @@ html.jr-lock{overflow:hidden}
   .jr-right .jr-labels{align-items:flex-end}
   .jr-off{margin-top:var(--s-3); padding-top:var(--s-3); border-top:1px solid var(--line)}
   .jr-off-note{text-align:left; margin-bottom:var(--s-2)}
+  .jr-mark .jr-g{display:none}   /* (L13) the figure is already under the name */
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -144,7 +145,7 @@ html.jr-lock{overflow:hidden}
 .jr-top{display:flex; flex-direction:column; gap:var(--s-1)}
 .jr-top .c-back{align-self:flex-start}
 .jr-strip{overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scrollbar-width:thin; border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
-.jr-strip-in{display:grid; grid-template-columns:minmax(38rem,1fr) auto; gap:var(--s-5); align-items:center; height:5.5rem; padding:0 1rem}
+.jr-strip-in{display:grid; grid-template-columns:minmax(38rem,1fr) auto; gap:var(--s-5); align-items:center; height:6.5rem; padding:0 1rem}
 .jr-strip-track{position:relative; height:100%}
 .jr-strip-line{position:absolute; left:0; right:0; top:50%; border-top:1px solid var(--text-3)}
 .jr-strip-void{position:absolute; left:.75rem; right:.75rem; top:50%; height:0; border-top:1px dashed var(--missing); background:var(--space)}
@@ -153,7 +154,7 @@ html.jr-lock{overflow:hidden}
 .jr-pt:focus-visible{outline:none}
 .jr-pt:focus-visible .jr-pt-name{outline:2px solid var(--link); outline-offset:1px}
 .jr-pt-dot{position:absolute; left:-5px; top:calc(50% - 5px); width:11px; height:11px; border-radius:50%; border:1px solid var(--text-2); background:var(--space)}
-.jr-pt-name{position:absolute; top:calc(50% + .2rem); left:0; transform:translateX(-50%); padding:.55rem .35rem; white-space:nowrap; font:500 var(--t-2xs)/1.2 var(--font-head)}
+.jr-pt-name{position:absolute; top:calc(50% + .2rem); left:0; transform:translateX(-50%); min-width:44px; min-height:44px; padding:.85rem .45rem; text-align:center; white-space:nowrap; font:500 var(--t-2xs)/1.2 var(--font-head)}   /* (L5) 44 px to touch */
 .jr-pt.is-up .jr-pt-name{top:auto; bottom:calc(50% + .2rem)}
 .jr-pt.is-first .jr-pt-name{transform:translateX(-.6rem)}
 .jr-pt.is-last .jr-pt-name{transform:translateX(calc(-100% + .6rem))}
@@ -171,11 +172,16 @@ html.jr-lock{overflow:hidden}
 .jr-headline{margin-top:var(--s-2); max-width:62ch; font:600 var(--t-md)/1.35 var(--font-head); letter-spacing:-.01em; color:var(--text)}
 .jr-text .facts{margin-top:var(--s-3)}
 .jr-takeaway{margin-top:var(--s-3); max-width:70ch; color:var(--text-2)}
-.jr-figure{margin:0; min-width:0}
+.jr-figure{position:relative; margin:0; min-width:0}
+.jr-figcap > .c-btn{position:absolute; top:.75rem; right:.75rem; z-index:2; background:var(--space)}   /* (L4) in sight on any laptop */
 .jr-stage-slot{height:min(70vh, 720px); min-height:320px}
 .jr-stage-slot .jr-scene{width:100%; height:100%}
 .jr-figcap{display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:var(--s-2) var(--s-3); margin-top:var(--s-2)}
 .jr-cap{flex:1 1 20rem; min-width:0; font-size:var(--t-2xs); line-height:1.5; color:var(--text-3)}
+/* the credits of the world page hold their room from the start (the tallest measured at each width): nothing jumps when the model arrives */
+.jr-wv .jr-cap{min-height:9.875rem}
+@media (min-width:80rem){ .jr-wv .jr-cap{min-height:8.5rem} }
+@media (max-width:59.99rem){ .jr-wv .jr-cap{min-height:14rem} }
 .jr-cap p + p{margin-top:.3rem}
 .jr-cap b{font-weight:600; color:var(--text-2)}
 .jr-scale{color:var(--text-2)}
@@ -191,7 +197,7 @@ html.jr-lock{overflow:hidden}
 
 /* ---------- full screen: a fixed layer over the page, not the browser's full-screen API ---------- */
 .jr-full-bg{position:fixed; inset:0; z-index:60; background:var(--space)}
-.jr-full-bg .jr-scene{position:absolute; inset:0; width:100%; height:100%}
+.jr-full-bg .jr-scene{position:absolute; top:0; left:0; right:0; bottom:var(--jr-cap-h, 0px); width:auto; height:auto}   /* (L3) above the credit box */
 .jr-full-ui{position:fixed; inset:0; z-index:70; pointer-events:none}
 .jr-full-ui > *{pointer-events:auto}
 .jr-close{position:absolute; top:max(1rem, env(safe-area-inset-top,0px)); right:max(var(--gutter), env(safe-area-inset-right,0px)); background:var(--space)}
@@ -201,7 +207,7 @@ html.jr-lock{overflow:hidden}
 .jr-bar{position:relative; width:8rem; height:2px; background:var(--line-strong)}
 .jr-bar i{position:absolute; left:0; top:0; bottom:0; background:var(--text)}
 .jr-full-cap{position:absolute; left:max(var(--gutter), env(safe-area-inset-left,0px)); bottom:max(1rem, env(safe-area-inset-bottom,0px));
-  max-width:min(40rem, calc(100% - 2 * var(--gutter))); padding:.7rem .9rem; background:rgba(0,0,0,.72); border:1px solid var(--line); border-radius:var(--radius)}
+  max-width:min(34rem, calc(100% - 2 * var(--gutter))); padding:.5rem .7rem; background:rgba(0,0,0,.72); border:1px solid var(--line); border-radius:var(--radius)}
 .jr-full-cap .jr-cap{color:var(--text-3)}
 .jr-help{margin-top:.4rem; font-size:var(--t-2xs); color:var(--text-2)}
 .jr-full-ui .jr-err{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); align-items:center; text-align:center; padding:1rem; background:rgba(0,0,0,.72)}

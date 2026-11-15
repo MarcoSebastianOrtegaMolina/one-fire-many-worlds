@@ -17,6 +17,7 @@
     "What the table of this investigation measured: ": "Lo que midió la tabla de esta investigación: ",
     "The table of this investigation does not say what was measured.": "La tabla de esta investigación no dice qué se midió.",
     "Data: the experimental tables of the PSI investigations, ": "Datos: las tablas experimentales de las investigaciones de PSI, ",
+    "NASA PSI Data Repository": "repositorio PSI de NASA",
     "Tests, count": "Pruebas, número", "Of this investigation, count": "De esta investigación, número",
     "Oxygen and pressure of the tests, and the air of this world": "Oxígeno y presión de las pruebas, y el aire de este mundo",
     "Oxygen and pressure of the tests, with this investigation highlighted": "Oxígeno y presión de las pruebas, con esta investigación resaltada",
@@ -293,7 +294,7 @@
       group(T("Fuel type"), A.TYPES.map(function (t) { return h("span", { style: "--c:var(--" + t[0] + ")", text: t[1] }); })),
       group(T("Marks"), [
         h("span", { "class": "ch-k-plain" }, crossKey, T("Atmospheres NASA considers for crews"), ": ",
-          CROSSES.map(function (a, i) { return [i ? "; " : "", h("span", { "class": "num", text: a[1] + " %, " + a[0] + " psi" })]; })),
+          CROSSES.map(function (a, i) { return [i ? " " : "", h("span", { "class": "num ch-atm", text: a[1] + " %, " + a[0] + " psi" + (i < CROSSES.length - 1 ? ";" : "") })]; })),
         h("span", { "class": "ch-k-plain ch-k-size", text: T("Circle size: number of tests") }),
         focus ? h("span", { "class": "ch-k-plain ch-k-hot", text: T("Highlighted: this investigation") }) : null,
         mark ? h("span", { "class": "ch-k-plain ch-k-oval", text: T("Oval: the window counted as near your atmosphere") }) : null]),
@@ -315,7 +316,7 @@
     if (invRec) note.push(" " + (invRec.measures && invRec.measures.length
       ? T("What the table of this investigation measured: ") + invRec.measures.map(T).join(", ") + "."
       : T("The table of this investigation does not say what was measured.")));
-    var source = T("Data: the experimental tables of the PSI investigations, ") + (D.summary && D.summary.source ? D.summary.source : "NASA PSI Data Repository") + ".";
+    var source = T("Data: the experimental tables of the PSI investigations, ") + (D.summary && D.summary.source ? T(D.summary.source) : T("NASA PSI Data Repository")) + ".";
     note.push(" " + source);
 
     /* the same groups as a table, for reading without the picture */

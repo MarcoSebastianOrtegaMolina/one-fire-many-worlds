@@ -57,47 +57,6 @@
       })));
   };
 
-  function page(e) {
-    var box = h("div", { "class": "pagebox" }, h("img", { src: e.img, width: e.w, height: e.h,
-      alt: T("Page of the report, with the cited passage marked") + ": " + e.quote }));
-    e.rects.forEach(function (r) {
-      box.appendChild(h("span", { "class": "mark", "aria-hidden": "true",
-        style: "left:" + (r[0] * 100 - 0.4) + "%;top:" + (r[1] * 100 - 0.2) + "%;width:" + ((r[2] - r[0]) * 100 + 0.8) + "%;height:" + ((r[3] - r[1]) * 100 + 0.4) + "%" }));
-    });
-    return h("figure", { "class": "pagefig" }, box,
-      h("figcaption", { text: e.doc[L] + ". " + T("page ") + e.page + T(" of ") + e.pages + T(" in the PDF") + "." }));
-  }
-
-  function view(parts) {
-    var e = get(parts[0]);
-    if (!e) { A.main.replaceChildren(h("div", { "class": "wrap" }, h("div", { "class": "error" }, h("h1", { text: T("No such source") }),
-      h("p", null, h("a", { href: "#/sources", text: T("See all sources") }), ".")))); return; }
-    document.title = label(e) + " · One Fire, Many Worlds";
-    var k = E.indexOf(e), prev = E[k - 1], next = E[k + 1];
-    var side = h("div", { "class": "srcside" },
-      h("h2", { "class": "tight", text: T("What this page supports") }), h("p", { "class": "finding", text: e.claim[L] }),
-      e.quote ? [h("h2", { "class": "tight", text: T("The passage, as written") }), h("blockquote", { lang: "en", text: e.quote }),
-        L === "es" ? h("p", { "class": "note", text: T("The passage is quoted in English, as in the report.") }) : null] : null,
-      (e.invs || []).length ? [h("h2", { "class": "tight", text: T("Used by") }),
-        h("p", { "class": "links" }, e.invs.map(function (id, n) { var i = A.inv(id); return [n ? " · " : "", i ? A.invLink(i) : id]; }))] : null,
-      /* A document outside PSI (a standard, a memo, a poster) has its own page at NASA instead of a PSI record. */
-      h("p", { "class": "srcactions" }, e.docInv
-        ? [h("a", { "class": "action", href: e.download, target: "_blank", rel: "noopener", text: T("Download the original document") }),
-          h("a", { "class": "action quiet", href: e.record, target: "_blank", rel: "noopener", text: T("Open the record in PSI") })]
-        : h("a", { "class": "action", href: e.record || e.download, target: "_blank", rel: "noopener", text: T("Open the document at NASA") })),
-      h("p", { "class": "note", text: !e.page ? T("The page image is not reproduced for this document.")
-        : e.docInv ? T("PSI delivers the whole PDF. Once it opens, go to page ") + e.page + "."
-        : T("This document is not in PSI: it is cited as context. Once it opens, go to page ") + e.page + "." }),
-      h("p", { "class": "links" }, prev ? link(prev, T("Previous source")) : null, prev && next ? " · " : "", next ? link(next, T("Next source")) : null));
-    A.main.replaceChildren(h("div", { "class": "wrap" }, h("div", { "class": "sheet page" },
-      h("p", { "class": "crumb" }, h("a", { href: "#/sources", text: T("Sources") }), " / " + e.id),
-      h("h1", { "class": "srctitle", text: e.doc[L] }),
-      h("p", { "class": "headline", text: where(e) }),
-      h("div", { "class": "lead srclead" }, e.img ? page(e) : h("p", { "class": "empty", text: T("The page image is not reproduced for this document.") }), side))));
-    var mark = document.querySelector(".pagebox .mark");
-    if (mark && window.innerWidth >= 992) { /* wide screens: the passage is already beside the text */ }
-  }
-
   /* ---------- shared pieces of the list and the gallery ---------- */
   var X = A.exp;
   var F = window.OFMW_FIGURES || [];
@@ -353,7 +312,6 @@
   }
 
   A.section({ id: "sources", label: T("Sources"), href: "#/sources" }, listView);
-  A.route("source", "sources", view);
   A.route("figure", "sources", figureView);
   A.route("figures", "sources", figuresView);
 })();

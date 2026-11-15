@@ -71,19 +71,26 @@ if (supported) {
   } catch (e) { supported = false; renderer = null; }
 }
 
+/* Leaving the page (a reload, another address) cancels the downloads under way: aborted here they end quietly,
+   instead of reaching the browser as failed loads (WebKit reports those as page errors). If the page stays after all
+   (a download that opens no page), a new controller takes over and the cancelled loads go back to the queue. */
+let leaving = new AbortController();
+addEventListener("beforeunload", () => { leaving.abort(); setTimeout(() => { if (leaving.signal.aborted) leaving = new AbortController(); }, 1500); });   /* still here: carry on */
+addEventListener("pagehide", () => leaving.abort());
+
 /* ---------- which files exist, and what the manifest says about them ---------- */
 const files = (async () => {
   const set = new Set(); let manifest = null;
   const local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
   async function listing() {
-    const r = await fetch("models/", { cache: "no-store" });
+    const r = await fetch("models/", { cache: "no-store", signal: leaving.signal });
     const t = r.ok ? await r.text() : "";
     if (!/Directory listing/i.test(t)) return false;
     t.replace(/href="([^"?#]+\.(?:glb|json))"/g, (_, f) => { set.add(decodeURIComponent(f)); return _; });
     return true;
   }
   async function readManifest() {
-    const r = await fetch("models/models.json", { cache: "no-store" });
+    const r = await fetch("models/models.json", { cache: "no-store", signal: leaving.signal });
     if (r.ok) manifest = await r.json();
   }
   try {
@@ -141,7 +148,7 @@ function pump() {
   }
 }
 async function fetchBuffer(url, onBytes) {
-  const res = await fetch(url);
+  const res = await fetch(url, { signal: leaving.signal });
   if (!res.ok) throw new Error("HTTP " + res.status + " " + url);
   const total = +res.headers.get("Content-Length") || 0;
   if (!res.body || !res.body.getReader) { const b = await res.arrayBuffer(); onBytes(b.byteLength, b.byteLength); return b; }
@@ -177,7 +184,13 @@ function request(file, priority) {
           const gltf = await getLoader().parseAsync(buf, "models/");
           tidyMaterials(gltf.scene);
           e.object = gltf.scene; resolve(e);
-        } catch (err) { e.failed = true; cache.delete(file); reject(err); }
+        } catch (err) {
+          if (err && err.name === "AbortError") {   /* cancelled by leaving: quiet; back in the queue if the page stays */
+            const again = () => { if (leaving.signal.aborted) setTimeout(again, 250); else { queue.push(e); pump(); } };
+            setTimeout(again, 250); return;
+          }
+          e.failed = true; cache.delete(file); reject(err);
+        }
       };
     });
     e.promise.catch(() => {});

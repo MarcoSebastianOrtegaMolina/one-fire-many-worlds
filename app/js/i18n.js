@@ -94,6 +94,8 @@
     "Experiments that do not exist yet for this world. The list and its order are our proposal, drawn from the gaps in the data.": "Experimentos que todavía no existen para este mundo. La lista y su orden son propuesta nuestra, sacada de los huecos de los datos.",
     "Closest evidence today: ": "Lo más cercano hoy: ", "Nothing listed for this world.": "No hay nada en la lista para este mundo.",
     "The data did not load": "Los datos no cargaron",
+    "The page could not read its data files. Check the connection and load the page again.": "La página no pudo leer sus archivos de datos. Revisa la conexión y vuelve a cargar la página.",
+    "Load the page again": "Volver a cargar la página",
     "This page needs data/data.js and data/content.js next to it. Rebuild them with: python scripts/construir_datos_app.py": "Esta página necesita data/data.js y data/content.js junto a ella. Se vuelven a generar con: python scripts/construir_datos_app.py",
     /* investigations */
     "went out by itself": "se apagó sola", "kept burning": "siguió ardiendo", "did not ignite or spread": "no encendió o no propagó",

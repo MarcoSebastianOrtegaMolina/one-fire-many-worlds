@@ -1,30 +1,75 @@
 /* intro: the first screen of the home page, the problem (agent K). Prefix in-.
-   Desktop: the text on the left (up to 58 %), the flame on the right, the fires the challenge cites in one row
-   below, then what the platform does and the button. Phone: title, flame, problem, fires, button, one under the other.
-   The screen fills the window under the header; when it does not fit, the title and the flame give way first. */
+   First screen: the title, two large lines (the problem, what the platform does) and an outlined button on the left;
+   the Apollo craft with the Apollo 13 burst on the right, large. Below it, a band with the fires the challenge cites
+   and the two candles. Phone: one column in reading order. When the first screen does not fit, the title and the
+   craft give way first. */
 
-.in-screen{position:relative; display:flex; flex-direction:column;
+.in-screen{position:relative}
+.in-first{position:relative; display:flex; flex-direction:column;
   min-height:max(560px, calc(100vh - var(--in-top, 6rem))); min-height:max(560px, calc(100svh - var(--in-top, 6rem)))}
-.in-grid{flex:1 0 auto; display:grid; align-content:center; column-gap:var(--s-6); row-gap:clamp(.625rem, 1.8vh, 1.75rem);
+.in-grid{flex:1 0 auto; display:grid; align-content:center; column-gap:var(--s-6); row-gap:clamp(1rem, 3vh, 2.25rem);
   grid-template-columns:minmax(0, 58fr) minmax(0, 42fr);
-  grid-template-areas:"title flame" "problem flame" "acc acc" "act act";
-  padding-top:clamp(.75rem, 2.2vh, 2.5rem); padding-bottom:clamp(.5rem, 1.5vh, 1.5rem)}
+  grid-template-areas:"title craft" "lines craft" "act craft";
+  padding-top:clamp(.75rem, 2.5vh, 2.5rem); padding-bottom:clamp(.5rem, 1.5vh, 1.5rem)}
 
 /* the title: the platform's own sentence, with the two 3D words of js/title.js */
-.in-title{grid-area:title; align-self:end; max-width:16em; font-size:clamp(2rem, min(3.4vw, 5.1vh), 4.25rem); line-height:1.04}
+.in-title{grid-area:title; align-self:end; max-width:16em; font-size:clamp(2.25rem, min(3.5vw, 6.2vh), 4.5rem); line-height:1.04}
 .in-title.tt-on{line-height:1.48; padding-top:var(--tt-top, .62em)}   /* --tt-top is a length (title.js writes it in em) */
 
-/* the problem, in three short sentences from the challenge statement */
-.in-problem{grid-area:problem; align-self:start; max-width:40em}
-.in-p{font-size:clamp(1.0625rem, min(1.25vw, 2.3vh), 1.5rem); line-height:1.45; color:var(--text-2); max-width:38em}
-.in-p + .in-p{margin-top:.55em}
-.in-p-1{color:var(--text)}
-.in-src{margin-top:.5rem; font-size:var(--t-2xs); line-height:1.4; color:var(--text-3)}
-.in-sr{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
+/* the two lines: the problem, then what the platform does */
+.in-lines{grid-area:lines; align-self:start; max-width:34em}
+.in-line{font:500 clamp(1.1875rem, min(1.6vw, 3vh), 1.875rem)/1.4 var(--font-head); letter-spacing:-.01em; color:var(--text); text-wrap:pretty}
+.in-line-2{margin-top:.7em; color:var(--text-2)}
+.in-n{font-variant-numeric:tabular-nums; white-space:nowrap}   /* a number inside a sentence keeps the face of the sentence */
+.in-act{grid-area:act; align-self:start}
 
-/* the flame: two candles in SVG, on Earth and in free fall. The only gradients on this screen are inside the flames. */
-.in-flame{grid-area:flame; align-self:center; justify-self:center; margin:0; display:flex; flex-direction:column; align-items:center;
-  --in-flame:clamp(13rem, 38vh, 27rem); width:min(100%, calc(var(--in-flame) * 1.2))}
+/* the craft: 3D on the shared stage, or a still image in the same place */
+.in-craft{grid-area:craft; align-self:center; justify-self:center; margin:0; display:flex; flex-direction:column; align-items:center;
+  width:min(100%, clamp(16rem, 56vh, 42rem))}
+.in-craft-box{position:relative; width:100%; aspect-ratio:1 / 1}
+.in-craft-stage{position:absolute; inset:0; display:block}
+.in-still{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:var(--radius)}
+.in-craft-cap{margin-top:.25rem; max-width:30rem; font-size:var(--t-2xs); line-height:1.45; color:var(--text-3); text-align:center}
+.in-craft-fact{display:inline; color:var(--text-2); text-decoration:none}
+.in-craft-fact b{font-weight:600; color:var(--text)}
+.in-craft-fact:hover{color:var(--text)}
+.in-craft-fact:hover b{text-decoration:underline; text-underline-offset:.2em}
+.in-craft-fact .in-n{color:var(--text-3)}
+.in-craft-note{display:block; margin-top:.15rem}
+.in-craft-note a{color:var(--text-3)}
+.in-craft-note a:hover{color:var(--text-2)}
+
+/* the foot of the first screen: there is more below; the title's model credits behind one line */
+.in-foot{display:flex; align-items:flex-start; justify-content:space-between; gap:var(--s-3); padding-bottom:.25rem}
+.in-more{display:flex; align-items:center; gap:.6rem; margin:0; min-height:2.75rem; flex:0 0 auto; font-size:var(--t-2xs); line-height:1.3; color:var(--text-3)}
+.in-more-line{display:block; width:1px; height:1.75rem; background:var(--line-strong)}
+.in-credits{min-width:0; max-width:70ch; font-size:var(--t-2xs); line-height:1.45; color:var(--text-3); text-align:right}
+.in-credits summary{display:inline-flex; font:400 var(--t-2xs)/1.3 var(--font-body); align-items:center; min-height:2.75rem; cursor:pointer; list-style:none; color:var(--text-3);
+  text-decoration:underline; text-decoration-style:dotted; text-underline-offset:.25em}
+.in-credits summary::-webkit-details-marker{display:none}
+.in-credits summary:hover{color:var(--text-2)}
+.in-credits[open] summary{color:var(--text-2)}
+.in-credits p{margin:0 0 .5rem; text-align:left}
+.in-credits a{color:var(--text-3)}
+.in-credits a:hover{color:var(--text-2)}
+
+/* the band below the first screen: the fires the challenge cites, and the two candles */
+.in-band{display:grid; grid-template-columns:minmax(0, 3fr) minmax(0, 2fr); gap:var(--s-4) var(--s-6); align-items:center;
+  padding-top:var(--s-6); padding-bottom:var(--s-6); border-top:1px solid var(--line)}
+.in-acc{min-width:0}
+.in-acc-h{border:0; padding:0; margin:0 0 .75rem; font:600 var(--t-md)/1.25 var(--font-head); letter-spacing:-.01em; color:var(--text)}
+.in-acc-list{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:var(--s-2) var(--s-3)}
+.in-acc-item{min-width:0}
+.in-acc-link{display:flex; flex-direction:column; gap:.15rem; min-height:2.75rem; height:100%; padding:.6rem 0 .25rem; border-top:1px solid var(--line-strong);
+  color:var(--text); text-decoration:none; transition:border-color .2s var(--ease)}
+.in-acc-link:hover{color:var(--text); border-top-color:var(--text)}
+.in-acc-link:hover .in-acc-title{text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.2em}
+.in-acc-year{font-size:var(--t-2xs); color:var(--text-3)}
+.in-acc-title{font:600 var(--t-sm)/1.25 var(--font-head); letter-spacing:-.01em}
+.in-acc-what{font-size:var(--t-2xs); line-height:1.45; color:var(--text-2)}
+
+/* the two candles in SVG, on Earth and in free fall. The only gradients on this screen are inside the flames. */
+.in-flame{margin:0; justify-self:center; display:flex; flex-direction:column; align-items:center; width:min(100%, 26rem)}
 .in-flame-box{position:relative; width:100%; aspect-ratio:6 / 5}
 .in-svg{display:block; width:100%; height:100%; overflow:visible}
 .in-fl-earth{transform-box:fill-box; transform-origin:50% 92%; animation:in-flicker 2.2s ease-in-out infinite}
@@ -37,52 +82,24 @@
 .in-lab-space{left:66.9%; color:var(--text)}
 .in-flame-cap{margin-top:.5rem; max-width:26rem; font-size:var(--t-2xs); line-height:1.45; color:var(--text-3); text-align:center}
 
-/* the fires and the alarm the challenge cites, linked to their year on the timeline */
-.in-acc{grid-area:acc; min-width:0}
-.in-acc-h{border:0; padding:0; margin:0 0 .35rem; font:600 var(--t-xs)/1.3 var(--font-head); letter-spacing:0; color:var(--text-2)}
-.in-acc-list{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:0 var(--s-3)}
-.in-acc-item{min-width:0}
-.in-acc-link{display:flex; flex-direction:column; gap:.15rem; min-height:2.75rem; height:100%; padding:.5rem 0 .2rem; border-top:1px solid var(--line-strong);
-  color:var(--text); text-decoration:none; transition:border-color .2s var(--ease)}
-.in-acc-link:hover{color:var(--text); border-top-color:var(--text)}
-.in-acc-link:hover .in-acc-title{text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.2em}
-.in-acc-year{font-size:var(--t-2xs); color:var(--text-3)}
-.in-acc-title{font:600 var(--t-sm)/1.25 var(--font-head); letter-spacing:-.01em}
-.in-acc-what{font-size:var(--t-2xs); line-height:1.45; color:var(--text-2)}
-
-/* what the platform does, and the way down */
-.in-act{grid-area:act; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--s-2) var(--s-4);
-  padding-top:clamp(.5rem, 1.6vh, 1rem); border-top:1px solid var(--line)}
-.in-platform{flex:1 1 30rem; max-width:62ch; font-size:var(--t-xs); line-height:1.5; color:var(--text-2)}
-.in-go{flex:0 0 auto}
-
-.in-foot{display:flex; align-items:flex-end; justify-content:space-between; gap:var(--s-3); padding-bottom:.5rem}
-.in-more{display:flex; align-items:center; gap:.6rem; margin:0; flex:0 0 auto; font-size:var(--t-2xs); line-height:1.3; color:var(--text-3)}
-.in-more-line{display:block; width:1px; height:1.75rem; background:var(--line-strong)}
-.in-credit{flex:0 1 auto; min-width:0; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:var(--t-2xs); line-height:1.35; color:var(--text-3)}
-.in-credit a{color:var(--text-3)}
-.in-credit a:hover{color:var(--text-2)}
-
 /* review page */
 .in-preview-next{min-height:100vh; padding-top:var(--s-6); padding-bottom:var(--s-6); border-top:1px solid var(--line)}   /* stands in for the worlds, so the button has somewhere to go */
 .in-preview-next:focus{outline:none}
 
-/* tablet: the fires go two by two */
 @media (max-width:64rem){
-  .in-acc-list{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:0 var(--s-3)}
+  .in-band{grid-template-columns:minmax(0, 1fr)}
 }
-/* phone: one column in reading order, the flame under the title */
-@media (max-width:48rem){
-  .in-screen{min-height:0}
-  .in-grid{grid-template-columns:minmax(0, 1fr); grid-template-areas:"title" "flame" "problem" "acc" "act"; row-gap:var(--s-3); padding-top:var(--s-3)}
+/* phone: one column in reading order, the craft under the title */
+@media (max-width:47.9375rem){
+  .in-first{min-height:0}
+  .in-grid{grid-template-columns:minmax(0, 1fr); grid-template-areas:"title" "lines" "act" "craft"; row-gap:var(--s-3); padding-top:var(--s-3)}
   .in-title{align-self:auto; font-size:clamp(2rem, 9.4vw, 3rem)}
-  .in-flame{--in-flame:min(60vw, 15rem)}
-  .in-p{font-size:1.125rem}
-  .in-act{flex-direction:column; align-items:stretch}
-  .in-platform{flex:0 0 auto}
+  .in-craft{width:min(100%, 16.5rem)}   /* about 264 px: the two lines come first on a phone */
+  .in-line{font-size:1.1875rem}
   .in-go{width:100%}
-  .in-foot{flex-direction:column; align-items:flex-start; padding-top:var(--s-2)}
+  .in-foot{flex-direction:column; align-items:stretch; gap:0; padding-top:var(--s-2)}
   .in-more{display:none}
-  .in-credit{white-space:normal}
+  .in-credits{text-align:left}
+  .in-acc-list{grid-template-columns:minmax(0, 1fr) minmax(0, 1fr)}
 }
 @media (prefers-reduced-motion: reduce){ .in-fl-earth, .in-fl-space{animation:none} }
