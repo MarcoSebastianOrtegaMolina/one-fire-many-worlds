@@ -82,6 +82,25 @@
     if (again) again.focus();
   }
 
+  /* One layout for every table of tests, wherever it appears: a record, an answer or a report. */
+  A.testsTable = function (list, n, title, lead) {
+    var burner = list.some(function (t) { return t.ref === "burner"; });
+    var table = h("table", null,
+      h("thead", null, h("tr", null, [T("Test"), T("Fuel or material"), T("Oxygen (%)"), T("Pressure (psi)"), T("Airflow (cm/s)"), T("Result"), T("Source table and row")].map(function (t) { return h("th", { scope: "col", text: t }); }))),
+      h("tbody", null, list.map(function (t) {
+        return h("tr", null, h("th", { scope: "row" }, h("a", { href: "#/data/" + t.inv + "/n" + t.n, text: t.acr + " " + (t.id || "#" + t.n) })),
+          h("td", { text: t.fuel }),
+          h("td", { "class": "num", text: t.o2 === null ? "" : t.o2 + (t.ref === "burner" ? " *" : "") }),
+          h("td", { "class": "num", text: t.p === null ? "" : String(t.p) }),
+          h("td", { "class": "num", text: t.flow === null ? "" : String(t.flow) }),
+          h("td", { text: t.res.length > 170 ? t.res.slice(0, 170) + " ..." : t.res }),
+          h("td", { text: String(t.src).replace(/^PSI-\d+_Experimental table_/, "").replace(/\.csv$/, "") + " · " + t.row }));
+      })));
+    return A.apaTable(n, title, table, [lead || "",
+      T("Data from the experimental tables of NASA's PSI repository, downloaded November 13, 2026. Each test opens in Data; the last column gives the table and the row it comes from. Oxygen is that of the chamber atmosphere. An empty cell means the table does not record that value. The result is quoted in English, as in the table."),
+      burner ? " " + T("* Oxygen of the gas leaving the burner, not of the atmosphere.") : ""]);
+  };
+
   /* ---------- record ---------- */
   function fact(label, value) { return h("div", null, h("dt", { text: label }), h("dd", null, value)); }
   function recordView(parts) {
@@ -91,8 +110,50 @@
     var c = C.investigations[i.id];
     document.title = i.acr + " · One Fire, Many Worlds";
     var tests = D.tests.filter(function (t) { return t.inv === i.id; });
-    var sample = tests.slice(0, 10);
-    var text = function (label, body) { return body ? h("details", null, h("summary", { text: label }), h("p", { text: body })) : null; };
+    var sample = tests.slice(0, 10), num = A.counter();
+    var nasa = function (body) {
+      return body ? h("p", { "class": "nasa", lang: "en", text: body }) : h("p", { "class": "empty", text: T("Not stated in the PSI record.") });
+    };
+    var step = function (n, label, content) { return h("section", { "class": "step" }, h("h3", null, h("span", { "class": "stepn", text: n + ". " }), label), content); };
+    var row = function (label, value) { return h("tr", null, h("th", { scope: "row", text: label }), h("td", null, value)); };
+    var people = (i.investigators || "").split(/;\s*/).filter(Boolean);
+    /* What was measured and with what: only what the PSI record and its table give; what is missing is said, not guessed. */
+    var how = A.apaTable(num.table(), T("What ") + i.acr + T(" varied, what it measured and with what equipment"),
+      h("table", { "class": "how" },
+        h("thead", null, h("tr", null, h("th", { scope: "col", text: T("Aspect") }), h("th", { scope: "col", text: T("What the PSI record and its table say") }))),
+        h("tbody", null,
+          row(T("What was varied"), i.varied.length ? cap(i.varied.map(T).join(", ")) : T("Not visible in the table")),
+          row(T("What was measured"), i.measures.length ? cap(i.measures.map(T).join(", ")) : T("Not given in the table")),
+          row(T("Facility or equipment"), i.facility || T("Not stated in the PSI record.")),
+          row(T("Equipment group on this site"), T(i.hw)),
+          row(T("Where it ran"), i.platform || T("Not stated in the PSI record.")),
+          row(T("Instrument for each variable"), T("The PSI record does not name it; it has to be read in the reports of the investigation.")),
+          row(T("How tests ended"), outcomes(i)))),
+      T("Facility and platform are quoted from the PSI record, in English. What was varied and what was measured are read from the columns of its experimental table."));
+    var study = h("div", { "class": "study" },
+      h("h2", { text: T("The study, step by step") }),
+      h("p", { text: T("Objective, hypothesis and method are NASA's text from the PSI record, unchanged.") }),
+      step(1, T("Objective"), nasa(i.objectives)),
+      step(2, T("Hypothesis"), nasa(i.hypothesis)),
+      step(3, T("Method"), nasa(i.approach)),
+      step(4, T("What was measured, and with what"), how),
+      step(5, T("Results"), [
+        h("p", { text: T("The finding is stated at the top of this page. This is the evidence behind it.") }),
+        A.sourceList ? A.sourceList(i.id) : null,
+        sample.length ? [A.testsTable(sample, num.table(), T("First ") + sample.length + T(" of ") + fmt(tests.length) + T(" tests of ") + i.acr, T("Source: ") + tests[0].src + ". "),
+          h("p", { "class": "links" }, h("a", { href: "#/data/" + i.id, text: T("See all its tests in Data") }))]
+          : h("p", { "class": "empty", text: T("No individual tests in the data") }),
+        A.figureGallery ? A.figureGallery(i.id, true) : null]),
+      step(6, T("Limits"), [
+        c.caveat ? h("p", { "class": "caveat", text: c.caveat }) : h("p", { text: T("The team did not note a specific caveat for this investigation.") }),
+        h("p", { "class": "note", text: T("Summary, finding and caveat were written with AI from the PSI record and its reports, then checked against the data.") })]),
+      step(7, T("Who did it"), [
+        people.length ? h("ul", { "class": "people" }, people.map(function (p) { return h("li", { text: p }); })) : h("p", { "class": "empty", text: T("Not stated in the PSI record.") }),
+        h("p", { "class": "cite", text: i.cite }),
+        h("p", { "class": "links" }, h("a", { href: i.url, target: "_blank", rel: "noopener", text: T("Open the PSI record") }),
+          i.doi ? [" · ", h("a", { href: "https://doi.org/" + i.doi, target: "_blank", rel: "noopener", text: "DOI " + i.doi })] : null,
+          " · " + plural(i.pubs, "publication") + T(" listed · record version ") + i.version + T(", modified ") + i.modified + T(" · license ") + i.license)]),
+      i.earth ? h("div", { "class": "words" }, h("details", null, h("summary", { text: T("Benefits on Earth") }), h("p", { lang: "en", text: i.earth }))) : null);
     A.main.replaceChildren(h("div", { "class": "wrap" }, h("div", { "class": "sheet page" },
       h("p", { "class": "crumb" }, h("a", { href: "#/investigations", text: T("Investigations") }), " / " + i.id),
       h("div", { "class": "lead" },
@@ -105,34 +166,10 @@
             fact(T("Fuels"), i.fuels.length ? i.fuels.join("; ") : T(cap(i.fuelType))),
             fact(T("Shape and size"), shapes(i.id)),
             fact(T("Oxygen"), range(i.o2, "%")), fact(T("Pressure"), range(i.p, "psi")), fact(T("Airflow"), range(i.flow, "cm/s")),
-            fact(T("What varied"), i.varied.length ? cap(i.varied.map(T).join(", ")) : T("Not visible in the table")),
-            fact(T("What was measured"), i.measures.length ? cap(i.measures.map(T).join(", ")) : T("Not given in the table")),
-            fact(T("How tests ended"), outcomes(i)),
-            fact(T("Hardware"), T(i.hw) + (i.facility ? " (" + i.facility + ")" : "")),
             fact(T("Years"), years(i)), fact(T("Tests"), i.tests ? fmt(i.tests) + T(" individual tests in the data") : T("No individual tests in the data")))),
         h("div", null, A.plane(null, i.id),
-          h("h2", { "class": "tight", text: T("What it found") }), h("p", { "class": "finding", text: c.finding }),
-          A.sourceList ? A.sourceList(i.id) : null,
-          c.caveat ? h("p", { "class": "caveat" }, h("strong", { text: T("Caveat. ") }), c.caveat) : null,
-          h("p", { "class": "note", text: T("Summary, finding and caveat were written with AI from the PSI record and its reports, then checked against the data.") }))),
-      A.figureGallery ? A.figureGallery(i.id) : null,
-      h("h2", { text: T("In NASA's words") }),
-      h("p", { text: T("Text from the PSI record, unchanged.") }),
-      h("div", { "class": "words" }, text(T("Objectives"), i.objectives), text(T("Approach"), i.approach), text(T("Hypothesis"), i.hypothesis), text(T("Benefits on Earth"), i.earth)),
-      sample.length ? [h("h2", { text: T("Its tests") }),
-        h("div", { "class": "table" }, h("table", null,
-          h("thead", null, h("tr", null, [T("Test"), T("Fuel or material"), T("Oxygen"), T("Pressure"), T("Flow"), T("Result"), T("Source row")].map(function (t) { return h("th", { scope: "col", text: t }); }))),
-          h("tbody", null, sample.map(function (t) {
-            return h("tr", null, h("th", { scope: "row", text: t.id || T("(no id)") }), h("td", { text: t.fuel }),
-              h("td", { "class": "num", text: t.o2 === null ? "" : t.o2 + " %" }), h("td", { "class": "num", text: t.p === null ? "" : t.p + " psi" }),
-              h("td", { "class": "num", text: t.flow === null ? "" : t.flow + " cm/s" }), h("td", { text: t.res.length > 150 ? t.res.slice(0, 150) + " ..." : t.res }), h("td", { "class": "num", text: t.row }));
-          })))),
-        h("p", { "class": "note", text: T("Showing ") + sample.length + T(" of ") + fmt(tests.length) + T(". Source: ") + tests[0].src + "." })] : null,
-      h("h2", { text: T("Cite and open") }),
-      h("p", { "class": "cite", text: i.cite }),
-      h("p", { "class": "links" }, h("a", { href: i.url, target: "_blank", rel: "noopener", text: T("Open the PSI record") }),
-        i.doi ? [" · ", h("a", { href: "https://doi.org/" + i.doi, target: "_blank", rel: "noopener", text: "DOI " + i.doi })] : null,
-        " · " + plural(i.pubs, "publication") + T(" listed · record version ") + i.version + T(", modified ") + i.modified + T(" · license ") + i.license))));
+          h("h2", { "class": "tight", text: T("What it found") }), h("p", { "class": "finding", text: c.finding }))),
+      study)));
   }
 
   /* ---------- compare ---------- */

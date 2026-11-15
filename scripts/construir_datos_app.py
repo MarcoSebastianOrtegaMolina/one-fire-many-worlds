@@ -262,7 +262,7 @@ def main():
             "id": pid, "acr": i["acronimo"] or pid, "title": i["titulo"], "doi": i["doi"], "url": i["url"],
             "platform": i["plataforma"], "facility": i["equipo"], "start": i["fecha_inicio"][:4], "end": i["fecha_fin"][:4],
             "group": "ground study" if i["grupo"] == "estudio_en_tierra" else "flight",
-            "objectives": i["objetivos"], "approach": i["enfoque"], "hypothesis": i["hipotesis"],
+            "investigators": i["investigadores"], "objectives": i["objetivos"], "approach": i["enfoque"], "hypothesis": i["hipotesis"],
             "earth": i["beneficios_tierra"], "keywords": i["palabras_clave"], "related": i["investigaciones_relacionadas"],
             "hw": EQUIPOS.get(c["equipo_normalizado"], "Other hardware"), "front": frente, "relevance": RELEVANCIA.get(c["relevancia_seguridad"], ""),
             "fuelType": TIPOS.get(c["tipo_combustible"].replace("ó", "o").replace("í", "i").split(" ")[0], "other"),

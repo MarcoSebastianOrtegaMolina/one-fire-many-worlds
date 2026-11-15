@@ -58,7 +58,7 @@
   /* The model's text as page elements. A line that is only [[figure:ID]] becomes that figure, in place (at most
      three, and only ids in the catalog). In a report, "# " is the title, "## " a section and "- " a list item. */
   var HEADINGS = ["summary", "what the data says", "prevention, detection and suppression", "what has not been tested", "limits of this report"];
-  function body(text, refs, report) {
+  function body(text, refs, report, num) {
     var nodes = [], para = [], items = [], title = "", heads = [];
     function endPara() { if (para.length) { nodes.push(h("p", null, cited(para.join(" "), refs))); para = []; } }
     function endList() { if (items.length) { nodes.push(h("ul", { "class": "replist" }, items.map(function (t) { return h("li", null, cited(t, refs)); }))); items = []; } }
@@ -68,7 +68,7 @@
       if ((m = /^\[\[figure:([\w-]+)\]\]$/.exec(line))) {
         endPara(); endList();
         f = A.figure ? A.figure(m[1]) : null;
-        if (f && refs.figs.indexOf(f.id) < 0 && refs.figs.length < 3) { refs.figs.push(f.id); nodes.push(A.figureBlock(f)); }
+        if (f && refs.figs.indexOf(f.id) < 0 && refs.figs.length < 3) { refs.figs.push(f.id); nodes.push(A.figureBlock(f, num.figure())); }
         return;
       }
       if (report && (m = /^#{1,3}\s+(.+)$/.exec(line))) {
@@ -132,20 +132,12 @@
     catch (e) { return String(iso).slice(0, 10); }
   }
   function url(u) { return h("a", { "class": "url", href: u, target: "_blank", rel: "noopener", text: u }); }
-  function testsTable(rows) {
+  function testsTable(rows, num, report) {
     /* rows holds the platform's test numbers, unique, so the table can never show a different test from the one cited */
     var list = rows.map(function (n) { return D.tests.filter(function (t) { return t.n === n; })[0]; }).filter(Boolean);
     if (!list.length) return null;
-    return [h("h3", { text: T("Tests cited") }),
-      h("div", { "class": "table" }, h("table", null,
-        h("thead", null, h("tr", null, [T("Test"), T("Fuel or material"), T("Oxygen"), T("Pressure"), T("Flow"), T("Result"), T("Source row")].map(function (t) { return h("th", { scope: "col", text: t }); }))),
-        h("tbody", null, list.map(function (t) {
-          return h("tr", null, h("th", { scope: "row" }, h("a", { href: "#/data/" + t.inv + "/n" + t.n, text: t.acr + " " + (t.id || "#" + t.n) })),
-            h("td", { text: t.fuel }),
-            h("td", { "class": "num", text: t.o2 === null ? "" : t.o2 + " %" + (t.ref === "burner" ? " " + T("(burner gas)") : "") }), h("td", { "class": "num", text: t.p === null ? "" : t.p + " psi" }),
-            h("td", { "class": "num", text: t.flow === null ? "" : t.flow + " cm/s" }), h("td", { text: t.res.length > 170 ? t.res.slice(0, 170) + " ..." : t.res }),
-            h("td", { text: String(t.src).replace(/^PSI-\d+_Experimental table_/, "").replace(/\.csv$/, "") + " · " + t.row }));
-        }))))];
+    return [report ? h("h3", { text: T("Tests cited") }) : null,
+      A.testsTable(list, num.table(), report ? T("Tests cited in this report") : T("Tests cited in this answer"))];
   }
   function sources(refs) {
     var items = [];
@@ -164,7 +156,7 @@
     return items.length ? [h("h3", { text: T("Sources") }), h("ol", { "class": "repsrc" }, items)] : null;
   }
   function reportView() {
-    var refs = newRefs(), b = body(state.answer, refs, true);
+    var refs = newRefs(), num = A.counter(), b = body(state.answer, refs, true, num);
     document.title = (b.title || state.q) + " · One Fire, Many Worlds";      /* the browser uses it as the PDF's file name */
     return [h("article", { "class": "report" },
       h("header", { "class": "rephead" },
@@ -173,7 +165,7 @@
         h("p", { "class": "repmeta" }, h("strong", { text: T("Topic asked: ") }), state.q),
         h("p", { "class": "repmeta", text: T("Written by AI") + (state.model ? " (" + state.model + ")" : "") + (state.when ? T(" on ") + day(state.when) : "") +
           T(", from the data of One Fire, Many Worlds: NASA's PSI repository, downloaded November 13, 2026. Team Hamác, 2026 NASA Space Apps Challenge.") })),
-      b.nodes, testsTable(refs.rows), sources(refs),
+      b.nodes, testsTable(refs.rows, num, true), sources(refs),
       h("p", { "class": "note", text: (refs.figs.length ? T("The AI picked the figures by their captions; it has not seen the images. ") : "") +
         T("The ranking of investigations and the list of experiments still to be done are the team's interpretation, not NASA's. A student project, not affiliated with or endorsed by NASA. Check the sources before relying on this report.") + (state.note ? " " + state.note : "") })),
     h("div", { "class": "repactions" },
@@ -198,9 +190,10 @@
       h("p", { "class": "more" }, h("button", { type: "button", "class": "action small quiet", onclick: cancel }, T("Cancel"))));
     if (state.status === "done" && isReport) report = reportView();
     if (state.status === "done" && !isReport) {
-      var b = body(state.answer, refs, false);
+      var num = A.counter(), b = body(state.answer, refs, false, num);
       result = h("div", { "class": "answer", role: "status" },
         h("h2", { "class": "tight", text: state.q }), b.nodes,
+        testsTable(refs.rows, num, false),
         A.sourceStrip ? A.sourceStrip(refs.pages) : null,
         h("p", { "class": "note", text: (state.saved ? T("Saved answer, written with AI and checked against the data. ") : T("Answer written live by AI from this site's data. Check the cited records before relying on it. ")) +
           (refs.figs.length && !state.saved ? T("The AI picked the figures by their captions; it has not seen the images. ") : "") + state.note }),

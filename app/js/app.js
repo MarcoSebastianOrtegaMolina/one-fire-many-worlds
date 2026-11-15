@@ -272,8 +272,25 @@
     h("p", { text: T("Data: NASA Physical Sciences Informatics (PSI) Data Repository, downloaded November 13, 2026. Every figure traces to a PSI record, table or report.") }),
     h("p", { text: T("Summaries were written with AI from those records. The ranking of investigations and the list of experiments still to be done are the team's interpretation, not NASA's.") }),
     window.OFMW_LANG === "es" ? h("p", { text: T("The fuel names, test results and NASA's own text are shown in English, as in the repository.") }) : null,
+    h("p", null, h("a", { href: "#/method", text: T("How this was made: data, tools and use of AI") })),
     h("p", { text: T("Team Hamác, 2026 NASA Space Apps Challenge, Flame in Freefall. A student project, not affiliated with or endorsed by NASA.") }));
+
+  /* Tables and figures in academic layout: a number, a title above, the table or figure, and a note below with
+     the source. Every table added to the site, and every table that comes out of the question box, goes through here. */
+  function counter() { var t = 0, f = 0; return { table: function () { t += 1; return t; }, figure: function () { f += 1; return f; } }; }
+  function apaNote(note) { return note ? h("p", { "class": "apanote" }, h("em", { text: T("Note. ") }), note) : null; }
+  function apaTable(n, title, table, note) {
+    return h("figure", { "class": "apa" },
+      h("figcaption", null, h("span", { "class": "apanum", text: T("Table ") + n }), h("span", { "class": "apatitle", text: title })),
+      h("div", { "class": "table" }, table), apaNote(note));
+  }
+  function apaFigure(n, title, content, note, lang) {
+    return h("figure", { "class": "apa fig" },
+      h("figcaption", null, h("span", { "class": "apanum", text: T("Figure ") + n }), h("span", { "class": "apatitle", lang: lang || null, text: title })),
+      content, apaNote(note));
+  }
   window.OFMW_APP = { h: h, s: s, add: add, fmt: fmt, plural: plural, num: num, inv: inv, world: world, plane: plane, invLink: invLink,
+    counter: counter, apaTable: apaTable, apaFigure: apaFigure,
     D: D, C: C, T: T, main: main, TYPES: TYPES, FRONTS: FRONTS, REL: REL,
     section: function (def, fn) { SECTIONS.push(def); VIEWS[def.id] = { fn: fn, nav: def.id }; },
     route: function (id, nav, fn) { VIEWS[id] = { fn: fn, nav: nav }; },

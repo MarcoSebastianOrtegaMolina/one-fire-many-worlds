@@ -168,3 +168,30 @@ blockquote{margin:.7rem 0 0; padding:.7rem .9rem; border:1.5px solid var(--ink);
   .report .fig img{max-height:10cm}
   @page{margin:18mm 16mm}
 }
+
+/* academic layout for tables and figures: number, title above, note below */
+.apa{margin:1.2rem 0 .5rem; max-width:none}
+.apa > figcaption{display:grid; gap:.15rem; margin:0 0 .55rem; font-size:1rem; line-height:1.4}
+.apa .apanum{font-weight:700}
+.apa .apatitle{font-style:italic; max-width:72ch}
+.apa .table{margin-top:0}
+.apa .apanote{margin-top:.55rem; font-size:.88rem; line-height:1.5; color:var(--ink-2); max-width:84ch}
+.apa .apanote em{color:var(--ink)}
+.apa.fig{max-width:44rem}
+table.how th[scope="row"]{width:13rem; font-weight:600}
+table.how td{line-height:1.5}
+/* a record laid out as a study */
+.study > p{max-width:72ch}
+.study .step{margin-top:1.9rem}
+.study .step h3{font:600 1.5rem/1.15 var(--display)}
+.study .stepn{color:var(--ink-2); font-family:var(--data); font-size:1.1rem}
+.study .nasa{margin-top:.6rem; max-width:74ch; line-height:1.6}
+.study .step > p{margin-top:.6rem; max-width:74ch}
+.study .empty{color:var(--ink-2)}
+.study .words{margin-top:1.9rem}
+.sublabel{margin-top:1.3rem; font:600 .72rem/1.3 var(--data); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2)}
+.people{list-style:none; margin:.6rem 0 0; padding:0; display:grid; gap:.25rem}
+.steps{margin:.8rem 0 0; padding-left:1.4rem; max-width:74ch; display:grid; gap:.5rem; line-height:1.55}
+.prose{margin-top:.7rem; max-width:72ch; line-height:1.6}
+@media (max-width:40rem){ table.how th[scope="row"]{width:8.5rem} }
+@media print{ .report .apa{break-inside:avoid} }

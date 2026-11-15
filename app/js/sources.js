@@ -107,17 +107,19 @@
   A.figure = fig;
   A.figureLabel = function (f) { return figName(f) + ", " + figWhere(f); };
   /* A figure shown in place, inside an answer: the image, its caption as written, and where it comes from. */
-  A.figureBlock = function (f) {
-    return h("figure", { "class": "fig" },
+  A.figureBlock = function (f, n) {
+    /* The title is the caption as the report wrote it, without its own "Figure 6.10." so the two numbers do not clash. */
+    var title = f.caption.replace(/^\s*(?:Figure|Fig\.?)\s*[\d.]+\s*[.:—–-]*\s*/i, "");
+    return A.apaFigure(n, title.charAt(0).toUpperCase() + title.slice(1),
       h("a", { "class": "figimg", href: "#/figure/" + f.id }, h("img", { src: f.img, width: f.w, height: f.h, loading: "lazy", alt: figAlt(f) })),
-      h("figcaption", null, h("span", { "class": "cap", lang: "en", text: f.caption }),
-        h("span", { "class": "from" }, figWhere(f) + ". ", h("a", { href: "#/figure/" + f.id, text: T("Open the figure and its source") }))));
+      [T("From ") + figWhere(f) + T(", where it is ") + figName(f) + T(". Cut from the page of the report; the title is the caption as written there. "),
+        h("a", { href: "#/figure/" + f.id, text: T("Open the figure and its source") }), "."], "en");
   };
   /* The figures of one investigation's reports, for its record. */
-  A.figureGallery = function (invId) {
+  A.figureGallery = function (invId, inside) {
     var list = F.filter(function (f) { return f.invs.indexOf(invId) >= 0; });
     if (!list.length) return null;
-    return [h("h2", { text: T("Figures from its reports") }), thumbs(list.slice(0, 6)),
+    return [inside ? h("p", { "class": "sublabel", text: T("Figures from its reports") }) : h("h2", { text: T("Figures from its reports") }), thumbs(list.slice(0, 6)),
       h("p", { "class": "note" }, T("Captions are quoted in English, as in the reports."), list.length > 6 ? [" ", h("a", { href: "#/figures/" + invId, text: T("See all ") + list.length + T(" figures") })] : null)];
   };
 
