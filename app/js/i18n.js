@@ -254,7 +254,11 @@
     "Burn it in Moon-base air: in PSI it was tested up to ": "Quemarlo con el aire de una base lunar: en PSI se probó hasta ",
     /* 3D */
     "In 3D": "En 3D", "A NASA model of the place, to turn and look at.": "Un modelo de NASA del lugar, para girarlo y mirarlo.",
-    "See in 3D": "Ver en 3D", "Close the 3D view": "Cerrar la vista 3D", "Try again": "Intentar de nuevo", "Model": "Modelo", "Part 1": "Parte 1", "Part 2": "Parte 2",
+    "See in 3D": "Ver en 3D", "Close the 3D view": "Cerrar la vista 3D", "Try again": "Intentar de nuevo", "Model": "Modelo", "Part 1": "Parte 1", "Part 2": "Parte 2", "The Moon": "La Luna",
+    "3D model of the Moon made with imagery from NASA's Lunar Reconnaissance Orbiter": "Modelo 3D de la Luna hecho con imágenes del orbitador LRO de NASA",
+    "Its texture was recompressed to JPEG, same size in pixels, to load faster.": "Su textura se recomprimió a JPEG, con el mismo tamaño en píxeles, para que cargue más rápido.",
+    "3D model of the Extravehicular Mobility Unit, the suit worn on Space Station spacewalks": "Modelo 3D de la Unidad de Movilidad Extravehicular, el traje de las caminatas espaciales de la Estación",
+    "Its backup PNG copies of the textures were removed; the WebP textures and the geometry are NASA's.": "Se quitaron las copias PNG de respaldo de sus texturas; las texturas WebP y la geometría son las de NASA.",
     "The model loads only when you open it.": "El modelo solo se carga cuando lo abres.", "Loading the 3D model ...": "Cargando el modelo 3D ...",
     "Drag to turn it, pinch or scroll to zoom, and double-tap to reset.": "Arrastra para girarlo, pellizca o usa la rueda para acercar, y toca dos veces para volver al inicio.",
     "The model did not load. Check the connection and try again.": "El modelo no cargó. Revisa la conexión e inténtalo de nuevo.",

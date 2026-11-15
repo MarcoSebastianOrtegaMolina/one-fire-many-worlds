@@ -15,9 +15,14 @@
       { src: "models/habitat-1.glb", bytes: 195820, label: T("Part 1"), name: "Habitat Demonstration Unit (part 1)", credit: "NASA",
         alt: T("3D model of NASA's Habitat Demonstration Unit, part 1"), page: "https://science.nasa.gov/3d-resources/habitat-demonstration-unit/", change: T("The NASA insignias were removed from its texture.") },
       { src: "models/habitat-2.glb", bytes: 710988, label: T("Part 2"), name: "Habitat Demonstration Unit (part 2)", credit: "NASA",
-        alt: T("3D model of NASA's Habitat Demonstration Unit, part 2"), page: "https://science.nasa.gov/3d-resources/habitat-demonstration-unit/", change: "" }],
-    suit: [{ src: "models/mark-iii.glb", bytes: 722228, name: "Mark III Spacesuit", credit: "NASA",
-      alt: T("3D model of NASA's Mark III spacesuit"), page: "https://science.nasa.gov/3d-resources/mark-iii-spacesuit/", change: NO_INSIGNIA }],
+        alt: T("3D model of NASA's Habitat Demonstration Unit, part 2"), page: "https://science.nasa.gov/3d-resources/habitat-demonstration-unit/", change: "" },
+      { src: "models/moon-lro.glb", bytes: 3953768, label: T("The Moon"), name: "Moon 3D Models for Web, AR, and Animation (moon_small)", credit: "NASA's Goddard Space Flight Center",
+        alt: T("3D model of the Moon made with imagery from NASA's Lunar Reconnaissance Orbiter"), page: "https://svs.gsfc.nasa.gov/14959/",
+        change: T("Its texture was recompressed to JPEG, same size in pixels, to load faster.") }],
+    /* D-1441: the EMU is the suit worn on Station spacewalks (100 % oxygen at 4.3 psi). Seen from the front at this orbit. */
+    suit: [{ src: "models/emu.glb", bytes: 2538708, name: "Extravehicular Mobility Unit", credit: "NASA/Michael D. Carbajal", orbit: "180deg 80deg auto",
+      alt: T("3D model of the Extravehicular Mobility Unit, the suit worn on Space Station spacewalks"), page: "https://science.nasa.gov/3d-resources/extravehicular-mobility-unit/",
+      change: T("Its backup PNG copies of the textures were removed; the WebP textures and the geometry are NASA's.") }],
     mars: [{ src: "models/mars.glb", bytes: 702156, name: "Planet Mars, 3D Model", credit: "NASA/JPL-Caltech",
       alt: T("3D model of the planet Mars"), page: "https://science.nasa.gov/resource/planet-mars-3d-model", change: LIGHTER }],
     earth: [{ src: "models/earth.glb", bytes: 2380808, name: "Earth with Clouds 3D Model", credit: "NASA Visualization Technology Applications and Development (VTAD)",
@@ -92,6 +97,7 @@
         mv.setAttribute("loading", "eager");                     /* the reader already asked for it */
         mv.setAttribute("touch-action", "pan-y");
         mv.setAttribute("shadow-intensity", "0.6");
+        if (m.orbit) mv.setAttribute("camera-orbit", m.orbit);
         if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) mv.setAttribute("interaction-prompt", "none");   /* no animated hand either */
         else mv.setAttribute("auto-rotate", "");
         mv.addEventListener("load", function () { status.textContent = T("Drag to turn it, pinch or scroll to zoom, and double-tap to reset."); });
@@ -100,7 +106,7 @@
           status.textContent = T("The model did not load. Check the connection and try again.");
           openBtn.hidden = false; closeBtn.hidden = true; open = false; openBtn.textContent = T("Try again");
         });
-        mv.addEventListener("dblclick", function () { mv.resetTurntableRotation && mv.resetTurntableRotation(); mv.cameraOrbit = "auto auto auto"; mv.fieldOfView = "auto"; });
+        mv.addEventListener("dblclick", function () { mv.resetTurntableRotation && mv.resetTurntableRotation(); mv.cameraOrbit = m.orbit || "auto auto auto"; mv.fieldOfView = "auto"; });
         stage.replaceChildren(mv);
       }, function () {
         open = false;
