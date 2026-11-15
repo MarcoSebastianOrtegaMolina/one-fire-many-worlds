@@ -223,6 +223,8 @@
     "The finding is stated at the top of this page. This is the evidence behind it.": "El hallazgo está arriba en esta página. Esta es la evidencia que lo sostiene.",
     "First ": "Primeras ", " tests of ": " pruebas de ", "Source: ": "Fuente: ", "See all its tests in Data": "Ver todas sus pruebas en Datos",
     "Limits": "Límites", "The team did not note a specific caveat for this investigation.": "El equipo no anotó una salvedad específica para esta investigación.", "Who did it": "Quién la hizo",
+    "This document is not in PSI: it is cited as context. Once it opens, go to page ": "Este documento no está en PSI: se cita como contexto. Al abrirlo, ve a la página ",
+    "Context, outside PSI": "Contexto, fuera de PSI",
     /* material passport */
     "cited page": "página citada", "cited pages": "páginas citadas", "figure": "figura", "figures": "figuras",
     "In microgravity": "En microgravedad", "On the ground and in standards": "En tierra y en normas", "Planned, no data yet": "Planeado, sin datos todavía",

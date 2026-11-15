@@ -60,12 +60,16 @@
       h("h2", { "class": "tight", text: T("What this page supports") }), h("p", { "class": "finding", text: e.claim[L] }),
       e.quote ? [h("h2", { "class": "tight", text: T("The passage, as written") }), h("blockquote", { lang: "en", text: e.quote }),
         L === "es" ? h("p", { "class": "note", text: T("The passage is quoted in English, as in the report.") }) : null] : null,
-      h("h2", { "class": "tight", text: T("Used by") }),
-      h("p", { "class": "links" }, e.invs.map(function (id, n) { var i = A.inv(id); return [n ? " · " : "", i ? A.invLink(i) : id]; })),
-      h("p", { "class": "srcactions" },
-        h("a", { "class": "action", href: e.download, target: "_blank", rel: "noopener", text: T("Download the original document") }),
-        h("a", { "class": "action quiet", href: e.record, target: "_blank", rel: "noopener", text: T("Open the record in PSI") })),
-      h("p", { "class": "note", text: e.page ? T("PSI delivers the whole PDF. Once it opens, go to page ") + e.page + "." : T("The page image is not reproduced for this document.") }),
+      (e.invs || []).length ? [h("h2", { "class": "tight", text: T("Used by") }),
+        h("p", { "class": "links" }, e.invs.map(function (id, n) { var i = A.inv(id); return [n ? " · " : "", i ? A.invLink(i) : id]; }))] : null,
+      /* A document outside PSI (a standard, a memo, a poster) has its own page at NASA instead of a PSI record. */
+      h("p", { "class": "srcactions" }, e.docInv
+        ? [h("a", { "class": "action", href: e.download, target: "_blank", rel: "noopener", text: T("Download the original document") }),
+          h("a", { "class": "action quiet", href: e.record, target: "_blank", rel: "noopener", text: T("Open the record in PSI") })]
+        : h("a", { "class": "action", href: e.record || e.download, target: "_blank", rel: "noopener", text: T("Open the document at NASA") })),
+      h("p", { "class": "note", text: !e.page ? T("The page image is not reproduced for this document.")
+        : e.docInv ? T("PSI delivers the whole PDF. Once it opens, go to page ") + e.page + "."
+        : T("This document is not in PSI: it is cited as context. Once it opens, go to page ") + e.page + "." }),
       h("p", { "class": "links" }, prev ? link(prev, T("Previous source")) : null, prev && next ? " · " : "", next ? link(next, T("Next source")) : null));
     A.main.replaceChildren(h("div", { "class": "wrap" }, h("div", { "class": "sheet page" },
       h("p", { "class": "crumb" }, h("a", { href: "#/sources", text: T("Sources") }), " / " + e.id),
@@ -86,7 +90,8 @@
         h("thead", null, h("tr", null, [T("Document"), T("Page"), T("What it supports"), T("Investigations")].map(function (t) { return h("th", { scope: "col", text: t }); }))),
         h("tbody", null, E.map(function (e) {
           return h("tr", null, h("th", { scope: "row" }, link(e, e.doc[L])), h("td", { "class": "num", text: e.page ? String(e.page) : e.pageLabel }),
-            h("td", { text: e.claim[L] }), h("td", null, e.invs.map(function (id, n) { var i = A.inv(id); return [n ? ", " : "", i ? A.invLink(i) : id]; })));
+            h("td", { text: e.claim[L] }), h("td", null, (e.invs || []).length ? e.invs.map(function (id, n) { var i = A.inv(id); return [n ? ", " : "", i ? A.invLink(i) : id]; })
+              : h("span", { "class": "missing", text: T("Context, outside PSI") })));
         })))))));
   }
 

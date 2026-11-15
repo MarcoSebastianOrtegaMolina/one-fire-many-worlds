@@ -30,6 +30,8 @@ const COMMON = [
   "The test rows are a sample, not every test: never conclude from them that something was not tested or not recorded. Say that the data lacks something only when the knowledge base says so.",
   "In a test row, oxygenIs tells what the oxygen value refers to: 'atmosphere' is the air in the chamber, 'burner' is the gas leaving the burner and must not be read as the atmosphere.",
   "When the knowledge base does not hold the answer, say that it is not in the data and name the closest thing that is.",
+  "Attribute each statement to its record or its document, for example 'the BASS-II summary report says'. Never attribute anything to NASA as a whole: do not write 'according to NASA', 'NASA says' or 'según NASA'.",
+  "Each report page has an origin. Only 'microgravity' pages report tests in microgravity. 'ground' pages are tests in normal gravity, 'standard' is NASA's acceptance standard, 'history' is an earlier memo or accident report, and 'planned' is an experiment with no data yet: when you use one of these, say what it is.",
   "Keep data apart from interpretation: relevance grades, rankings and the list of experiments still to be done are the team's reading, and you say so when you use them.",
   "If the request is not about this data or about fire safety in space, say in one line that you can only write about this data.",
 ].join("\n");
@@ -51,6 +53,10 @@ const FORMAT = {
   ].join("\n"),
 };
 
+/* Where a report page comes from: the catalog says it in `origin`; until it does, the document tells (same rule as the page). */
+const BY_DOC = { std6001: "standard", tm1989: "history", apollo13: "history", meyer2015: "ground", fm2poster: "planned" };
+const originOf = (e) => e.origin || BY_DOC[String(e.id).split("-")[0]] || "microgravity";
+
 let kb = null;
 function load() {
   if (kb) return kb;
@@ -71,7 +77,7 @@ function load() {
   const base = { summary: D.summary, worlds, investigations: invs, materials: D.materials.map((m) => ({ ...m, note: C.materials[m.name] })),
     materialsSmokeNote: "In materials[].smoke, medianDiameterNm and detectorMedianV come from SAME-R runs only [PSI-101]. detectorMedianV is the obscuration channel of the Station detector, as the magnitude of its change. They are not SAME results: do not cite [PSI-102] for them.",
     sameSampleInOrbitAndOnTheGround: D.gravityPairs, experimentsStillToBeDone: C.agenda, timeline: C.timeline,
-    reportPages: E.map((e) => ({ id: e.id, investigations: e.invs, document: e.doc.en, page: e.page || e.pageLabel, supports: e.claim.en, passage: e.quote })),
+    reportPages: E.map((e) => ({ id: e.id, investigations: e.invs, materials: e.materials, origin: originOf(e), document: e.doc.en, page: e.page || e.pageLabel, supports: e.claim.en, passage: e.quote })),
     figures: G.map((f) => ({ id: f.id, investigations: f.invs, document: f.doc.en, page: f.page, caption: f.caption })) };
   kb = { system: COMMON + "\n\nKNOWLEDGE BASE (JSON)\n" + JSON.stringify(base), tests: D.tests, figures: G.length };
   return kb;
