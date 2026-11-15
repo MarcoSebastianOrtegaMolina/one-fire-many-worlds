@@ -92,9 +92,11 @@
         mv.setAttribute("loading", "eager");                     /* the reader already asked for it */
         mv.setAttribute("touch-action", "pan-y");
         mv.setAttribute("shadow-intensity", "0.6");
-        if (!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) mv.setAttribute("auto-rotate", "");
+        if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) mv.setAttribute("interaction-prompt", "none");   /* no animated hand either */
+        else mv.setAttribute("auto-rotate", "");
         mv.addEventListener("load", function () { status.textContent = T("Drag to turn it, pinch or scroll to zoom, and double-tap to reset."); });
         mv.addEventListener("error", function () {
+          if (!mv.isConnected || pick !== k) return;               /* a late error from a model already replaced */
           status.textContent = T("The model did not load. Check the connection and try again.");
           openBtn.hidden = false; closeBtn.hidden = true; open = false; openBtn.textContent = T("Try again");
         });

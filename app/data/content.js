@@ -37,11 +37,11 @@ window.OFMW_CONTENT = {
       line: "Nine samples of silicone, cotton-fiberglass, PMMA and Nomex burned in a Cygnus vehicle, each compared with the same test in normal gravity.",
       finding: "Thin silicone did not spread flame in microgravity (burn length about 0), yet in normal gravity two of the four silicone samples burned completely. Cotton-fiberglass burned its full 29 cm in both.",
       why: "The best direct comparison of microgravity against normal gravity, material by material.",
-      caveat: "Nine samples, at one airflow (20 cm/s) and Earth-like oxygen (21.5 to 22.1 %)."
+      caveat: "Nine samples, at 20 cm/s in the PSI table and Earth-like oxygen (21.5 to 22.1 %). The 2017 Saffire slides by Urban and others give 25 cm/s for sample 2-6 and about 22.1 % oxygen for sample 2-1, where PSI says 21.5 %."
     },
     "PSI-100": {
       line: "A large cotton-fiberglass sample burned in a Cygnus vehicle at a higher airflow than Saffire-I.",
-      finding: "2 samples at 30 cm/s. The table has no oxygen or result; the vehicle sensors give 19.4 to 20.1 % oxygen and 14.4 to 14.5 psi. Outside PSI, NASA's 2017 Saffire slides give 25 cm/s instead, and the results the table lacks: 300 s of concurrent burning at 2.3 mm/s and 60 s of opposed burning at 0.98 mm/s (slides 30 and 31).",
+      finding: "2 samples at 30 cm/s. The table has no oxygen or result; the vehicle sensors give 19.4 to 20.1 % oxygen and 14.4 to 14.5 psi. Outside PSI, the 2017 Saffire slides by Urban and others disagree on two points: 25 cm/s instead of 30, and oxygen falling from 21.2 to 21.0 % instead of the 19.7 and 19.9 % on the PSI records. They also give the results the table lacks: 300 s of concurrent burning at 2.3 mm/s and 60 s of opposed burning at 0.98 mm/s (slides 30 and 31).",
       why: "Relevant for its scale.",
       caveat: "Almost no data in the experimental table."
     },
@@ -166,22 +166,22 @@ window.OFMW_CONTENT = {
     moon: {
       headline: "Flames here do not go out on their own",
       prevention: "71 tests ran in air like this, none with solids: 34 gas flames from ACME BRE, 20 from ACME CFI-G and 17 droplets from FLEX. In BRE, near 8.2 psia with 29.8 to 39.3 % oxygen, 25 of 36 flames kept burning until the fuel was cut off. Near 14.7 psia with less than 23 % oxygen, all 10 went out by themselves. Outside PSI, NASA's Saffire VI burned SIBAL and PMMA in microgravity at 28.8 to 31.0 % oxygen and about 55 kPa (8 psi), almost Moon-base air (34 % and 8.2 psi); its results are preliminary and its test-by-test data are not open in PSI.",
-      detection: "No smoke test in PSI was run in this atmosphere. The smoke experiments do not record oxygen or pressure. Outside PSI, in Saffire VI (preliminary), the smoke was readily detected only at 981 s, after most of the hazardous gas had been released, and in the PMMA tests cabin carbon monoxide passed its 24-hour limit.",
+      detection: "No smoke test in PSI was run in this atmosphere. The smoke experiments do not record oxygen or pressure. Outside PSI, in Saffire VI (preliminary), the smoke was readily detected at 981 s, after most of the hazardous gas had been released, and in the PMMA tests cabin carbon monoxide passed its 24-hour limit.",
       suppression: "The 17 FLEX droplets, at 0.7 atm with 30 to 34 % oxygen, are the only tests from a suppression experiment near these conditions.",
-      takeaway: "No fabric or plastic has been burned in microgravity with Moon-base air in the data PSI holds. Outside PSI, NASA's Saffire VI burned cotton-fiberglass fabric and acrylic at 28.8 to 31.0 % oxygen and about 55 kPa (8 psi) in a cargo ship in December 2023, almost Moon-base air; its results are preliminary and its test-by-test data are not open in PSI. Lunar gravity itself has only been reproduced for seconds at a time, in parabolic flights and in centrifuges inside drop towers; no long test exists."
+      takeaway: "No fabric or plastic has been burned in microgravity with Moon-base air in the data PSI holds. Outside PSI, NASA's Saffire VI burned cotton-fiberglass fabric and acrylic at 28.8 to 31.0 % oxygen and about 55 kPa (8 psi) in a cargo ship in December 2023, almost Moon-base air; its results are preliminary and its test-by-test data are not open in PSI. Lunar gravity itself has only been reproduced for seconds at a time, in parabolic flights and in centrifuges inside drop towers; no long test is known in PSI or in the sources on this site."
     },
     suit: {
-      headline: "Never tested",
-      prevention: "No test comes close to 100 % oxygen at 4.3 psi. The highest ambient oxygen in PSI is 40 % and the lowest pressure is 6.2 psi.",
-      detection: "No data.",
-      suppression: "No data.",
+      headline: "No test in PSI",
+      prevention: "No test in PSI comes close to 100 % oxygen at 4.3 psi. The highest ambient oxygen in PSI is 40 % and the lowest pressure is 6.2 psi. NASA-STD-6001B asks that each material be tested in the highest oxygen it could see in use (p. 29); the standard does not name suits, and no suit-material result is on this site.",
+      detection: "No data in PSI.",
+      suppression: "No data in PSI.",
       takeaway: "Apollo 1 burned in a cabin filled with 100 % oxygen. PSI holds no combustion test in a pure-oxygen atmosphere."
     },
     mars: {
-      headline: "No data yet",
-      prevention: "PSI holds no partial-gravity combustion data, and the challenge gives no atmosphere for a Mars habitat. It does say that microgravity and normal-gravity results could bound what happens in between.",
-      detection: "No data.",
-      suppression: "No data.",
+      headline: "No data in PSI yet",
+      prevention: "PSI holds no partial-gravity combustion data, and the challenge gives no atmosphere for a Mars habitat. It does say that microgravity and normal-gravity results could bound what happens in between. Outside PSI, parabolic flights on NASA's KC-135 measured flame spread over thin solids from 0.1 to 1 g, a range that includes Mars gravity (0.38 g), for seconds at a time (NTRS 20040053567).",
+      detection: "No data in PSI.",
+      suppression: "No data in PSI.",
       takeaway: "ACME E-FIELD Flames suggests that electric fields could approximate partial-gravity buoyancy. It is a suggestion in a report, not a measurement."
     },
     earth: {
@@ -202,7 +202,7 @@ window.OFMW_CONTENT = {
       why: "PSI has no partial-gravity combustion data. Everything is either microgravity or normal gravity.",
       closest: "Saffire-II compares microgravity with normal gravity for 9 samples.", planned: "The challenge names two future experiments: LUCI and FM2." },
     { id: "smoke-atmospheres", title: "Measure smoke in exploration atmospheres", worlds: ["moon", "suit", "mars"], front: "detection",
-      why: "The smoke experiments do not record oxygen or pressure, so nobody knows how smoke changes in Moon-base air.",
+      why: "In PSI, no smoke experiment records oxygen or pressure. Outside PSI, Saffire VI (preliminary results, ICES 2024) detected smoke in near Moon-base air, but no particle sizes from it are open.",
       closest: "SAME and SAME-R give particle size for five materials in Station air.", planned: "" },
     { id: "suppress-solids", title: "Measure suppression on burning solids", worlds: ["station", "moon", "earth"], front: "suppression",
       why: "Suppressant data is for droplets of two liquids. On solids there are 7 nitrogen tests whose effect is described, not measured. PSI holds no water-mist test.",
@@ -260,7 +260,7 @@ window.OFMW_CONTENT = {
       answers: ["PSI-20"], front: "prevention", source: "PSI-20", url: "" },
     { year: "2023", title: "Saffire VI burns solids in near Moon-base air", kind: "experiment",
       what: "Inside a Cygnus cargo ship, after it left the Station, SIBAL fabric and PMMA burned at 28.8 to 31.0 % oxygen and about 55 kPa (8 psi), almost the Moon-base air of the challenge (34 % and 8.2 psi). Outside PSI.",
-      lesson: "Preliminary results: in the PMMA tests cabin carbon monoxide passed its 24-hour limit, and the smoke was readily detected only at 981 s, after most of the hazardous gas had been released.",
+      lesson: "Preliminary results: in the PMMA tests cabin carbon monoxide passed its 24-hour limit, and the smoke was readily detected at 981 s, after most of the hazardous gas had been released.",
       answers: [], front: "detection",
       source: "Urban et al., Preliminary Results from the Saffire VI Experiment, ICES 2024, NASA Glenn (NTRS 20240007488)", url: "https://ntrs.nasa.gov/citations/20240007488" },
     { year: "Recent", title: "Smoke alarm on Artemis II", kind: "accident",
@@ -290,7 +290,7 @@ window.OFMW_CONTENT = {
   /* Saved answers for the question box. They work with no network and were checked against the data. */
   examples: [
     { q: "What is known about fire in a Moon base atmosphere?",
-      a: "71 tests ran in air like a Moon base, with 30 % oxygen or more at 11 psi or less, and none of them with solids: 34 gas flames from ACME BRE [PSI-20], 20 from ACME CFI-G [PSI-159] and 17 droplets from FLEX [PSI-69]. In BRE, near 8.2 psia with 29.8 to 39.3 % oxygen, 25 of 36 flames kept burning until the fuel was cut off, while near 14.7 psia with less than 23 % oxygen all 10 went out by themselves. The final report says the same in words [bre-final-18]. The figure shows one of those flames, still burning steadily at 172 seconds with 34 % oxygen and 8.2 psia.\n\n[[figure:bre-p57-fig6]]\n\nNo fabric or plastic has been burned in that air in the data PSI holds. Outside PSI, NASA's Saffire VI burned a SIBAL sheet at 31.0 % oxygen and PMMA at 30.3 and 28.8 %, near 55 kPa (about 8 psi), almost Moon-base air; the results are preliminary and the test-by-test data are not open in PSI [saffire6-11]. Lunar gravity has only been reproduced for seconds at a time, in parabolic flights and in centrifuges inside drop towers [kc135-2003] [fm2poster-1-limits]; no long test exists." },
+      a: "71 tests ran in air like a Moon base, with 30 % oxygen or more at 11 psi or less, and none of them with solids: 34 gas flames from ACME BRE [PSI-20], 20 from ACME CFI-G [PSI-159] and 17 droplets from FLEX [PSI-69]. In BRE, near 8.2 psia with 29.8 to 39.3 % oxygen, 25 of 36 flames kept burning until the fuel was cut off, while near 14.7 psia with less than 23 % oxygen all 10 went out by themselves. The final report says the same in words [bre-final-18]. The figure shows one of those flames, still burning steadily at 172 seconds with 34 % oxygen and 8.2 psia.\n\n[[figure:bre-p57-fig6]]\n\nNo fabric or plastic has been burned in that air in the data PSI holds. Outside PSI, NASA's Saffire VI burned a SIBAL sheet at 31.0 % oxygen and PMMA at 30.3 and 28.8 %, near 55 kPa (about 8 psi), almost Moon-base air; the results are preliminary and the test-by-test data are not open in PSI [saffire6-11]. Lunar gravity has only been reproduced for seconds at a time, in parabolic flights and in centrifuges inside drop towers [kc135-2003] [fm2poster-1-limits]; no long test is known in PSI or in the sources on this site." },
     { q: "Which smoke is hardest for the Station detector to see?",
       a: "Kapton and Teflon. In SAME-R the Station detector's obscuration signal changed by a median of 0.006 V with Kapton smoke and 0.019 V with Teflon, against 1.08 V with silicone. Their particles are the smallest: a median count mean diameter of 110 and 167 nm [PSI-101]. The SAME-R final report concludes that Kapton and Teflon smoke will be hard to detect with light-scattering devices, and in SAME the Station detector was erratic with Teflon smoke [PSI-102] [samer-5] [same-25]. The figure plots the particle diameters of Kapton smoke against air speed in SAME-R.\n\n[[figure:samer-p6-fig7]]\n\nThe detector figures are a coarse summary that ranks materials. They are not an alarm threshold." },
     { q: "Which suppressants were tested, and on what?",
@@ -298,7 +298,7 @@ window.OFMW_CONTENT = {
     { q: "Is there data for a Mars habitat?",
       a: "That is not in the data. PSI holds no combustion test at partial gravity, and the challenge gives no atmosphere for a Mars habitat. The closest evidence sits at the two ends of the gravity scale: the microgravity flight tests, and Saffire-II, which repeated 9 samples in normal gravity [PSI-99]. The figure, from NASA's guide to combustion science on the Station, sets flames in normal gravity beside flames of the same fuels in microgravity.\n\n[[figure:guide-p9-fig1]]\n\nACME E-FIELD Flames suggests that electric fields could approximate partial-gravity buoyancy; that is a suggestion in its report, not a measurement [PSI-22] [efield-37]. The challenge names two future experiments, LUCI and FM2." },
     { q: "Does silicone burn?",
-      a: "In microgravity, barely: the four silicone samples of Saffire-II did not spread flame, with a burn length of about 0 [PSI-99]. In normal gravity the same samples behaved differently: two burned completely, one burned 7.6 cm and one did not burn.\n\nSilicone does make smoke when overheated. In SAME and SAME-R it produced the largest particles and the strongest response of the Station detector [PSI-101] [PSI-102]. The figure shows the instrument traces of one silicone smoke run in SAME. Its flame tests in Saffire-II ran at 21.5 to 22.1 % oxygen and its smoke runs do not record oxygen, so nothing is known about it in Moon-base air.\n\n[[figure:same-p27-fig13]]" }
+      a: "In microgravity, barely: the four silicone samples of Saffire-II did not spread flame, with a burn length of about 0 [PSI-99]. In normal gravity the same samples behaved differently: two burned completely, one burned 7.6 cm and one did not burn.\n\nSilicone does make smoke when overheated. In SAME and SAME-R it produced the largest particles and the strongest response of the Station detector [PSI-101] [PSI-102]. The figure shows the instrument traces of one silicone smoke run in SAME. Its flame tests in Saffire-II ran at 21.5 to 22.1 % oxygen and its smoke runs do not record oxygen, so PSI holds nothing about it in Moon-base air.\n\n[[figure:same-p27-fig13]]" }
   ],
 
   sources: {

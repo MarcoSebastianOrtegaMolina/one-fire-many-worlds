@@ -83,7 +83,7 @@ https://www.spaceappschallenge.org/2026/judging/ no existe).
 | Marte | Planet Mars, 3D Model (NASA/JPL-Caltech) | https://science.nasa.gov/resource/planet-mars-3d-model | Archivos del 8-mar-2024, según la página | Texturas recomprimidas a JPEG (4.0 a 0.7 MB) |
 | Tierra | Earth with Clouds 3D Model (NASA VTAD) | https://science.nasa.gov/resource/earth-with-clouds-3d-model | Archivos del 9-sep-2023, según la página | Texturas recomprimidas a JPEG (18.9 a 2.4 MB) |
 
-Los cambios los hace `preparar_modelos.py` (guardado en la carpeta de trabajo de la sesión, no en el repositorio).
+Los cambios los hace `scripts/preparar_modelos.py` (usa Pillow; los modelos originales de NASA no se guardan en el repositorio).
 Guía de uso: https://www.nasa.gov/nasa-brand-center/images-and-media/ (actualizada el 27-oct-2026).
 
 Hay que declarar el uso de IA en la entrega. Cómo se declara está pendiente de confirmar con la sede.

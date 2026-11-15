@@ -28,23 +28,27 @@
   function origin(x) { return x.origin || BY_DOC[String(x.id).split("-")[0]] || "microgravity"; }
   var GROUPS = [
     { id: "flight", label: T("In microgravity"), note: T("Tests in orbit, in parabolic flight or in drop towers, and the reports about them."), has: ["microgravity"] },
-    { id: "ground", label: T("On the ground and in standards"), note: T("Tests in normal gravity, NASA's acceptance standard for materials, and earlier memos. They do not measure microgravity."), has: ["ground", "standard", "history"] },
+    { id: "ground", label: T("On the ground, in partial gravity and in standards"), note: T("Tests in normal gravity or in partial gravity for a few seconds, NASA's acceptance standard for materials, and earlier memos. They do not measure microgravity."), has: ["ground", "partial", "standard", "history"] },
     { id: "planned", label: T("Planned, no data yet"), note: T("Experiments that are designed or proposed. Nothing has been measured yet."), has: ["planned"] }
   ];
-  var TAG = { ground: T("ground test"), standard: T("standard"), history: T("memo, history"), planned: T("planned") };
+  var TAG = { ground: T("ground test"), partial: T("partial gravity"), standard: T("standard"), history: T("memo, history"), planned: T("planned") };
 
   /* What was burned outside PSI in Moon-base-like air (D-1429): Saffire VI, December 2023, aboard an uncrewed
      Cygnus. Preliminary results, ICES 2024, p. 11. Its test-by-test data is not in PSI. */
   var OUTSIDE = {
-    "SIBAL (cotton-fiberglass fabric)": { o2: "31.0", kpa: "54.1" },
-    "PMMA (acrylic)": { o2: "28.8 " + T("and") + " 30.3", kpa: "54.6 " + T("and") + " 55.2" }
+    "SIBAL (cotton-fiberglass fabric)": { saffire: T("31.0 % oxygen at 54.1 kPa") },
+    /* p. 11: VI-3, two-sided PMMA, 30.3 % at 54.6 kPa; VI-4, one-sided PMMA, 28.8 % at 55.2 kPa */
+    "PMMA (acrylic)": { saffire: T("30.3 % oxygen at 54.6 kPa (two-sided sample) and 28.8 % at 55.2 kPa (one-sided)") },
+    /* Nomex: a 2025 poster prepared for FM2, ground, drop tower and centrifuge, not a flight */
+    "Nomex": { text: T("A 2025 poster prepared for the FM2 experiment gives approximate limiting oxygen for Nomex HT90-40 fabric at 8.2 psi: about 23 % in normal gravity, 29 % in lunar gravity and 38 % in microgravity, from ground, centrifuge and drop-tower tests. "), source: "nomex-fm2-2025" }
   };
   function outsideNote(m) {
-    var o = OUTSIDE[m.name], ev = A.evidence && A.evidence("saffire6-11");
+    var o = OUTSIDE[m.name];
     if (!o) return null;
-    return h("p", { "class": "known outside" }, h("span", { "class": "tag tag-outside", text: T("outside PSI") }), " ",
-      T("Saffire VI burned it in December 2023, aboard an uncrewed Cygnus, at ") + o.o2 + T(" % oxygen and ") + o.kpa + T(" kPa (about 8 psi): close to Moon-base air. Preliminary results; its test-by-test data is not open in PSI. "),
-      ev ? h("a", { href: "#/source/saffire6-11", text: T("See the page") }) : T("Source: Urban and others, Preliminary Results from the Saffire VI Experiment, ICES 2024, p. 11."));
+    var id = o.source || "saffire6-11", ev = A.evidence && A.evidence(id);
+    var text = o.text || T("Saffire VI burned it in December 2023, aboard an uncrewed Cygnus, at ") + o.saffire + T(" (about 8 psi): close to Moon-base air. Preliminary results; its test-by-test data is not open in PSI. ");
+    return h("p", { "class": "known outside" }, h("span", { "class": "tag tag-outside", text: T("outside PSI") }), " ", text,
+      ev ? h("a", { href: "#/source/" + id, text: T("See the page") }) : null);
   }
 
   function href(m) { return "#/material/" + encodeURIComponent(m.name); }
@@ -121,7 +125,7 @@
     };
     return [h("h2", { text: T("Figures and images") }),
       group(T("From the reports"), reports, T("Cut from NASA's reports; each opens with its caption as written, its page and its source. Ground tests are marked.")),
-      group(T("Gathered by the team"), team, T("Images the team gathered, each with its credit and its license."))];
+      group(T("Gathered by the team"), team, T("Images the team gathered, each with its credit and its license. Ground tests are marked."))];
   }
   function gravityTable(gp, n) {
     var zero = function (v) { return /^~ 0/.test(v); };
@@ -136,7 +140,8 @@
   }
   function gaps(m) {
     var out = [], top = m.burn.o2 ? m.burn.o2[1] : null;
-    if (OUTSIDE[m.name]) out.push(T("Open the data in Moon-base air: Saffire VI burned it near that air in 2023, outside PSI, but its test-by-test data is not public in PSI, and nothing has reached 34 % oxygen at 8.2 psi."));
+    if (OUTSIDE[m.name] && OUTSIDE[m.name].saffire) out.push(T("Open the data in Moon-base air: Saffire VI burned it near that air in 2023, outside PSI, but its test-by-test data is not public in PSI, and neither PSI nor Saffire VI burned it at 34 % oxygen and 8.2 psi."));
+    else if (OUTSIDE[m.name]) out.push(T("Burn it in flight in Moon-base air: PSI has no test of it there, and the limits outside PSI come from ground, centrifuge and drop-tower tests."));
     else if (!m.burn.tests) out.push(T("Burn it: there is no burn test of this material in the repository."));
     else if (top !== null && top < MOON_O2) out.push(T("Burn it in Moon-base air: in PSI it was tested up to ") + top + T(" % oxygen, and a Moon base is expected at 30 % or more."));
     if (!m.smoke.runs) out.push(T("Measure its smoke: there is no smoke run of this material in the repository."));

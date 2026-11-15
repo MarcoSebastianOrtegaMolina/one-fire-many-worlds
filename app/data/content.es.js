@@ -36,11 +36,11 @@ window.OFMW_CONTENT_ES = {
       line: "Nueve muestras de silicón, algodón y fibra de vidrio, PMMA y Nomex quemadas en un vehículo Cygnus, cada una comparada con la misma prueba en gravedad normal.",
       finding: "El silicón delgado no propagó la flama en microgravedad (largo quemado de casi 0), pero en gravedad normal dos de sus cuatro muestras ardieron completas. El algodón y fibra de vidrio ardió sus 29 cm completos en los dos casos.",
       why: "Es la mejor comparación directa de microgravedad contra gravedad normal, material por material.",
-      caveat: "Nueve muestras, con un solo flujo de aire (20 cm/s) y oxígeno como el de la Tierra (21.5 a 22.1 %)."
+      caveat: "Nueve muestras, a 20 cm/s en la tabla de PSI y con oxígeno como el de la Tierra (21.5 a 22.1 %). Las láminas de Saffire de 2017 de Urban y otros dan 25 cm/s para la muestra 2-6 y cerca de 22.1 % de oxígeno para la 2-1, donde PSI dice 21.5 %."
     },
     "PSI-100": {
       line: "Una muestra grande de algodón y fibra de vidrio quemada en un vehículo Cygnus con más flujo de aire que Saffire-I.",
-      finding: "2 muestras a 30 cm/s. La tabla no trae oxígeno ni resultado; los sensores del vehículo dan 19.4 a 20.1 % de oxígeno y 14.4 a 14.5 psi. Fuera de PSI, las láminas de Saffire de NASA de 2017 dan 25 cm/s en su lugar, y los resultados que le faltan a la tabla: 300 s ardiendo en el sentido del flujo a 2.3 mm/s y 60 s en contra a 0.98 mm/s (láminas 30 y 31).",
+      finding: "2 muestras a 30 cm/s. La tabla no trae oxígeno ni resultado; los sensores del vehículo dan 19.4 a 20.1 % de oxígeno y 14.4 a 14.5 psi. Fuera de PSI, las láminas de Saffire de 2017 de Urban y otros no coinciden en dos puntos: 25 cm/s en vez de 30, y el oxígeno bajando de 21.2 a 21.0 % en vez de los 19.7 y 19.9 % de las fichas de PSI. También dan los resultados que le faltan a la tabla: 300 s ardiendo en el sentido del flujo a 2.3 mm/s y 60 s en contra a 0.98 mm/s (láminas 30 y 31).",
       why: "Relevante por su escala.",
       caveat: "Casi sin datos en la tabla experimental."
     },
@@ -165,22 +165,22 @@ window.OFMW_CONTENT_ES = {
     moon: {
       headline: "Aquí las flamas no se apagan solas",
       prevention: "71 pruebas se hicieron con un aire así, ninguna con sólidos: 34 flamas de gas de ACME BRE, 20 de ACME CFI-G y 17 gotas de FLEX. En BRE, cerca de 8.2 psia con 29.8 a 39.3 % de oxígeno, 25 de 36 flamas siguieron ardiendo hasta que se cortó el combustible. Cerca de 14.7 psia con menos de 23 % de oxígeno, las 10 se apagaron solas. Fuera de PSI, el experimento Saffire VI de NASA quemó SIBAL y PMMA en microgravedad con 28.8 a 31.0 % de oxígeno y unos 55 kPa (8 psi), casi el aire de una base lunar (34 % y 8.2 psi); sus resultados son preliminares y sus datos prueba por prueba no están abiertos en PSI.",
-      detection: "En PSI no se hizo ninguna prueba de humo en esta atmósfera. Los experimentos de humo no registran oxígeno ni presión. Fuera de PSI, en Saffire VI (preliminar), el humo se detectó con claridad recién a los 981 s, cuando ya había salido la mayor parte de los gases peligrosos, y en las pruebas de PMMA el monóxido de carbono de la cabina pasó su límite de 24 horas.",
+      detection: "En PSI no se hizo ninguna prueba de humo en esta atmósfera. Los experimentos de humo no registran oxígeno ni presión. Fuera de PSI, en Saffire VI (preliminar), el humo se detectó con claridad a los 981 s, cuando ya había salido la mayor parte de los gases peligrosos, y en las pruebas de PMMA el monóxido de carbono de la cabina pasó su límite de 24 horas.",
       suppression: "Las 17 gotas de FLEX, a 0.7 atm con 30 a 34 % de oxígeno, son las únicas pruebas de un experimento de supresión cerca de estas condiciones.",
-      takeaway: "Ninguna tela ni plástico se ha quemado en microgravedad con el aire de una base lunar en los datos que tiene PSI. Fuera de PSI, el experimento Saffire VI de NASA quemó tela de algodón y fibra de vidrio y acrílico con 28.8 a 31.0 % de oxígeno y unos 55 kPa (8 psi), en una nave de carga, en diciembre de 2023, casi el aire de una base lunar; sus resultados son preliminares y sus datos prueba por prueba no están abiertos en PSI. La gravedad de la Luna solo se ha reproducido por segundos cada vez, en vuelos parabólicos y en centrífugas dentro de torres de caída; no hay ninguna prueba larga."
+      takeaway: "Ninguna tela ni plástico se ha quemado en microgravedad con el aire de una base lunar en los datos que tiene PSI. Fuera de PSI, el experimento Saffire VI de NASA quemó tela de algodón y fibra de vidrio y acrílico con 28.8 a 31.0 % de oxígeno y unos 55 kPa (8 psi), en una nave de carga, en diciembre de 2023, casi el aire de una base lunar; sus resultados son preliminares y sus datos prueba por prueba no están abiertos en PSI. La gravedad de la Luna solo se ha reproducido por segundos cada vez, en vuelos parabólicos y en centrífugas dentro de torres de caída; no se conoce ninguna prueba larga en PSI ni en las fuentes de este sitio."
     },
     suit: {
-      headline: "Nunca se ha probado",
-      prevention: "Ninguna prueba se acerca a 100 % de oxígeno a 4.3 psi. El oxígeno ambiente más alto en PSI es 40 % y la presión más baja es 6.2 psi.",
-      detection: "Sin datos.",
-      suppression: "Sin datos.",
+      headline: "Sin pruebas en PSI",
+      prevention: "Ninguna prueba de PSI se acerca a 100 % de oxígeno a 4.3 psi. El oxígeno ambiente más alto en PSI es 40 % y la presión más baja es 6.2 psi. La norma NASA-STD-6001B pide probar cada material con el oxígeno más alto que podría ver en uso (pág. 29); la norma no nombra los trajes, y este sitio no tiene ningún resultado de materiales de traje.",
+      detection: "Sin datos en PSI.",
+      suppression: "Sin datos en PSI.",
       takeaway: "Apollo 1 ardió en una cabina llena de 100 % de oxígeno. PSI no tiene ninguna prueba de combustión en una atmósfera de oxígeno puro."
     },
     mars: {
-      headline: "Todavía sin datos",
-      prevention: "PSI no tiene datos de combustión en gravedad parcial, y el reto no da una atmósfera para un hábitat en Marte. Sí dice que los resultados de microgravedad y de gravedad normal podrían acotar lo que pasa en medio.",
-      detection: "Sin datos.",
-      suppression: "Sin datos.",
+      headline: "Todavía sin datos en PSI",
+      prevention: "PSI no tiene datos de combustión en gravedad parcial, y el reto no da una atmósfera para un hábitat en Marte. Sí dice que los resultados de microgravedad y de gravedad normal podrían acotar lo que pasa en medio. Fuera de PSI, vuelos parabólicos en el avión KC-135 de NASA midieron la propagación de flama sobre sólidos delgados de 0.1 a 1 g, rango que incluye la gravedad de Marte (0.38 g), por segundos cada vez (NTRS 20040053567).",
+      detection: "Sin datos en PSI.",
+      suppression: "Sin datos en PSI.",
       takeaway: "ACME E-FIELD Flames sugiere que los campos eléctricos podrían aproximar la flotación de la gravedad parcial. Es una sugerencia en un reporte, no una medición."
     },
     earth: {
@@ -200,7 +200,7 @@ window.OFMW_CONTENT_ES = {
       why: "PSI no tiene datos de combustión en gravedad parcial. Todo es microgravedad o gravedad normal.",
       closest: "Saffire-II compara microgravedad con gravedad normal en 9 muestras.", planned: "El reto nombra dos experimentos futuros: LUCI y FM2." },
     "smoke-atmospheres": { title: "Medir el humo en atmósferas de exploración",
-      why: "Los experimentos de humo no registran oxígeno ni presión, así que nadie sabe cómo cambia el humo con el aire de una base lunar.",
+      why: "En PSI, ningún experimento de humo registra oxígeno ni presión. Fuera de PSI, Saffire VI (resultados preliminares, ICES 2024) detectó humo con un aire casi de base lunar, pero no hay tamaños de partícula abiertos de esas pruebas.",
       closest: "SAME y SAME-R dan el tamaño de partícula de cinco materiales en el aire de la Estación.", planned: "" },
     "suppress-solids": { title: "Medir la supresión sobre sólidos ardiendo",
       why: "Los datos de supresores son de gotas de dos líquidos. Sobre sólidos hay 7 pruebas con nitrógeno cuyo efecto está descrito, no medido. PSI no tiene ninguna prueba con niebla de agua.",
@@ -238,7 +238,7 @@ window.OFMW_CONTENT_ES = {
     { title: "ACME BRE prueba atmósferas de exploración", what: "177 flamas hasta 2021 en las tres atmósferas que NASA considera para misiones tripuladas.",
       lesson: "En condiciones parecidas a las de una base lunar, las flamas en general persistían en vez de apagarse.", source: "PSI-20" },
     { title: "Saffire VI quema sólidos casi con aire de base lunar", what: "Dentro de una nave de carga Cygnus, después de dejar la Estación, ardieron tela SIBAL y PMMA con 28.8 a 31.0 % de oxígeno y unos 55 kPa (8 psi), casi el aire de base lunar del reto (34 % y 8.2 psi). Fuera de PSI.",
-      lesson: "Resultados preliminares: en las pruebas de PMMA el monóxido de carbono de la cabina pasó su límite de 24 horas, y el humo se detectó con claridad recién a los 981 s, cuando ya había salido la mayor parte de los gases peligrosos.",
+      lesson: "Resultados preliminares: en las pruebas de PMMA el monóxido de carbono de la cabina pasó su límite de 24 horas, y el humo se detectó con claridad a los 981 s, cuando ya había salido la mayor parte de los gases peligrosos.",
       source: "Urban y otros, Preliminary Results from the Saffire VI Experiment, ICES 2024, NASA Glenn (NTRS 20240007488)" },
     { year: "Reciente", title: "Alarma de humo en Artemis II", what: "Sonó una alarma de humo a unas 80,000 millas de casa.",
       lesson: "La detección tiene que funcionar, y ser de fiar, lejos de cualquier ayuda.", source: "Enunciado del reto" },
@@ -262,7 +262,7 @@ window.OFMW_CONTENT_ES = {
 
   examples: [
     { q: "¿Qué se sabe del fuego con la atmósfera de una base lunar?",
-      a: "71 pruebas se hicieron con un aire como el de una base lunar, con 30 % de oxígeno o más a 11 psi o menos, y ninguna con sólidos: 34 flamas de gas de ACME BRE [PSI-20], 20 de ACME CFI-G [PSI-159] y 17 gotas de FLEX [PSI-69]. En BRE, cerca de 8.2 psia con 29.8 a 39.3 % de oxígeno, 25 de 36 flamas siguieron ardiendo hasta que se cortó el combustible, mientras que cerca de 14.7 psia con menos de 23 % de oxígeno las 10 se apagaron solas. El reporte final lo dice con palabras [bre-final-18]. La figura muestra una de esas flamas, que seguía ardiendo estable a los 172 segundos con 34 % de oxígeno y 8.2 psia.\n\n[[figure:bre-p57-fig6]]\n\nNinguna tela ni plástico se ha quemado con ese aire en los datos que tiene PSI. Fuera de PSI, el experimento Saffire VI de NASA quemó una lámina de SIBAL con 31.0 % de oxígeno y PMMA con 30.3 y 28.8 %, cerca de 55 kPa (unos 8 psi), casi el aire de una base lunar; los resultados son preliminares y los datos prueba por prueba no están abiertos en PSI [saffire6-11]. La gravedad de la Luna solo se ha reproducido por segundos cada vez, en vuelos parabólicos y en centrífugas dentro de torres de caída [kc135-2003] [fm2poster-1-limits]; no hay ninguna prueba larga." },
+      a: "71 pruebas se hicieron con un aire como el de una base lunar, con 30 % de oxígeno o más a 11 psi o menos, y ninguna con sólidos: 34 flamas de gas de ACME BRE [PSI-20], 20 de ACME CFI-G [PSI-159] y 17 gotas de FLEX [PSI-69]. En BRE, cerca de 8.2 psia con 29.8 a 39.3 % de oxígeno, 25 de 36 flamas siguieron ardiendo hasta que se cortó el combustible, mientras que cerca de 14.7 psia con menos de 23 % de oxígeno las 10 se apagaron solas. El reporte final lo dice con palabras [bre-final-18]. La figura muestra una de esas flamas, que seguía ardiendo estable a los 172 segundos con 34 % de oxígeno y 8.2 psia.\n\n[[figure:bre-p57-fig6]]\n\nNinguna tela ni plástico se ha quemado con ese aire en los datos que tiene PSI. Fuera de PSI, el experimento Saffire VI de NASA quemó una lámina de SIBAL con 31.0 % de oxígeno y PMMA con 30.3 y 28.8 %, cerca de 55 kPa (unos 8 psi), casi el aire de una base lunar; los resultados son preliminares y los datos prueba por prueba no están abiertos en PSI [saffire6-11]. La gravedad de la Luna solo se ha reproducido por segundos cada vez, en vuelos parabólicos y en centrífugas dentro de torres de caída [kc135-2003] [fm2poster-1-limits]; no se conoce ninguna prueba larga en PSI ni en las fuentes de este sitio." },
     { q: "¿Qué humo le cuesta más ver al detector de la Estación?",
       a: "El de Kapton y el de teflón. En SAME-R, la señal de oscurecimiento del detector de la Estación cambió una mediana de 0.006 V con humo de Kapton y 0.019 V con teflón, contra 1.08 V con silicón. Sus partículas son las más chicas: una mediana de 110 y 167 nm de diámetro medio por conteo [PSI-101]. El reporte final de SAME-R concluye que el humo de Kapton y de teflón será difícil de detectar con dispositivos de dispersión de luz, y en SAME el detector de la Estación fue errático con humo de teflón [PSI-102] [samer-5] [same-25]. La figura grafica los diámetros de las partículas del humo de Kapton contra la velocidad del aire en SAME-R.\n\n[[figure:samer-p6-fig7]]\n\nLas cifras del detector son un resumen grueso que ordena materiales. No son un umbral de alarma." },
     { q: "¿Qué supresores se probaron, y sobre qué?",
@@ -270,6 +270,6 @@ window.OFMW_CONTENT_ES = {
     { q: "¿Hay datos para un hábitat en Marte?",
       a: "Eso no está en los datos. PSI no tiene ninguna prueba de combustión en gravedad parcial, y el reto no da una atmósfera para un hábitat en Marte. Lo más cercano está en los dos extremos de la escala de gravedad: las pruebas de vuelo en microgravedad y Saffire-II, que repitió 9 muestras en gravedad normal [PSI-99]. La figura, de la guía de NASA sobre ciencia de la combustión en la Estación, pone flamas en gravedad normal junto a flamas de los mismos combustibles en microgravedad.\n\n[[figure:guide-p9-fig1]]\n\nACME E-FIELD Flames sugiere que los campos eléctricos podrían aproximar la flotación de la gravedad parcial; es una sugerencia de su reporte, no una medición [PSI-22] [efield-37]. El reto nombra dos experimentos futuros, LUCI y FM2." },
     { q: "¿El silicón arde?",
-      a: "En microgravedad, casi no: las cuatro muestras de silicón de Saffire-II no propagaron la flama, con un largo quemado de casi 0 [PSI-99]. En gravedad normal las mismas muestras se comportaron distinto: dos ardieron completas, una ardió 7.6 cm y una no ardió.\n\nEl silicón sí da humo cuando se sobrecalienta. En SAME y SAME-R produjo las partículas más grandes y la respuesta más fuerte del detector de la Estación [PSI-101] [PSI-102]. La figura muestra las trazas de los instrumentos en una corrida de humo de silicón en SAME. Sus pruebas de flama en Saffire-II fueron con 21.5 a 22.1 % de oxígeno y sus corridas de humo no registran oxígeno, así que no se sabe nada de él con el aire de una base lunar.\n\n[[figure:same-p27-fig13]]" }
+      a: "En microgravedad, casi no: las cuatro muestras de silicón de Saffire-II no propagaron la flama, con un largo quemado de casi 0 [PSI-99]. En gravedad normal las mismas muestras se comportaron distinto: dos ardieron completas, una ardió 7.6 cm y una no ardió.\n\nEl silicón sí da humo cuando se sobrecalienta. En SAME y SAME-R produjo las partículas más grandes y la respuesta más fuerte del detector de la Estación [PSI-101] [PSI-102]. La figura muestra las trazas de los instrumentos en una corrida de humo de silicón en SAME. Sus pruebas de flama en Saffire-II fueron con 21.5 a 22.1 % de oxígeno y sus corridas de humo no registran oxígeno, así que PSI no tiene nada de él con el aire de una base lunar.\n\n[[figure:same-p27-fig13]]" }
   ]
 };

@@ -93,13 +93,14 @@
       h("h1", { text: T("The exact page behind each finding") }),
       h("p", { "class": "intro", text: T("Every finding quoted from a NASA report points to the page it came from. Open a page to read the passage in its place.") }),
       (window.OFMW_FIGURES || []).length ? h("p", { "class": "links" }, h("a", { href: "#/figures", text: T("See the figures cut from these reports") }), " (" + window.OFMW_FIGURES.length + ")") : null,
-      h("div", { "class": "table" }, h("table", { "class": "list" },
+      A.apaTable(1, T("Report pages cited on this site, with what each one supports"), h("table", { "class": "list" },
         h("thead", null, h("tr", null, [T("Document"), T("Page"), T("What it supports"), T("Investigations")].map(function (t) { return h("th", { scope: "col", text: t }); }))),
         h("tbody", null, E.map(function (e) {
-          return h("tr", null, h("th", { scope: "row" }, link(e, e.doc[L])), h("td", { "class": "num", text: e.page ? String(e.page) : e.pageLabel }),
+          return h("tr", null, h("th", { scope: "row" }, link(e, e.doc[L])), h("td", { "class": "num", text: where(e) }),
             h("td", { text: e.claim[L] }), h("td", null, (e.invs || []).length ? e.invs.map(function (id, n) { var i = A.inv(id); return [n ? ", " : "", i ? A.invLink(i) : id]; })
               : h("span", { "class": "missing", text: T("Context, outside PSI") })));
-        })))))));
+        }))),
+        T("Each document opens at the cited page with the passage marked. Documents outside PSI are cited as context and say so. What each page supports is the team's summary; the passage is quoted as written.")))));
   }
 
   /* ---------- figures: cut from the reports, each with its caption as written and the page it comes from ---------- */
@@ -114,14 +115,15 @@
   function figWhere(f) { return f.page ? f.doc[L] + ", " + T("p. ") + f.page : f.doc[L]; }
   function figAlt(f) { return figName(f) + T(" of the report"); }
   /* A ground test or a team image says so on its thumbnail, so it is never read as a result from orbit. */
-  var GROUND = { ground: T("ground test"), standard: T("standard"), history: T("memo, history"), planned: T("planned") };
+  var GROUND = { ground: T("ground test"), partial: T("partial gravity"), standard: T("standard"), history: T("memo, history"), planned: T("planned") };
   function thumbs(list) {
     return h("ul", { "class": "figgrid" }, list.map(function (f) {
-      var tag = f.team ? T("team image") : GROUND[f.origin];
       return h("li", null, h("a", { href: "#/figure/" + f.id },
         h("img", { src: f.img, alt: "", loading: "lazy", width: f.w, height: f.h }),
         h("span", { "class": "t", text: figName(f) + (f.page ? ", " + T("p. ") + f.page : "") }),
-        tag ? h("span", { "class": "tag tag-" + (f.team ? "team" : f.origin), text: tag }) : null,
+        /* both marks when both apply: a team image of a ground test says it is a ground test */
+        GROUND[f.origin] ? h("span", { "class": "tag tag-" + f.origin, text: GROUND[f.origin] }) : null,
+        f.team ? h("span", { "class": "tag tag-team", text: T("team image") }) : null,
         h("span", { "class": "c", lang: "en", text: f.caption })));
     }));
   }
@@ -137,6 +139,8 @@
       h("a", { "class": "figimg", href: "#/figure/" + f.id }, h("img", { src: f.img, width: f.w, height: f.h, loading: "lazy", alt: figAlt(f) })),
       [f.page ? T("From ") + figWhere(f) + T(", where it is ") + figName(f) + T(". Cut from the page of the report; the title is the caption as written there. ")
         : T("Photo from ") + figWhere(f) + T("; the title is the caption as written there. "),
+        GROUND[f.origin] ? T("Not a microgravity result: ") + GROUND[f.origin] + ". " : "",
+        f.credit ? T("Credit: ") + f.credit + " " : "",
         h("a", { href: "#/figure/" + f.id, text: T("Open the figure and its source") }), "."], "en");
   };
   /* The figures of one investigation's reports, for its record. */

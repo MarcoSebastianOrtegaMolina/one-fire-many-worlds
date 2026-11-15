@@ -10,7 +10,8 @@
     ["Cleaning the data", "Python 3.14 (csv, json, re) and xlrd 2.0.2 for old Excel files", "Turn the tables of each investigation into one table with one format: one row per test, with the table and the row it comes from."],
     ["Checking the data", "Python scripts of the team", "Recount, against the cleaned data, the 18 figures the team quotes, and count which tests fall near each atmosphere of the challenge."],
     ["Reading the reports", "PyMuPDF 1.28", "Find the quoted passage on its page, render that page as an image, and cut the figures of the reports with their captions."],
-    ["Building the site", "HTML, CSS and JavaScript, with no libraries", "Every screen of this platform. The data travels with the page, so it opens without a database."],
+    ["Building the site", "HTML, CSS and JavaScript of our own, with Google Fonts for the type", "Every screen of this platform. The data travels with the page, so it opens without a database."],
+    ["3D models", "model-viewer 4.4.0 (Google, Apache-2.0), the Draco decoder of three.js 0.187.0 (MIT), and Pillow for the textures", "Show a NASA model of each world, served from this site and loaded only when asked. The script scripts/preparar_modelos.py removed the NASA insignias from two textures and lightened two models."],
     ["Publishing", "Vercel, Git and GitHub", "Hosting, the one server function behind the question box, and the history of every change."],
     ["AI inside the platform", "Claude Opus 5.5, through Anthropic's API and its official SDK 1.8.0", "Write the answers and the reports of the question box, only from the data of this site, citing the record, the test or the page behind each statement."],
     ["AI while building", "Claude Code with Claude Fable 5.2", "Write the code and draft the texts under the team's direction. An independent review with Claude Opus 5.5 looked for errors before presenting."]

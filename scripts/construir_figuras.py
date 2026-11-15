@@ -125,6 +125,31 @@ IMAGENES = [
 ]
 
 
+# Recortes a mano de documentos de PSI para los materiales que no tenian figura (Pyrell y Ultem), pedidos por Marco
+# Sebastian el 14-nov. Las micrografias de SAME-R no las detecta figuras_de (son fotos sin dibujo). Para Ultem no hay
+# ninguna foto en PSI: lo unico que lo muestra es la matriz de pruebas de BASS; esa lamina esta girada en el PDF y
+# entra completa (recorte None).
+RECORTES_PSI = [
+    # id, carpeta, categoria, archivo, titulo (en, es), pagina, numero, recorte, pie, investigaciones, materiales, origen
+    ("samer-p7-fig11", "PSI-101", "Reports", "PSI-101_Reports_SAME-R_Final Report.pdf",
+     ("SAME-R final report", "Reporte final de SAME-R"), 7, "11", (90, 543, 552, 678),
+     "Figure 11: TEM images for Teflon (Run 56), Pyrell (Run 63), Lampwick (Run 54) and Kapton (Run 62).",
+     ["PSI-101"], ["Teflon", "Pyrell", "Lampwick", "Kapton"], "microgravity"),
+    ("samer-p8-fig12", "PSI-101", "Reports", "PSI-101_Reports_SAME-R_Final Report.pdf",
+     ("SAME-R final report", "Reporte final de SAME-R"), 8, "12", (90, 140, 560, 276),
+     "Figure 12: TEM images showing the effect of aging for Kapton (Run 62) and Pyrell (Run 63). From Left to right, unaged Kapton, aged Kapton, unaged Pyrell, aged Pyrell. The notable change is the elimination of the smallest particles.",
+     ["PSI-101"], ["Kapton", "Pyrell"], "microgravity"),
+    ("samer-p9-fig13", "PSI-101", "Reports", "PSI-101_Reports_SAME-R_Final Report.pdf",
+     ("SAME-R final report", "Reporte final de SAME-R"), 9, "13", (76, 289, 546, 441),
+     "Figure 13: TEM images showing the effect of flow for Pyrell and lampwick under 8 cm/s air flow and quiescent conditions.",
+     ["PSI-101"], ["Pyrell", "Lampwick"], "microgravity"),
+    ("bass-sar-p41", "PSI-26", "Engineering Documents", "PSI-26_Engineering Documents_BASS_SysAcceptanceReview.1.pdf",
+     ("BASS system acceptance review", "Revisión de aceptación del sistema de BASS"), 41, "slide 41", None,
+     "Slide 41, BASS Test Matrix: samples 16 and 17 are thin flat Ultem sheets, 2 cm wide, with 384 mg of fuel, planned at 30 and 50 cm/s. No photograph of the Ultem samples was found in PSI; in the as-run matrix one only smoked slightly without igniting and the other ignited briefly and went out after 4 seconds.",
+     ["PSI-26"], ["Ultem"], "microgravity"),
+]
+
+
 def materiales_de(pie):
     return [nombre for patron, nombre in MATERIAL_EN_PIE if patron.search(pie)]
 
@@ -288,6 +313,24 @@ def main():
                        "origin": origen, "materials": mats, "team": True, "credit": credito})
         miniaturas.append((fid, destino))
     print("imagenes de paginas de NASA: %d" % len(IMAGENES))
+    for fid, carpeta, cat, archivo, (en, es), pag, num, recorte, pie, invs, mats, origen in RECORTES_PSI:
+        if archivo not in abiertos:
+            abiertos[archivo] = pymupdf.open(DOCS / carpeta / cat / archivo)
+        pagina = abiertos[archivo][pag - 1]
+        if recorte:
+            pix = pagina.get_pixmap(dpi=150, clip=pymupdf.Rect(*recorte) & pagina.rect)
+        else:
+            pix = pagina.get_pixmap(dpi=110)
+        destino = SAL_IMG / (fid + ".jpg")
+        destino.write_bytes(pix.tobytes("jpeg", jpg_quality=78))
+        fila_inv = inventario.get((carpeta, archivo))
+        descarga = "https://psi.nasa.gov/geode-py/ws/studies/%s/download?file=%s&version=%s" % (carpeta, urllib.parse.quote(archivo), (fila_inv or {}).get("version", "1"))
+        salida.append({"id": fid, "invs": invs, "doc": {"en": en, "es": es}, "page": pag, "number": num, "caption": pie,
+                       "img": "figures/" + destino.name, "w": pix.width, "h": pix.height, "download": descarga,
+                       "record": "https://psi.nasa.gov/physci/repo/data/investigations/" + carpeta,
+                       "origin": origen, "materials": mats})
+        miniaturas.append((fid, destino))
+    print("recortes de PSI: %d" % len(RECORTES_PSI))
     SAL_JS.write_text("window.OFMW_FIGURES=" + json.dumps(salida, ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8", newline="\n")
     peso = sum(f.stat().st_size for f in SAL_IMG.glob("*.jpg"))
     print("total: %d figuras | %.1f MB" % (len(salida), peso / 1e6))

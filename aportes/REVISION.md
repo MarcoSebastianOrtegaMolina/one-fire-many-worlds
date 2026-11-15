@@ -530,6 +530,12 @@ No se usaron: dos secuencias de SVS cuyo material no se nombra, el video de SIBA
 ficha de Saffire (99 KB, una sola imagen de cabecera) y la foto del equipo de Saffire-I (no muestra material).
 Con esto quedan 79 figuras; PMMA tiene 8 y siguen sin figura Pyrell y Ultem.
 
+Después, a pedido de Marco Sebastián, se buscaron figuras para esos dos en los documentos de PSI ya bajados:
+Pyrell tiene ahora tres micrografías de su humo hecho en la Estación (figuras 11 a 13 del reporte final de SAME-R).
+Para Ultem no existe ninguna foto en PSI ni en la biblioteca de imágenes de NASA (cero resultados al buscar «Ultem»,
+«polyetherimide», «Pyrell» y «Pyrell foam»); su ficha muestra la matriz de pruebas de BASS donde aparecen sus dos
+muestras. Total: 83 figuras, y los diez materiales tienen al menos una.
+
 ## Tercera tanda y pendientes (revisados a las 19:10)
 
 | Aporte | Qué es (verificado en NTRS o en la página, hoy) | Qué se hizo |
