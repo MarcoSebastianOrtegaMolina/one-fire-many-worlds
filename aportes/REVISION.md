@@ -521,8 +521,9 @@ Falta: figuras por material, las 57 filas de PMMA, la línea de tiempo y los mod
 
 ## Respuestas de Marco Sebastián a las preguntas abiertas (21:20)
 
-- **Logotipos:** la sede ya dijo que los equipos sí pueden usar logotipos. Falta precisar si incluye la insignia
-  de NASA o solo el logo de Space Apps: la guía de marca de NASA pide permiso explícito de NASA para su insignia.
+- **Logotipos:** la sede ya dijo que los equipos sí pueden usar el logo de Space Apps y también el de NASA. Cuidados
+  que siguen valiendo según la guía de NASA: la insignia no va dentro del logo propio del proyecto, no se pone junto a
+  imágenes generadas con IA, y se mantiene el aviso de que el proyecto no está afiliado ni respaldado por NASA.
 - **Nombres de archivo y plantilla:** no se pide a nadie. El mensaje de cada commit dice qué es cada archivo.
 - **«Hasta 2018»:** se deja como está. Comprobación de que la fecha 6/24/2018 de las pruebas T9 y T18 de BASS-II
   es una errata por 2014, con tres indicios de los propios datos de PSI:
