@@ -225,6 +225,16 @@
     "Limits": "Límites", "The team did not note a specific caveat for this investigation.": "El equipo no anotó una salvedad específica para esta investigación.", "Who did it": "Quién la hizo",
     "This document is not in PSI: it is cited as context. Once it opens, go to page ": "Este documento no está en PSI: se cita como contexto. Al abrirlo, ve a la página ",
     "Context, outside PSI": "Contexto, fuera de PSI",
+    "Slide ": "Lámina ",
+    /* outside PSI (D-1429) */
+    "and": "y", "outside PSI": "fuera de PSI", "document outside PSI": "documento fuera de PSI", "See the page": "Ver la página",
+    "Saffire VI burned it in December 2023, aboard an uncrewed Cygnus, at ": "Saffire VI lo quemó en diciembre de 2023, en una Cygnus sin tripulación, con ",
+    " % oxygen and ": " % de oxígeno y ",
+    " kPa (about 8 psi): close to Moon-base air. Preliminary results; its test-by-test data is not open in PSI. ": " kPa (unos 8 psi): casi el aire de una base lunar. Son resultados preliminares; sus datos prueba por prueba no están abiertos en PSI. ",
+    "Source: Urban and others, Preliminary Results from the Saffire VI Experiment, ICES 2024, p. 11.": "Fuente: Urban y otros, Preliminary Results from the Saffire VI Experiment, ICES 2024, pág. 11.",
+    "In PSI it was never tested above ": "En PSI nunca se probó por encima de ", " % oxygen: PSI holds nothing about it in Moon-base air.": " % de oxígeno: PSI no tiene nada de él con el aire de una base lunar.",
+    "Open the data in Moon-base air: Saffire VI burned it near that air in 2023, outside PSI, but its test-by-test data is not public in PSI, and nothing has reached 34 % oxygen at 8.2 psi.": "Abrir los datos con aire de base lunar: Saffire VI lo quemó casi con ese aire en 2023, fuera de PSI, pero sus datos prueba por prueba no son públicos en PSI, y nada ha llegado a 34 % de oxígeno a 8.2 psi.",
+    "Burn it in Moon-base air: in PSI it was tested up to ": "Quemarlo con el aire de una base lunar: en PSI se probó hasta ",
     /* 3D */
     "In 3D": "En 3D", "A NASA model of the place, to turn and look at.": "Un modelo de NASA del lugar, para girarlo y mirarlo.",
     "See in 3D": "Ver en 3D", "Close the 3D view": "Cerrar la vista 3D", "Try again": "Intentar de nuevo", "Model": "Modelo", "Part 1": "Parte 1", "Part 2": "Parte 2",

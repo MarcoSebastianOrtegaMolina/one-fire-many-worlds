@@ -33,7 +33,83 @@ DOCUMENTOS = [
     ("spice", ["PSI-107"], "PSI-107", "Reports", "PSI-107_Reports_SPICE_FinalReport.pdf", "SPICE final report", "Reporte final de SPICE", 8),
     ("efield", ["PSI-22"], "PSI-22", "Reports", "PSI-22_Reports_E-FIELD Flames Final Report.pdf", "E-FIELD Flames final report", "Reporte final de E-FIELD Flames", 8),
     ("guide", [], None, None, "researchers_guide_combustion_science_2015.pdf", "A Researcher's Guide to International Space Station Combustion Science (NASA, 2015)", "A Researcher's Guide to International Space Station Combustion Science (NASA, 2015)", 14),
+    # Un documento de contexto fuera de PSI lleva un noveno dato: su ficha en NASA. El articulo de SAME-2 (ICES 2012,
+    # aporte de Marina) no entra: sus figuras 6, 7 y 8 son las mismas 6, 7 y 8 del reporte de SAME-R, ya incluidas.
 ]
+GUIA = "https://www.nasa.gov/missions/station/a-researchers-guide-to-combustion-science/"
+SOLO = {}            # clave de documento: numeros de figura que entran (vacio: entran todas las elegidas)
+
+# Contrato D-1426 con app/js/materials.js. El material sale del pie literal de la figura (nombres de D.materials);
+# el origen, del pie: "ground" si habla de gravedad normal o de un tunel en tierra sin mencionar la microgravedad, y
+# "microgravity" en lo demas (orbita, avion o torre de caida). Las figuras de la guia de 2015 son fotos de experimentos.
+MATERIAL_EN_PIE = [
+    (re.compile(r"PMMA|polymethylmethacrylate|polymethyl methacrylate|acrylic", re.I), "PMMA (acrylic)"),
+    (re.compile(r"SIBAL|cotton-fiberglass|cotton/fiberglass|cotton fiberglass", re.I), "SIBAL (cotton-fiberglass fabric)"),
+    (re.compile(r"Kapton", re.I), "Kapton"),
+    (re.compile(r"Teflon|PTFE", re.I), "Teflon"),
+    (re.compile(r"silicone", re.I), "Silicone"),
+    (re.compile(r"Pyrell", re.I), "Pyrell"),
+    (re.compile(r"Nomex", re.I), "Nomex"),
+    (re.compile(r"lamp ?wick", re.I), "Lampwick"),
+    (re.compile(r"\bwax\b|candle", re.I), "Wax"),
+    (re.compile(r"Ultem", re.I), "Ultem"),
+]
+TIERRA = re.compile(r"normal.gravity|\b1-?g\b|\bground\b|downward flame spread|flame tunnel|upward flow|narrow channel", re.I)
+MICRO = re.compile(r"microgravity|low.gravity|\b0-?g\b|zero.gravity|\bISS\b|space station|orbit|BASS|Saffire|flight|drop", re.I)
+
+
+# Imagenes que trajo el equipo (aportes/), contrato D-1426: entran con team, credit y su propio recorte en puntos
+# del PDF (x0, y0, x1, y1), medido a mano de la imagen hasta donde empieza el pie. Las laminas de Saffire 2017 traen
+# la insignia de NASA arriba a la izquierda: los recortes la dejan fuera (guia de marca de NASA).
+CTX = RAIZ / "data" / "raw" / "contexto"
+MEYER = ("Meyer_NASA-TM-2015-218891_NTRS-20160000940.pdf", "https://ntrs.nasa.gov/citations/20160000940",
+         {"en": "Smoke from overheated spacecraft materials, NASA/TM-2015-218891 (ground tests)",
+          "es": "Humo de materiales de nave sobrecalentados, NASA/TM-2015-218891 (pruebas en tierra)"},
+         "Marit E. Meyer, NASA Glenn Research Center, NASA/TM-2015-218891 (2015), NTRS 20160000940. Work of the US Government, public use permitted. Contributed by Sebastián Martínez.")
+SAF17 = ("Saffire_ASGSR-2017_NTRS-20180005168.pdf", "https://ntrs.nasa.gov/citations/20180005168",
+         {"en": "Saffire: A Novel Approach to Study of Spacecraft Fire Safety Using Un-manned Spacecraft, ASGSR 2017 (NTRS 20180005168)",
+          "es": "Saffire: A Novel Approach to Study of Spacecraft Fire Safety Using Un-manned Spacecraft, ASGSR 2017 (NTRS 20180005168)"},
+         "Urban, Ferkul, Olson, Ruff and Easton, NASA Glenn Research Center, ASGSR 2017 slides, NTRS 20180005168. Public use permitted. Contributed by Sebastián Martínez.")
+EQUIPO = [
+    # id, documento, pagina, numero, recorte, pie, investigaciones, materiales, origen
+    ("meyer-p17-fig8", MEYER, 17, "8", (72, 332.6, 539, 436),
+     "Figure 8.—High resolution SEM images of Teflon smoke particles at 540 °C collected onto a carbon film TEM grid. (a) 250 nm to 1.5 μm diam. range. (b) 500 nm and 700 nm diam. (c) 700 nm diam.",
+     [], ["Teflon"], "ground"),
+    ("meyer-p20-fig15", MEYER, 20, "15", (188.6, 345.2, 423.4, 569.6),
+     "Figure 15.—Teflon smoke particles collected with the SAME thermal precipitator on the ISS, showing vastly different morphology compared to WSTF samples (TEM, Philips Model CM20).",
+     ["PSI-102"], ["Teflon"], "microgravity"),
+    ("meyer-p21-fig16", MEYER, 21, "16", (79.6, 489.2, 532.1, 646),
+     "Figure 16.—SEM images of Kapton smoke particles on the Al SEM stub. (a) At 540 °C are compact and either spherical or angular. (b) At 640 °C exhibit chain-like agglomerate structures, some doublets and longer chains are coated.",
+     [], ["Kapton"], "ground"),
+    ("meyer-p24-fig21", MEYER, 24, "21", (183, 72, 429, 306.7),
+     "Figure 21.—Aged Kapton smoke particles collected with the SAME thermal precipitator on the ISS showing similar morphology to WSTF samples (TEM, Philips Model CM20).",
+     ["PSI-102"], ["Kapton"], "microgravity"),
+    ("meyer-p25-fig22", MEYER, 25, "22", (188.3, 72, 423.4, 233.3),
+     "Figure 22.—SEM image showing spherical Nomex smoke particles in the 300 to 600 nm range and a large irregular particle (on the right), possibly char.",
+     [], ["Nomex"], "ground"),
+    ("meyer-p29-fig28", MEYER, 29, "28", (80.2, 72, 532, 207.9),
+     "Figure 28.—Nomex fuel tests. (a) Nomex snips before heating (0.5 g fuel sample). (b) After heating, the Nomex snips became one or two compact pieces of char/ash, as shown in the remains of five different tests. (c) TEOM filters after mass concentration measurements of Nomex smoke particles show the characteristic yellowish color of brown carbon.",
+     [], ["Nomex"], "ground"),
+    ("saffire17-p14", SAF17, 14, "slide 14", (747.8, 87.5, 892.4, 381.2),
+     "Slide 14, Saffire Layout: the Saffire II sample layout, with silicone (1-4), SIBAL (5 & 6), Nomex with PMMA ignition (7) and PMMA, flat and structured (8 & 9).",
+     ["PSI-99"], ["Silicone", "SIBAL (cotton-fiberglass fabric)", "Nomex", "PMMA (acrylic)"], "microgravity"),
+    ("saffire17-p16", SAF17, 16, "slide 16", (13.8, 76, 413.9, 502.4),
+     "Slide 16, Saffire-I and III Results: sequence of concurrent flame images from Saffire-I (20 cm/s) and Saffire-III (25 cm/s). Each image is 40 s apart; Saffire-I burned for 400 s and Saffire-III for 320 s.",
+     ["PSI-98", "PSI-100"], ["SIBAL (cotton-fiberglass fabric)"], "microgravity"),
+    ("saffire17-p24", SAF17, 24, "slide 24", (532, 66.7, 773.9, 488.5),
+     "Slide 24, Fuel characteristics (SIBAL fabric): 75% cotton, 25% fiberglass blend; simple weave pattern (60 x 40 threads per inch); cotton and fiberglass fibers intermingled; overall area density 18 mg/cm2.",
+     ["PSI-98", "PSI-99", "PSI-100"], ["SIBAL (cotton-fiberglass fabric)"], "ground"),
+]
+
+
+def materiales_de(pie):
+    return [nombre for patron, nombre in MATERIAL_EN_PIE if patron.search(pie)]
+
+
+def origen_de(clave, pie):
+    if TIERRA.search(pie) and not MICRO.search(pie):
+        return "ground"
+    return "microgravity"
 # figuras que entran siempre, por su numero, y figuras cuyo pie sale ilegible (texto a dos columnas)
 FORZAR = {"bass2": ["6.10", "6.9", "1.2", "2.20", "1.3"], "bre": ["15", "4"], "same": ["1", "11", "12"],
           "samer": ["6", "7", "8"], "guide": ["1", "8", "9", "11", "12", "13"]}
@@ -116,10 +192,14 @@ def main():
     for viejo in SAL_IMG.glob("*.jpg"):
         viejo.unlink()
     salida, miniaturas = [], []
-    for clave, invs, carpeta, cat, archivo, en, es, tope in DOCUMENTOS:
+    for doc in DOCUMENTOS:
+        clave, invs, carpeta, cat, archivo, en, es, tope = doc[:8]
+        enlace = doc[8] if len(doc) > 8 else GUIA
         ruta = (DOCS / carpeta / cat / archivo) if carpeta else (RAIZ / "data" / "raw" / "contexto" / archivo)
         pdf = pymupdf.open(ruta)
         todas = figuras_de(pdf)
+        if clave in SOLO:
+            todas = [f for f in todas if f[1] in SOLO[clave]]
         # una por pie distinto; fuera las de pie ilegible; solo las que hablan de fuego, humo o extincion
         vistos, utiles = set(), []
         for f in todas:
@@ -148,11 +228,30 @@ def main():
                 descarga = "https://psi.nasa.gov/geode-py/ws/studies/%s/download?file=%s&version=%s" % (carpeta, urllib.parse.quote(archivo), (fila or {}).get("version", "1"))
                 registro = "https://psi.nasa.gov/physci/repo/data/investigations/" + carpeta
             else:
-                descarga = registro = "https://www.nasa.gov/missions/station/a-researchers-guide-to-combustion-science/"
-            salida.append({"id": fid, "invs": invs, "doc": {"en": en, "es": es}, "page": pag, "number": num, "caption": pie,
-                           "img": "figures/" + destino.name, "w": pix.width, "h": pix.height, "download": descarga, "record": registro})
+                descarga = registro = enlace
+            fila = {"id": fid, "invs": invs, "doc": {"en": en, "es": es}, "page": pag, "number": num, "caption": pie,
+                    "img": "figures/" + destino.name, "w": pix.width, "h": pix.height, "download": descarga, "record": registro,
+                    "origin": origen_de(clave, pie)}
+            mats = materiales_de(pie)
+            if mats:
+                fila["materials"] = mats
+            salida.append(fila)
             miniaturas.append((fid, destino))
         print("%-7s figuras con dibujo: %-3d elegidas: %d" % (clave, len(todas), len(elegidas)))
+    abiertos = {}
+    for fid, (archivo, enlace, titulo, credito), pag, num, recorte, pie, invs, mats, origen in EQUIPO:
+        if archivo not in abiertos:
+            abiertos[archivo] = pymupdf.open(CTX / archivo)
+        pagina = abiertos[archivo][pag - 1]
+        clip = pymupdf.Rect(*recorte) & pagina.rect
+        pix = pagina.get_pixmap(dpi=150 if clip.width < 300 else 125, clip=clip)
+        destino = SAL_IMG / (fid + ".jpg")
+        destino.write_bytes(pix.tobytes("jpeg", jpg_quality=78))
+        salida.append({"id": fid, "invs": invs, "doc": titulo, "page": pag, "number": num, "caption": pie,
+                       "img": "figures/" + destino.name, "w": pix.width, "h": pix.height, "download": enlace, "record": enlace,
+                       "origin": origen, "materials": mats, "team": True, "credit": credito})
+        miniaturas.append((fid, destino))
+    print("equipo  figuras: %d" % len(EQUIPO))
     SAL_JS.write_text("window.OFMW_FIGURES=" + json.dumps(salida, ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8", newline="\n")
     peso = sum(f.stat().st_size for f in SAL_IMG.glob("*.jpg"))
     print("total: %d figuras | %.1f MB" % (len(salida), peso / 1e6))

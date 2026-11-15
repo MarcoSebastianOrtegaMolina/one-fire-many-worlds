@@ -33,6 +33,20 @@
   ];
   var TAG = { ground: T("ground test"), standard: T("standard"), history: T("memo, history"), planned: T("planned") };
 
+  /* What was burned outside PSI in Moon-base-like air (D-1429): Saffire VI, December 2023, aboard an uncrewed
+     Cygnus. Preliminary results, ICES 2024, p. 11. Its test-by-test data is not in PSI. */
+  var OUTSIDE = {
+    "SIBAL (cotton-fiberglass fabric)": { o2: "31.0", kpa: "54.1" },
+    "PMMA (acrylic)": { o2: "28.8 " + T("and") + " 30.3", kpa: "54.6 " + T("and") + " 55.2" }
+  };
+  function outsideNote(m) {
+    var o = OUTSIDE[m.name], ev = A.evidence && A.evidence("saffire6-11");
+    if (!o) return null;
+    return h("p", { "class": "known outside" }, h("span", { "class": "tag tag-outside", text: T("outside PSI") }), " ",
+      T("Saffire VI burned it in December 2023, aboard an uncrewed Cygnus, at ") + o.o2 + T(" % oxygen and ") + o.kpa + T(" kPa (about 8 psi): close to Moon-base air. Preliminary results; its test-by-test data is not open in PSI. "),
+      ev ? h("a", { href: "#/source/saffire6-11", text: T("See the page") }) : T("Source: Urban and others, Preliminary Results from the Saffire VI Experiment, ICES 2024, p. 11."));
+  }
+
   function href(m) { return "#/material/" + encodeURIComponent(m.name); }
   function range(r, unit) { return r ? (r[0] === r[1] ? r[0] : r[0] + T(" to ") + r[1]) + " " + unit : T("Not recorded"); }
   function bar(value, max, cls) {
@@ -94,7 +108,7 @@
             var o = origin(e);
             return h("li", null,
               h("a", { href: "#/source/" + e.id, text: docLabel(e) }),
-              TAG[o] ? h("span", { "class": "tag tag-" + o, text: TAG[o] }) : null,
+              TAG[o] ? h("span", { "class": "tag tag-" + o, text: TAG[o] }) : !e.docInv ? h("span", { "class": "tag tag-outside", text: T("document outside PSI") }) : null,
               h("span", { "class": "claim", text: e.claim[L] }));
           })));
       })];
@@ -122,8 +136,9 @@
   }
   function gaps(m) {
     var out = [], top = m.burn.o2 ? m.burn.o2[1] : null;
-    if (!m.burn.tests) out.push(T("Burn it: there is no burn test of this material in the repository."));
-    else if (top !== null && top < MOON_O2) out.push(T("Burn it in Moon-base air: it was tested up to ") + top + T(" % oxygen, and a Moon base is expected at 30 % or more."));
+    if (OUTSIDE[m.name]) out.push(T("Open the data in Moon-base air: Saffire VI burned it near that air in 2023, outside PSI, but its test-by-test data is not public in PSI, and nothing has reached 34 % oxygen at 8.2 psi."));
+    else if (!m.burn.tests) out.push(T("Burn it: there is no burn test of this material in the repository."));
+    else if (top !== null && top < MOON_O2) out.push(T("Burn it in Moon-base air: in PSI it was tested up to ") + top + T(" % oxygen, and a Moon base is expected at 30 % or more."));
     if (!m.smoke.runs) out.push(T("Measure its smoke: there is no smoke run of this material in the repository."));
     else {
       if (m.smoke.detectorMedianV === null) out.push(T("Test the Station detector with its smoke: its smoke was measured, but no detector response is recorded."));
@@ -146,8 +161,9 @@
     var burn = m.burn.tests ? [
       h("p", { "class": "known" }, h("strong", { text: plural(m.burn.tests, "burn test") }), T(" at ") + range(m.burn.o2, T("% oxygen")) + (m.burn.flow ? T(" and airflow of ") + range(m.burn.flow, "cm/s") : "") + "."),
       outcomes(m.burn.outcomes) ? h("p", { "class": "known", text: T("Recorded endings: ") + outcomes(m.burn.outcomes) + "." }) : h("p", { "class": "known", text: T("Results are free-text observations; no ending is classified in the data.") }),
-      top !== null ? h("p", { "class": "known", text: T("Never tested above ") + top + T(" % oxygen: nothing is known about it in Moon-base air.") }) : null
-    ] : h("p", { "class": "known nodata", text: T("No burn test in the repository.") });
+      top !== null ? h("p", { "class": "known", text: T("In PSI it was never tested above ") + top + T(" % oxygen: PSI holds nothing about it in Moon-base air.") }) : null,
+      outsideNote(m)
+    ] : [h("p", { "class": "known nodata", text: T("No burn test in the repository.") }), outsideNote(m)];
     var smoke = m.smoke.runs ? [
       h("p", { "class": "known" }, h("strong", { text: plural(m.smoke.runs, "smoke run") }), ", " + m.smoke.withSize + T(" with particle size in SAME-R.")),
       h("p", { "class": "known" }, T("Median particle diameter: "), measure(m.smoke.medianDiameterNm, maxD, "nm", "solid"))

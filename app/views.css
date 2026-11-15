@@ -227,3 +227,5 @@ table.how td{line-height:1.5}
 .stage3d .idle3d{color:var(--ink-2); padding:1rem; text-align:center}
 .credit3d{margin-top:.5rem; font-size:.86rem; line-height:1.5; color:var(--ink-2); max-width:84ch}
 @media print{ .view3d{display:none} }
+.known.outside{border-left:3px solid var(--liquid); padding-left:.6rem}
+.tag-outside{color:var(--liquid)}

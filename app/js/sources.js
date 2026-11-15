@@ -98,7 +98,10 @@
   /* ---------- figures: cut from the reports, each with its caption as written and the page it comes from ---------- */
   var F = window.OFMW_FIGURES || [];
   function fig(id) { return F.filter(function (f) { return f.id === id; })[0]; }
-  function figName(f) { return T("Figure ") + f.number; }
+  function figName(f) {
+    var slide = /^slide\s+(\S+)/i.exec(String(f.number || ""));          /* slides have no figure number, only their own */
+    return slide ? T("Slide ") + slide[1] : T("Figure ") + f.number;
+  }
   function figWhere(f) { return f.doc[L] + ", " + T("p. ") + f.page; }
   function figAlt(f) { return figName(f) + T(" of the report"); }
   /* A ground test or a team image says so on its thumbnail, so it is never read as a result from orbit. */
@@ -142,6 +145,7 @@
     var k = F.indexOf(f), prev = F[k - 1], next = F[k + 1], nasa = f.download === f.record;
     var side = h("div", { "class": "srcside" },
       h("h2", { "class": "tight", text: T("The caption, as written") }), h("blockquote", { lang: "en", text: f.caption }),
+      f.credit ? h("p", { "class": "note" }, h("strong", { text: T("Credit: ") }), h("span", { lang: "en", text: f.credit })) : null,
       L === "es" ? h("p", { "class": "note", text: T("The caption is quoted in English, as in the report.") }) : null,
       f.invs.length ? [h("h2", { "class": "tight", text: T("Used by") }),
         h("p", { "class": "links" }, f.invs.map(function (id, n) { var i = A.inv(id); return [n ? " · " : "", i ? A.invLink(i) : id]; }))] : null,

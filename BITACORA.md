@@ -10,6 +10,7 @@ tabla del día y toca «Commit changes». No hace falta instalar nada.
 
 | Qué se hizo | Quién | Dónde quedó |
 |---|---|---|
+| Saffire VI y más aportes: la plataforma dice «en PSI ningún sólido con aire de base lunar; fuera de PSI, Saffire VI (2023) sí» en el mundo lunar, la agenda, la línea de tiempo, las fichas y la IA; la línea de tiempo pasa a 12 momentos (Skylab, 1989, Saffire VI); las 45 fuentes y 77 figuras dicen su origen y su material; 9 imágenes del equipo en las fichas de teflón, Kapton, Nomex, silicón, SIBAL y acrílico | Marina y Sebastián Martínez (aportes), Marco Sebastián, con Claude | `app/data/`, `app/figures/`, `app/js/materials.js`, `api/ask.js` |
 | Visor 3D en los cinco mundos: un modelo de NASA de cada lugar (Estación, hábitat lunar, traje Mark III, Marte y Tierra) que se carga solo al tocar «Ver en 3D», sin depender de servidores de Google; se borraron las insignias de NASA de las texturas y se aligeraron Marte y la Tierra | Sebastián Martínez (enlaces), Marco Sebastián, con Claude | `app/js/viewer3d.js`, `app/models/`, `app/vendor/` |
 | Aportes del equipo como fuentes citadas: el catálogo pasa de 16 a 42 páginas (norma NASA-STD-6001B, memorando de 1989, cartel de BASS-II, artículo de SAME-2, reporte de Meyer, caso de Apollo 13, cartel de FM2); los documentos fuera de PSI se abren en NASA y se marcan como contexto; la IA atribuye cada dato a su documento, nunca a «NASA» en general | Marina y Sebastián Martínez (aportes), Marco Sebastián, con Claude | `scripts/construir_evidencia.py`, `app/data/evidence.js`, `aportes/REVISION.md`, `app/js/sources.js`, `api/ask.js` |
 | Ficha de material completa: cada material reúne sus tres preguntas, las páginas de los documentos que hablan de él separadas por origen (microgravedad, tierra y normas, planeado), sus figuras, la comparación órbita contra tierra, sus pruebas en tabla numerada y qué falta probar; las imágenes del equipo saldrán solas cuando entren al catálogo | Marco Sebastián, con Claude | `app/js/materials.js` |
@@ -35,6 +36,13 @@ tabla del día y toca «Commit changes». No hace falta instalar nada.
 
 ### Hallazgos nuevos del sábado
 
+- **Fuera de PSI sí hay sólidos con aire casi de base lunar (verificado, D-1429).** Saffire VI voló en
+  diciembre de 2023 en una Cygnus sin tripulación y quemó tela SIBAL con 31.0 % de oxígeno a 54.1 kPa y
+  acrílico con 30.3 % y 28.8 % a unos 55 kPa (unos 8 psi). El humo se detectó a los 981 s, después de que salió
+  la mayor parte de los gases peligrosos, y el monóxido de carbono pasó el límite de 24 horas en las pruebas de
+  acrílico. Fuente: «Preliminary Results from the Saffire VI Experiment», Urban y otros, ICES 2024, págs. 4,
+  11, 20 y 21 (lo subió Sebastián Martínez). PSI solo tiene Saffire I a III.
+
 - En Saffire-II el silicón casi no ardió en microgravedad, y en gravedad normal dos de sus cuatro muestras
   ardieron completas. Fuente: tabla experimental de PSI-99.
 - Solo un material, el silicón, tiene las tres respuestas en PSI: si arde, qué humo da y si el detector lo
@@ -58,6 +66,7 @@ tabla del día y toca «Commit changes». No hace falta instalar nada.
 ### Hallazgos del viernes
 
 - Ningún sólido con datos en PSI se probó por encima de 22.7 % de oxígeno; una base lunar tendría 30 % o más.
+  (Corregido el sábado: fuera de PSI, Saffire VI sí lo hizo en 2023; ver arriba.)
 - Hay 71 pruebas con aire tipo base lunar, todas con gas o con gotas: 34 de ACME BRE, 20 de ACME CFI-G y 17
   de FLEX.
 - En BRE, cerca de 8.2 psia, 25 de 36 flamas siguieron ardiendo; con aire tipo Tierra, las 10 se apagaron
@@ -73,8 +82,9 @@ tabla del día y toca «Commit changes». No hace falta instalar nada.
 > prevenir, detectar y apagar un incendio ahí y qué falta por probar, citando la fuente de cada dato?
 
 **Respuesta corta:** juntando todas las pruebas en un solo lugar y ordenándolas por el aire y la gravedad de
-cada sitio. Así se ve que de la Estación se sabe casi todo, que para una base lunar hay 71 pruebas y ninguna
-con telas o plásticos, y que del traje y de Marte no hay nada.
+cada sitio. Así se ve que de la Estación se sabe casi todo, que para una base lunar PSI tiene 71 pruebas y
+ninguna con telas o plásticos (fuera de PSI, Saffire VI ya quemó tela y acrílico casi con ese aire en 2023, pero
+sus datos no están abiertos), y que del traje y de Marte no hay nada.
 
 ## Pendientes
 

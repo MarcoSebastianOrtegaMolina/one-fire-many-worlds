@@ -519,6 +519,30 @@ hecha, sin commit todavía: el catálogo de páginas citadas pasó de 16 a 39 fu
 
 Falta: figuras por material, las 57 filas de PMMA, la línea de tiempo y los modelos 3D.
 
+## Segunda tanda (leída a las 18:20)
+
+Todo bajado de GitHub y comparado con su ficha de NTRS hoy (14-nov-2026).
+
+| Archivo | De quién | Qué es (verificado) | Permiso en NTRS | Qué se hizo |
+|---|---|---|---|---|
+| `marina/20110015690.pdf` | Marina | «A Case Study of the Failure on Apollo 13», Brenda Lindley Anderson, NASA Marshall, conferencia ISSC, 8-ago-2011; basado en el reporte de la junta de revisión de Apollo 13 (TMX-65270) | Uso público permitido | Tres páginas citadas (`apollo13-10/11/12`) y la entrada de Apollo 13 de la línea de tiempo, que antes decía que el equipo no había leído la fuente |
+| `sebastian-martinez/Preliminary Results from the Saffire VI Experiment.pdf` | Sebastián Martínez | Presentación de Urban y otros, ICES 2024 (21 al 25-jul-2024), NTRS 20240007488 | Partes con posibles derechos de terceros | Dos citas sin imagen (`saffire6-11`, `saffire6-20`). **Corrige a la plataforma:** fuera de PSI, Saffire VI quemó SIBAL con 31.0 % de oxígeno y PMMA con 30.3 y 28.8 %, a unos 55 kPa, en microgravedad, en diciembre de 2023 (pág. 11). Se ajustaron el cierre del mundo Luna, la agenda y las notas de PMMA y SIBAL; la frase «no se sabe nada» de la ficha de material es de la sesión principal y se le pidió cambiarla |
+| `sebastian-martinez/materiales-saffire-imagenes.md` | Sebastián Martínez | Lista de datos fuera de PSI y de imágenes por material. Su tabla de Saffire IV a VI coincide con las págs. 11 y 20 de la presentación de Saffire VI | No aplica | Usada para lo anterior. Sus enlaces a imágenes siguen sin abrir uno por uno |
+| `sebastian-martinez/Model Development of Large-Scale Spacecraft Fires during the Saffire-IV Experiments.pdf` | Sebastián Martínez | Brooker y Niehaus, NASA Glenn, ICES-2022-278 (10 al 14-jul-2022), NTRS 20220002714. Modelo numérico de los fuegos de Saffire-IV | Uso público permitido | Sin integrar todavía |
+| `sebastian-martinez/20180005168.pdf` | Sebastián Martínez | «Saffire: A Novel Approach to Study of Spacecraft Fire Safety Using Un-manned Spacecraft», Urban y otros, ASGSR, 25-oct-2017 | Uso público permitido | Sin integrar todavía; 13 de sus 32 láminas son imagen sin texto |
+| `marina/19920004363.pdf` | Marina | NASA TM-105317, «Risks, Designs, and Research for Fire Safety in Spacecraft», Friedman, Sacksteder y Urban, 1991 | Uso público permitido | Sin integrar todavía; escaneo, mismo tipo que el memorando de 1989 |
+| `sebastian-martinez/Articulos` | Sebastián Martínez | Cinco enlaces: SVS 31394, una imagen de JAXA, una foto de Christina Koch, la misión ACME | No aplica | Sin abrir. La imagen de JAXA pide trámite de uso (sección 8) |
+| `victor/marsds.json` | Victor | Cuatro fichas de NTRS (2001 a 2021) sobre supresión en gravedad reducida y combustión de sólidos en gravedad parcial, cada una con un «key_finding» escrito con otra IA | Sin verificar | Sin abrir. Los «key_finding» no son citas: hay que abrir cada PDF antes de usarlos |
+
+El catálogo de figuras ganó `materials` y `origin` (contrato con la sesión principal, D-1426) y nueve imágenes
+del equipo con `team: true` y su crédito: seis micrografías de humo del memorando de 2015 (teflón, Kapton y
+Nomex; dos de ellas recogidas en la Estación por SAME) y tres láminas de Saffire de 2017 (tarjeta de muestras de
+Saffire-II, flamas de Saffire-I y III, tela SIBAL), recortadas sin la insignia de NASA. Quedan 77 figuras, 23 con
+material. Pyrell y Ultem siguen sin figura. Los enlaces a imágenes de páginas web de NASA que trae
+`materiales-saffire-imagenes.md` no se bajaron: bajar archivos de la web necesita el visto bueno de Marco Sebastián.
+
+Saffire VI ya está en todos los textos que decían que no había datos con aire de base lunar (encargo D-1429).
+
 ## Llegó después de la revisión (leído a las 17:40)
 
 Decisión de Marco Sebastián del 14-nov (D-1422): todo lo que el equipo suba se integra con todo su valor, y

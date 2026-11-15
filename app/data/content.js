@@ -158,17 +158,17 @@ window.OFMW_CONTENT = {
   worlds: {
     station: {
       headline: "Where almost everything was tested",
-      prevention: "Solids were burned only here. 263 solid-fuel rows carry measured oxygen, from 13.6 to 22.7 %: the experiments lowered the oxygen, never raised it. BASS and BASS-II found a U-shaped flammability boundary against airflow.",
+      prevention: "In PSI, solids were burned only here. 263 solid-fuel rows carry measured oxygen, from 13.6 to 22.7 %: the PSI experiments lowered the oxygen, never raised it. BASS and BASS-II found a U-shaped flammability boundary against airflow.",
       detection: "154 smoke runs in SAME and SAME-R, 131 with particle size. The Station detector measures scattered light and responds best to particles larger than one micrometer; Kapton and Teflon smoke is finer and will be hard to detect (SAME-R final report, p. 5).",
       suppression: "FLEX burned 274 droplets with carbon dioxide or helium and recorded how each ended. BASS applied nitrogen to burning solids in 7 tests.",
       takeaway: "This is the baseline. Every other world is read against it."
     },
     moon: {
       headline: "Flames here do not go out on their own",
-      prevention: "71 tests ran in air like this, none with solids: 34 gas flames from ACME BRE, 20 from ACME CFI-G and 17 droplets from FLEX. In BRE, near 8.2 psia with 29.8 to 39.3 % oxygen, 25 of 36 flames kept burning until the fuel was cut off. Near 14.7 psia with less than 23 % oxygen, all 10 went out by themselves.",
-      detection: "No smoke test was run in this atmosphere. The smoke experiments do not record oxygen or pressure.",
+      prevention: "71 tests ran in air like this, none with solids: 34 gas flames from ACME BRE, 20 from ACME CFI-G and 17 droplets from FLEX. In BRE, near 8.2 psia with 29.8 to 39.3 % oxygen, 25 of 36 flames kept burning until the fuel was cut off. Near 14.7 psia with less than 23 % oxygen, all 10 went out by themselves. Outside PSI, NASA's Saffire VI burned SIBAL and PMMA in microgravity at 28.8 to 31.0 % oxygen and about 55 kPa (8 psi), almost Moon-base air (34 % and 8.2 psi); its results are preliminary and its test-by-test data are not open in PSI.",
+      detection: "No smoke test in PSI was run in this atmosphere. The smoke experiments do not record oxygen or pressure. Outside PSI, in Saffire VI (preliminary), the smoke was readily detected only at 981 s, after most of the hazardous gas had been released, and in the PMMA tests cabin carbon monoxide passed its 24-hour limit.",
       suppression: "The 17 FLEX droplets, at 0.7 atm with 30 to 34 % oxygen, are the only tests from a suppression experiment near these conditions.",
-      takeaway: "No fabric or plastic has been burned in microgravity with Moon-base air in the data PSI holds. Lunar gravity itself has never been tested."
+      takeaway: "No fabric or plastic has been burned in microgravity with Moon-base air in the data PSI holds. Outside PSI, NASA's Saffire VI burned cotton-fiberglass fabric and acrylic at 28.8 to 31.0 % oxygen and about 55 kPa (8 psi) in a cargo ship in December 2023, almost Moon-base air; its results are preliminary and its test-by-test data are not open in PSI. Lunar gravity itself has only been tried in centrifuge drops of a few seconds."
     },
     suit: {
       headline: "Never tested",
@@ -196,7 +196,7 @@ window.OFMW_CONTENT = {
   /* What to burn next. The order is the team's proposal, not NASA's. */
   agenda: [
     { id: "solids-moon", title: "Burn solids in Moon-base air", worlds: ["moon"], front: "prevention",
-      why: "No solid with data in PSI was tested above 22.7 % oxygen. A Moon base is expected at 30 % or more and 10.2 psi or less, where gas flames already tend to keep burning.",
+      why: "No solid with data in PSI was tested above 22.7 % oxygen. A Moon base is expected at 30 % or more and 10.2 psi or less, where gas flames already tend to keep burning. Outside PSI, Saffire VI (December 2023, preliminary results) burned SIBAL and PMMA in microgravity at 28.8 to 31.0 % oxygen near 55 kPa, almost Moon-base air. What is still missing: those data open test by test, any test in lunar gravity, and the materials that fly today, such as wires, foams, batteries and suit fabrics.",
       closest: "ACME BRE emulates a burning material with gas in exactly these atmospheres.", planned: "" },
     { id: "partial-gravity", title: "Test flames in lunar and Martian gravity", worlds: ["moon", "mars"], front: "prevention",
       why: "PSI has no partial-gravity combustion data. Everything is either microgravity or normal gravity.",
@@ -223,10 +223,20 @@ window.OFMW_CONTENT = {
       answers: ["PSI-20", "PSI-26", "PSI-25"], front: "prevention",
       source: "NASA Safety and Mission Assurance, Apollo 1 page (no date shown)", url: "https://sma.nasa.gov/sma-disciplines/accllp/apollo-1" },
     { year: "1970", title: "Apollo 13", kind: "accident",
-      what: "An oxygen tank exploded on the way to the Moon.",
-      lesson: "The challenge cites it as one of the fire and oxygen emergencies that shaped spacecraft safety.",
+      what: "An oxygen tank exploded on the way to the Moon. Before launch, its heaters were run for hours on a 65 V ground supply; their thermostatic switches, rated for 28 V, did not open, and the heaters may have reached about 1,000 °F, enough to severely damage the Teflon insulation of the wiring inside the tank. In flight, turning on the tank fans made a spark that ignited the oxygen.",
+      lesson: "The case study traces the explosion to a chain of small events on the ground: a dropped tank shelf, a tank that would not empty, and heaters left on at the wrong voltage. Most of the people deciding on launch did not know about the heater use.",
       answers: [], front: "prevention",
-      source: "Challenge statement; NASA page not yet read by the team", url: "https://sma.nasa.gov/sma-disciplines/accllp/apollo-13" },
+      source: "Anderson, A Case Study of the Failure on Apollo 13, NASA Marshall Space Flight Center, 2011, based on the Apollo 13 Review Board report (NTRS 20110015690)", url: "https://ntrs.nasa.gov/citations/20110015690" },
+    { year: "1974", title: "Skylab burns materials in orbit", kind: "experiment",
+      what: "Aluminized Mylar, nylon, polyurethane foam, paper, Teflon fabric and other materials were burned in a small sphere aboard Skylab 4. Up to 1989 these were the only solid-material combustion experiments in orbit.",
+      lesson: "Venting the chamber to vacuum made the flame flare for a moment before it went out, and a poorly dispersed water spray scattered burning material instead of putting it out.",
+      answers: [], front: "suppression",
+      source: "Friedman and Olson, Fire Safety Applications for Spacecraft, NASA TM-101463 (1989), p. 7", url: "https://ntrs.nasa.gov/citations/19890015042" },
+    { year: "1989", title: "A warning about gentle airflow", kind: "experiment",
+      what: "Drop-tower tests with thin paper showed that in low gravity a slow forced airflow, like the 8 to 20 cm/s of the Shuttle cabin, lets materials burn at lower oxygen, down to about 15 %.",
+      lesson: "The 1989 review warned that ground flammability tests do not include this hazard of low gravity. BASS and BASS-II measured it in orbit starting in 2012.",
+      answers: ["PSI-26", "PSI-25"], front: "prevention",
+      source: "Friedman and Olson, Fire Safety Applications for Spacecraft, NASA TM-101463 (1989), pp. 7 and 10", url: "https://ntrs.nasa.gov/citations/19890015042" },
     { year: "1997", title: "Fire aboard Mir", kind: "accident",
       what: "A solid-fuel oxygen generator ignited. The flame lasted several minutes and finally went out on its own; smoke filled the modules and took hours to clear.",
       lesson: "The lessons went into the design and operations of the International Space Station.",
@@ -241,26 +251,32 @@ window.OFMW_CONTENT = {
       lesson: "Extinction, disruption or complete burning recorded for each test.",
       answers: ["PSI-69"], front: "suppression", source: "PSI-69", url: "" },
     { year: "2012", title: "BASS and BASS-II burn solids", kind: "experiment",
-      what: "251 tests on solid materials through 2018, always at 22.7 % oxygen or less.",
+      what: "251 tests on solid materials in PSI through 2018, always at 22.7 % oxygen or less.",
       lesson: "The flammability boundary is U-shaped against airflow.",
       answers: ["PSI-26", "PSI-25"], front: "prevention", source: "PSI-26 and PSI-25", url: "" },
     { year: "2019", title: "ACME BRE tests exploration atmospheres", kind: "experiment",
       what: "177 flames through 2021 in the three atmospheres NASA considers for crewed missions.",
       lesson: "At Moon-base-like conditions, flames generally persisted instead of going out.",
       answers: ["PSI-20"], front: "prevention", source: "PSI-20", url: "" },
+    { year: "2023", title: "Saffire VI burns solids in near Moon-base air", kind: "experiment",
+      what: "Inside a Cygnus cargo ship, after it left the Station, SIBAL fabric and PMMA burned at 28.8 to 31.0 % oxygen and about 55 kPa (8 psi), almost the Moon-base air of the challenge (34 % and 8.2 psi). Outside PSI.",
+      lesson: "Preliminary results: in the PMMA tests cabin carbon monoxide passed its 24-hour limit, and the smoke was readily detected only at 981 s, after most of the hazardous gas had been released.",
+      answers: [], front: "detection",
+      source: "Urban et al., Preliminary Results from the Saffire VI Experiment, ICES 2024, NASA Glenn (NTRS 20240007488)", url: "https://ntrs.nasa.gov/citations/20240007488" },
     { year: "Recent", title: "Smoke alarm on Artemis II", kind: "accident",
       what: "A smoke alarm went off about 80,000 miles from home.",
       lesson: "Detection has to work, and be trusted, far from any help.",
       answers: ["PSI-101", "PSI-102"], front: "detection", source: "Challenge statement", url: "" },
     { year: "Future", title: "LUCI and FM2", kind: "planned",
-      what: "Lunar-g Combustion Investigation and Flammability of Materials on the Moon.",
-      lesson: "The challenge expects them to add the first partial-gravity data to PSI.",
-      answers: [], front: "prevention", source: "Challenge statement", url: "" }
+      what: "Lunar-g Combustion Investigation, and Flammability of Materials on the Moon (FM2): a self-contained chamber meant to burn two cotton-fiberglass fabrics and two acrylic rods on the lunar surface, at 21 % oxygen and 14.7 psia and at 34 % and 8.2 psia.",
+      lesson: "The challenge expects them to add the first partial-gravity data to PSI. A 2024 FM2 poster says centrifuge drops of 5.18 seconds already suggest some materials burn at lower oxygen in lunar gravity than on Earth.",
+      answers: [], front: "prevention",
+      source: "Challenge statement; FM2 poster, Glenn Space Technology Symposium, July 2024 (NTRS 20240008623)", url: "https://ntrs.nasa.gov/citations/20240008623" }
   ],
 
   materials: {
-    "PMMA (acrylic)": "The most-tested solid in PSI: rods, spheres and sheets across BASS, BASS-II and Saffire-II. There is no smoke data for it.",
-    "SIBAL (cotton-fiberglass fabric)": "Tested in five investigations, from narrow strips in the glovebox to the 94 cm sheets of Saffire. There is no smoke data for it.",
+    "PMMA (acrylic)": "The most-tested solid in PSI: rods, spheres and sheets across BASS, BASS-II and Saffire-II. PSI has no smoke data for it. Outside PSI, Saffire VI burned 1 cm and 0.5 cm PMMA at 30.3 and 28.8 % oxygen near 55 kPa, and cabin carbon monoxide rose above its 24-hour limit (preliminary, ICES 2024).",
+    "SIBAL (cotton-fiberglass fabric)": "Tested in five investigations, from narrow strips in the glovebox to the 94 cm sheets of Saffire. PSI has no smoke data for it. Outside PSI, Saffire VI burned a SIBAL sheet at 31.0 % oxygen and 54.1 kPa (preliminary, ICES 2024).",
     "Kapton": "Only smoke data. It makes the smallest particles and the weakest detector response; the SAME-R report says its smoke will be hard to detect with light scattering.",
     "Silicone": "It barely burned in microgravity in Saffire-II, yet it makes the largest smoke particles and the strongest detector response. In normal gravity two of four samples burned completely.",
     "Teflon": "Only smoke data. The Station detector was erratic with its smoke, whose particles are smaller than one micrometer.",
@@ -274,7 +290,7 @@ window.OFMW_CONTENT = {
   /* Saved answers for the question box. They work with no network and were checked against the data. */
   examples: [
     { q: "What is known about fire in a Moon base atmosphere?",
-      a: "71 tests ran in air like a Moon base, with 30 % oxygen or more at 11 psi or less, and none of them with solids: 34 gas flames from ACME BRE [PSI-20], 20 from ACME CFI-G [PSI-159] and 17 droplets from FLEX [PSI-69]. In BRE, near 8.2 psia with 29.8 to 39.3 % oxygen, 25 of 36 flames kept burning until the fuel was cut off, while near 14.7 psia with less than 23 % oxygen all 10 went out by themselves. The final report says the same in words [bre-final-18]. The figure shows one of those flames, still burning steadily at 172 seconds with 34 % oxygen and 8.2 psia.\n\n[[figure:bre-p57-fig6]]\n\nNo fabric or plastic has been burned in that air in the data, and nothing has been tested in lunar gravity." },
+      a: "71 tests ran in air like a Moon base, with 30 % oxygen or more at 11 psi or less, and none of them with solids: 34 gas flames from ACME BRE [PSI-20], 20 from ACME CFI-G [PSI-159] and 17 droplets from FLEX [PSI-69]. In BRE, near 8.2 psia with 29.8 to 39.3 % oxygen, 25 of 36 flames kept burning until the fuel was cut off, while near 14.7 psia with less than 23 % oxygen all 10 went out by themselves. The final report says the same in words [bre-final-18]. The figure shows one of those flames, still burning steadily at 172 seconds with 34 % oxygen and 8.2 psia.\n\n[[figure:bre-p57-fig6]]\n\nNo fabric or plastic has been burned in that air in the data PSI holds. Outside PSI, NASA's Saffire VI burned a SIBAL sheet at 31.0 % oxygen and PMMA at 30.3 and 28.8 %, near 55 kPa (about 8 psi), almost Moon-base air; the results are preliminary and the test-by-test data are not open in PSI [saffire6-11]. Lunar gravity has only been tried in centrifuge drops of a few seconds, according to a 2024 poster of the FM2 experiment [fm2poster-1-limits]." },
     { q: "Which smoke is hardest for the Station detector to see?",
       a: "Kapton and Teflon. In SAME-R the Station detector's obscuration signal changed by a median of 0.006 V with Kapton smoke and 0.019 V with Teflon, against 1.08 V with silicone. Their particles are the smallest: a median count mean diameter of 110 and 167 nm [PSI-101]. The SAME-R final report concludes that Kapton and Teflon smoke will be hard to detect with light-scattering devices, and in SAME the Station detector was erratic with Teflon smoke [PSI-102] [samer-5] [same-25]. The figure plots the particle diameters of Kapton smoke against air speed in SAME-R.\n\n[[figure:samer-p6-fig7]]\n\nThe detector figures are a coarse summary that ranks materials. They are not an alarm threshold." },
     { q: "Which suppressants were tested, and on what?",

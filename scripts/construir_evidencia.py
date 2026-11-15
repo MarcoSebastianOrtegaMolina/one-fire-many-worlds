@@ -58,6 +58,10 @@ DOCUMENTOS = {
                  "https://ntrs.nasa.gov/citations/20110015690"),
 }
 GUIA = "https://www.nasa.gov/missions/station/a-researchers-guide-to-combustion-science/"
+# De donde sale cada documento (contrato D-1426 con app/js/materials.js): prueba en orbita, avion o torre de caida;
+# prueba en tierra; norma; antecedente historico o guia; experimento planeado sin datos. Lo que no esta aqui es de PSI.
+ORIGEN = {"std6001": "standard", "tm1989": "history", "apollo13": "history", "guide": "history",
+          "meyer2015": "ground", "bass2poster": "microgravity", "same2ices": "microgravity"}
 PMMA, SIBAL = "PMMA (acrylic)", "SIBAL (cotton-fiberglass fabric)"
 
 # id, documento, pagina del PDF, frase a resaltar, investigaciones a las que sirve, que sostiene (en, es)
@@ -211,25 +215,48 @@ CITA_FIJA = {
 SIN_IMAGEN = [
     {"id": "bre-thesis", "invs": ["PSI-20"], "docInv": "PSI-20", "file": "PSI-20_Reports_Dissertation-PD-revised_.pdf",
      "doc": {"en": "Dissertation archived with the ACME BRE reports", "es": "Tesis archivada entre los reportes de ACME BRE"},
-     "pageLabel": "110-112, 163-164",
+     "pageLabel": "110-112, 163-164", "origin": "microgravity",
      "claim": {"en": "Tables 6.1, E.1 and F.1 give oxygen, pressure and outcome for the 177 BRE tests. The page image is not reproduced here; open the document in PSI.",
                "es": "Las tablas 6.1, E.1 y F.1 dan oxígeno, presión y desenlace de las 177 pruebas de BRE. La imagen de la página no se reproduce aquí; abre el documento en PSI."}},
     # El cartel de FM2 (aporte de Marina) no dice «Public Use Permitted» en NTRS, sino uso por o para el gobierno de
     # Estados Unidos: se cita y se enlaza, pero la imagen de su pagina no se reproduce.
     {"id": "fm2poster-1", "invs": [], "docInv": "", "file": "FM2_cartel_Glenn_2024_NTRS-20240008623.pdf",
-     "url": "https://ntrs.nasa.gov/citations/20240008623", "materials": [SIBAL, PMMA],
+     "url": "https://ntrs.nasa.gov/citations/20240008623", "materials": [SIBAL, PMMA], "origin": "planned",
      "doc": {"en": "Flammability of Materials on the Moon (FM2) poster, Glenn Space Technology Symposium, July 2024 (NTRS 20240008623)",
              "es": "Cartel de Flammability of Materials on the Moon (FM2), Glenn Space Technology Symposium, julio de 2024 (NTRS 20240008623)"},
      "pageLabel": "1",
      "claim": {"en": "Planned, with no lunar data yet (2024): FM2 is a self-contained chamber meant to burn four samples on the lunar surface, two cotton-fiberglass (SIBAL) fabrics in air and two acrylic rods in exploration atmospheres, at 21 % oxygen and 14.7 psia and at 34 % and 8.2 psia. The poster says centrifuge and parabolic flight tests found SIBAL burns downward in air in lunar gravity. The page image is not reproduced here; open the poster at NASA.",
                "es": "Planeado, todavía sin datos de la Luna (2024): FM2 es una cámara autónoma pensada para quemar cuatro muestras en la superficie lunar, dos telas de algodón y fibra de vidrio (SIBAL) en aire y dos barras de acrílico en atmósferas de exploración, con 21 % de oxígeno a 14.7 psia y con 34 % a 8.2 psia. El cartel dice que pruebas en centrífuga y en vuelo parabólico hallaron que el SIBAL arde hacia abajo en aire en gravedad lunar. La imagen de la página no se reproduce aquí; abre el cartel en NASA."}},
     {"id": "fm2poster-1-limits", "invs": [], "docInv": "", "file": "FM2_cartel_Glenn_2024_NTRS-20240008623.pdf",
-     "url": "https://ntrs.nasa.gov/citations/20240008623", "materials": [SIBAL, PMMA],
+     "url": "https://ntrs.nasa.gov/citations/20240008623", "materials": [SIBAL, PMMA], "origin": "planned",
      "doc": {"en": "Flammability of Materials on the Moon (FM2) poster, Glenn Space Technology Symposium, July 2024 (NTRS 20240008623)",
              "es": "Cartel de Flammability of Materials on the Moon (FM2), Glenn Space Technology Symposium, julio de 2024 (NTRS 20240008623)"},
      "pageLabel": "1",
      "claim": {"en": "The FM2 poster states that lunar gravity widens the flammability limits of some materials compared with Earth gravity: less convective heat loss, yet enough buoyant flow to bring fresh oxygen to the flame. Its evidence is centrifuge drops of 5.18 seconds, not a long test; PSI holds no partial-gravity data. The page image is not reproduced here; open the poster at NASA.",
                "es": "El cartel de FM2 afirma que la gravedad lunar amplía los límites de inflamabilidad de algunos materiales frente a la gravedad terrestre: menos pérdida de calor por convección y, aun así, suficiente flujo por flotación para llevar oxígeno a la flama. Su evidencia son caídas en centrífuga de 5.18 segundos, no una prueba larga; PSI no tiene datos de gravedad parcial. La imagen de la página no se reproduce aquí; abre el cartel en NASA."}},
+    # Saffire VI (aporte de Sebastian Martinez): fuera de PSI, resultados preliminares. Su ficha de NTRS dice que
+    # partes del documento pueden tener material con derechos de terceros: se cita y se enlaza, sin imagen.
+    {"id": "saffire6-11", "invs": [], "docInv": "", "file": "Saffire-VI_ICES-2024_NTRS-20240007488.pdf",
+     "url": "https://ntrs.nasa.gov/citations/20240007488", "materials": [SIBAL, PMMA], "origin": "microgravity",
+     "doc": {"en": "Preliminary Results from the Saffire VI Experiment, ICES 2024, NASA Glenn (NTRS 20240007488)",
+             "es": "Preliminary Results from the Saffire VI Experiment, ICES 2024, NASA Glenn (NTRS 20240007488)"},
+     "pageLabel": "11",
+     "claim": {"en": "Outside PSI, preliminary: Saffire VI burned large samples inside a Cygnus cargo ship in December 2023, in microgravity, at about 54 to 55 kPa (about 8 psia) with 20 cm/s concurrent airflow: a SIBAL sheet at 31.0 % oxygen, two-sided PMMA 1 cm thick at 30.3 % and one-sided PMMA 0.5 cm thick at 28.8 %. These conditions are close to the Moon-base air of the challenge; no solid in PSI was tested above 22.7 %. The page image is not reproduced here; open the presentation at NASA.",
+               "es": "Fuera de PSI, preliminar: Saffire VI quemó muestras grandes dentro de una nave de carga Cygnus en diciembre de 2023, en microgravedad, a unos 54 a 55 kPa (unos 8 psia) con 20 cm/s de flujo en la misma dirección de la flama: una lámina de SIBAL con 31.0 % de oxígeno, PMMA de dos caras de 1 cm con 30.3 % y PMMA de una cara de 0.5 cm con 28.8 %. Esas condiciones se parecen al aire de base lunar del reto; ningún sólido de PSI se probó por encima de 22.7 %. La imagen de la página no se reproduce aquí; abre la presentación en NASA."}},
+    {"id": "saffire6-20", "invs": [], "docInv": "", "file": "Saffire-VI_ICES-2024_NTRS-20240007488.pdf",
+     "url": "https://ntrs.nasa.gov/citations/20240007488", "materials": [SIBAL, PMMA], "origin": "microgravity",
+     "doc": {"en": "Preliminary Results from the Saffire VI Experiment, ICES 2024, NASA Glenn (NTRS 20240007488)",
+             "es": "Preliminary Results from the Saffire VI Experiment, ICES 2024, NASA Glenn (NTRS 20240007488)"},
+     "pageLabel": "20",
+     "claim": {"en": "Outside PSI, preliminary: the heat release table of Saffire IV to VI. The rise in cabin carbon dioxide partial pressure was 1.03 mmHg for SIBAL in Saffire IV-1, 1.15 for SIBAL in VI-2, and 3.51 and 3.37 for PMMA in VI-3 and VI-4; carbon monoxide rose 80, 120, 308 and 320 ppm. The slide gives the limits: carbon dioxide 3 mmHg for 1 hour; carbon monoxide 425 ppm for 1 hour and 100 ppm for 24 hours. The page image is not reproduced here; open the presentation at NASA.",
+               "es": "Fuera de PSI, preliminar: la tabla de calor liberado de Saffire IV a VI. La presión parcial de dióxido de carbono de la cabina subió 1.03 mmHg con SIBAL en Saffire IV-1, 1.15 con SIBAL en VI-2, y 3.51 y 3.37 con PMMA en VI-3 y VI-4; el monóxido de carbono subió 80, 120, 308 y 320 ppm. La lámina da los límites: dióxido de carbono 3 mmHg por 1 hora; monóxido de carbono 425 ppm por 1 hora y 100 ppm por 24 horas. La imagen de la página no se reproduce aquí; abre la presentación en NASA."}},
+    {"id": "saffire6-21", "invs": [], "docInv": "", "file": "Saffire-VI_ICES-2024_NTRS-20240007488.pdf",
+     "url": "https://ntrs.nasa.gov/citations/20240007488", "origin": "microgravity",
+     "doc": {"en": "Preliminary Results from the Saffire VI Experiment, ICES 2024, NASA Glenn (NTRS 20240007488)",
+             "es": "Preliminary Results from the Saffire VI Experiment, ICES 2024, NASA Glenn (NTRS 20240007488)"},
+     "pageLabel": "21",
+     "claim": {"en": "Outside PSI, preliminary conclusions: fires of 1.5 to 3.2 kW were tested in unmanned spacecraft with 17 to 19 m3 of free air. The temperature rose significantly only very near the fire. In the PMMA tests, carbon monoxide passed its 24-hour limit and carbon dioxide its 1-hour limit. The smoke was readily detected at 981 seconds, after most of the hazardous gas had been released. The main hazard to the crew is the smoke and gases, not the heat. The page image is not reproduced here; open the presentation at NASA.",
+               "es": "Fuera de PSI, conclusiones preliminares: se probaron fuegos de 1.5 a 3.2 kW en naves sin tripulación con 17 a 19 m3 de aire libre. La temperatura solo subió mucho muy cerca del fuego. En las pruebas de PMMA, el monóxido de carbono pasó su límite de 24 horas y el dióxido de carbono su límite de 1 hora. El humo se detectó con claridad a los 981 segundos, cuando ya había salido la mayor parte de los gases peligrosos. El mayor peligro para la tripulación es el humo y los gases, no el calor. La imagen de la página no se reproduce aquí; abre la presentación en NASA."}},
 ]
 
 
@@ -303,6 +330,7 @@ def main():
             "rects": [[round(z.x0 / w, 4), round(z.y0 / h, 4), round(z.x1 / w, 4), round(z.y1 / h, 4)] for z in zonas],
             "img": "evidence/" + destino.name, "w": pix.width, "h": pix.height, "download": descarga, "record": registro,
         }
+        fila_salida["origin"] = ORIGEN.get(doc, "microgravity")
         if materiales:
             fila_salida["materials"] = materiales
         salida.append(fila_salida)
